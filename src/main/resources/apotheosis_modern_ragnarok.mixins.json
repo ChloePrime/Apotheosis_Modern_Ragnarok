@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "mod.chloeprime.apotheosismodernragnarok.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "apotheosis_modern_ragnarok.refmap.json",
+  "mixins": [
+    "apotheosis.MixinAdventureEvents",
+    "apotheosis.MixinAffix",
+    "apotheosis.MixinAttributeAffix",
+    "apotheosis.MixinLootCategory",
+    "apotheosis.MixinPotionAffix",
+    "apotheosis.MixinTelepathicAffix",
+    "apotheosis.PotionAffixAccessor",
+    "tac.MixinGunModifierHelper",
+    "tac.MixinProjectileEntity",
+    "tac.MixinServerPlayerHandler",
+    "tac.ProjectileEntityAccessor"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
