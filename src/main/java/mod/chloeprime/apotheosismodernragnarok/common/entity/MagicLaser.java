@@ -49,6 +49,7 @@ public class MagicLaser extends ProjectileEntity implements IEntityAdditionalSpa
         super(type, level, builder.shooter, builder.weapon, builder.gunItem, builder.data, builder.rrp, builder.rry);
         direction = getDeltaMovement().normalize();
         range = builder.data.getProjectile().life * builder.data.getProjectile().getSpeed();
+        setDeltaMovement(direction.scale(range));
         constructorTail(level);
     }
 
