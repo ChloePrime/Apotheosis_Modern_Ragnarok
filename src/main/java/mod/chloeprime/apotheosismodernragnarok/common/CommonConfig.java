@@ -3,18 +3,18 @@ package mod.chloeprime.apotheosismodernragnarok.common;
 import net.minecraftforge.common.ForgeConfigSpec;
 import shadows.apotheosis.Apotheosis;
 
-import java.util.Set;
+import java.util.*;
 
 public class CommonConfig {
-    public static final ForgeConfigSpec.ConfigValue<Set<String>> GUN_COMPATIBLE_AFFIX;
-    public static final Set<String> DEFAULT_GUN_COMPATIBLE_AFFIX = Set.of(
+    public static final ForgeConfigSpec.ConfigValue<List<String>> GUN_COMPATIBLE_AFFIX;
+    public static final List<String> DEFAULT_GUN_COMPATIBLE_AFFIX = new ArrayList<>(List.of(
             Apotheosis.loc("glacial").toString(),
             Apotheosis.loc("infernal").toString(),
             Apotheosis.loc("intricate").toString(),
             Apotheosis.loc("lacerating").toString(),
             Apotheosis.loc("shredding").toString(),
             Apotheosis.loc("vampiric").toString()
-    );
+    ));
 
     static final ForgeConfigSpec SPEC;
 
