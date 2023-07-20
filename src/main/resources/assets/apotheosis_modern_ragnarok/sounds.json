@@ -11,5 +11,22 @@
         "attenuation_distance": 64
       }
     ]
+  },
+  "affix.magical.shot": {
+    "subtitle": "subtitles.apotheosis_modern_ragnarok.affix.magical.shot",
+    "sounds": [
+      {
+        "name": "apotheosis_modern_ragnarok:magic_shot_1",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:magic_shot_2",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:magic_shot_3",
+        "attenuation_distance": 64
+      }
+    ]
   }
 }

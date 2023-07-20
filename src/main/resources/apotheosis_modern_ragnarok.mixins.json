@@ -12,12 +12,14 @@
     "apotheosis.MixinPotionAffix",
     "apotheosis.MixinTelepathicAffix",
     "apotheosis.PotionAffixAccessor",
+    "tac.MessageGunSoundAccessor",
     "tac.MixinGunModifierHelper",
     "tac.MixinProjectileEntity",
     "tac.MixinServerPlayerHandler",
     "tac.ProjectileEntityAccessor"
   ],
   "client": [
+    "minecraft.MixinLevelRender"
   ],
   "injectors": {
     "defaultRequire": 1

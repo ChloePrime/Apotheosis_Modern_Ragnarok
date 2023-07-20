@@ -7,6 +7,7 @@ import com.tac.guns.init.ModEnchantments;
 import com.tac.guns.interfaces.IProjectileFactory;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.util.math.ExtendedEntityRayTraceResult;
+import mod.chloeprime.apotheosismodernragnarok.client.ClientProxy;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.LaserProjectile;
 import mod.chloeprime.apotheosismodernragnarok.mixin.tac.ProjectileEntityAccessor;
@@ -22,7 +23,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
@@ -94,6 +94,10 @@ public class MagicLaser extends ProjectileEntity implements IEntityAdditionalSpa
         private float rrp, rry;
     }
 
+    public Vec3 getHitLocation() {
+        return hitLocation;
+    }
+
     public float getRoll() {
         return roll;
     }
@@ -118,7 +122,8 @@ public class MagicLaser extends ProjectileEntity implements IEntityAdditionalSpa
         // 什么也没打中
         if (block.getType() == HitResult.Type.MISS && entity.isEmpty()) {
             length = (float) range;
-            lookAt(EntityAnchorArgument.Anchor.FEET, pos.add(direction.scale(range)));
+            hitLocation = pos.add(direction.scale(range));
+            lookAt(EntityAnchorArgument.Anchor.FEET, hitLocation);
             return;
         }
         // 伤害实体并统计数量
@@ -137,7 +142,6 @@ public class MagicLaser extends ProjectileEntity implements IEntityAdditionalSpa
                 })
                 .count()
         ).findAny().orElse(0);
-        Vec3 hitLocation;
         // 击中方块
         if (entityCount < entityLimit && block.getType() != HitResult.Type.MISS) {
             onHit(block, ctx.getFrom(), block.getLocation());
@@ -164,16 +168,31 @@ public class MagicLaser extends ProjectileEntity implements IEntityAdditionalSpa
         );
     }
 
-    private static double distanceSqr(ClipContext from, HitResult to) {
-        return from.getFrom().distanceToSqr(to.getLocation());
-    }
-
+    private Vec3 hitLocation;
+    /**
+     * 只在服务端有非零值
+     */
     private final Vec3 direction;
     private double range;
-    private Vec2 rotation = Vec2.ZERO;
     private float roll;
     private float length;
     private long localSpawnTime;
+    private boolean clientPosFixed;
+
+    public final void tryFixClientPosition() {
+        if (level.isClientSide() && !clientPosFixed) {
+            ClientProxy.fixLaserPos(this);
+            clientPosFixed = true;
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (level.isClientSide()) {
+            ClientProxy.stickLaserToMuzzle(this, 1);
+        }
+    }
 
     protected void onHit(HitResult result, Vec3 start, Vec3 end) {
         ((ProjectileEntityAccessor)this).invokeOnHit(result, start, end);
@@ -203,8 +222,9 @@ public class MagicLaser extends ProjectileEntity implements IEntityAdditionalSpa
     @Override
     public void writeSpawnData(FriendlyByteBuf buffer) {
         super.writeSpawnData(buffer);
-        buffer.writeFloat(rotation.x);
-        buffer.writeFloat(rotation.y);
+        buffer.writeDouble(hitLocation.x);
+        buffer.writeDouble(hitLocation.y);
+        buffer.writeDouble(hitLocation.z);
         buffer.writeFloat(roll);
         buffer.writeFloat(length);
     }
@@ -212,9 +232,10 @@ public class MagicLaser extends ProjectileEntity implements IEntityAdditionalSpa
     @Override
     public void readSpawnData(FriendlyByteBuf buffer) {
         super.readSpawnData(buffer);
-        rotation = new Vec2(buffer.readFloat(), buffer.readFloat());
+        hitLocation = new Vec3(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
         roll = buffer.readFloat();
         length = buffer.readFloat();
+        tryFixClientPosition();
     }
 
     @Override

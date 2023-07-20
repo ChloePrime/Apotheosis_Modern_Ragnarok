@@ -22,7 +22,6 @@ public class ModClientContents {
             RenderType.CompositeState state = RenderType.CompositeState.builder()
                     .setShaderState(sssMagicLaser)
                     .setTextureState(new TextureStateShard(texture, true, false))
-                    .setCullState(NO_CULL)
                     .setTransparencyState(ADDITIVE_TRANSPARENCY)
                     .createCompositeState(false);
             return RenderType.create(

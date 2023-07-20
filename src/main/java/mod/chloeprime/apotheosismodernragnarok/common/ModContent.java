@@ -9,7 +9,6 @@ import mod.chloeprime.apotheosismodernragnarok.common.internal.LootCategoryExten
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
@@ -55,6 +54,7 @@ public class ModContent {
     public static class Sounds {
         private static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ApotheosisModernRagnarok.MOD_ID);
         public static final RegistryObject<SoundEvent> ARMOR_CRACK = register("affix.armor_break");
+        public static final RegistryObject<SoundEvent> MAGIC_SHOT = register("affix.magical.shot");
 
         private static RegistryObject<SoundEvent> register(String path) {
             return REGISTRY.register(path, () -> new SoundEvent(ApotheosisModernRagnarok.loc(path)));
