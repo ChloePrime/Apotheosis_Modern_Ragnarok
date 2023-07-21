@@ -9,11 +9,11 @@
 
   "affix.apotheosis_modern_ragnarok:frugality": "节俭主义的",
   "affix.apotheosis_modern_ragnarok:frugality.suffix": "（超省子弹！）",
-  "affix.apotheosis_modern_ragnarok:frugality.desc": "• 射击时有 %s%% 几率不消耗子弹",
+  "affix.apotheosis_modern_ragnarok:frugality.desc": "• 射击时有%s%%几率不消耗子弹",
 
   "affix.apotheosis_modern_ragnarok:armor_squash": "爆衣狂人的",
   "affix.apotheosis_modern_ragnarok:armor_squash.suffix": "（碎甲弹）",
-  "affix.apotheosis_modern_ragnarok:armor_squash.desc": "• 命中时有 %s%% 几率打碎目标的任意一件护甲",
+  "affix.apotheosis_modern_ragnarok:armor_squash.desc": "• 命中时有%s%%几率打碎目标的任意一件护甲",
   "subtitles.apotheosis_modern_ragnarok.affix.armor_crack": "护甲破碎",
 
   "affix.apotheosis_modern_ragnarok:magnum": "加装药的",
