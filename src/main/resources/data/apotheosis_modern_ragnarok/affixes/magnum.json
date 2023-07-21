@@ -2,39 +2,40 @@
   "type": "apotheosis_modern_ragnarok:damage_bonus",
   "values": {
     "common": {
+      "_comment": "0.05 ~ 0.15",
+      "min": 0.05,
+      "steps": 10,
+      "step": 0.01
+    },
+    "uncommon": {
       "_comment": "0.1 ~ 0.2",
       "min": 0.1,
       "steps": 10,
       "step": 0.01
     },
-    "uncommon": {
+    "rare": {
       "_comment": "0.1 ~ 0.3",
       "min": 0.1,
       "steps": 20,
       "step": 0.01
     },
-    "rare": {
-      "_comment": "0.2 ~ 0.5",
-      "min": 0.2,
-      "steps": 30,
-      "step": 0.01
-    },
     "epic": {
-      "_comment": "0.3 ~ 0.7",
-      "min": 0.3,
-      "steps": 40,
+      "_comment": "0.2 ~ 0.4",
+      "min": 0.2,
+      "steps": 20,
       "step": 0.01
     },
     "mythic": {
-      "_comment": "0.6 ~ 1",
-      "min": 0.6,
-      "steps": 40,
+      "_comment": "0.2 ~ 0.45",
+      "min": 0.2,
+      "steps": 25,
       "step": 0.01
     },
     "ancient": {
-      "min": 1,
-      "steps": 1,
-      "step": 0
+      "_comment": "0.3 ~ 0.6",
+      "min": 0.3,
+      "steps": 30,
+      "step": 0.01
     }
   },
   "types": [
