@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
 import com.tac.guns.client.handler.AimingHandler;
+import com.tac.guns.common.Gun;
+import com.tac.guns.item.GunItem;
 import mod.chloeprime.apotheosismodernragnarok.common.entity.MagicLaser;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
@@ -11,6 +13,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
@@ -43,7 +46,7 @@ public class ClientProxy {
         var axisY = axisX.cross(axisZ);
 
         var x = Mth.lerp(adsProgress,0.06F, 0);
-        var y = Mth.lerp(adsProgress, -0.06F, 0);
+        var y = Mth.lerp(adsProgress, -0.06F, hasScope(shooter) ? -0.2F : 0);
         var z = Mth.lerp(adsProgress, 0.8F, 0.6F);
 
         Vec3 offset;
@@ -72,5 +75,16 @@ public class ClientProxy {
         var affineVec = new Vector4f(new Vector3f(original));
         affineVec.transform(matrix.last().pose());
         return new Vec3(new Vector3f(affineVec));
+    }
+
+    private static boolean hasScope(Entity entity) {
+        if (!(entity instanceof LivingEntity living)) {
+            return false;
+        }
+        var gun =living.getMainHandItem();
+        if (!(gun.getItem() instanceof GunItem)) {
+            return false;
+        }
+        return Gun.getScope(gun) != null;
     }
 }
