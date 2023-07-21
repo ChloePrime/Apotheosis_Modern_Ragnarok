@@ -1,19 +1,19 @@
 package mod.chloeprime.apotheosismodernragnarok.client;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
+import com.mojang.math.Vector4f;
 import com.tac.guns.client.handler.AimingHandler;
 import mod.chloeprime.apotheosismodernragnarok.common.entity.MagicLaser;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
-
-import static java.lang.Math.abs;
-import static java.lang.Math.max;
 
 public class ClientProxy {
     private static final Minecraft THE_CLIENT = Minecraft.getInstance();
@@ -45,13 +45,32 @@ public class ClientProxy {
         var x = Mth.lerp(adsProgress,0.06F, 0);
         var y = Mth.lerp(adsProgress, -0.06F, 0);
         var z = Mth.lerp(adsProgress, 0.8F, 0.6F);
-        var bobCompensation = fps && THE_CLIENT.options.bobView && shooter instanceof LivingEntity living
-                ? 0.05F * max(abs(living.xxa), abs(living.zza))
-                : 0;
+
+        Vec3 offset;
+        if (fps && THE_CLIENT.options.bobView && shooter instanceof LocalPlayer player) {
+            offset = bobCompensation(new Vec3(x, y, z), laser, player, partialTicks);
+        } else {
+            offset = new Vec3(x, y, z);
+        }
 
         laser.setPos(laser.position().add(
-                axisX.scale(x).add(axisY.scale(y + bobCompensation)).add(axisZ.scale(z))
+                axisX.scale(offset.x).add(axisY.scale(offset.y)).add(axisZ.scale(offset.z))
         ));
         laser.lookAt(EntityAnchorArgument.Anchor.FEET, laser.getHitLocation());
+    }
+
+    private static Vec3 bobCompensation(Vec3 original, Entity laser, LocalPlayer player, float pPartialTicks) {
+        float f = player.walkDist - player.walkDistO;
+        float f1 = -(player.walkDist + f * pPartialTicks);
+        float f2 = Mth.lerp(pPartialTicks, player.oBob, player.bob);
+
+        var matrix = new PoseStack();
+        matrix.mulPose(Vector3f.ZP.rotationDegrees(-(Mth.sin(f1 * (float)Math.PI) * f2 * 3.0F)));
+        matrix.mulPose(Vector3f.XP.rotationDegrees(-(Math.abs(Mth.cos(f1 * (float)Math.PI - 0.2F) * f2) * 5.0F)));
+        matrix.translate(-(Mth.sin(f1 * (float)Math.PI) * f2 * 0.5F), Math.abs(Mth.cos(f1 * (float)Math.PI) * f2), 0.0D);
+
+        var affineVec = new Vector4f(new Vector3f(original));
+        affineVec.transform(matrix.last().pose());
+        return new Vec3(new Vector3f(affineVec));
     }
 }

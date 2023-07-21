@@ -7,11 +7,12 @@ import com.tac.guns.interfaces.IProjectileFactory;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.network.message.MessageBulletTrail;
 import com.tac.guns.network.message.MessageShoot;
-import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
+import mod.chloeprime.apotheosismodernragnarok.api.MagicProjectileFactory;
+import mod.chloeprime.apotheosismodernragnarok.common.MagicWorldProjectileManager;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.BulletSaverAffix;
-import mod.chloeprime.apotheosismodernragnarok.common.entity.MagicLaser;
-import mod.chloeprime.apotheosismodernragnarok.common.internal.LaserProjectile;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.MagicProjectile;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -30,6 +31,7 @@ import shadows.apotheosis.adventure.affix.AffixHelper;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 @Mixin(value = ServerPlayHandler.class, remap = false)
@@ -39,7 +41,7 @@ public class MixinServerPlayerHandler {
 
     @Redirect(
             method = "handleShoot",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;getItemInHand(Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/item/ItemStack;")
+            at = @At(value = "INVOKE", remap = true, target = "Lnet/minecraft/server/level/ServerPlayer;getItemInHand(Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/item/ItemStack;")
     )
     private static ItemStack captureGunStack(ServerPlayer player, InteractionHand hand) {
         return apotheosis_modern_ragnarok$currentGun = player.getItemInHand(hand);
@@ -47,12 +49,12 @@ public class MixinServerPlayerHandler {
 
     @Inject(method = "handleShoot", at = @At("RETURN"))
     private static void releaseCaptureReferences(MessageShoot message, ServerPlayer player, float randP, float randY, CallbackInfo ci) {
-        apotheosis_modern_ragnarok$currentGun = null;
+        apotheosis_modern_ragnarok$currentGun = ItemStack.EMPTY;
     }
 
     @Redirect(
             method = "handleShoot",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;isCreative()Z", ordinal = 1)
+            at = @At(value = "INVOKE", remap = true, target = "Lnet/minecraft/server/level/ServerPlayer;isCreative()Z", ordinal = 1)
     )
     private static boolean trySaveBullet(ServerPlayer player) {
         if (player.isCreative()) {
@@ -79,7 +81,7 @@ public class MixinServerPlayerHandler {
                 .map(affix -> AffixHelper.getAffixes(stack).containsKey(affix))
                 .orElse(false);
 
-        var factory = isMagic ? MagicLaser.Factory.INSTANCE : muggleFactory;
+        var factory = apotheosis_modern_ragnarok$factory = !isMagic ? muggleFactory : MagicWorldProjectileManager.get(stack, item);
         return factory.create(level, shooter, stack, item, gun, rot0, rot1);
     }
 
@@ -87,6 +89,8 @@ public class MixinServerPlayerHandler {
     private static boolean apotheosis_modern_ragnarok$hasMagic;
     @Unique
     private static boolean apotheosis_modern_ragnarok$pureMagic;
+    @Unique @Nullable
+    private static IProjectileFactory apotheosis_modern_ragnarok$factory;
 
     @Redirect(
             method = "handleShoot",
@@ -95,7 +99,7 @@ public class MixinServerPlayerHandler {
     private static MessageBulletTrail magicShootNoMuggleTrail0(ProjectileEntity[] originalProjectiles, Gun.Projectile projectileProps, int shooterId, float size) {
 
         var filtered = Arrays.stream(originalProjectiles)
-                .filter(it -> !(it instanceof LaserProjectile))
+                .filter(it -> !(it instanceof MagicProjectile))
                 .toArray(ProjectileEntity[]::new);
 
         apotheosis_modern_ragnarok$hasMagic = filtered.length != originalProjectiles.length;
@@ -149,12 +153,15 @@ public class MixinServerPlayerHandler {
             return;
         }
         // 麻瓜的音效
-        if (!apotheosis_modern_ragnarok$pureMagic) {
+        Optional<SoundEvent> magicSound = apotheosis_modern_ragnarok$factory instanceof MagicProjectileFactory magician
+                ? magician.getShootSound(Objects.requireNonNullElse(apotheosis_modern_ragnarok$currentGun, ItemStack.EMPTY))
+                : Optional.empty();
+        if (!apotheosis_modern_ragnarok$pureMagic || magicSound.isEmpty()) {
             channel.send(target, message);
         }
         // 魔法的音效
-        if (apotheosis_modern_ragnarok$hasMagic) {
-            gunSound.setId(ModContent.Sounds.MAGIC_SHOT.getId());
+        if (apotheosis_modern_ragnarok$hasMagic && magicSound.isPresent()) {
+            gunSound.setId(magicSound.get().getRegistryName());
             channel.send(target, message);
         }
     }

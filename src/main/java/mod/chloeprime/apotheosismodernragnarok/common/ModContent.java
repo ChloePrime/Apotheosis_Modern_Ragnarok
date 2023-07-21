@@ -4,9 +4,11 @@ import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.ArmorSquashAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.BulletSaverAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.GunDamageAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.entity.MagicFireball;
 import mod.chloeprime.apotheosismodernragnarok.common.entity.MagicLaser;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.LootCategoryExtensions;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -19,6 +21,8 @@ import shadows.apotheosis.adventure.affix.AffixManager;
 import shadows.apotheosis.adventure.loot.LootCategory;
 import shadows.placebo.json.DynamicRegistryObject;
 import shadows.placebo.json.SerializerBuilder;
+
+import java.util.function.Consumer;
 
 import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.loc;
 
@@ -42,23 +46,26 @@ public class ModContent {
 
     public static class Entities {
         private static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITIES, ApotheosisModernRagnarok.MOD_ID);
-        public static final RegistryObject<EntityType<MagicLaser>> MAGIC_LASER = REGISTRY.register(
-                "magic_laser",
-                () -> EntityType.Builder.<MagicLaser>of(MagicLaser::new, MobCategory.MISC)
-                        .sized(0.25F, 0.25F)
-                        .fireImmune()
-                        .build("magic_laser")
+        public static final RegistryObject<EntityType<MagicLaser>> MAGIC_LASER = registerEntity(
+                "magic_laser", MagicLaser::new, MobCategory.MISC,
+                builder -> builder.sized(0.25F, 0.25F).fireImmune()
+                        .setTrackingRange(128).setUpdateInterval(20).setShouldReceiveVelocityUpdates(false)
+        );
+
+        public static final RegistryObject<EntityType<MagicFireball>> MAGIC_FIREBALL = registerEntity(
+                "magic_fireball", MagicFireball::new, MobCategory.MISC,
+                builder -> builder.sized(0.8F, 0.8F).fireImmune()
+                        .setTrackingRange(128).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true)
         );
     }
 
     public static class Sounds {
         private static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ApotheosisModernRagnarok.MOD_ID);
-        public static final RegistryObject<SoundEvent> ARMOR_CRACK = register("affix.armor_break");
-        public static final RegistryObject<SoundEvent> MAGIC_SHOT = register("affix.magical.shot");
+        public static final RegistryObject<SoundEvent> ARMOR_CRACK = registerSound("affix.armor_break");
+        public static final RegistryObject<SoundEvent> MAGIC_SHOT = registerSound("affix.magical.shot");
+        public static final RegistryObject<SoundEvent> MAGIC_DANMAKU = registerSound("affix.magical.danmaku");
+        public static final RegistryObject<SoundEvent> MAGIC_FIREBALL = registerSound("affix.magical.fireball");
 
-        private static RegistryObject<SoundEvent> register(String path) {
-            return REGISTRY.register(path, () -> new SoundEvent(ApotheosisModernRagnarok.loc(path)));
-        }
     }
 
     public static void setup() {
@@ -81,4 +88,20 @@ public class ModContent {
     }
 
     private ModContent() {}
+
+    private static RegistryObject<SoundEvent> registerSound(String path) {
+        return Sounds.REGISTRY.register(path, () -> new SoundEvent(ApotheosisModernRagnarok.loc(path)));
+    }
+
+    private static <T extends Entity> RegistryObject<EntityType<T>> registerEntity(
+            String path,
+            EntityType.EntityFactory<T> constructor,
+            MobCategory category,
+            Consumer<EntityType.Builder<T>> options) {
+        return Entities.REGISTRY.register(path, () -> {
+            var builder = EntityType.Builder.of(constructor, category);
+            options.accept(builder);
+            return builder.build(path);
+        });
+    }
 }

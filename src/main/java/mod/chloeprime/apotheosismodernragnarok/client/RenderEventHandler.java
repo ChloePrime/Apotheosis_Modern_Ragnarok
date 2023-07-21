@@ -3,6 +3,7 @@ package mod.chloeprime.apotheosismodernragnarok.client;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.client.model.MagicFireballRenderer;
 import mod.chloeprime.apotheosismodernragnarok.client.model.MagicLaserModel;
 import mod.chloeprime.apotheosismodernragnarok.client.model.MagicLaserRenderer;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
@@ -28,6 +29,7 @@ public class RenderEventHandler {
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers e) {
         e.registerEntityRenderer(ModContent.Entities.MAGIC_LASER.get(), MagicLaserRenderer::new);
+        e.registerEntityRenderer(ModContent.Entities.MAGIC_FIREBALL.get(), MagicFireballRenderer::new);
     }
 
     @SubscribeEvent

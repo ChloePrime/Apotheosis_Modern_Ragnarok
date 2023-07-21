@@ -15,7 +15,7 @@ import java.util.Optional;
 public class MixinAdventureEvents {
     @Redirect(
             method = "pierce",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/damagesource/DamageSource;getDirectEntity()Lnet/minecraft/world/entity/Entity;")
+            at = @At(value = "INVOKE", remap = true, target = "Lnet/minecraft/world/damagesource/DamageSource;getDirectEntity()Lnet/minecraft/world/entity/Entity;")
     )
     private Entity makeAttributeTakeEffectOnGuns0(DamageSource source) {
         return apotheosis_modern_ragnarok$redirect0(source);
@@ -23,7 +23,7 @@ public class MixinAdventureEvents {
 
     @Redirect(
             method = "afterDamage",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/damagesource/DamageSource;getDirectEntity()Lnet/minecraft/world/entity/Entity;")
+            at = @At(value = "INVOKE", remap = true, target = "Lnet/minecraft/world/damagesource/DamageSource;getDirectEntity()Lnet/minecraft/world/entity/Entity;")
     )
     private Entity makeAttributeTakeEffectOnGuns1(DamageSource source) {
         return apotheosis_modern_ragnarok$redirect0(source);
@@ -31,7 +31,7 @@ public class MixinAdventureEvents {
 
     @Redirect(
             method = "attack",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/damagesource/DamageSource;getDirectEntity()Lnet/minecraft/world/entity/Entity;")
+            at = @At(value = "INVOKE", remap = true, target = "Lnet/minecraft/world/damagesource/DamageSource;getDirectEntity()Lnet/minecraft/world/entity/Entity;")
     )
     private Entity makeAttributeTakeEffectOnGuns12(DamageSource source) {
         return apotheosis_modern_ragnarok$redirect0(source);

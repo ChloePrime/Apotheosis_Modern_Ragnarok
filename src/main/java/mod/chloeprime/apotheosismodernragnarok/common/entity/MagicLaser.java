@@ -4,17 +4,19 @@ import com.google.common.util.concurrent.AtomicDouble;
 import com.tac.guns.common.Gun;
 import com.tac.guns.entity.ProjectileEntity;
 import com.tac.guns.init.ModEnchantments;
-import com.tac.guns.interfaces.IProjectileFactory;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.util.math.ExtendedEntityRayTraceResult;
+import mod.chloeprime.apotheosismodernragnarok.api.MagicProjectileFactory;
 import mod.chloeprime.apotheosismodernragnarok.client.ClientProxy;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.LaserProjectile;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.MagicProjectile;
 import mod.chloeprime.apotheosismodernragnarok.mixin.tac.ProjectileEntityAccessor;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,9 +45,9 @@ import java.util.stream.Stream;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MagicLaser extends ProjectileEntity implements IEntityAdditionalSpawnData, LaserProjectile {
+public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEntityAdditionalSpawnData, LaserProjectile {
     public static final int LIVE_DURATION = 10;
-    public MagicLaser(EntityType type, Level level, Builder builder) {
+    public MagicLaser(EntityType type, Level level, ProjectileBuilder builder) {
         super(type, level, builder.shooter, builder.weapon, builder.gunItem, builder.data, builder.rrp, builder.rry);
         direction = getDeltaMovement().normalize();
         range = builder.data.getProjectile().life * builder.data.getProjectile().getSpeed();
@@ -60,40 +62,6 @@ public class MagicLaser extends ProjectileEntity implements IEntityAdditionalSpa
     }
 
     private static final Vec3 UP = new Vec3(0, 1, 0);
-
-    public static class Builder {
-        public Builder shooter(LivingEntity shooter) {
-            this.shooter = shooter;
-            return this;
-        }
-
-        public Builder weapon(ItemStack weapon) {
-            this.weapon = weapon;
-            return this;
-        }
-
-        public Builder item(GunItem item) {
-            this.gunItem = item;
-            return this;
-        }
-
-        public Builder data(Gun data) {
-            this.data = data;
-            return this;
-        }
-
-        public Builder recoil(float pitch, float yaw) {
-            rrp = pitch;
-            rry = yaw;
-            return this;
-        }
-
-        private LivingEntity shooter;
-        private ItemStack weapon;
-        private GunItem gunItem;
-        private Gun data;
-        private float rrp, rry;
-    }
 
     public Vec3 getHitLocation() {
         return hitLocation;
@@ -250,13 +218,21 @@ public class MagicLaser extends ProjectileEntity implements IEntityAdditionalSpa
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    public static class Factory implements IProjectileFactory {
+    public static class Factory implements MagicProjectileFactory {
         public static final Factory INSTANCE = new Factory();
 
         @Override
         public ProjectileEntity create(Level level, LivingEntity shooter, ItemStack stack, GunItem gunItem, Gun gun, float recoilP, float recoilY) {
-            var builder = new Builder().shooter(shooter).weapon(stack).item(gunItem).data(gun).recoil(recoilP, recoilY);
+            var builder = new ProjectileBuilder().shooter(shooter).weapon(stack).item(gunItem).data(gun).recoil(recoilP, recoilY);
             return new MagicLaser(ModContent.Entities.MAGIC_LASER.get(), level, builder);
+        }
+
+        @Override
+        public Optional<SoundEvent> getShootSound(ItemStack weapon) {
+            var rpm = weapon.getItem() instanceof GunItem gun && gun.getGun().getGeneral().isAuto()
+                    ? gun.getGun().getGeneral().getRate()
+                    : 0;
+            return Optional.of((rpm >= 600 ? ModContent.Sounds.MAGIC_DANMAKU : ModContent.Sounds.MAGIC_SHOT).get());
         }
 
         private Factory() {}

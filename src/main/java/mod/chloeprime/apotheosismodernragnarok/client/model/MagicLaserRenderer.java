@@ -30,7 +30,7 @@ public class MagicLaserRenderer<T extends MagicLaser> extends EntityRenderer<T> 
 
     public MagicLaserRenderer(EntityRendererProvider.Context context) {
         super(context);
-        model = new MagicLaserModel<>(context.bakeLayer(MagicLaserModel.LAYER_LOCATION), ModClientContents.RenderTypes.magicLaser);
+        model = new MagicLaserModel<>(context.bakeLayer(MagicLaserModel.LAYER_LOCATION), ModClientContents.RenderTypes.MAGIC_LASER);
     }
 
     @Override

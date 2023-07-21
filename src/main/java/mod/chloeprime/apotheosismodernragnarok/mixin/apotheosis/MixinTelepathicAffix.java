@@ -16,7 +16,7 @@ import shadows.apotheosis.adventure.affix.effect.TelepathicAffix;
 public class MixinTelepathicAffix {
     @Redirect(
             method = "drops",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/damagesource/DamageSource;getDirectEntity()Lnet/minecraft/world/entity/Entity;", ordinal = 2)
+            at = @At(value = "INVOKE", remap = true, target = "Lnet/minecraft/world/damagesource/DamageSource;getDirectEntity()Lnet/minecraft/world/entity/Entity;", ordinal = 2)
     )
     private Entity redirect_gunCompat(DamageSource source, LivingDropsEvent e) {
         if (e.getSource() instanceof DamageSourceProjectile) {

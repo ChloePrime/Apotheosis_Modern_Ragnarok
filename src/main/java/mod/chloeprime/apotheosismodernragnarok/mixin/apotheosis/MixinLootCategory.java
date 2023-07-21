@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 
 @Mixin(value = LootCategory.class, remap = false)
 public class MixinLootCategory implements LootCategoryFactory {
-    @Shadow @Final @Mutable private static LootCategory[] $VALUES;
+    @Shadow(remap = false) @Final @Mutable private static LootCategory[] $VALUES;
     @Shadow @Final @Mutable static LootCategory[] VALUES;
 
     // Enum Creator

@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import software.bernie.geckolib3.GeckoLib;
 
 @Mod(ApotheosisModernRagnarok.MOD_ID)
 public class ApotheosisModernRagnarok {
@@ -22,6 +23,7 @@ public class ApotheosisModernRagnarok {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public ApotheosisModernRagnarok() {
+        GeckoLib.initialize();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModContent.init0(modEventBus);
         ModContent.init1(ModLoadingContext.get());

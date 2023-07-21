@@ -18,7 +18,7 @@ public class ModClientContents {
 
     @OnlyIn(Dist.CLIENT)
     public static class RenderTypes extends RenderType {
-        public static final Function<ResourceLocation, RenderType> magicLaser = Util.memoize(texture -> {
+        public static final Function<ResourceLocation, RenderType> MAGIC_LASER = Util.memoize(texture -> {
             RenderType.CompositeState state = RenderType.CompositeState.builder()
                     .setShaderState(sssMagicLaser)
                     .setTextureState(new TextureStateShard(texture, true, false))
@@ -26,6 +26,21 @@ public class ModClientContents {
                     .createCompositeState(false);
             return RenderType.create(
                     ApotheosisModernRagnarok.loc("magic_laser").toString(),
+                    DefaultVertexFormat.NEW_ENTITY,
+                    VertexFormat.Mode.QUADS,
+                    256, true, false, state
+            );
+        });
+
+        public static final Function<ResourceLocation, RenderType> MAGIC_FIREBALL = Util.memoize(texture -> {
+            RenderType.CompositeState state = RenderType.CompositeState.builder()
+                    .setShaderState(sssMagicLaser)
+                    .setTextureState(new TextureStateShard(texture, false, false))
+                    .setCullState(NO_CULL)
+                    .setTransparencyState(RenderStateShard.ADDITIVE_TRANSPARENCY)
+                    .createCompositeState(true);
+            return RenderType.create(
+                    ApotheosisModernRagnarok.loc("magic_fireball").toString(),
                     DefaultVertexFormat.NEW_ENTITY,
                     VertexFormat.Mode.QUADS,
                     256, true, false, state
