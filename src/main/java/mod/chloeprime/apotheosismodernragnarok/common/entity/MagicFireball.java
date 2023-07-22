@@ -69,6 +69,7 @@ public class MagicFireball extends ProjectileEntity implements MagicProjectile, 
 
     private PlayState ringAnim(AnimationEvent<MagicFireball> e) {
         e.getController().setAnimation(new AnimationBuilder().addAnimation("fly", ILoopType.EDefaultLoopTypes.LOOP));
+        e.getController().animationSpeed = 6;
         return PlayState.CONTINUE;
     }
 
