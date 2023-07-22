@@ -46,7 +46,7 @@ public class ClientProxy {
         var axisY = axisX.cross(axisZ);
 
         var x = Mth.lerp(adsProgress,0.06F, 0);
-        var y = Mth.lerp(adsProgress, -0.06F, hasScope(shooter) ? -0.2F : 0);
+        var y = Mth.lerp(adsProgress, -0.08F, hasScope(shooter) ? -0.2F : 0);
         var z = Mth.lerp(adsProgress, 0.8F, 0.6F);
 
         Vec3 offset;

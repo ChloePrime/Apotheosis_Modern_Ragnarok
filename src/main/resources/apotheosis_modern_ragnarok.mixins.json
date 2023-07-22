@@ -10,8 +10,10 @@
     "apotheosis.MixinAttributeAffix",
     "apotheosis.MixinLootCategory",
     "apotheosis.MixinPotionAffix",
+    "apotheosis.MixinSpectralShotAffix",
     "apotheosis.MixinTelepathicAffix",
     "apotheosis.PotionAffixAccessor",
+    "apotheosis.SpectralShotAffixAccessor",
     "tac.MessageGunSoundAccessor",
     "tac.MixinGunModifierHelper",
     "tac.MixinProjectileEntity",
@@ -19,7 +21,8 @@
     "tac.ProjectileEntityAccessor"
   ],
   "client": [
-    "minecraft.MixinLevelRender"
+    "minecraft.MixinLevelRender",
+    "tac.MixinShootingHandler"
   ],
   "injectors": {
     "defaultRequire": 1

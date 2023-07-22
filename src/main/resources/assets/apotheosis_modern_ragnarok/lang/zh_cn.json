@@ -3,6 +3,9 @@
   "entity.apotheosis_modern_ragnarok.magic_fireball": "魔法火球",
   "subtitles.apotheosis_modern_ragnarok.affix.magical.shot": "定向能武器射击",
   "subtitles.apotheosis_modern_ragnarok.affix.magical.fireball": "爆裂魔法",
+  "item.apotheosis_modern_ragnarok.izanagi_object": "伊奘诺物质",
+
+  "affix.apotheosis_modern_ragnarok.spectral.gun.desc": "• 发射的子弹有%s%%概率点亮敌人",
 
   "affix.apotheosis_modern_ragnarok:lightweight": "减重款的",
   "affix.apotheosis_modern_ragnarok:lightweight.suffix": "（减重款）",
@@ -17,5 +20,8 @@
   "subtitles.apotheosis_modern_ragnarok.affix.armor_crack": "护甲破碎",
 
   "affix.apotheosis_modern_ragnarok:magnum": "加装药的",
-  "affix.apotheosis_modern_ragnarok:magnum.suffix": "（马格南）"
+  "affix.apotheosis_modern_ragnarok:magnum.suffix": "（马格南）",
+
+  "affix.apotheosis_modern_ragnarok:clip_expansion": "武德充沛的",
+  "affix.apotheosis_modern_ragnarok:clip_expansion.suffix": "(配备大弹鼓)"
 }

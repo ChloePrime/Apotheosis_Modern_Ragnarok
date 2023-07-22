@@ -1,6 +1,7 @@
 package mod.chloeprime.apotheosismodernragnarok.common;
 
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.content.AmmoCapacityAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.ArmorSquashAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.BulletSaverAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.GunDamageAffix;
@@ -11,14 +12,19 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import shadows.apotheosis.Apotheosis;
+import shadows.apotheosis.adventure.AdventureModule;
 import shadows.apotheosis.adventure.affix.AffixManager;
+import shadows.apotheosis.adventure.affix.salvaging.SalvageItem;
 import shadows.apotheosis.adventure.loot.LootCategory;
+import shadows.apotheosis.adventure.loot.LootRarity;
 import shadows.placebo.json.DynamicRegistryObject;
 import shadows.placebo.json.SerializerBuilder;
 
@@ -32,16 +38,29 @@ import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.l
  * apotheosis_modern_ragnarok:armor_squash  shots have rate to destroy target's armor
  */
 public class ModContent {
+    public static class Items {
+        private static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, ApotheosisModernRagnarok.MOD_ID);
+        public static final RegistryObject<Item> ANCIENT_MATERIAL = REGISTRY.register(
+                "izanagi_object",
+                () -> new SalvageItem(LootRarity.ANCIENT, new Item.Properties().tab(Apotheosis.APOTH_GROUP))
+        );
+
+        private Items() {}
+    }
     public static class LootCategories {
         /**
          * 所有枪械
          */
         public static final LootCategory GUN = LootCategoryExtensions.GUN;
+
+        private LootCategories() {}
     }
 
     public static class Affix {
         public static final DynamicRegistryObject<BulletSaverAffix> BULLET_SAVER = BulletSaverAffix.INSTANCE;
         public static final DynamicRegistryObject<ArmorSquashAffix> ARMOR_SQUASH = ArmorSquashAffix.INSTANCE;
+
+        private Affix() {}
     }
 
     public static class Entities {
@@ -57,6 +76,8 @@ public class ModContent {
                 builder -> builder.sized(0.8F, 0.8F).fireImmune()
                         .setTrackingRange(128).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true)
         );
+
+        private Entities() {}
     }
 
     public static class Sounds {
@@ -66,12 +87,15 @@ public class ModContent {
         public static final RegistryObject<SoundEvent> MAGIC_DANMAKU = registerSound("affix.magical.danmaku");
         public static final RegistryObject<SoundEvent> MAGIC_FIREBALL = registerSound("affix.magical.fireball");
 
+        private Sounds() {}
     }
 
     public static void setup() {
         AffixManager.INSTANCE.registerSerializer(loc("bullet_saver"), builder("Bullet Saver", BulletSaverAffix.class));
         AffixManager.INSTANCE.registerSerializer(loc("armor_squash"), builder("Armor Squash", ArmorSquashAffix.class));
         AffixManager.INSTANCE.registerSerializer(loc("damage_bonus"), builder("Gun Damage Bonus", GunDamageAffix.class));
+        AffixManager.INSTANCE.registerSerializer(loc("ammo_capacity"), builder("Ammo Capacity", AmmoCapacityAffix.class));
+        AdventureModule.RARITY_MATERIALS.putIfAbsent(LootRarity.ANCIENT, Items.ANCIENT_MATERIAL.get().delegate);
     }
 
     private static SerializerBuilder<shadows.apotheosis.adventure.affix.Affix> builder(String name, Class<? extends shadows.apotheosis.adventure.affix.Affix> type) {
@@ -79,6 +103,7 @@ public class ModContent {
     }
 
     public static void init0(IEventBus bus) {
+        Items.REGISTRY.register(bus);
         Entities.REGISTRY.register(bus);
         Sounds.REGISTRY.register(bus);
     }
@@ -86,8 +111,6 @@ public class ModContent {
     public static void init1(ModLoadingContext context) {
         context.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
     }
-
-    private ModContent() {}
 
     private static RegistryObject<SoundEvent> registerSound(String path) {
         return Sounds.REGISTRY.register(path, () -> new SoundEvent(ApotheosisModernRagnarok.loc(path)));
@@ -104,4 +127,6 @@ public class ModContent {
             return builder.build(path);
         });
     }
+
+    private ModContent() {}
 }
