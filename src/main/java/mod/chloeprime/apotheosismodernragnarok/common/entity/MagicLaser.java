@@ -86,7 +86,8 @@ public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEn
         int entityLimit = piercing + 1;
 
         var block = level.clip(ctx);
-        var entity = clipEntities(ctx.getFrom(), ctx.getTo(), entityLimit);
+        var blockLengthSqr = block.getLocation().distanceToSqr(ctx.getFrom());
+        var entity = clipEntities(pos, pos.add(direction.scale(1 / Mth.fastInvSqrt(blockLengthSqr) + 0.125)), entityLimit);
 
         // 什么也没打中
         if (block.getType() == HitResult.Type.MISS && entity.isEmpty()) {
@@ -102,12 +103,16 @@ public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEn
                 .filter(result -> result.getEntity() != shooter)
                 .map(ExtendedEntityRayTraceResult::new)
                 .peek(hit -> {
-                    onHit(hit, ctx.getFrom(), hit.getLocation());
                     var lengthSqr = hit.getLocation().distanceToSqr(ctx.getFrom());
+                    // 防止穿墙射击
+                    if (lengthSqr > blockLengthSqr + 0.125) {
+                        return;
+                    }
                     if (lengthSqr > lengthSqrByEntity.get()) {
                         lengthSqrByEntity.set(lengthSqr);
                         furthestHit.set(hit);
                     }
+                    onHit(hit, ctx.getFrom(), hit.getLocation());
                 })
                 .count()
         ).findAny().orElse(0);
