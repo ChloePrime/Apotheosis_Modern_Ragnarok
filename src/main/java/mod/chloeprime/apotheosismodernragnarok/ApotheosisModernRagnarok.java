@@ -11,6 +11,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 
+import javax.annotation.Nullable;
+
 @Mod(ApotheosisModernRagnarok.MOD_ID)
 public class ApotheosisModernRagnarok {
 
@@ -20,7 +22,18 @@ public class ApotheosisModernRagnarok {
         return new ResourceLocation(MOD_ID, path);
     }
 
+    @Nullable
     private static final Logger LOGGER = LogUtils.getLogger();
+
+    public static void logError(String message, Throwable throwable) {
+        if (LOGGER != null) {
+            LOGGER.error(message, throwable);
+        } else {
+            System.out.println("[ApotheosisModernRagnarok/Error] " + message);
+            System.out.println("[ApotheosisModernRagnarok/Error] Stacktrace:");
+            throwable.printStackTrace();
+        }
+    }
 
     public ApotheosisModernRagnarok() {
         GeckoLib.initialize();

@@ -78,7 +78,7 @@ public class MixinProjectileEntity {
             at = @At(value = "INVOKE", target = "Lcom/tac/guns/world/ProjectileExplosion;<init>(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/damagesource/DamageSource;Lnet/minecraft/world/level/ExplosionDamageCalculator;DDDFZLnet/minecraft/world/level/Explosion$BlockInteraction;)V"),
             index = 2
     )
-    private static DamageSource processDamageSource_directHit(Level world, Entity exploder, @Nullable DamageSource source, @Nullable ExplosionDamageCalculator context, double x, double y, double z, float size, boolean causesFire, Explosion.BlockInteraction mode) {
+    private static DamageSource processDamageSource_explosion(Level world, Entity exploder, @Nullable DamageSource source, @Nullable ExplosionDamageCalculator context, double x, double y, double z, float size, boolean causesFire, Explosion.BlockInteraction mode) {
         if (!(exploder instanceof MagicProjectile magicProjectile)) {
             return source;
         }

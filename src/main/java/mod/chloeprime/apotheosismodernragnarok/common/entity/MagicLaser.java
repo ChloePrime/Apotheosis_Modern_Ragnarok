@@ -1,16 +1,20 @@
 package mod.chloeprime.apotheosismodernragnarok.common.entity;
 
 import com.google.common.util.concurrent.AtomicDouble;
+import com.tac.guns.Config;
 import com.tac.guns.common.Gun;
+import com.tac.guns.entity.DamageSourceProjectile;
 import com.tac.guns.entity.ProjectileEntity;
 import com.tac.guns.init.ModEnchantments;
 import com.tac.guns.item.GunItem;
+import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.math.ExtendedEntityRayTraceResult;
 import mod.chloeprime.apotheosismodernragnarok.api.MagicProjectileFactory;
 import mod.chloeprime.apotheosismodernragnarok.client.ClientProxy;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.LaserProjectile;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.MagicProjectile;
+import mod.chloeprime.apotheosismodernragnarok.common.util.OneUseLogger;
 import mod.chloeprime.apotheosismodernragnarok.mixin.tac.ProjectileEntityAccessor;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -29,11 +33,9 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
@@ -99,6 +101,9 @@ public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEn
         // 伤害实体并统计数量
         var furthestHit = new AtomicReference<HitResult>(null);
         var lengthSqrByEntity = new AtomicDouble(0);
+        if (victims == null) {
+            victims = new ArrayDeque<>(4);
+        }
         long entityCount = entity.stream().mapToLong(stream -> stream
                 .filter(result -> result.getEntity() != shooter)
                 .map(ExtendedEntityRayTraceResult::new)
@@ -112,7 +117,8 @@ public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEn
                         lengthSqrByEntity.set(lengthSqr);
                         furthestHit.set(hit);
                     }
-                    onHit(hit, ctx.getFrom(), hit.getLocation());
+                    // 延迟到 spawn 后再造成伤害
+                    victims.add(hit);
                 })
                 .count()
         ).findAny().orElse(0);
@@ -143,6 +149,7 @@ public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEn
     }
 
     private Vec3 hitLocation;
+    private Queue<ExtendedEntityRayTraceResult> victims;
     /**
      * 只在服务端有非零值
      */
@@ -166,10 +173,54 @@ public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEn
         if (level.isClientSide()) {
             ClientProxy.stickLaserToMuzzle(this, 1);
         }
+        if (victims != null) {
+            if (!getLevel().isClientSide()) {
+                var victims = this.victims;
+                var from = position();
+                while (!victims.isEmpty()) {
+                    var hit = victims.poll();
+                    onHit(hit, from, hit.getLocation());
+                }
+            }
+        }
+        this.victims = null;
     }
 
+    private static final OneUseLogger LOG_ONCE = new OneUseLogger();
+    private static final OneUseLogger LOG_ONCE_IN_FALLBACK = new OneUseLogger();
+
     protected void onHit(HitResult result, Vec3 start, Vec3 end) {
-        ((ProjectileEntityAccessor)this).invokeOnHit(result, start, end);
+        try {
+            ((ProjectileEntityAccessor) this).invokeOnHit(result, start, end);
+        } catch (LinkageError ignored) {
+            fallbackHit(result, null);
+        } catch (Exception ex) {
+            fallbackHit(result, ex);
+        }
+    }
+
+    protected void fallbackHit(HitResult result, @Nullable Throwable cause) {
+        if (cause != null) {
+            LOG_ONCE.accept("Magic laser failed to hit target with magic", cause);
+        }
+        try {
+            Optional.ofNullable(getShooter()).ifPresent(shooter -> {
+                // for notorious gaia entities :)
+                if (result instanceof ExtendedEntityRayTraceResult ehr && ehr.getEntity() instanceof LivingEntity victim) {
+                    ItemStack weapon = getWeapon();
+                    float damage = ((ProjectileEntityAccessor) this).invokeGetCriticalDamage(weapon, random, getDamage());
+                    if (ehr.isHeadshot()) {
+                        damage *= Config.COMMON.gameplay.headShotDamageMultiplier.get().floatValue();
+                        damage *= GunModifierHelper.getAdditionalHeadshotDamage(weapon) == 0.0F ? 1.0F : GunModifierHelper.getAdditionalHeadshotDamage(weapon);
+                    }
+                    victim.hurt(new DamageSourceProjectile("bullet", shooter, this, weapon), damage);
+                }
+            });
+        } catch (OutOfMemoryError oom) {
+            throw oom;
+        } catch (Throwable ex) {
+            LOG_ONCE_IN_FALLBACK.accept("Magic laser failed to hit target with fallback logic", ex);
+        }
     }
 
     private void constructorTail(Level level) {
