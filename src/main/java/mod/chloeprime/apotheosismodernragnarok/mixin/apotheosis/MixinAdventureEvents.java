@@ -37,6 +37,14 @@ public class MixinAdventureEvents {
         return apotheosis_modern_ragnarok$redirect0(source);
     }
 
+    @Redirect(
+            method = "attack",
+            at = @At(value = "INVOKE", remap = true, target = "Lnet/minecraft/world/damagesource/DamageSource;isMagic()Z")
+    )
+    private boolean donutNerfMyMagicGun(DamageSource source) {
+        return !(source instanceof DamageSourceProjectile) && source.isMagic();
+    }
+
     @Unique
     private static Entity apotheosis_modern_ragnarok$redirect0(DamageSource source) {
         return source instanceof DamageSourceProjectile
