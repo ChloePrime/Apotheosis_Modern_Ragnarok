@@ -138,7 +138,7 @@ public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEn
 
     private Optional<Stream<EntityResult>> clipEntities(Vec3 from, Vec3 to, int limit) {
         if (limit == 1) {
-            return Optional.ofNullable(findEntityOnPath(from, to)).map(Collections::singletonList).map(List::stream);
+            return Optional.ofNullable(findEntityOnPath(from, to)).map(Stream::of);
         }
         return Optional.ofNullable(findEntitiesOnPath(from, to)).map(list -> list.stream()
                 // 阻止伤害到自己和自己的坐骑
@@ -176,6 +176,9 @@ public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEn
         }
         if (victims != null) {
             if (!getLevel().isClientSide()) {
+                if (startPos == null) {
+                    startPos = position();
+                }
                 var victims = this.victims;
                 var from = position();
                 while (!victims.isEmpty()) {
