@@ -22,7 +22,7 @@ public class MixinDamageSource implements ExtendedDamageSource {
     @Override
     public ItemStack apotheosis_modern_ragnarok$getWeapon() {
         return Optional.ofNullable(apotheosis_modern_ragnarok$weapon)
-                .orElse(apotheosis_modern_ragnarok$weapon = ((DamageSourceProjectile)(Object)this).getWeapon());
+                .orElseGet(() -> apotheosis_modern_ragnarok$weapon = ((DamageSourceProjectile)(Object)this).getWeapon());
     }
 
     @Override
