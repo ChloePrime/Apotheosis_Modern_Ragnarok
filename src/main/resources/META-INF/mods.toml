@@ -68,4 +68,17 @@ description='''${mod_description}'''
   versionRange="[5,)"
   ordering="BEFORE"
   side="BOTH"
+[[dependencies.${mod_id}]]
+  modId="tac"
+  mandatory=true
+  # This version range declares a minimum of the current minecraft version up to but not including the next major version
+  versionRange="[0.3.10,)"
+  ordering="NONE"
+  side="BOTH"
+[[dependencies.${mod_id}]]
+  modId="geckolib3"
+  mandatory=true
+  versionRange="[3.0.0,)"
+  ordering="AFTER"
+  side="BOTH"
 

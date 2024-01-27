@@ -1,10 +1,7 @@
 package mod.chloeprime.apotheosismodernragnarok.common;
 
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.content.AmmoCapacityAffix;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.content.ArmorSquashAffix;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.content.BulletSaverAffix;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.content.GunDamageAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
 import mod.chloeprime.apotheosismodernragnarok.common.entity.MagicFireball;
 import mod.chloeprime.apotheosismodernragnarok.common.entity.MagicLaser;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.LootCategoryExtensions;
@@ -86,6 +83,7 @@ public class ModContent {
         public static final RegistryObject<SoundEvent> MAGIC_SHOT = registerSound("affix.magical.shot");
         public static final RegistryObject<SoundEvent> MAGIC_DANMAKU = registerSound("affix.magical.danmaku");
         public static final RegistryObject<SoundEvent> MAGIC_FIREBALL = registerSound("affix.magical.fireball");
+        public static final RegistryObject<SoundEvent> HEAD_EXPLOSION = registerSound("affix.head_explosion");
 
         private Sounds() {}
     }
@@ -95,6 +93,8 @@ public class ModContent {
         AffixManager.INSTANCE.registerSerializer(loc("armor_squash"), builder("Armor Squash", ArmorSquashAffix.class));
         AffixManager.INSTANCE.registerSerializer(loc("damage_bonus"), builder("Gun Damage Bonus", GunDamageAffix.class));
         AffixManager.INSTANCE.registerSerializer(loc("ammo_capacity"), builder("Ammo Capacity", AmmoCapacityAffix.class));
+        AffixManager.INSTANCE.registerSerializer(loc("explode_on_headshot"), builder("Explode On Headshot", ExplosionOnHeadshotAffix.class));
+        AffixManager.INSTANCE.registerSerializer(loc("ads_charge"), builder("Aim Down Shoot Charging", AdsChargeAffix.class));
         AdventureModule.RARITY_MATERIALS.putIfAbsent(LootRarity.ANCIENT, Items.ANCIENT_MATERIAL.get().delegate);
     }
 

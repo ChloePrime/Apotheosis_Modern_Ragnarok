@@ -40,10 +40,12 @@ public class BulletSaverAffix extends AbstractValuedAffix {
         list.accept(new TranslatableComponent(desc(), fmt(percent)).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)));
     }
 
+    @SuppressWarnings("unused")
     public static BulletSaverAffix read(JsonObject obj) {
         return read(obj, BulletSaverAffix::new, Pojo::new, AbstractValuedAffix::readBase);
     }
 
+    @SuppressWarnings("unused")
     public static BulletSaverAffix read(FriendlyByteBuf buf) {
         return read(buf, BulletSaverAffix::new, Pojo::new, AbstractValuedAffix::readBase);
     }

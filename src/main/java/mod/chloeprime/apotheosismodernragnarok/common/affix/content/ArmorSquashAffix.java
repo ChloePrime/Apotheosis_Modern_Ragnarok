@@ -6,6 +6,7 @@ import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractValuedAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunCategories;
+import mod.chloeprime.apotheosismodernragnarok.common.util.DamageUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -75,24 +76,26 @@ public class ArmorSquashAffix extends AbstractValuedAffix {
             if (e.getEntity().getLevel().isClientSide() || !(e.getSource() instanceof DamageSourceProjectile source)) {
                 return;
             }
-            var victim = e.getEntityLiving();
-            if (victim instanceof Player) {
-                return;
-            }
-            var gun = source.getWeapon();
-            Optional.ofNullable(AffixHelper.getAffixes(gun).get(affix)).ifPresent(instance -> {
-                // 概率检定
-                if (victim.getRandom().nextFloat() <= affix.getValue(gun, instance)) {
-                    // 寻找一件护甲
-                    StreamSupport.stream(victim.getArmorSlots().spliterator(), false)
-                            .filter(stack -> !stack.isEmpty())
-                            .findAny()
-                            .ifPresent(armor -> {
-                                // 打碎护甲
-                                onArmorBreak(victim, source, armor);
-                                armor.shrink(1);
-                            });
+            DamageUtils.ifIsKeptDamage(source, e.getAmount(), fixedAmount -> {
+                var victim = e.getEntityLiving();
+                if (victim instanceof Player) {
+                    return;
                 }
+                var gun = source.getWeapon();
+                Optional.ofNullable(AffixHelper.getAffixes(gun).get(affix)).ifPresent(instance -> {
+                    // 概率检定
+                    if (victim.getRandom().nextFloat() <= affix.getValue(gun, instance)) {
+                        // 寻找一件护甲
+                        StreamSupport.stream(victim.getArmorSlots().spliterator(), false)
+                                .filter(stack -> !stack.isEmpty())
+                                .findAny()
+                                .ifPresent(armor -> {
+                                    // 打碎护甲
+                                    onArmorBreak(victim, source, armor);
+                                    armor.shrink(1);
+                                });
+                    }
+                });
             });
         });
     }
@@ -118,10 +121,12 @@ public class ArmorSquashAffix extends AbstractValuedAffix {
         dataHolder.largeCaliberBonus = buf.readFloat();
     }
 
+    @SuppressWarnings("unused")
     public static ArmorSquashAffix read(JsonObject obj) {
         return read(obj, ArmorSquashAffix::new, Pojo::new, ArmorSquashAffix::readBase);
     }
 
+    @SuppressWarnings("unused")
     public static ArmorSquashAffix read(FriendlyByteBuf buf) {
         return read(buf, ArmorSquashAffix::new, Pojo::new, ArmorSquashAffix::readBase);
     }

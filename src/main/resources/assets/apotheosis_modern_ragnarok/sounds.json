@@ -52,5 +52,14 @@
         "attenuation_distance": 64
       }
     ]
+  },
+  "affix.head_explosion": {
+    "subtitle": "subtitles.apotheosis_modern_ragnarok.affix.head_explosion",
+    "sounds": [
+      {
+        "name": "apotheosis_modern_ragnarok:head_explosion",
+        "attenuation_distance": 64
+      }
+    ]
   }
 }

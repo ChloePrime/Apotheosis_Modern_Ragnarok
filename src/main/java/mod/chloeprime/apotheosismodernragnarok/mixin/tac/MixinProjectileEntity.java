@@ -2,6 +2,7 @@ package mod.chloeprime.apotheosismodernragnarok.mixin.tac;
 
 import com.tac.guns.entity.DamageSourceProjectile;
 import com.tac.guns.entity.ProjectileEntity;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.ExtendedDsp;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.LaserProjectile;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.MagicProjectile;
 import net.minecraft.world.damagesource.DamageSource;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
@@ -64,14 +66,14 @@ public class MixinProjectileEntity {
             method = "onHitEntity",
             at = @At(value = "INVOKE", remap = true, target = "Lcom/tac/guns/entity/DamageSourceProjectile;setProjectile()Lnet/minecraft/world/damagesource/DamageSource;")
     )
-    private DamageSource processDamageSource_directHit(DamageSourceProjectile source) {
+    private DamageSource processDamageSource_directHit(DamageSourceProjectile source, Entity entity, Vec3 hitVec, Vec3 startVec, Vec3 endVec, boolean headshot) {
         var ret = source.setProjectile();
+        ((ExtendedDsp) source).apotheosis_modern_ragnarok$setHeadshot(headshot);
         if (this instanceof MagicProjectile laser) {
             laser.processDamageSource(ret);
         }
         return ret;
     }
-
 
     @ModifyArg(
             method = "createExplosion",

@@ -15,6 +15,7 @@
     "apotheosis.PotionAffixAccessor",
     "apotheosis.SpectralShotAffixAccessor",
     "tac.MessageGunSoundAccessor",
+    "tac.MixinDamageSourceProjectile",
     "tac.MixinGunModifierHelper",
     "tac.MixinProjectileEntity",
     "tac.MixinServerPlayerHandler",

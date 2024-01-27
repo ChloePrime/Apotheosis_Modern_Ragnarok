@@ -3,6 +3,7 @@
   "entity.apotheosis_modern_ragnarok.magic_fireball": "Magic Fireball",
   "subtitles.apotheosis_modern_ragnarok.affix.magical.shot": "Energy Weapon Shot",
   "subtitles.apotheosis_modern_ragnarok.affix.magical.fireball": "Explosive Magic",
+  "subtitles.apotheosis_modern_ragnarok.affix.head_explosion": "Head Explosion",
   "item.apotheosis_modern_ragnarok.izanagi_object": "Izanagi Object",
 
   "affix.apotheosis_modern_ragnarok.spectral.gun.desc": "• Your bullets have a %s%% chance to make its target glow.",
@@ -23,5 +24,13 @@
   "affix.apotheosis_modern_ragnarok:magnum.suffix": "(Magnum)",
 
   "affix.apotheosis_modern_ragnarok:clip_expansion": "Wude",
-  "affix.apotheosis_modern_ragnarok:clip_expansion.suffix": "(Big Clip)"
+  "affix.apotheosis_modern_ragnarok:clip_expansion.suffix": "(Big Clip)",
+
+  "affix.apotheosis_modern_ragnarok:head_explode": "Headache",
+  "affix.apotheosis_modern_ragnarok:head_explode.suffix": "(Head Exploding)",
+  "affix.apotheosis_modern_ragnarok:head_explode.desc": "• Headshot will damage enemies nearby the target by %s%% of original damage",
+
+  "affix.apotheosis_modern_ragnarok:ads_charge": "Calm",
+  "affix.apotheosis_modern_ragnarok:ads_charge.suffix": "(Calm Shooter)",
+  "affix.apotheosis_modern_ragnarok:ads_charge.desc": "• Holding ADS will boost damage by up to %s%% (Not Implemented)"
 }

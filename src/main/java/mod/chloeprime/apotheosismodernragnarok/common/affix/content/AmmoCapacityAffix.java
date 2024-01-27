@@ -4,8 +4,11 @@ import com.google.gson.JsonObject;
 import com.tac.guns.item.GunItem;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractValuedAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunCategories;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import shadows.apotheosis.adventure.affix.AffixHelper;
 import shadows.apotheosis.adventure.affix.AffixManager;
@@ -22,19 +25,13 @@ import java.util.function.Consumer;
  * @see mod.chloeprime.apotheosismodernragnarok.mixin.tac.MixinGunModifierHelper 实现
  */
 public class AmmoCapacityAffix extends AbstractValuedAffix {
-
+    public static final TagKey<Item> NERF_BONUS_TAG = GunCategories.Tags.NERF_CALIBER_BONUS;
+    public static final TagKey<Item> DISABLE_BONUS_TAG = GunCategories.Tags.DISABLE_CALIBER_BONUS;
     public static final DynamicRegistryObject<AmmoCapacityAffix> INSTANCE = AffixManager.INSTANCE.makeObj(ApotheosisModernRagnarok.loc("clip_expansion"));
 
     @Override
     public boolean canApplyTo(ItemStack stack, LootRarity rarity) {
-        return super.canApplyTo(stack, rarity) && !hasOnlyOneAmmoPerClip(stack);
-    }
-
-    private static boolean hasOnlyOneAmmoPerClip(ItemStack stack) {
-        if (!(stack.getItem() instanceof GunItem gunItem)) {
-            return false;
-        }
-        return gunItem.getGun().getReloads().getMaxAmmo() == 1;
+        return super.canApplyTo(stack, rarity) && !stack.is(DISABLE_BONUS_TAG);
     }
 
     public static int modifyAmmoCapacity(ItemStack stack, int originalCapacity) {
@@ -47,6 +44,24 @@ public class AmmoCapacityAffix extends AbstractValuedAffix {
                 .orElse(0);
     }
 
+    @Override
+    public float getValue(ItemStack gun, LootRarity rarity, float level) {
+        return super.getValue(gun, rarity, level) * getScale(gun);
+    }
+
+    /**
+     * 削弱非全自动武器的弹匣加成
+     */
+    private float getScale(ItemStack gun) {
+        var nerfedScale = 0.2F;
+        if (gun.is(NERF_BONUS_TAG)) {
+            return nerfedScale;
+        }
+        return gun.getItem() instanceof GunItem gunItem
+                ? gunItem.getGun().getGeneral().isAuto() ? 1 : nerfedScale
+                : 1;
+    }
+
     public AmmoCapacityAffix(Pojo data) {
         super(AffixType.STAT, data);
     }
@@ -54,10 +69,12 @@ public class AmmoCapacityAffix extends AbstractValuedAffix {
     @Override
     public void addInformation(ItemStack stack, LootRarity rarity, float level, Consumer<Component> list) { }
 
+    @SuppressWarnings("unused")
     public static AmmoCapacityAffix read(JsonObject obj) {
         return read(obj, AmmoCapacityAffix::new, AbstractValuedAffix.Pojo::new, AbstractValuedAffix::readBase);
     }
 
+    @SuppressWarnings("unused")
     public static AmmoCapacityAffix read(FriendlyByteBuf buf) {
         return read(buf, AmmoCapacityAffix::new, AbstractValuedAffix.Pojo::new, AbstractValuedAffix::readBase);
     }

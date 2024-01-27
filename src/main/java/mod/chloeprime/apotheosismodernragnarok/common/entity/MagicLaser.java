@@ -12,6 +12,7 @@ import com.tac.guns.util.math.ExtendedEntityRayTraceResult;
 import mod.chloeprime.apotheosismodernragnarok.api.MagicProjectileFactory;
 import mod.chloeprime.apotheosismodernragnarok.client.ClientProxy;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.ExtendedDsp;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.LaserProjectile;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.MagicProjectile;
 import mod.chloeprime.apotheosismodernragnarok.common.util.OneUseLogger;
@@ -199,6 +200,7 @@ public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEn
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     protected void fallbackHit(HitResult result, @Nullable Throwable cause) {
         if (cause != null) {
             LOG_ONCE.accept("Magic laser failed to hit target with magic", cause);
@@ -213,7 +215,9 @@ public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEn
                         damage *= Config.COMMON.gameplay.headShotDamageMultiplier.get().floatValue();
                         damage *= GunModifierHelper.getAdditionalHeadshotDamage(weapon) == 0.0F ? 1.0F : GunModifierHelper.getAdditionalHeadshotDamage(weapon);
                     }
-                    victim.hurt(new DamageSourceProjectile("bullet", shooter, this, weapon), damage);
+                    var source = new DamageSourceProjectile("bullet", this, shooter, weapon);
+                    ((ExtendedDsp) source).apotheosis_modern_ragnarok$setHeadshot(ehr.isHeadshot());
+                    victim.hurt(source, damage);
                 }
             });
         } catch (OutOfMemoryError oom) {

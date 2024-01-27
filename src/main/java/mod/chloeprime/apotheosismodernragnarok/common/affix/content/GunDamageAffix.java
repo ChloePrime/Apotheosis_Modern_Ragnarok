@@ -3,15 +3,15 @@ package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 import com.google.gson.JsonObject;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractValuedAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.util.DamageUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import shadows.apotheosis.adventure.affix.AffixHelper;
-import shadows.apotheosis.adventure.affix.AffixManager;
-import shadows.apotheosis.adventure.affix.AffixType;
+import shadows.apotheosis.adventure.affix.*;
 import shadows.apotheosis.adventure.loot.LootRarity;
 import shadows.placebo.json.DynamicRegistryObject;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -26,12 +26,15 @@ import java.util.function.Consumer;
 public class GunDamageAffix extends AbstractValuedAffix {
     public static final DynamicRegistryObject<GunDamageAffix> INSTANCE = AffixManager.INSTANCE.makeObj(ApotheosisModernRagnarok.loc("magnum"));
 
-    public static float modifyDamage(ItemStack stack, float originalDamage) {
+    /**
+     * Caller please use {@link DamageUtils#modifyDamage(ItemStack, float)}
+     */
+    public static float modifyDamage(ItemStack stack, Map<Affix, AffixInstance> affixes, float originalDamage) {
         if (!INSTANCE.isPresent()) {
             return originalDamage;
         }
         var affix = INSTANCE.get();
-        return originalDamage * Optional.ofNullable(AffixHelper.getAffixes(stack).get(affix))
+        return originalDamage * Optional.ofNullable(affixes.get(affix))
                 .map(instance -> 1 + affix.getValue(stack, instance))
                 .orElse(1F);
     }
@@ -43,10 +46,12 @@ public class GunDamageAffix extends AbstractValuedAffix {
     @Override
     public void addInformation(ItemStack stack, LootRarity rarity, float level, Consumer<Component> list) { }
 
+    @SuppressWarnings("unused")
     public static GunDamageAffix read(JsonObject obj) {
         return read(obj, GunDamageAffix::new, AbstractValuedAffix.Pojo::new, AbstractValuedAffix::readBase);
     }
 
+    @SuppressWarnings("unused")
     public static GunDamageAffix read(FriendlyByteBuf buf) {
         return read(buf, GunDamageAffix::new, AbstractValuedAffix.Pojo::new, AbstractValuedAffix::readBase);
     }
