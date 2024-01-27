@@ -3,7 +3,7 @@ package mod.chloeprime.apotheosismodernragnarok.common.eventhandlers;
 
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.ExplosionOnHeadshotAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.util.DamageUtils;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @Mod.EventBusSubscriber
 public class HeadshotHandler {
     @SubscribeEvent(priority = EventPriority.LOW)
-    public static void onLivingHurt(LivingHurtEvent e) {
+    public static void onLivingHurt(LivingAttackEvent e) {
         var source = e.getSource();
         if (e.getEntity().getLevel().isClientSide() || !DamageUtils.isGunShot(source) || !DamageUtils.isHeadshot(source)) {
             return;
