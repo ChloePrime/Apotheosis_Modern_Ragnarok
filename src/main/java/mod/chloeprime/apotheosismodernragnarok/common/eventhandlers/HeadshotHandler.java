@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Mod.EventBusSubscriber
 public class HeadshotHandler {
-    @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent(priority = EventPriority.LOW)
     public static void onLivingHurt(LivingHurtEvent e) {
         var source = e.getSource();
         if (e.getEntity().getLevel().isClientSide() || !DamageUtils.isGunShot(source) || !DamageUtils.isHeadshot(source)) {
