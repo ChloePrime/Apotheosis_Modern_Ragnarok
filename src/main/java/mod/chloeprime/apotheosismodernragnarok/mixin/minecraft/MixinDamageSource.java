@@ -38,6 +38,9 @@ public class MixinDamageSource implements ExtendedDamageSource {
     @Override
     public void apotheosis_modern_ragnarok$setGunshot(boolean value) {
         apotheosis_modern_ragnarok$gunshot = value;
+        if (!value && apotheosis_modern_ragnarok$gunshotFirst) {
+            apotheosis_modern_ragnarok$gunshotFirst = false;
+        }
     }
 
     @Override

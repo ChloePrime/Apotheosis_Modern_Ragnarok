@@ -85,11 +85,21 @@ public class MixinAdventureEvents {
     }
 
     @Redirect(
-            method = {"pierce", "afterDamage", "attack"},
+            method = {"pierce", "afterDamage"},
             at = @At(value = "INVOKE", remap = true, target = "Lnet/minecraft/world/damagesource/DamageSource;getDirectEntity()Lnet/minecraft/world/entity/Entity;")
     )
-    private Entity makeAttributeTakeEffectOnGuns0(DamageSource source) {
+    private Entity makeAttributeTakeEffectOnGuns(DamageSource source) {
         return source instanceof DamageSourceProjectile
+                ? Optional.ofNullable(source.getEntity()).orElseGet(source::getDirectEntity)
+                : source.getDirectEntity();
+    }
+
+    @Redirect(
+            method = {"attack"},
+            at = @At(value = "INVOKE", remap = true, target = "Lnet/minecraft/world/damagesource/DamageSource;getDirectEntity()Lnet/minecraft/world/entity/Entity;")
+    )
+    private Entity makeElementalDamageTakeEffectOnGuns0(DamageSource source) {
+        return source instanceof DamageSourceProjectile && DamageUtils.isGunShotFirstPart(source)
                 ? Optional.ofNullable(source.getEntity()).orElseGet(source::getDirectEntity)
                 : source.getDirectEntity();
     }
