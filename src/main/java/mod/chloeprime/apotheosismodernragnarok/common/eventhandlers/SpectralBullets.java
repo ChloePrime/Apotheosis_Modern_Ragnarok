@@ -1,6 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.eventhandlers;
 
-import com.tac.guns.entity.DamageSourceProjectile;
+import mod.chloeprime.apotheosismodernragnarok.common.util.DamageUtils;
 import mod.chloeprime.apotheosismodernragnarok.mixin.apotheosis.SpectralShotAffixAccessor;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -29,10 +29,11 @@ public class SpectralBullets {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingDamaged(LivingDamageEvent e) {
-        if (e.getEntity().getLevel().isClientSide() || !(e.getSource() instanceof DamageSourceProjectile source)) {
+        var source = e.getSource();
+        if (e.getEntity().getLevel().isClientSide() || !DamageUtils.isGunShotFirstPart(source)) {
             return;
         }
-        SPECTRAL_AFFIX.ifPresent(affix -> Optional.ofNullable(AffixHelper.getAffixes(source.getWeapon()).get(affix)).ifPresent(instance -> {
+        SPECTRAL_AFFIX.ifPresent(affix -> Optional.ofNullable(AffixHelper.getAffixes(DamageUtils.getWeapon(source)).get(affix)).ifPresent(instance -> {
             var victim = e.getEntityLiving();
             var attacker = Optional.ofNullable(source.getEntity()).orElse(source.getDirectEntity());
 

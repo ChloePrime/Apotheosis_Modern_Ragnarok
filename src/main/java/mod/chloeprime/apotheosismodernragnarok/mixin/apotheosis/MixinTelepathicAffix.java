@@ -1,6 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.mixin.apotheosis;
 
-import com.tac.guns.entity.DamageSourceProjectile;
+import mod.chloeprime.apotheosismodernragnarok.common.util.DamageUtils;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -19,7 +19,7 @@ public class MixinTelepathicAffix {
             at = @At(value = "INVOKE", remap = true, target = "Lnet/minecraft/world/damagesource/DamageSource;getDirectEntity()Lnet/minecraft/world/entity/Entity;", ordinal = 2)
     )
     private Entity redirect_gunCompat(DamageSource source, LivingDropsEvent e) {
-        if (e.getSource() instanceof DamageSourceProjectile) {
+        if (DamageUtils.isGunShot(e.getSource())) {
             return source.getEntity();
         }
         return source.getDirectEntity();

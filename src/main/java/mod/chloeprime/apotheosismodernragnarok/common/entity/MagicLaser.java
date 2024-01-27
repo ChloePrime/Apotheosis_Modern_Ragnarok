@@ -12,7 +12,7 @@ import com.tac.guns.util.math.ExtendedEntityRayTraceResult;
 import mod.chloeprime.apotheosismodernragnarok.api.MagicProjectileFactory;
 import mod.chloeprime.apotheosismodernragnarok.client.ClientProxy;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
-import mod.chloeprime.apotheosismodernragnarok.common.internal.ExtendedDsp;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.ExtendedDamageSource;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.LaserProjectile;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.MagicProjectile;
 import mod.chloeprime.apotheosismodernragnarok.common.util.OneUseLogger;
@@ -216,7 +216,7 @@ public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEn
                         damage *= GunModifierHelper.getAdditionalHeadshotDamage(weapon) == 0.0F ? 1.0F : GunModifierHelper.getAdditionalHeadshotDamage(weapon);
                     }
                     var source = new DamageSourceProjectile("bullet", this, shooter, weapon);
-                    ((ExtendedDsp) source).apotheosis_modern_ragnarok$setHeadshot(ehr.isHeadshot());
+                    ((ExtendedDamageSource) source).apotheosis_modern_ragnarok$setHeadshot(ehr.isHeadshot());
                     victim.hurt(source, damage);
                 }
             });

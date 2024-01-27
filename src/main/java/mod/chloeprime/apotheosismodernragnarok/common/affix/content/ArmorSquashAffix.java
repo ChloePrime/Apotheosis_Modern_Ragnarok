@@ -76,7 +76,7 @@ public class ArmorSquashAffix extends AbstractValuedAffix {
             if (e.getEntity().getLevel().isClientSide() || !(e.getSource() instanceof DamageSourceProjectile source)) {
                 return;
             }
-            DamageUtils.ifIsKeptDamage(source, e.getAmount(), fixedAmount -> {
+            DamageUtils.ifIsDamageFirstPart(source, e.getAmount(), fixedAmount -> {
                 var victim = e.getEntityLiving();
                 if (victim instanceof Player) {
                     return;

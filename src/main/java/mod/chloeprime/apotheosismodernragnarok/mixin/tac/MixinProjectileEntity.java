@@ -2,7 +2,7 @@ package mod.chloeprime.apotheosismodernragnarok.mixin.tac;
 
 import com.tac.guns.entity.DamageSourceProjectile;
 import com.tac.guns.entity.ProjectileEntity;
-import mod.chloeprime.apotheosismodernragnarok.common.internal.ExtendedDsp;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.ExtendedDamageSource;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.LaserProjectile;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.MagicProjectile;
 import net.minecraft.world.damagesource.DamageSource;
@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.Nullable;
 
@@ -68,11 +69,24 @@ public class MixinProjectileEntity {
     )
     private DamageSource processDamageSource_directHit(DamageSourceProjectile source, Entity entity, Vec3 hitVec, Vec3 startVec, Vec3 endVec, boolean headshot) {
         var ret = source.setProjectile();
-        ((ExtendedDsp) source).apotheosis_modern_ragnarok$setHeadshot(headshot);
+        ((ExtendedDamageSource) source).apotheosis_modern_ragnarok$setHeadshot(headshot);
         if (this instanceof MagicProjectile laser) {
             laser.processDamageSource(ret);
         }
         return ret;
+    }
+
+    /**
+     * 第一段伤害后设置第一段伤害的 flag 为 false
+     */
+    @Inject(
+            method = "tac_attackEntity",
+            at = @At(value = "INVOKE", remap = true,
+                    target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z",
+                    ordinal = 0, shift = At.Shift.AFTER)
+    )
+    private void markNotFirstHit(DamageSource source, Entity entity, float damage, CallbackInfo ci) {
+        ((ExtendedDamageSource)source).apotheosis_modern_ragnarok$setGunshotFirstPart(false);
     }
 
     @ModifyArg(

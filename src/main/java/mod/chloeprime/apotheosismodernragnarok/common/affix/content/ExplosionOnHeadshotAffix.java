@@ -5,7 +5,7 @@ import com.tac.guns.entity.DamageSourceProjectile;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractValuedAffix;
-import mod.chloeprime.apotheosismodernragnarok.common.internal.ExtendedDsp;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.ExtendedDamageSource;
 import mod.chloeprime.apotheosismodernragnarok.common.util.AffixHelper2;
 import mod.chloeprime.apotheosismodernragnarok.common.util.AffixRarityConfigMap;
 import mod.chloeprime.apotheosismodernragnarok.common.util.DamageUtils;
@@ -15,6 +15,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
@@ -50,19 +51,19 @@ public class ExplosionOnHeadshotAffix extends AbstractValuedAffix {
     }
 
     @SuppressWarnings("DataFlowIssue")
-    public void onHeadshot(LivingEntity originalVictim, DamageSourceProjectile source, float originalDamage, AffixInstance instance) {
+    public void onHeadshot(LivingEntity originalVictim, DamageSource source, float originalDamage, AffixInstance instance) {
         if (!(source.getEntity() instanceof LivingEntity shooter) || !(originalVictim.getLevel() instanceof ServerLevel level)) {
             return;
         }
-        DamageUtils.ifIsKeptDamage(source, originalDamage, fixedDamage -> {
-            var weapon = source.getWeapon();
+        DamageUtils.ifIsDamageFirstPart(source, originalDamage, fixedDamage -> {
+            var weapon = DamageUtils.getWeapon(source);
             var damage = fixedDamage * getValue(weapon, instance);
             var range = ranges.getFloat(instance.rarity());
 
             // 复制 DamageSource，并设置为非爆头伤害
             var source2 = new DamageSourceProjectile(source.getMsgId(), source.getDirectEntity(), source.getEntity(), weapon);
             ((DamageSourceUtil.DmgSrcCopy) source2).copyFrom(source);
-            ((ExtendedDsp) source2).apotheosis_modern_ragnarok$setHeadshot(false);
+            ((ExtendedDamageSource) source2).apotheosis_modern_ragnarok$setHeadshot(false);
 
             var parStart = originalVictim.getEyePosition();
             var targetCondition = TargetingConditions.forCombat().range(range);

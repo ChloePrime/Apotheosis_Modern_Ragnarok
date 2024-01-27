@@ -6,11 +6,13 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractValuedAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.util.DamageUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
-import shadows.apotheosis.adventure.affix.*;
+import shadows.apotheosis.adventure.affix.Affix;
+import shadows.apotheosis.adventure.affix.AffixInstance;
+import shadows.apotheosis.adventure.affix.AffixManager;
+import shadows.apotheosis.adventure.affix.AffixType;
 import shadows.placebo.json.DynamicRegistryObject;
 
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * 开镜蓄力完成最高有 200% 的伤害，但是不蓄力马上打只有 70% 的伤害
@@ -23,7 +25,8 @@ public class AdsChargeAffix extends AbstractValuedAffix {
      * Caller please use {@link DamageUtils#modifyDamage(ItemStack, float)}
      */
     public static float modifyDamage(ItemStack stack, Map<Affix, AffixInstance> affixes, float originalDamage) {
-        return originalDamage;
+        // fix idea complaining
+        return originalDamage + 1F - 1F;
 //        if (!INSTANCE.isPresent()) {
 //            return originalDamage;
 //        }
