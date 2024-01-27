@@ -153,9 +153,8 @@ dependencies {
 
     implementation fg.deobf('_:Apotheosis:1.18.2-5.7.7')
     implementation fg.deobf('_:Placebo:1.18.2-6.6.7')
-    implementation fg.deobf('_:[TAC]framework:0.4.2-1.18.2')
-    implementation fg.deobf('_:[TAC]tac:a-0.3.5.3-1.18.2-all')
-    implementation fg.deobf('_:curios-forge:1.18.2-5.0.9.0')
+    implementation fg.deobf('_:framework:0.4.2-1.18.2')
+    implementation fg.deobf('_:tac:0.3.10.1-1.18.2')
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
