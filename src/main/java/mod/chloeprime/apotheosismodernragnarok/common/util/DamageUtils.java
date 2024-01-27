@@ -1,6 +1,7 @@
 package mod.chloeprime.apotheosismodernragnarok.common.util;
 
 import com.tac.guns.Config;
+import com.tac.guns.item.GunItem;
 import it.unimi.dsi.fastutil.floats.FloatConsumer;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.AdsChargeAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.GunDamageAffix;
@@ -37,7 +38,7 @@ public class DamageUtils {
     public static void ifIsDamageFirstPartOrElse(DamageSource source, float amount, FloatConsumer action, Runnable elseRun) {
         float realAmount;
         if (Config.COMMON.gameplay.bulletsIgnoreStandardArmor.get()) {
-            var apPercent = Config.COMMON.gameplay.percentDamageIgnoresStandardArmor.get().floatValue();
+            var apPercent = Config.COMMON.gameplay.percentDamageIgnoresStandardArmor.get().floatValue() * getApOnWeapon(source);
             var keepAp = apPercent == 1;
             if (keepAp != source.isBypassArmor()) {
                 elseRun.run();
@@ -52,6 +53,14 @@ public class DamageUtils {
 
     public static void ifIsDamageFirstPart(DamageSource source, float amount, FloatConsumer action) {
         ifIsDamageFirstPartOrElse(source, amount, action, () -> {});
+    }
+
+    private static float getApOnWeapon(DamageSource source) {
+        var weapon = getWeapon(source);
+        if (!(weapon.getItem() instanceof GunItem gun)) {
+            return 1;
+        }
+        return gun.getModifiedGun(weapon).getProjectile().getGunArmorIgnore();
     }
 
     private DamageUtils() {}
