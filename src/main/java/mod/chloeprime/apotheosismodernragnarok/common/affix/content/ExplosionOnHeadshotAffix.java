@@ -10,17 +10,20 @@ import mod.chloeprime.apotheosismodernragnarok.common.util.AffixHelper2;
 import mod.chloeprime.apotheosismodernragnarok.common.util.AffixRarityConfigMap;
 import mod.chloeprime.apotheosismodernragnarok.common.util.DamageUtils;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import shadows.apotheosis.adventure.affix.AffixInstance;
 import shadows.apotheosis.adventure.affix.AffixManager;
@@ -39,10 +42,17 @@ public class ExplosionOnHeadshotAffix extends AbstractValuedAffix {
     public static final DynamicRegistryObject<ExplosionOnHeadshotAffix> INSTANCE
             = AffixManager.INSTANCE.makeObj(ApotheosisModernRagnarok.loc("head_explode"));
 
+    public static final TagKey<Item> DISABLE_TAG = TagKey.create(Registry.ITEM_REGISTRY, ApotheosisModernRagnarok.loc("affix/head_explode/disable"));
+
     @Override
     public void addInformation(ItemStack stack, LootRarity rarity, float level, Consumer<Component> list) {
         var percent = 100 * getValue(stack, rarity, level);
         list.accept(new TranslatableComponent(desc(), fmt(percent)).withStyle(ChatFormatting.YELLOW));
+    }
+
+    @Override
+    public boolean canApplyTo(ItemStack stack, LootRarity rarity) {
+        return super.canApplyTo(stack, rarity) && !stack.is(DISABLE_TAG);
     }
 
     public ExplosionOnHeadshotAffix(Pojo data) {
