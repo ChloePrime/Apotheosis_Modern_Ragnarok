@@ -7,8 +7,13 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.content.AdsChargeAff
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.GunDamageAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.ExtendedDamageSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import shadows.apotheosis.Apoth;
 import shadows.apotheosis.adventure.affix.AffixHelper;
+
+import java.util.Optional;
+import java.util.concurrent.Callable;
 
 public class DamageUtils {
     public static boolean isGunShotFirstPart(DamageSource source) {
@@ -53,6 +58,41 @@ public class DamageUtils {
 
     public static void ifIsDamageFirstPart(DamageSource source, float amount, FloatConsumer action) {
         ifIsDamageFirstPartOrElse(source, amount, action, () -> {});
+    }
+
+    public static <R> R runInFixedCritical(Player attacker, Callable<R> action) {
+        var critChance = Optional.ofNullable(attacker.getAttribute(Apoth.Attributes.CRIT_CHANCE));
+        var critDamage = Optional.ofNullable(attacker.getAttribute(Apoth.Attributes.CRIT_DAMAGE));
+        var hasCritAttributes = critChance.isPresent() && critDamage.isPresent();
+
+        double oldBaseCritChance;
+        double oldBaseCritDamage;
+        if (hasCritAttributes) {
+            oldBaseCritChance = critChance.get().getBaseValue();
+            oldBaseCritDamage = critDamage.get().getBaseValue();
+        } else {
+            oldBaseCritChance = 1.5;
+            oldBaseCritDamage = 1.0;
+        }
+
+        try {
+            // 原版神化默认暴击率 50%，默认暴击倍率为 1 倍（不增加伤害）。
+            // 此处将默认暴击率改为1，默认暴击倍率改为 1.5 倍
+            if (hasCritAttributes) {
+                critChance.get().setBaseValue(oldBaseCritDamage);
+                critDamage.get().setBaseValue(oldBaseCritChance);
+            }
+            return action.call();
+        } catch (RuntimeException | Error err) {
+            throw err;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            if (hasCritAttributes) {
+                critChance.get().setBaseValue(oldBaseCritChance);
+                critDamage.get().setBaseValue(oldBaseCritDamage);
+            }
+        }
     }
 
     private static float getApOnWeapon(DamageSource source) {
