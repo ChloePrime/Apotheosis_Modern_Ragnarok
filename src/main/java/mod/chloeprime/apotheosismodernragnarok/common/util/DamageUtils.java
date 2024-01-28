@@ -7,8 +7,11 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.content.AdsChargeAff
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.GunDamageAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.ExtendedDamageSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.ForgeHooks;
 import shadows.apotheosis.Apoth;
 import shadows.apotheosis.adventure.affix.AffixHelper;
 
@@ -60,6 +63,12 @@ public class DamageUtils {
         ifIsDamageFirstPartOrElse(source, amount, action, () -> {});
     }
 
+    public static float fixBaseDamage(float damage, DamageSource source, Entity target) {
+        damage = apotheosis_modern_ragnarok$arrowDamage(damage, source, target);
+        damage = apotheosis_modern_ragnarok$critical(damage, source, target);
+        return damage;
+    }
+
     public static <R> R runInFixedCritical(Player attacker, Callable<R> action) {
         var critChance = Optional.ofNullable(attacker.getAttribute(Apoth.Attributes.CRIT_CHANCE));
         var critDamage = Optional.ofNullable(attacker.getAttribute(Apoth.Attributes.CRIT_DAMAGE));
@@ -93,6 +102,27 @@ public class DamageUtils {
                 critDamage.get().setBaseValue(oldBaseCritDamage);
             }
         }
+    }
+
+    private static float apotheosis_modern_ragnarok$arrowDamage(float damage, DamageSource source, Entity target) {
+        if (!(source.getEntity() instanceof LivingEntity attacker) || attacker.level.isClientSide()) {
+            return damage;
+        }
+        return (float) (damage * attacker.getAttributeValue(Apoth.Attributes.ARROW_DAMAGE));
+    }
+
+    private static float apotheosis_modern_ragnarok$critical(float damage, DamageSource source, Entity target) {
+        if (!(source.getEntity() instanceof Player attacker) || attacker.level.isClientSide()) {
+            return damage;
+        }
+        return DamageUtils.runInFixedCritical(attacker, () -> {
+            var hit = ForgeHooks.getCriticalHit(attacker, target, false, 1);
+            if (hit == null) {
+                return damage;
+            }
+            attacker.crit(target);
+            return damage * hit.getDamageModifier();
+        });
     }
 
     private static float getApOnWeapon(DamageSource source) {

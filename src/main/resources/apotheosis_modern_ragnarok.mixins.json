@@ -16,6 +16,8 @@
     "apotheosis.SpectralShotAffixAccessor",
     "minecraft.MixinDamageSource",
     "tac.MessageGunSoundAccessor",
+    "tac.MissileDamageSourceMixin",
+    "tac.MissileExplosionDamageMixin",
     "tac.MixinGunModifierHelper",
     "tac.MixinProjectileEntity",
     "tac.MixinServerPlayerHandler",

@@ -1,7 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.eventhandlers;
 
 import com.tac.guns.entity.DamageSourceProjectile;
-import mod.chloeprime.apotheosismodernragnarok.common.util.DamageUtils;
 import mod.chloeprime.apotheosismodernragnarok.mixin.apotheosis.PotionAffixAccessor;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -15,7 +14,7 @@ import shadows.apotheosis.adventure.affix.effect.PotionAffix;
 public class ApplyPotionAffixOnGunHit {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingFinallyHurt(LivingDamageEvent e) {
-        if (!(e.getSource() instanceof DamageSourceProjectile source) || DamageUtils.isGunShotFirstPart(source)) {
+        if (!(e.getSource() instanceof DamageSourceProjectile source)) {
             return;
         }
         var gun = source.getWeapon();
