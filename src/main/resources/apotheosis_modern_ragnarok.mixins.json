@@ -19,7 +19,7 @@
     "tac.MixinGunModifierHelper",
     "tac.MixinProjectileEntity",
     "tac.MixinServerPlayerHandler",
-    "tac.ProjectileCriticalMixin",
+    "tac.ProjectileDamageCalcMixin",
     "tac.ProjectileEntityAccessor"
   ],
   "client": [
