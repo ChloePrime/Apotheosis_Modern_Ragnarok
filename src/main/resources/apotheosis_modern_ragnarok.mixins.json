@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "apotheosis_modern_ragnarok.refmap.json",
   "mixins": [
+    "apotheosis.CleavingAffixAccessor",
     "apotheosis.MixinAdventureEvents",
     "apotheosis.MixinAffix",
     "apotheosis.MixinAttributeAffix",

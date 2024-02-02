@@ -8,7 +8,10 @@
 
   "affix.apotheosis_modern_ragnarok.spectral.gun.desc": "• 发射的子弹有%s%%概率点亮敌人",
 
-  "affix.apotheosis_modern_ragnarok:lightweight": "减重款的",
+  "affix.apotheosis:cleaving.apotheosis_modern_ragnarok.alt": "爆弹",
+  "affix.apotheosis:cleaving.apotheosis_modern_ragnarok.alt.suffix": "（穿爆燃弹）",
+
+  "affix.apotheosis_modern_ragnarok:lightweight": "减重款",
   "affix.apotheosis_modern_ragnarok:lightweight.suffix": "（减重款）",
 
   "affix.apotheosis_modern_ragnarok:frugality": "节俭主义的",
