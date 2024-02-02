@@ -10,11 +10,15 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import shadows.apotheosis.Apoth;
 
 @Mixin(value = ProjectileEntity.class, remap = false)
@@ -35,4 +39,17 @@ public class ProjectileDamageCalcMixin {
     private float modifyAttackDamage(float damage, DamageSource source, Entity target, float originalDamage) {
         return DamageUtils.fixBaseDamage(damage, source, target);
     }
+
+    @Inject(
+            method = "tac_attackEntity",
+            at = @At("RETURN")
+    )
+    private void doPostAttackEffects(DamageSource source, Entity target, float damage, CallbackInfo ci) {
+        if (target instanceof LivingEntity victim) {
+            EnchantmentHelper.doPostHurtEffects(victim, shooter);
+        }
+        EnchantmentHelper.doPostDamageEffects(shooter, target);
+    }
+
+    @Shadow protected LivingEntity shooter;
 }

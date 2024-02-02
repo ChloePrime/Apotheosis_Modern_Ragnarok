@@ -29,6 +29,8 @@ public enum GunCategories implements IExtensibleEnum, Predicate<ItemStack> {
         public static final TagKey<Item> LARGE_CALIBER_WEAPONS = ItemTags.create(ApotheosisModernRagnarok.loc("guns/large_caliber"));
         public static final TagKey<Item> NERF_CALIBER_BONUS = ItemTags.create(ApotheosisModernRagnarok.loc("affix/clip_expansion/nerf"));
         public static final TagKey<Item> DISABLE_CALIBER_BONUS = ItemTags.create(ApotheosisModernRagnarok.loc("affix/clip_expansion/disable"));
+        public static final TagKey<Item> ENABLE_CLEAVING = ItemTags.create(ApotheosisModernRagnarok.loc("affix/cleaving/enable"));
+        public static final TagKey<Item> ENABLE_EXECUTING = ItemTags.create(ApotheosisModernRagnarok.loc("affix/executing/enable"));
     }
 
     @Override
