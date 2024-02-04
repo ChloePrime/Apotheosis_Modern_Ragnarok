@@ -2,7 +2,6 @@ package mod.chloeprime.apotheosismodernragnarok.common.util;
 
 import com.tac.guns.Config;
 import com.tac.guns.item.GunItem;
-import cpw.mods.util.LambdaExceptionUtils;
 import it.unimi.dsi.fastutil.floats.FloatConsumer;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.AdsChargeAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.GunDamageAffix;
@@ -17,7 +16,6 @@ import shadows.apotheosis.Apoth;
 import shadows.apotheosis.adventure.affix.AffixHelper;
 
 import java.util.Optional;
-import java.util.concurrent.Callable;
 
 public class DamageUtils {
     public static boolean isGunShotFirstPart(DamageSource source) {
@@ -79,7 +77,7 @@ public class DamageUtils {
                 Math.abs(critDamage.get().getBaseValue() - 1.0) < 1e-6;
 
         if (!hasCritBug) {
-            return LambdaExceptionUtils.uncheck(action::call);
+            return action.call();
         }
 
         double oldBaseCritChance;
@@ -92,7 +90,7 @@ public class DamageUtils {
             // 此处将默认暴击率改为1，默认暴击倍率改为 1.5 倍
             critChance.get().setBaseValue(oldBaseCritDamage);
             critDamage.get().setBaseValue(oldBaseCritChance);
-            return LambdaExceptionUtils.uncheck(action::call);
+            return action.call();
         } finally {
             critChance.get().setBaseValue(oldBaseCritChance);
             critDamage.get().setBaseValue(oldBaseCritDamage);
