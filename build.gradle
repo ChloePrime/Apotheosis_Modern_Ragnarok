@@ -151,7 +151,7 @@ dependencies {
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.18:3.0.57')
     implementation fg.deobf('com.eliotlash.mclib:mclib:20')
 
-    implementation fg.deobf('_:Apotheosis:1.18.2-5.7.7')
+    implementation fg.deobf('_:Apotheosis:1.18.2-5.8.1')
     implementation fg.deobf('_:Placebo:1.18.2-6.6.7')
     implementation fg.deobf('_:framework:0.4.2-1.18.2')
     implementation fg.deobf('_:tac:0.3.10.1-1.18.2')
