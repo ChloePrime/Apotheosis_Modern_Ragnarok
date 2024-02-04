@@ -2,6 +2,7 @@ package mod.chloeprime.apotheosismodernragnarok.common.util;
 
 import com.tac.guns.Config;
 import com.tac.guns.item.GunItem;
+import cpw.mods.util.LambdaExceptionUtils;
 import it.unimi.dsi.fastutil.floats.FloatConsumer;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.AdsChargeAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.GunDamageAffix;
@@ -73,34 +74,28 @@ public class DamageUtils {
         var critChance = Optional.ofNullable(attacker.getAttribute(Apoth.Attributes.CRIT_CHANCE));
         var critDamage = Optional.ofNullable(attacker.getAttribute(Apoth.Attributes.CRIT_DAMAGE));
         var hasCritAttributes = critChance.isPresent() && critDamage.isPresent();
+        var hasCritBug = hasCritAttributes &&
+                Math.abs(critChance.get().getBaseValue() - 1.5) < 1e-6 &&
+                Math.abs(critDamage.get().getBaseValue() - 1.0) < 1e-6;
+
+        if (!hasCritBug) {
+            return LambdaExceptionUtils.uncheck(action::call);
+        }
 
         double oldBaseCritChance;
         double oldBaseCritDamage;
-        if (hasCritAttributes) {
-            oldBaseCritChance = critChance.get().getBaseValue();
-            oldBaseCritDamage = critDamage.get().getBaseValue();
-        } else {
-            oldBaseCritChance = 1.5;
-            oldBaseCritDamage = 1.0;
-        }
+        oldBaseCritChance = critChance.get().getBaseValue();
+        oldBaseCritDamage = critDamage.get().getBaseValue();
 
         try {
             // 原版神化默认暴击率 50%，默认暴击倍率为 1 倍（不增加伤害）。
             // 此处将默认暴击率改为1，默认暴击倍率改为 1.5 倍
-            if (hasCritAttributes) {
-                critChance.get().setBaseValue(oldBaseCritDamage);
-                critDamage.get().setBaseValue(oldBaseCritChance);
-            }
-            return action.call();
-        } catch (RuntimeException | Error err) {
-            throw err;
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            critChance.get().setBaseValue(oldBaseCritDamage);
+            critDamage.get().setBaseValue(oldBaseCritChance);
+            return LambdaExceptionUtils.uncheck(action::call);
         } finally {
-            if (hasCritAttributes) {
-                critChance.get().setBaseValue(oldBaseCritChance);
-                critDamage.get().setBaseValue(oldBaseCritDamage);
-            }
+            critChance.get().setBaseValue(oldBaseCritChance);
+            critDamage.get().setBaseValue(oldBaseCritDamage);
         }
     }
 
