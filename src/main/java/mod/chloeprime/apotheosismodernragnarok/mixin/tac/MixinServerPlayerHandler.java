@@ -148,7 +148,7 @@ public class MixinServerPlayerHandler {
             at = @At(value = "INVOKE", target = "Lnet/minecraftforge/network/simple/SimpleChannel;send(Lnet/minecraftforge/network/PacketDistributor$PacketTarget;Ljava/lang/Object;)V", ordinal = 1)
     )
     private static <MSG> void magicShootSound(SimpleChannel channel, PacketDistributor.PacketTarget target, MSG message) {
-        if (!(message instanceof MessageGunSoundAccessor gunSound)) {
+        if (!(message instanceof ServerMessageSoundAccessor gunSound)) {
             channel.send(target, message);
             return;
         }
@@ -161,7 +161,7 @@ public class MixinServerPlayerHandler {
         }
         // 魔法的音效
         if (apotheosis_modern_ragnarok$hasMagic && magicSound.isPresent()) {
-            gunSound.setId(magicSound.get().getRegistryName());
+            gunSound.setGunId(magicSound.get().getRegistryName());
             channel.send(target, message);
         }
     }

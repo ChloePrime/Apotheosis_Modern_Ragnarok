@@ -132,8 +132,23 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
+        // Apotheosis
+        url "https://maven.shadowsoffire.dev/releases"
+        content {
+            includeGroup "dev.shadowsoffire"
+        }
+    }
+    maven {
+        // TACZ
+        url 'https://jitpack.io'
+    }
+    maven {
         name = 'GeckoLib'
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroupByRegex("software\\.bernie.*")
+            includeGroup("com.eliotlash.mclib")
+        }
     }
     flatDir {
         dir 'libs'
@@ -148,13 +163,14 @@ dependencies {
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.18:3.0.57')
-    implementation fg.deobf('com.eliotlash.mclib:mclib:20')
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
+    implementation("com.eliotlash.mclib:mclib:20")
 
-    implementation fg.deobf('_:Apotheosis:1.18.2-5.8.1')
-    implementation fg.deobf('_:Placebo:1.18.2-6.6.7')
-    implementation fg.deobf('_:framework:0.4.2-1.18.2')
-    implementation fg.deobf('_:tac:0.3.10.1-1.18.2')
+    implementation fg.deobf("dev.shadowsoffire:Apotheosis:${minecraft_version}-${apoth_version}")
+    implementation fg.deobf("dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}")
+
+    minecraftLibrary 'org.apache.commons:commons-math3:3.6.1'
+    implementation fg.deobf("com.github.MCModderAnchor:TACZ:${tacz_version}")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
@@ -171,6 +187,7 @@ tasks.named('processResources', ProcessResources).configure {
             mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
             mod_authors: mod_authors, mod_description: mod_description,
     ]
+
 
     inputs.properties replaceProperties
 
