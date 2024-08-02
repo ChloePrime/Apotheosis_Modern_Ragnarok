@@ -1,10 +1,14 @@
 package mod.chloeprime.apotheosismodernragnarok.common;
 
+import dev.shadowsoffire.apotheosis.Apotheosis;
+import dev.shadowsoffire.apotheosis.adventure.affix.Affix;
+import dev.shadowsoffire.apotheosis.adventure.affix.AffixRegistry;
+import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
 import mod.chloeprime.apotheosismodernragnarok.common.entity.MagicFireball;
 import mod.chloeprime.apotheosismodernragnarok.common.entity.MagicLaser;
-import mod.chloeprime.apotheosismodernragnarok.common.internal.LootCategoryExtensions;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -16,14 +20,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import shadows.apotheosis.Apotheosis;
-import shadows.apotheosis.adventure.AdventureModule;
-import shadows.apotheosis.adventure.affix.AffixManager;
-import shadows.apotheosis.adventure.affix.salvaging.SalvageItem;
-import shadows.apotheosis.adventure.loot.LootCategory;
-import shadows.apotheosis.adventure.loot.LootRarity;
-import shadows.placebo.json.DynamicRegistryObject;
-import shadows.placebo.json.SerializerBuilder;
 
 import java.util.function.Consumer;
 
@@ -44,18 +40,17 @@ public class ModContent {
 
         private Items() {}
     }
-    public static class LootCategories {
-        /**
-         * 所有枪械
-         */
-        public static final LootCategory GUN = LootCategoryExtensions.GUN;
-
+    public static class LootCategories extends ExtraLootCategories {
         private LootCategories() {}
     }
 
     public static class Affix {
-        public static final DynamicRegistryObject<BulletSaverAffix> BULLET_SAVER = BulletSaverAffix.INSTANCE;
-        public static final DynamicRegistryObject<ArmorSquashAffix> ARMOR_SQUASH = ArmorSquashAffix.INSTANCE;
+        public static final DynamicHolder<ArmorSquashAffix> ARMOR_SQUASH = holder("armor_squash");
+        public static final DynamicHolder<BulletSaverAffix> BULLET_SAVER = holder("bullet_saver");
+
+        private static <T extends dev.shadowsoffire.apotheosis.adventure.affix.Affix> DynamicHolder<T> holder(String path) {
+            return AffixRegistry.INSTANCE.holder(ApotheosisModernRagnarok.loc(path));
+        }
 
         private Affix() {}
     }
@@ -89,23 +84,23 @@ public class ModContent {
     }
 
     public static void setup() {
-        AffixManager.INSTANCE.registerSerializer(loc("bullet_saver"), builder("Bullet Saver", BulletSaverAffix.class));
-        AffixManager.INSTANCE.registerSerializer(loc("armor_squash"), builder("Armor Squash", ArmorSquashAffix.class));
-        AffixManager.INSTANCE.registerSerializer(loc("damage_bonus"), builder("Gun Damage Bonus", GunDamageAffix.class));
-        AffixManager.INSTANCE.registerSerializer(loc("ammo_capacity"), builder("Ammo Capacity", AmmoCapacityAffix.class));
-        AffixManager.INSTANCE.registerSerializer(loc("explode_on_headshot"), builder("Explode On Headshot", ExplosionOnHeadshotAffix.class));
-        AffixManager.INSTANCE.registerSerializer(loc("ads_charge"), builder("Aim Down Shoot Charging", AdsChargeAffix.class));
         AdventureModule.RARITY_MATERIALS.putIfAbsent(LootRarity.ANCIENT, Items.ANCIENT_MATERIAL.get().delegate);
     }
 
-    private static SerializerBuilder<shadows.apotheosis.adventure.affix.Affix> builder(String name, Class<? extends shadows.apotheosis.adventure.affix.Affix> type) {
-        return new SerializerBuilder<shadows.apotheosis.adventure.affix.Affix>(name).autoRegister(type);
+    private static SerializerBuilder<dev.shadowsoffire.apotheosis.adventure.affix.Affix> builder(String name, Class<? extends shadows.apotheosis.adventure.affix.Affix> type) {
+        return new SerializerBuilder<dev.shadowsoffire.apotheosis.adventure.affix.Affix>(name).autoRegister(type);
     }
 
     public static void init0(IEventBus bus) {
         Items.REGISTRY.register(bus);
         Entities.REGISTRY.register(bus);
         Sounds.REGISTRY.register(bus);
+        AffixRegistry.INSTANCE.registerCodec(loc("bullet_saver"), builder("Bullet Saver", BulletSaverAffix.class));
+        AffixRegistry.INSTANCE.registerCodec(loc("armor_squash"), ArmorSquashAffix.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("damage_bonus"), builder("Gun Damage Bonus", GunDamageAffix.class));
+        AffixRegistry.INSTANCE.registerCodec(loc("ammo_capacity"), builder("Ammo Capacity", AmmoCapacityAffix.class));
+        AffixRegistry.INSTANCE.registerCodec(loc("explode_on_headshot"), builder("Explode On Headshot", ExplosionOnHeadshotAffix.class));
+        AffixRegistry.INSTANCE.registerCodec(loc("ads_charge"), builder("Aim Down Shoot Charging", AdsChargeAffix.class));
     }
 
     public static void init1(ModLoadingContext context) {

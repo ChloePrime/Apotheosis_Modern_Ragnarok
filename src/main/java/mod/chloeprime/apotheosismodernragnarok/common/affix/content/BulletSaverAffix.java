@@ -1,20 +1,27 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.shadowsoffire.apotheosis.adventure.affix.Affix;
+import dev.shadowsoffire.apotheosis.adventure.affix.AffixRegistry;
+import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
+import dev.shadowsoffire.apotheosis.adventure.affix.socket.gem.bonus.GemBonus;
+import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
+import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
+import dev.shadowsoffire.placebo.reload.DynamicHolder;
+import dev.shadowsoffire.placebo.util.StepFunction;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractValuedAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.util.ExtraCodecs;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
-import shadows.apotheosis.adventure.affix.AffixManager;
-import shadows.apotheosis.adventure.affix.AffixType;
-import shadows.apotheosis.adventure.loot.LootRarity;
-import shadows.placebo.json.DynamicRegistryObject;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 /**
@@ -27,36 +34,30 @@ import java.util.function.Consumer;
  */
 @Mod.EventBusSubscriber
 public class BulletSaverAffix extends AbstractValuedAffix {
-    public static final DynamicRegistryObject<BulletSaverAffix> INSTANCE
-            = AffixManager.INSTANCE.makeObj(ApotheosisModernRagnarok.loc("frugality"));
 
-    public BulletSaverAffix(AbstractValuedAffix.Pojo data) {
-        super(AffixType.EFFECT, data);
+    public static final Codec<BulletSaverAffix> CODEC = RecordCodecBuilder.create(builder -> builder
+            .group(
+                    ExtraCodecs.LOOT_CATEGORY_SET.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
+                    GemBonus.VALUES_CODEC.fieldOf("values").forGetter(AbstractValuedAffix::getValues))
+            .apply(builder, BulletSaverAffix::new));
+
+    public static final DynamicHolder<BulletSaverAffix> INSTANCE
+            = AffixRegistry.INSTANCE.holder(ApotheosisModernRagnarok.loc("frugality"));
+
+    public BulletSaverAffix(
+            Set<LootCategory> categories,
+            Map<LootRarity, StepFunction> values) {
+        super(AffixType.ABILITY, categories, values);
     }
 
     @Override
     public void addInformation(ItemStack stack, LootRarity rarity, float level, Consumer<Component> list) {
         var percent = 100 * getValue(stack, rarity, level);
-        list.accept(new TranslatableComponent(desc(), fmt(percent)).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)));
-    }
-
-    @SuppressWarnings("unused")
-    public static BulletSaverAffix read(JsonObject obj) {
-        return read(obj, BulletSaverAffix::new, Pojo::new, AbstractValuedAffix::readBase);
-    }
-
-    @SuppressWarnings("unused")
-    public static BulletSaverAffix read(FriendlyByteBuf buf) {
-        return read(buf, BulletSaverAffix::new, Pojo::new, AbstractValuedAffix::readBase);
+        list.accept(Component.translatable(desc(), fmt(percent)).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)));
     }
 
     @Override
-    public JsonObject write() {
-        return super.write();
-    }
-
-    @Override
-    public void write(FriendlyByteBuf buf) {
-        super.write(buf);
+    public Codec<? extends Affix> getCodec() {
+        return CODEC;
     }
 }

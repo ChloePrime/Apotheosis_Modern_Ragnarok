@@ -132,15 +132,19 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
+        // Add curse maven to repositories
+        name = "Curse Maven"
+        url = "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
         // Apotheosis
         url "https://maven.shadowsoffire.dev/releases"
         content {
             includeGroup "dev.shadowsoffire"
         }
-    }
-    maven {
-        // TACZ
-        url 'https://jitpack.io'
     }
     maven {
         name = 'GeckoLib'
@@ -167,10 +171,11 @@ dependencies {
     implementation("com.eliotlash.mclib:mclib:20")
 
     implementation fg.deobf("dev.shadowsoffire:Apotheosis:${minecraft_version}-${apoth_version}")
+    implementation fg.deobf("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${apoth_attributes_version}")
     implementation fg.deobf("dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}")
 
-    minecraftLibrary 'org.apache.commons:commons-math3:3.6.1'
-    implementation fg.deobf("com.github.MCModderAnchor:TACZ:${tacz_version}")
+//    minecraftLibrary 'org.apache.commons:commons-math3:3.6.1'
+    implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:5529117-sources-5529578')
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }

@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.util;
 
+import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap;
 import shadows.apotheosis.adventure.loot.LootRarity;
 

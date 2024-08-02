@@ -4,6 +4,7 @@ import com.tac.guns.Config;
 import com.tac.guns.common.Gun;
 import com.tac.guns.entity.ProjectileEntity;
 import com.tac.guns.item.GunItem;
+import com.tacz.guns.entity.EntityKineticBullet;
 import mod.chloeprime.apotheosismodernragnarok.api.MagicProjectileFactory;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.MagicProjectile;
@@ -13,6 +14,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,16 +35,16 @@ import java.util.Optional;
 /**
  * 魔法火球
  */
-public class MagicFireball extends ProjectileEntity implements MagicProjectile, IAnimatable, IAnimationTickable {
+public class MagicFireball extends EntityKineticBullet implements MagicProjectile, IAnimatable, IAnimationTickable {
     public static final float DEFAULT_POWER = 1.5F;
     private final float power = DEFAULT_POWER;
 
-    public MagicFireball(EntityType<? extends Entity> type, Level worldIn) {
+    public MagicFireball(EntityType<? extends Projectile> type, Level worldIn) {
         super(type, worldIn);
         gecko = GeckoLibUtil.createFactory(this);
     }
 
-    public MagicFireball(EntityType<? extends Entity> type, Level level, ProjectileBuilder builder) {
+    public MagicFireball(EntityType<? extends Projectile> type, Level level, ProjectileBuilder builder) {
         super(type, level, builder.shooter, builder.weapon, builder.gunItem, builder.data, builder.rrp, builder.rry);
         gecko = GeckoLibUtil.createFactory(this);
     }

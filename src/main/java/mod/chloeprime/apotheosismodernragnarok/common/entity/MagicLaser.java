@@ -9,6 +9,7 @@ import com.tac.guns.init.ModEnchantments;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.math.ExtendedEntityRayTraceResult;
+import com.tacz.guns.entity.EntityKineticBullet;
 import mod.chloeprime.apotheosismodernragnarok.api.MagicProjectileFactory;
 import mod.chloeprime.apotheosismodernragnarok.client.ClientProxy;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
@@ -48,7 +49,7 @@ import java.util.stream.Stream;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MagicLaser extends ProjectileEntity implements MagicProjectile, IEntityAdditionalSpawnData, LaserProjectile {
+public class MagicLaser extends EntityKineticBullet implements MagicProjectile, IEntityAdditionalSpawnData, LaserProjectile {
     public static final int LIVE_DURATION = 10;
     public MagicLaser(EntityType type, Level level, ProjectileBuilder builder) {
         super(type, level, builder.shooter, builder.weapon, builder.gunItem, builder.data, builder.rrp, builder.rry);

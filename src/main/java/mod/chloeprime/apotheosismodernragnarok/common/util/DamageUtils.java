@@ -2,10 +2,12 @@ package mod.chloeprime.apotheosismodernragnarok.common.util;
 
 import com.tac.guns.Config;
 import com.tac.guns.item.GunItem;
+import com.tacz.guns.api.item.IGun;
 import it.unimi.dsi.fastutil.floats.FloatConsumer;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.AdsChargeAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.GunDamageAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.ExtendedDamageSource;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,6 +34,14 @@ public class DamageUtils {
 
     public static ItemStack getWeapon(DamageSource source) {
         return ((ExtendedDamageSource) source).apotheosis_modern_ragnarok$getWeapon();
+    }
+
+    public static Optional<ItemStack> getWeapon(LivingEntity shooter, ResourceLocation gunIdToCheck) {
+         return Optional.of(shooter.getMainHandItem())
+                 .filter(stack -> Optional.ofNullable(IGun.getIGunOrNull(stack))
+                         .map(gun -> gun.getGunId(stack))
+                         .map(gunIdToCheck::equals)
+                         .orElse(false));
     }
 
     public static float modifyDamage(ItemStack stack, float originalDamage) {
