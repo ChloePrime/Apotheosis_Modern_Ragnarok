@@ -1,0 +1,46 @@
+{
+  "type": "apotheosis:mob_effect",
+  "mob_effect": "attributeslib:grievous",
+  "target": "ARROW_TARGET",
+  "values": {
+    "rare": {
+      "duration": {
+        "min": 200,
+        "steps": 60,
+        "step": 1
+      },
+      "amplifier": 0,
+      "cooldown": 0
+    },
+    "epic": {
+      "duration": {
+        "min": 500,
+        "steps": 200,
+        "step": 1
+      },
+      "amplifier": 0,
+      "cooldown": 0
+    },
+    "mythic": {
+      "duration": {
+        "min": 200,
+        "steps": 100,
+        "step": 1
+      },
+      "amplifier": 1,
+      "cooldown": 0
+    },
+    "ancient": {
+      "duration": {
+        "min": 100,
+        "steps": 100,
+        "step": 1
+      },
+      "amplifier": 2,
+      "cooldown": 0
+    }
+  },
+  "types": [
+    "apotheosis_modern_ragnarok:bolt_action"
+  ]
+}

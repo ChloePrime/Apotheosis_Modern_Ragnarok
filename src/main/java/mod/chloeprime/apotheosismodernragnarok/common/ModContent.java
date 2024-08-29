@@ -6,6 +6,7 @@ import dev.shadowsoffire.apotheosis.adventure.affix.salvaging.SalvageItem;
 import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.DummySpecialAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
 import net.minecraft.sounds.SoundEvent;
@@ -66,6 +67,8 @@ public class ModContent {
         AffixRegistry.INSTANCE.registerCodec(loc("bullet_saver"), BulletSaverAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("armor_squash"), ArmorSquashAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("explode_on_headshot"), ExplosionOnHeadshotAffix.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("mob_effect_rated"), RatedPotionAffix.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("dummy_special"), DummySpecialAffix.CODEC);
     }
 
     public static void init0(IEventBus bus) {

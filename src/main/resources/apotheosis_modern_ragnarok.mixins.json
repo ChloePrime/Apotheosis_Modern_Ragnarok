@@ -5,6 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "apotheosis_modern_ragnarok.refmap.json",
   "mixins": [
+    "apoth.AffixAdaptableMixin$Potion",
+    "apoth.AffixAdaptableMixin$Telepathic",
     "tacz.MixinModernKineticGunItem",
     "tacz.MixinModernKineticGunItem$BulletSaverAffixMixin"
   ],

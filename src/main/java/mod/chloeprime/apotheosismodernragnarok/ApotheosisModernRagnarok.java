@@ -2,7 +2,6 @@ package mod.chloeprime.apotheosismodernragnarok;
 
 import com.mojang.logging.LogUtils;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;

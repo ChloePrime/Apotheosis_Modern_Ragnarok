@@ -6,6 +6,16 @@
   "subtitles.apotheosis_modern_ragnarok.affix.head_explosion": "头部炸裂",
   "item.apotheosis_modern_ragnarok.izanagi_object": "伊奘诺物质",
 
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.attack_self": "击中目标时，%s概率获得%s",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.attack_target": "击中目标时，%s概率造成%s",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.hurt_self": "受到攻击时，%s概率获得%s",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.hurt_attacker": "受到攻击时，%s概率造成%s",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.break_self": "破坏方块时，%s概率获得%s",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.arrow_self": "弹射物击中目标时，%s概率获得%s",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.arrow_target": "弹射物击中目标时，%s概率造成%s",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.block_self": "格挡时，%s概率获得%s",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.block_attacker": "格挡时，%s概率造成%s",
+
   "affix.apotheosis_modern_ragnarok.spectral.gun.desc": "发射的子弹有%s%%概率点亮敌人",
 
   "affix.apotheosis:cleaving.apotheosis_modern_ragnarok.alt": "爆弹",
@@ -22,6 +32,27 @@
   "affix.apotheosis_modern_ragnarok:all_gun/armor_squash.suffix": "碎甲弹",
   "affix.apotheosis_modern_ragnarok:all_gun/armor_squash.desc": "命中时有%s%%几率打碎目标的任意一件护甲",
   "subtitles.apotheosis_modern_ragnarok.affix.armor_crack": "护甲破碎",
+
+
+
+  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous": "反人道",
+  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous.suffix": "联合国对它感到愤怒",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/grievous": "违反海牙公约",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/grievous.suffix": "联合国对它感到不满",
+
+  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/bleeding": "抗凝血",
+  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/bleeding.suffix": "抗凝血弹头",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/bleeding": "抗凝血",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/bleeding.suffix": "抗凝血弹头",
+
+  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/sundering": "腐蚀性",
+  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/sundering.suffix": "衣物溶解者",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/sundering": "腐蚀性",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/sundering.suffix": "衣物溶解者",
+
+
+
+
 
   "affix.apotheosis_modern_ragnarok:magnum": "加装药",
   "affix.apotheosis_modern_ragnarok:magnum.suffix": "马格南",

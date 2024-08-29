@@ -1,0 +1,43 @@
+{
+  "type": "apotheosis:mob_effect",
+  "mob_effect": "attributeslib:bleeding",
+  "target": "ATTACK_TARGET",
+  "stack_on_reapply": true,
+  "values": {
+    "rare": {
+      "duration": 100,
+      "amplifier": 0,
+      "cooldown": 0
+    },
+    "epic": {
+      "duration": {
+        "min": 100,
+        "steps": 20,
+        "step": 1
+      },
+      "amplifier": 1,
+      "cooldown": 0
+    },
+    "mythic": {
+      "duration": {
+        "min": 100,
+        "steps": 1,
+        "step": 20
+      },
+      "amplifier": 1,
+      "cooldown": 0
+    },
+    "ancient": {
+      "duration": {
+        "min": 100,
+        "steps": 2,
+        "step": 20
+      },
+      "amplifier": 2,
+      "cooldown": 0
+    }
+  },
+  "types": [
+    "apotheosis_modern_ragnarok:bolt_action"
+  ]
+}

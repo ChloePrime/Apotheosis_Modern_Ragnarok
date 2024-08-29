@@ -1,0 +1,37 @@
+{
+	"type": "apotheosis:mob_effect",
+	"mob_effect": "attributeslib:sundering",
+	"target": "ATTACK_TARGET",
+	"values": {
+		"epic": {
+			"duration": {
+				"min": 2200,
+				"steps": 400,
+				"step": 1
+			},
+			"amplifier": 0,
+			"cooldown": 0
+		},
+		"mythic": {
+			"duration": {
+				"min": 1100,
+				"steps": 200,
+				"step": 1
+			},
+			"amplifier": 1,
+			"cooldown": 0
+		},
+		"ancient": {
+			"duration": {
+				"min": 5500,
+				"steps": 1000,
+				"step": 1
+			},
+			"amplifier": 1,
+			"cooldown": 0
+		}
+	},
+	"types": [
+		"apotheosis_modern_ragnarok:bolt_action"
+	]
+}

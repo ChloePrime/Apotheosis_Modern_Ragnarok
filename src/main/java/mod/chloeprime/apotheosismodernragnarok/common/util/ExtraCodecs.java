@@ -1,16 +1,15 @@
 package mod.chloeprime.apotheosismodernragnarok.common.util;
 
 import com.mojang.serialization.Codec;
+import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
+import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class ExtraCodecs {
-
     public static final Codec<Map<LootRarity, Double>> COEFFICIENT_BY_RARITY = Codec.unboundedMap(
             LootRarity.CODEC,
             Codec.doubleRange(0, Double.MAX_VALUE));
@@ -19,9 +18,7 @@ public class ExtraCodecs {
             LootCategory.CODEC,
             Codec.doubleRange(0, Double.MAX_VALUE));
 
-    public static final Codec<Set<LootCategory>> LOOT_CATEGORY_SET = setOf(LootCategory.CODEC);
+    public static final Codec<AffixType> AFFIX_TYPE = PlaceboCodecs.enumCodec(AffixType.class);
 
-    public static <T> Codec<Set<T>> setOf(Codec<T> elementCodec) {
-        return Codec.list(elementCodec).xmap(LinkedHashSet::new, ArrayList::new);
-    }
+    public static final Codec<Set<LootCategory>> LOOT_CATEGORY_SET = PlaceboCodecs.setOf(LootCategory.CODEC);
 }

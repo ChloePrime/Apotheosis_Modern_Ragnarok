@@ -1,0 +1,48 @@
+{
+  "type": "apotheosis_modern_ragnarok:mob_effect_rated",
+  "mob_effect": "attributeslib:sundering",
+  "target": "ARROW_TARGET",
+  "values": {
+    "rare": {
+      "duration": 100,
+      "amplifier": 0,
+      "rate": 0.025
+    },
+    "epic": {
+      "duration": 100,
+      "amplifier": 0,
+      "rate": {
+        "min": 0.05,
+        "steps": 200,
+        "step": 0.0001
+      }
+    },
+    "mythic": {
+      "duration": 100,
+      "amplifier": 1,
+      "rate": {
+        "min": 0.1,
+        "steps": 100,
+        "step": 0.00025
+      }
+    },
+    "ancient": {
+      "duration": {
+        "min": 100,
+        "steps": 50,
+        "step": 1
+      },
+      "amplifier": 2,
+      "rate": {
+        "min": 0.35,
+        "steps": 150,
+        "step": 0.001
+      }
+    }
+  },
+  "types": [
+    "apotheosis_modern_ragnarok:shotgun",
+    "apotheosis_modern_ragnarok:full_auto",
+    "apotheosis_modern_ragnarok:semi_auto"
+  ]
+}
