@@ -6,34 +6,34 @@
   "subtitles.apotheosis_modern_ragnarok.affix.head_explosion": "Head Explosion",
   "item.apotheosis_modern_ragnarok.izanagi_object": "Izanagi Object",
 
-  "affix.apotheosis_modern_ragnarok.spectral.gun.desc": "• Your bullets have a %s%% chance to make its target glow.",
+  "affix.apotheosis_modern_ragnarok.spectral.gun.desc": "Your bullets have a %s%% chance to make its target glow.",
 
   "affix.apotheosis:cleaving.apotheosis_modern_ragnarok.alt": "Bolt",
-  "affix.apotheosis:cleaving.apotheosis_modern_ragnarok.alt.suffix": "（AP & HE & Incendiary）",
+  "affix.apotheosis:cleaving.apotheosis_modern_ragnarok.alt.suffix": "AP & HE & Incendiary",
 
-  "affix.apotheosis_modern_ragnarok:lightweight": "Lightweight",
-  "affix.apotheosis_modern_ragnarok:lightweight.suffix": "(Light ver)",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/lightweight": "Lightweight",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/lightweight.suffix": "Light ver",
 
-  "affix.apotheosis_modern_ragnarok:frugality": "Frugality",
-  "affix.apotheosis_modern_ragnarok:frugality.suffix": "(Bullet Saver)",
-  "affix.apotheosis_modern_ragnarok:frugality.desc": "• Chance of %s%% that shot will not consume the bullet",
+  "affix.apotheosis_modern_ragnarok:all_gun/frugality": "Frugality",
+  "affix.apotheosis_modern_ragnarok:all_gun/frugality.suffix": "Bullet Saver",
+  "affix.apotheosis_modern_ragnarok:all_gun/frugality.desc": "Chance of %s%% that shot will not consume the bullet",
 
-  "affix.apotheosis_modern_ragnarok:armor_squash": "Hentai",
-  "affix.apotheosis_modern_ragnarok:armor_squash.suffix": "(Armor-Squash Warhead)",
-  "affix.apotheosis_modern_ragnarok:armor_squash.desc": "• Gun hit has a chance of %s%% to destroy one of target's armor",
+  "affix.apotheosis_modern_ragnarok:all_gun/armor_squash": "Hentai",
+  "affix.apotheosis_modern_ragnarok:all_gun/armor_squash.suffix": "Armor-Squash Warhead",
+  "affix.apotheosis_modern_ragnarok:all_gun/armor_squash.desc": "Gun hit has a chance of %s%% to destroy one of target's armor",
   "subtitles.apotheosis_modern_ragnarok.affix.armor_crack": "Armor Crack",
 
   "affix.apotheosis_modern_ragnarok:magnum": "Magnum",
-  "affix.apotheosis_modern_ragnarok:magnum.suffix": "(Magnum)",
+  "affix.apotheosis_modern_ragnarok:magnum.suffix": "Magnum",
 
   "affix.apotheosis_modern_ragnarok:clip_expansion": "Wude",
-  "affix.apotheosis_modern_ragnarok:clip_expansion.suffix": "(Big Clip)",
+  "affix.apotheosis_modern_ragnarok:clip_expansion.suffix": "Big Clip",
 
-  "affix.apotheosis_modern_ragnarok:head_explode": "Headache",
-  "affix.apotheosis_modern_ragnarok:head_explode.suffix": "(Head Exploding)",
-  "affix.apotheosis_modern_ragnarok:head_explode.desc": "• Headshot will damage enemies nearby the target by %s%% of original damage",
+  "affix.apotheosis_modern_ragnarok:all_gun/head_explode": "Headache",
+  "affix.apotheosis_modern_ragnarok:all_gun/head_explode.suffix": "Head Exploding",
+  "affix.apotheosis_modern_ragnarok:all_gun/head_explode.desc": "Headshot will damage enemies nearby the target by %s%% of original damage",
 
   "affix.apotheosis_modern_ragnarok:ads_charge": "Calm",
-  "affix.apotheosis_modern_ragnarok:ads_charge.suffix": "(Calm Shooter)",
-  "affix.apotheosis_modern_ragnarok:ads_charge.desc": "• Holding ADS will boost damage by up to %s%% (Not Implemented)"
+  "affix.apotheosis_modern_ragnarok:ads_charge.suffix": "Calm Shooter",
+  "affix.apotheosis_modern_ragnarok:ads_charge.desc": "Holding ADS will boost damage by up to %s%% (Not Implemented)"
 }

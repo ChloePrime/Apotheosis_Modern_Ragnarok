@@ -49,7 +49,7 @@ public class ArmorSquashAffix extends AbstractValuedAffix {
 
     public static final Codec<ArmorSquashAffix> CODEC = RecordCodecBuilder.create(builder -> builder
             .group(
-                    ExtraCodecs.LOOT_CATEGORY_SET.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
+                    LootCategory.SET_CODEC.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
                     GemBonus.VALUES_CODEC.fieldOf("values").forGetter(AbstractValuedAffix::getValues),
                     ExtraCodecs.COEFFICIENT_BY_CATEGORY.fieldOf("coefficients").forGetter(a -> a.coefficients))
             .apply(builder, ArmorSquashAffix::new));
@@ -136,6 +136,6 @@ public class ArmorSquashAffix extends AbstractValuedAffix {
 
     @Override
     public Codec<? extends Affix> getCodec() {
-        return null;
+        return CODEC;
     }
 }

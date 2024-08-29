@@ -2,25 +2,25 @@ package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.shadowsoffire.apotheosis.adventure.affix.Affix;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixRegistry;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
+import dev.shadowsoffire.apotheosis.adventure.affix.*;
 import dev.shadowsoffire.apotheosis.adventure.affix.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import dev.shadowsoffire.placebo.util.StepFunction;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractValuedAffix;
-import mod.chloeprime.apotheosismodernragnarok.common.util.ExtraCodecs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -37,7 +37,7 @@ public class BulletSaverAffix extends AbstractValuedAffix {
 
     public static final Codec<BulletSaverAffix> CODEC = RecordCodecBuilder.create(builder -> builder
             .group(
-                    ExtraCodecs.LOOT_CATEGORY_SET.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
+                    LootCategory.SET_CODEC.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
                     GemBonus.VALUES_CODEC.fieldOf("values").forGetter(AbstractValuedAffix::getValues))
             .apply(builder, BulletSaverAffix::new));
 
@@ -48,6 +48,16 @@ public class BulletSaverAffix extends AbstractValuedAffix {
             Set<LootCategory> categories,
             Map<LootRarity, StepFunction> values) {
         super(AffixType.ABILITY, categories, values);
+    }
+
+    public static boolean check(RandomSource context, ItemStack stack) {
+        return Optional.ofNullable(AffixHelper.getAffixes(stack).get(ModContent.Affix.BULLET_SAVER))
+                .map(instance -> instance.affix().get() instanceof BulletSaverAffix affix && affix.check(context, stack, instance))
+                .orElse(false);
+    }
+
+    public boolean check(RandomSource context, ItemStack stack, AffixInstance instance) {
+        return context.nextFloat() <= getValue(stack, instance.rarity().get(), instance.level());
     }
 
     @Override

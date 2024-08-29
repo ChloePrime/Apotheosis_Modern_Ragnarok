@@ -1,7 +1,7 @@
 package mod.chloeprime.apotheosismodernragnarok.common;
 
+import dev.shadowsoffire.apotheosis.Apotheosis;
 import net.minecraftforge.common.ForgeConfigSpec;
-import shadows.apotheosis.Apotheosis;
 
 import java.util.*;
 

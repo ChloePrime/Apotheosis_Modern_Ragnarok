@@ -2,6 +2,7 @@ package mod.chloeprime.apotheosismodernragnarok;
 
 import com.mojang.logging.LogUtils;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -25,6 +26,7 @@ public class ApotheosisModernRagnarok {
     @Nullable
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public static void logError(String message, Throwable throwable) {
         if (LOGGER != null) {
             LOGGER.error(message, throwable);

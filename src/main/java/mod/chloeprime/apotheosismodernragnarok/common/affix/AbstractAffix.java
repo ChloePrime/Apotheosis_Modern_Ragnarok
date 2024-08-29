@@ -45,10 +45,6 @@ public abstract class AbstractAffix extends Affix {
             return false;
         }
         var validTypes = getApplicableCategories();
-        if (!validTypes.isEmpty() && !validTypes.contains(category)) {
-            return false;
-        }
-        // finally
-        return true;
+        return validTypes.isEmpty() || validTypes.contains(category);
     }
 }

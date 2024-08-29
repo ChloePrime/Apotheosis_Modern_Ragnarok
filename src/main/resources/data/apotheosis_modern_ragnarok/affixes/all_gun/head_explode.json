@@ -20,12 +20,15 @@
       "step": 0.01
     }
   },
-  "range": {
+  "ranges": {
     "epic": 5,
     "mythic": 6,
     "ancient": 8
   },
   "types": [
-    "GUN"
+    "apotheosis_modern_ragnarok:shotgun",
+    "apotheosis_modern_ragnarok:full_auto",
+    "apotheosis_modern_ragnarok:semi_auto",
+    "apotheosis_modern_ragnarok:bolt_action"
   ]
 }

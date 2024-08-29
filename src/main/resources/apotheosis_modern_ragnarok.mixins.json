@@ -5,10 +5,10 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "apotheosis_modern_ragnarok.refmap.json",
   "mixins": [
+    "tacz.MixinModernKineticGunItem",
+    "tacz.MixinModernKineticGunItem$BulletSaverAffixMixin"
   ],
   "client": [
-    "minecraft.MixinLevelRender",
-    "tac.MixinShootingHandler"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -20,8 +20,16 @@
       "step": 0.001
     }
   },
-  "large_caliber_bonus": 3,
+  "coefficients": {
+    "apotheosis_modern_ragnarok:shotgun": 0.125,
+    "apotheosis_modern_ragnarok:full_auto": 1,
+    "apotheosis_modern_ragnarok:semi_auto": 1,
+    "apotheosis_modern_ragnarok:bolt_action": 3
+  },
   "types": [
-    "GUN"
+    "apotheosis_modern_ragnarok:shotgun",
+    "apotheosis_modern_ragnarok:full_auto",
+    "apotheosis_modern_ragnarok:semi_auto",
+    "apotheosis_modern_ragnarok:bolt_action"
   ]
 }
