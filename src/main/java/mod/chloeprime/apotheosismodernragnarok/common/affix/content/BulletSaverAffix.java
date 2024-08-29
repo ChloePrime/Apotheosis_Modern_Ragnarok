@@ -12,6 +12,7 @@ import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractValuedAffix;
+import mod.chloeprime.apotheosismodernragnarok.mixin.tacz.MixinModernKineticGunItem.BulletSaverAffixMixin;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -30,7 +31,7 @@ import java.util.function.Consumer;
  * 类型名 apotheosis_modern_ragnarok:bullet_saver
  * 实例名 apotheosis_modern_ragnarok:frugality
  * <p/>
- * @see mod.chloeprime.apotheosismodernragnarok.mixin.apotheosis.MixinTelepathicAffix 实现
+ * @see BulletSaverAffixMixin 实现
  */
 @Mod.EventBusSubscriber
 public class BulletSaverAffix extends AbstractValuedAffix {
