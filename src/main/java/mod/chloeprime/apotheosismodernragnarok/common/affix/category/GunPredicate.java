@@ -18,8 +18,20 @@ public interface GunPredicate extends Predicate<ItemStack> {
     @Override
     default boolean test(ItemStack stack) {
         return stack.getItem() instanceof IGun gun && TimelessAPI.getCommonGunIndex(gun.getGunId(stack))
+                .filter(index -> !isMeleeGun(index))
                 .filter(index -> testGun(stack, gun, index))
                 .isPresent();
+    }
+
+    static boolean isMeleeGun(ItemStack stack) {
+        return stack.getItem() instanceof IGun gun && TimelessAPI.getCommonGunIndex(gun.getGunId(stack))
+                .filter(GunPredicate::isMeleeGun)
+                .isPresent();
+    }
+
+    static boolean isMeleeGun(CommonGunIndex index) {
+        var range = index.getBulletData().getSpeed() * index.getBulletData().getLifeSecond() / 20F;
+        return range <= 4;
     }
 
     boolean testGun(ItemStack stack, IGun gun, CommonGunIndex index);
