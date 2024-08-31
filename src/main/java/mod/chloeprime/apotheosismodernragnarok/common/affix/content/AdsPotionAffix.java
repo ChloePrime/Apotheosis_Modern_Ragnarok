@@ -3,48 +3,56 @@ package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.shadowsoffire.apotheosis.adventure.affix.Affix;
+import dev.shadowsoffire.apotheosis.adventure.affix.AffixInstance;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
 import dev.shadowsoffire.apotheosis.adventure.affix.effect.PotionAffix;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AdsPickTargetHookAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.PotionAffixBase;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
 import java.util.Set;
 
-public class RatedPotionAffix extends PotionAffixBase {
-
-    public static final Codec<RatedPotionAffix> CODEC = RecordCodecBuilder.create(inst -> inst
+/**
+ * 瞄准时给被瞄准时的目标上 buff
+ */
+public class AdsPotionAffix extends PotionAffixBase implements AdsPickTargetHookAffix {
+    public static final Codec<AdsPotionAffix> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     ForgeRegistries.MOB_EFFECTS.getCodec().fieldOf("mob_effect").forGetter(a -> a.effect),
-                    Target.CODEC.fieldOf("target").forGetter(a -> a.target),
                     LootRarity.mapCodec(EffectData.CODEC).fieldOf("values").forGetter(a -> a.values),
-                    PlaceboCodecs.nullableField(Codec.FLOAT, "rate", 0F).forGetter(a -> a.rate),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
                     PlaceboCodecs.nullableField(Codec.BOOL, "stack_on_reapply", false).forGetter(a -> a.stackOnReapply))
-            .apply(inst, RatedPotionAffix::new));
+            .apply(inst, AdsPotionAffix::new));
 
-    protected final float rate;
+    public AdsPotionAffix(MobEffect effect, Map<LootRarity, EffectData> values, Set<LootCategory> types, boolean stackOnReapply) {
+        super(AffixType.ABILITY, effect, ADS_TARGET, values, types, stackOnReapply);
+    }
 
-    public RatedPotionAffix(MobEffect effect, Target target, Map<LootRarity, EffectData> values, float rate, Set<LootCategory> types, boolean stackOnReapply) {
-        super(AffixType.ABILITY, effect, target, values, types, stackOnReapply);
-        this.rate = rate;
+    private static final Target ADS_TARGET = Target.create("ADS_TARGET", "ads_target");
+
+    @Override
+    public void onAimingAtEntity(ItemStack stack, AffixInstance instance, EntityHitResult hit) {
+        if (!(hit.getEntity() instanceof LivingEntity victim)) {
+            return;
+        }
+        applyEffect(victim, instance.rarity().get(), instance.level());
     }
 
     @Override
     public MutableComponent getDescription(ItemStack stack, LootRarity rarity, float level) {
         MobEffectInstance inst = this.values.get(rarity).build(this.effect, level);
-        var rate = getTriggerRate(rarity, level);
-        MutableComponent comp = this.target.toComponent("%.2f%%".formatted(100 * rate), PotionAffix.toComponent(inst));
+        MutableComponent comp = this.target.toComponent(PotionAffix.toComponent(inst));
         if (this.stackOnReapply) {
             comp = comp.append(" ").append(Component.translatable("affix.apotheosis.stacking"));
         }
@@ -53,12 +61,8 @@ public class RatedPotionAffix extends PotionAffixBase {
 
     @Override
     public Component getAugmentingText(ItemStack stack, LootRarity rarity, float level) {
-        var rate = this.getTriggerRate(rarity, level);
-        var minRate = this.getTriggerRate(rarity, 0);
-        var maxRate = this.getTriggerRate(rarity, 1);
-
         MobEffectInstance inst = this.values.get(rarity).build(this.effect, level);
-        MutableComponent comp = this.target.toComponent(fmtPercents(rate, minRate, maxRate), PotionAffix.toComponent(inst));
+        MutableComponent comp = this.target.toComponent(PotionAffix.toComponent(inst));
 
         MobEffectInstance min = this.values.get(rarity).build(this.effect, 0);
         MobEffectInstance max = this.values.get(rarity).build(this.effect, 1);
@@ -70,12 +74,6 @@ public class RatedPotionAffix extends PotionAffixBase {
             comp.append(valueBounds(minComp, maxComp));
         }
 
-        if (!this.effect.isInstantenous() && min.getDuration() != max.getDuration()) {
-            Component minComp = MobEffectUtil.formatDuration(min, 1);
-            Component maxComp = MobEffectUtil.formatDuration(max, 1);
-            comp.append(valueBounds(minComp, maxComp));
-        }
-
         if (this.stackOnReapply) {
             comp = comp.append(" ").append(Component.translatable("affix.apotheosis.stacking"));
         }
@@ -83,27 +81,8 @@ public class RatedPotionAffix extends PotionAffixBase {
         return comp;
     }
 
-    protected float getTriggerRate(LootRarity rarity, float level) {
-        return this.values.get(rarity).rate().get(level);
-    }
-
-    public void applyEffect(LivingEntity target, LootRarity rarity, float level) {
-        if (target.level().isClientSide()) {
-            super.applyEffect(target, rarity, level);
-            return;
-        }
-
-        // 概率检定
-        if (target.getRandom().nextFloat() > getTriggerRate(rarity, level)) {
-            return;
-        }
-
-        super.applyEffect(target, rarity, level);
-    }
-
     @Override
     public Codec<? extends Affix> getCodec() {
         return CODEC;
     }
-
 }

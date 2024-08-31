@@ -6,7 +6,9 @@ import dev.shadowsoffire.apotheosis.adventure.affix.salvaging.SalvageItem;
 import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.DummySpecialAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyCoefficientAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummySpecialAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyValuedAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
 import net.minecraft.sounds.SoundEvent;
@@ -40,9 +42,10 @@ public class ModContent {
     }
 
     public static class Affix {
-        public static final DynamicHolder<ArmorSquashAffix>         ARMOR_SQUASH = holder("all_gun/armor_squash");
-        public static final DynamicHolder<BulletSaverAffix>         BULLET_SAVER = holder("all_gun/frugality");
-        public static final DynamicHolder<ExplosionOnHeadshotAffix> HEAD_EXPLODE = holder("all_gun/head_explode");
+        public static final DynamicHolder<ArmorSquashAffix>         ARMOR_SQUASH = holder("all_gun/special/armor_squash");
+        public static final DynamicHolder<BulletSaverAffix>         BULLET_SAVER = holder("all_gun/special/frugality");
+        public static final DynamicHolder<ExplosionOnHeadshotAffix> HEAD_EXPLODE = holder("all_gun/special/head_explode");
+        public static final DynamicHolder<DummyCoefficientAffix>    SPECTRAL_BULLET = holder("all_gun/special/spectral");
 
         private static <T extends dev.shadowsoffire.apotheosis.adventure.affix.Affix> DynamicHolder<T> holder(String path) {
             return AffixRegistry.INSTANCE.holder(ApotheosisModernRagnarok.loc(path));
@@ -68,6 +71,9 @@ public class ModContent {
         AffixRegistry.INSTANCE.registerCodec(loc("armor_squash"), ArmorSquashAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("explode_on_headshot"), ExplosionOnHeadshotAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("mob_effect_rated"), RatedPotionAffix.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("mob_effect_ads"), AdsPotionAffix.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("dummy_valued"), DummyValuedAffix.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("dummy_coefficient"), DummyCoefficientAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("dummy_special"), DummySpecialAffix.CODEC);
     }
 

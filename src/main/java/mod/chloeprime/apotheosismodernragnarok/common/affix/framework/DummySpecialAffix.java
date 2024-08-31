@@ -1,4 +1,4 @@
-package mod.chloeprime.apotheosismodernragnarok.common.affix;
+package mod.chloeprime.apotheosismodernragnarok.common.affix.framework;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

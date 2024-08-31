@@ -1,7 +1,6 @@
-package mod.chloeprime.apotheosismodernragnarok.common.affix;
+package mod.chloeprime.apotheosismodernragnarok.common.affix.framework;
 
 import com.tacz.guns.api.item.IGun;
-import dev.shadowsoffire.apotheosis.adventure.affix.Affix;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
@@ -9,10 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
-public abstract class AbstractAffix extends Affix {
+public abstract class AbstractAffix extends AffixBaseUtility {
     protected final Set<LootCategory> categories;
 
     public AbstractAffix(AffixType type, Set<LootCategory> categories) {
@@ -21,11 +21,7 @@ public abstract class AbstractAffix extends Affix {
     }
 
     public Set<LootCategory> getApplicableCategories() {
-        return categories;
-    }
-
-    public static String fmt(double value) {
-        return fmt(((float) value));
+        return Collections.unmodifiableSet(categories);
     }
 
     public String desc() {

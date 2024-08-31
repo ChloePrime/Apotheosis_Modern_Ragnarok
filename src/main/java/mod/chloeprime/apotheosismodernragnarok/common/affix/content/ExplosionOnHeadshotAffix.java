@@ -7,21 +7,23 @@ import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;
 import com.tacz.guns.init.ModDamageTypes;
 import dev.shadowsoffire.apotheosis.adventure.affix.*;
-import dev.shadowsoffire.apotheosis.adventure.affix.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import dev.shadowsoffire.placebo.util.StepFunction;
 import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractAffix;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractValuedAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractValuedAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.util.DamageUtils;
 import mod.chloeprime.apotheosismodernragnarok.common.util.ExtraCodecs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -41,7 +43,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.WeakHashMap;
-import java.util.function.Consumer;
 
 /**
  * 爆头时伤害周围的敌人
@@ -59,9 +60,17 @@ public class ExplosionOnHeadshotAffix extends AbstractValuedAffix {
             .apply(builder, ExplosionOnHeadshotAffix::new));
 
     @Override
-    public void addInformation(ItemStack stack, LootRarity rarity, float level, Consumer<Component> list) {
-        var percent = 100 * getValue(stack, rarity, level);
-        list.accept(Component.translatable(desc(), fmt(percent)).withStyle(ChatFormatting.YELLOW));
+    public MutableComponent getDescription(ItemStack stack, LootRarity rarity, float level) {
+        var rate = getValue(stack, rarity, level);
+        return Component.translatable(desc(), fmtPercent(rate)).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
+    }
+
+    @Override
+    public Component getAugmentingText(ItemStack stack, LootRarity rarity, float level) {
+        var rate = getValue(stack, rarity, level);
+        var min = getValue(stack, rarity, 0);
+        var max = getValue(stack, rarity, 1);
+        return Component.translatable(desc(), fmtPercents(rate, min, max)).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
     }
 
     public ExplosionOnHeadshotAffix(

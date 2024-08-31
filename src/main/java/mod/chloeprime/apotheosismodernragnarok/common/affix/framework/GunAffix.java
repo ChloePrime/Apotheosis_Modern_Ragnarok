@@ -1,4 +1,4 @@
-package mod.chloeprime.apotheosismodernragnarok.common.affix;
+package mod.chloeprime.apotheosismodernragnarok.common.affix.framework;
 
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;

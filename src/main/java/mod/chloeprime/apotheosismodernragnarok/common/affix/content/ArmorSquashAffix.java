@@ -6,18 +6,19 @@ import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import dev.shadowsoffire.apotheosis.adventure.affix.Affix;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixInstance;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
-import dev.shadowsoffire.apotheosis.adventure.affix.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.placebo.util.StepFunction;
 import mod.chloeprime.apotheosismodernragnarok.api.events.ArmorSquashAffixTakeEffectEvent;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractAffix;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.AbstractValuedAffix;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.GunAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractValuedAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.GunAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.util.ExtraCodecs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,7 +30,6 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.StreamSupport;
 
 /**
@@ -68,9 +68,17 @@ public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
     }
 
     @Override
-    public void addInformation(ItemStack stack, LootRarity rarity, float level, Consumer<Component> list) {
-        var percent = 100 * getValue(stack, rarity, level);
-        list.accept(Component.translatable(desc(), fmt(percent)).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)));
+    public MutableComponent getDescription(ItemStack stack, LootRarity rarity, float level) {
+        var percent = getValue(stack, rarity, level);
+        return Component.translatable(desc(), fmtPercent(percent)).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
+    }
+
+    @Override
+    public Component getAugmentingText(ItemStack stack, LootRarity rarity, float level) {
+        var rate = getValue(stack, rarity, level);
+        var min = getValue(stack, rarity, 0);
+        var max = getValue(stack, rarity, 1);
+        return Component.translatable(desc(), fmtPercents(rate, min, max)).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
     }
 
     public final double getCaliberBonus(ItemStack stack) {

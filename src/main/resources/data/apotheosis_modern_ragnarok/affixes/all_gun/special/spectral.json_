@@ -1,0 +1,30 @@
+{
+  "type": "apotheosis_modern_ragnarok:dummy_coefficient",
+  "affix_type": "ABILITY",
+  "values": {
+    "epic": {
+      "min": 9,
+      "steps": 4,
+      "step": 0.5
+    },
+    "mythic": {
+      "min": 50,
+      "steps": 20,
+      "step": 1
+    },
+    "ancient": {
+      "min": 110,
+      "steps": 20,
+      "step": 1
+    }
+  },
+  "coefficients": {
+    "apotheosis_modern_ragnarok:bolt_action": 100
+  },
+  "types": [
+    "apotheosis_modern_ragnarok:shotgun",
+    "apotheosis_modern_ragnarok:full_auto",
+    "apotheosis_modern_ragnarok:semi_auto",
+    "apotheosis_modern_ragnarok:bolt_action"
+  ]
+}

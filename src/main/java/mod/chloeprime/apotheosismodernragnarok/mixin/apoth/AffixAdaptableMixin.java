@@ -8,9 +8,8 @@ import dev.shadowsoffire.apotheosis.adventure.affix.effect.PotionAffix;
 import dev.shadowsoffire.apotheosis.adventure.affix.effect.TelepathicAffix;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
-import mod.chloeprime.apotheosismodernragnarok.common.affix.GunAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.GunAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
@@ -20,7 +19,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public class AffixAdaptableMixin {
     @Mixin(value = TelepathicAffix.class,remap = false)
@@ -30,8 +28,8 @@ public class AffixAdaptableMixin {
             return original || ExtraLootCategories.isGun(cat);
         }
 
-        @ModifyExpressionValue(method = { "addInformation" }, at = @At(value = "INVOKE", target = "Ldev/shadowsoffire/apotheosis/adventure/loot/LootCategory;isRanged()Z"))
-        private boolean fixTooltipCategory(boolean original, ItemStack stack, LootRarity rarity, float level, Consumer<Component> list) {
+        @ModifyExpressionValue(method = { "getDescription" }, at = @At(value = "INVOKE", target = "Ldev/shadowsoffire/apotheosis/adventure/loot/LootCategory;isRanged()Z"))
+        private boolean fixTooltipCategory(boolean original, ItemStack stack, LootRarity rarity, float level) {
             var cat = LootCategory.forItem(stack);
             return original || ExtraLootCategories.isGun(cat);
         }

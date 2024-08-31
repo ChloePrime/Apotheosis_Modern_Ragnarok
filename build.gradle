@@ -18,6 +18,8 @@ plugins {
 
 apply plugin: 'org.spongepowered.mixin'
 
+boolean USE_LOCAL_TACZ_V = Boolean.parseBoolean(USE_LOCAL_TACZ)
+
 group = mod_group_id
 version = mod_version
 
@@ -175,7 +177,11 @@ dependencies {
     implementation fg.deobf("dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}")
 
     // TaCZ
-    implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:5529117-sources-5529578')
+    if (USE_LOCAL_TACZ_V) {
+        implementation fg.deobf('libs:tacz:1.20.1-1.0.3-all');
+    } else {
+        implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:5529117-sources-5529578');
+    }
 
     // MixinExtras
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
