@@ -1,7 +1,7 @@
 {
 	"type": "apotheosis:mob_effect",
 	"mob_effect": "attributeslib:sundering",
-	"target": "ATTACK_TARGET",
+	"target": "ARROW_TARGET",
 	"values": {
 		"epic": {
 			"duration": {

@@ -1,7 +1,7 @@
 {
   "type": "apotheosis:mob_effect",
   "mob_effect": "attributeslib:bleeding",
-  "target": "ATTACK_TARGET",
+  "target": "ARROW_TARGET",
   "stack_on_reapply": true,
   "values": {
     "rare": {
