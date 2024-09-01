@@ -8,6 +8,7 @@ import dev.shadowsoffire.apotheosis.adventure.affix.AffixHelper;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixInstance;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AdsPickTargetHookAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.GunAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.util.BulletCreateEvent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
@@ -71,6 +72,19 @@ public class GunAffixTrigger {
         AffixHelper.streamAffixes(gun).forEach(instance -> {
             if (instance.affix().get() instanceof GunAffix affix) {
                 affix.onGunshotKill(gun, instance, event);
+            }
+        });
+    }
+
+    @SubscribeEvent
+    public static void onBulletCreate(BulletCreateEvent event) {
+        if (event.getBullet().level().isClientSide) {
+            return;
+        }
+        var gun = event.getGun();
+        AffixHelper.streamAffixes(gun).forEach(instance -> {
+            if (instance.affix().get() instanceof GunAffix affix) {
+                affix.onBulletCreated(gun, instance, event);
             }
         });
     }

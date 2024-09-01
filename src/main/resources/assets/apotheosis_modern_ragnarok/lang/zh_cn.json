@@ -1,7 +1,8 @@
 {
   "entity.apotheosis_modern_ragnarok.magic_laser": "魔法激光",
   "entity.apotheosis_modern_ragnarok.magic_fireball": "魔法火球",
-  "subtitles.apotheosis_modern_ragnarok.affix.magical.shot": "定向能武器射击",
+  "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.semi_auto": "能量武器射击",
+  "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.full_auto": "能量武器射击",
   "subtitles.apotheosis_modern_ragnarok.affix.magical.fireball": "爆裂魔法",
   "subtitles.apotheosis_modern_ragnarok.affix.head_explosion": "头部炸裂",
   "item.apotheosis_modern_ragnarok.izanagi_object": "伊奘诺物质",
@@ -31,6 +32,10 @@
   "affix.apotheosis_modern_ragnarok:all_gun/special/frugality": "节俭主义",
   "affix.apotheosis_modern_ragnarok:all_gun/special/frugality.suffix": "超省子弹！",
   "affix.apotheosis_modern_ragnarok:all_gun/special/frugality.desc": "射击时有%s几率不消耗子弹",
+
+  "affix.apotheosis_modern_ragnarok:all_gun/special/magical_shot": "冒蓝火",
+  "affix.apotheosis_modern_ragnarok:all_gun/special/magical_shot.suffix": "魔法武器",
+  "affix.apotheosis_modern_ragnarok:all_gun/special/magical_shot.desc": "这把枪发射的子弹将会造成魔法伤害",
 
   "affix.apotheosis_modern_ragnarok:all_gun/special/armor_squash": "爆衣狂人",
   "affix.apotheosis_modern_ragnarok:all_gun/special/armor_squash.suffix": "碎甲弹",

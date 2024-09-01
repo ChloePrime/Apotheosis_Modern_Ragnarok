@@ -1,7 +1,8 @@
 {
   "entity.apotheosis_modern_ragnarok.magic_laser": "Magic Laser",
   "entity.apotheosis_modern_ragnarok.magic_fireball": "Magic Fireball",
-  "subtitles.apotheosis_modern_ragnarok.affix.magical.shot": "Energy Weapon Shot",
+  "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.semi_auto": "Energy Weapon Shot",
+  "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.full_auto": "Energy Weapon Shot",
   "subtitles.apotheosis_modern_ragnarok.affix.magical.fireball": "Explosive Magic",
   "subtitles.apotheosis_modern_ragnarok.affix.head_explosion": "Head Explosion",
   "item.apotheosis_modern_ragnarok.izanagi_object": "Izanagi Object",
@@ -11,8 +12,8 @@
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.hurt_self": "When attacked, %s chance to gain %s",
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.hurt_attacker": "When attacked, %s chance to inflict %s",
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.break_self": "On block break, %s chance to gain %s",
-  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.arrow_self": "On arrow hit, %s chance to gain %s",
-  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.arrow_target": "On arrow hit, %s chance to inflict %s",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.arrow_self": "On gunshot hit, %s chance to gain %s",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.arrow_target": "On gunshot hit, %s chance to inflict %s",
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.block_self": "Upon blocking, %s chance to gain %s",
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.block_attacker": "Upon blocking, %s chance to inflict %s",
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.ads_target": "When aiming, apply %s to the target you are looking at",
@@ -30,7 +31,11 @@
 
   "affix.apotheosis_modern_ragnarok:all_gun/special/frugality": "Frugality",
   "affix.apotheosis_modern_ragnarok:all_gun/special/frugality.suffix": "of Bullet Saver",
-  "affix.apotheosis_modern_ragnarok:all_gun/special/frugality.desc": "Chance of %s that shot will not consume the bullet",
+  "affix.apotheosis_modern_ragnarok:all_gun/special/frugality.desc": "Chance of %s hat shot will not consume the bullet",
+
+  "affix.apotheosis_modern_ragnarok:all_gun/special/magical_shot": "Magical",
+  "affix.apotheosis_modern_ragnarok:all_gun/special/magical_shot.suffix": "of the Arcane",
+  "affix.apotheosis_modern_ragnarok:all_gun/special/magical_shot.desc": "Bullets fired from this gun deal magic damage.",
 
   "affix.apotheosis_modern_ragnarok:all_gun/special/armor_squash": "Hentai",
   "affix.apotheosis_modern_ragnarok:all_gun/special/armor_squash.suffix": "with Armor-Squash Warhead",

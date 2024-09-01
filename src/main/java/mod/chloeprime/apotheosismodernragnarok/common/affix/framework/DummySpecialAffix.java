@@ -7,6 +7,10 @@ import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import mod.chloeprime.apotheosismodernragnarok.common.util.ExtraCodecs;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Set;
@@ -24,6 +28,11 @@ public class DummySpecialAffix extends AbstractAffix {
     public DummySpecialAffix(AffixType type, Set<LootCategory> categories, LootRarity minRarity) {
         super(type, categories);
         this.minRarity = minRarity;
+    }
+
+    @Override
+    public MutableComponent getDescription(ItemStack stack, LootRarity rarity, float level) {
+        return Component.translatable(desc()).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
     }
 
     @Override

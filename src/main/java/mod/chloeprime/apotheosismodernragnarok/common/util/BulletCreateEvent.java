@@ -12,9 +12,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.ApiStatus;
 
-@ApiStatus.Internal
 @Mod.EventBusSubscriber
 public final class BulletCreateEvent extends Event {
+    @ApiStatus.Internal
     public BulletCreateEvent(Projectile bullet, LivingEntity shooter, ItemStack gun) {
         this.bullet = bullet;
         this.shooter = shooter;
@@ -39,6 +39,14 @@ public final class BulletCreateEvent extends Event {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onBulletCreate(EntityJoinLevelEvent event) {
+        onBulletCreate0(event, false);
+    }
+
+    @ApiStatus.Internal
+    public static void onBulletCreate0(EntityJoinLevelEvent event, boolean isClientFixCall) {
+        if (!isClientFixCall && event.getEntity().level().isClientSide) {
+            return;
+        }
         if (!(event.getEntity() instanceof Projectile bullet)) {
             return;
         }
