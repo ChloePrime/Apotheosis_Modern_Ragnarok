@@ -8,9 +8,9 @@
     "apotheosis_modern_ragnarok:bolt_action"
   ],
   "sounds": {
-    "apotheosis_modern_ragnarok:shotgun": "apotheosis_modern_ragnarok:affix.magical_shot.semi_auto",
+    "apotheosis_modern_ragnarok:shotgun": "apotheosis_modern_ragnarok:affix.magical_shot.shotgun",
     "apotheosis_modern_ragnarok:full_auto": "apotheosis_modern_ragnarok:affix.magical_shot.full_auto",
     "apotheosis_modern_ragnarok:semi_auto": "apotheosis_modern_ragnarok:affix.magical_shot.semi_auto",
-    "apotheosis_modern_ragnarok:bolt_action": "apotheosis_modern_ragnarok:affix.magical_shot.semi_auto"
+    "apotheosis_modern_ragnarok:bolt_action": "apotheosis_modern_ragnarok:affix.magical_shot.bolt_action"
   }
 }

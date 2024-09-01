@@ -1,6 +1,5 @@
 package mod.chloeprime.apotheosismodernragnarok.client;
 
-import com.eliotlash.mclib.math.functions.limit.Min;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.resources.language.I18n;

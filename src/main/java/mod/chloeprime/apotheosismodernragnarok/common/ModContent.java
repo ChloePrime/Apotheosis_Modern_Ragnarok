@@ -58,8 +58,10 @@ public class ModContent {
     public static class Sounds {
         private static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ApotheosisModernRagnarok.MOD_ID);
         public static final RegistryObject<SoundEvent> ARMOR_CRACK = registerSound("affix.armor_break");
+        public static final RegistryObject<SoundEvent> MAGIC_SHOTGUN = registerSound("affix.magical_shot.shotgun");
         public static final RegistryObject<SoundEvent> MAGIC_SEMIAUTO = registerSound("affix.magical_shot.semi_auto");
         public static final RegistryObject<SoundEvent> MAGIC_FULLAUTO = registerSound("affix.magical_shot.full_auto");
+        public static final RegistryObject<SoundEvent> MAGIC_BOLT_ACTION = registerSound("affix.magical_shot.bolt_action");
         public static final RegistryObject<SoundEvent> MAGIC_FIREBALL = registerSound("affix.magical.fireball");
         public static final RegistryObject<SoundEvent> HEAD_EXPLOSION = registerSound("affix.head_explosion");
 

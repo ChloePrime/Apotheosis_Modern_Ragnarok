@@ -1,8 +1,10 @@
 {
   "entity.apotheosis_modern_ragnarok.magic_laser": "Magic Laser",
   "entity.apotheosis_modern_ragnarok.magic_fireball": "Magic Fireball",
+  "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.shotgun": "Energy Shotgun Shot",
   "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.semi_auto": "Energy Weapon Shot",
   "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.full_auto": "Energy Weapon Shot",
+  "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.bolt_action": "Powerful Energy Weapon Shot",
   "subtitles.apotheosis_modern_ragnarok.affix.magical.fireball": "Explosive Magic",
   "subtitles.apotheosis_modern_ragnarok.affix.head_explosion": "Head Explosion",
   "item.apotheosis_modern_ragnarok.izanagi_object": "Izanagi Object",

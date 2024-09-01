@@ -12,6 +12,23 @@
       }
     ]
   },
+  "affix.magical_shot.shotgun": {
+    "subtitle": "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.shotgun",
+    "sounds": [
+      {
+        "name": "apotheosis_modern_ragnarok:flak_fire_1",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:flak_fire_2",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:flak_fire_3",
+        "attenuation_distance": 64
+      }
+    ]
+  },
   "affix.magical_shot.semi_auto": {
     "subtitle": "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.semi_auto",
     "sounds": [
@@ -40,6 +57,21 @@
         "attenuation_distance": 64
       },{
         "name": "apotheosis_modern_ragnarok:danmaku_3",
+        "attenuation_distance": 64
+      }
+    ]
+  },
+  "affix.magical_shot.bolt_action": {
+    "subtitle": "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.bolt_action",
+    "sounds": [
+      {
+        "name": "apotheosis_modern_ragnarok:spartan_laser_1",
+        "attenuation_distance": 64
+      },{
+        "name": "apotheosis_modern_ragnarok:spartan_laser_2",
+        "attenuation_distance": 64
+      },{
+        "name": "apotheosis_modern_ragnarok:spartan_laser_3",
         "attenuation_distance": 64
       }
     ]

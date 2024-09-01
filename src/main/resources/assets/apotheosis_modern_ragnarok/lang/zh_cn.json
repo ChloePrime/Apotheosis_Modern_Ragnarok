@@ -1,8 +1,10 @@
 {
   "entity.apotheosis_modern_ragnarok.magic_laser": "魔法激光",
   "entity.apotheosis_modern_ragnarok.magic_fireball": "魔法火球",
+  "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.shotgun": "霰弹能量武器射击",
   "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.semi_auto": "能量武器射击",
   "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.full_auto": "能量武器射击",
+  "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.bolt_action": "大威力能量武器射击",
   "subtitles.apotheosis_modern_ragnarok.affix.magical.fireball": "爆裂魔法",
   "subtitles.apotheosis_modern_ragnarok.affix.head_explosion": "头部炸裂",
   "item.apotheosis_modern_ragnarok.izanagi_object": "伊奘诺物质",
