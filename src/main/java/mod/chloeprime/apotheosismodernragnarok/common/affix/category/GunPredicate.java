@@ -30,7 +30,7 @@ public interface GunPredicate extends Predicate<ItemStack> {
     }
 
     static boolean isMeleeGun(CommonGunIndex index) {
-        var range = index.getBulletData().getSpeed() * index.getBulletData().getLifeSecond() / 20F;
+        var range = index.getBulletData().getSpeed() * index.getBulletData().getLifeSecond() * 20F;
         return range <= 4;
     }
 
