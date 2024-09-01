@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.tacz.guns.client.model.BedrockGunModel;
 import com.tacz.guns.client.model.functional.MuzzleFlashRender;
-import com.tacz.guns.client.resource.pojo.display.gun.MuzzleFlash;
 import mod.chloeprime.apotheosismodernragnarok.client.MagicalShotAffixVisuals;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.MagicalShotAffix;
 import net.minecraft.client.renderer.RenderType;
@@ -25,9 +24,14 @@ public class BlueMuzzleFlashMixin {
         public void beginRender(PoseStack matrixStack, ItemStack gunItem, ItemDisplayContext transformType, RenderType renderType, int light, int overlay, CallbackInfo ci) {
             isMagicGunState = MagicalShotAffix.isMagicGun(gunItem);
         }
+
+        @Inject(method = "render", at = @At("RETURN"))
+        private void cleanup(PoseStack matrixStack, ItemStack gunItem, ItemDisplayContext transformType, RenderType renderType, int light, int overlay, CallbackInfo ci) {
+            isMagicGunState = false;
+        }
     }
 
-    @Mixin(value = MuzzleFlashRender.class, remap = false   )
+    @Mixin(value = MuzzleFlashRender.class, remap = false)
     public static class ModifyTexture {
         @ModifyExpressionValue(
                 method = "doRender",
@@ -35,11 +39,6 @@ public class BlueMuzzleFlashMixin {
         )
         private static ResourceLocation modifyTexture(ResourceLocation original) {
             return isMagicGunState ? MagicalShotAffixVisuals.BLUE_MUZZLE_FLASH : original;
-        }
-
-        @Inject(method = "doRender", at = @At("RETURN"))
-        private static void cleanup(int light, int overlay, MuzzleFlash muzzleFlash, long time, CallbackInfo ci) {
-            isMagicGunState = false;
         }
     }
 }
