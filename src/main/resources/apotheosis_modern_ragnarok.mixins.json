@@ -11,15 +11,15 @@
     "minecraft.MixinMinecraftServer",
     "minecraft.client.ProjectileJoinWorldOwnerFixMixin",
     "tacz.MixinModernKineticGunItem",
-    "tacz.MixinModernKineticGunItem$BulletSaverAffixMixin",
+    "tacz.MixinModernKineticGunItem$BulletSaverAffixMixin"
   ],
   "client": [
     "minecraft.client.AbstractSoundInstanceAccessor",
     "minecraft.client.EntityBoundSoundInstanceAccessor",
     "minecraft.client.MixinSoundEngine",
-    "tacz.client.AmmoParticleSpawnerAccessor",
     "tacz.client.BlueMuzzleFlashMixin$CaptureState",
-    "tacz.client.BlueMuzzleFlashMixin$ModifyTexture"
+    "tacz.client.BlueMuzzleFlashMixin$ModifyTexture",
+    "tacz.client.MagicShotParticleMixin"
   ],
   "injectors": {
     "defaultRequire": 1
