@@ -111,7 +111,6 @@ public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
                 .ifPresent(armor -> {
                     // 打碎护甲
                     onArmorBreak(livingVictim, attacker, this, armor);
-                    armor.shrink(1);
                 });
     }
 
@@ -122,6 +121,7 @@ public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
         if (MinecraftForge.EVENT_BUS.post(new ArmorSquashAffixTakeEffectEvent(victim, source, affix, armor))) {
             return;
         }
+        armor.shrink(1);
         victim.level().playSound(null, victim, ModContent.Sounds.ARMOR_CRACK.get(), victim.getSoundSource(), 1, 1);
     }
 
