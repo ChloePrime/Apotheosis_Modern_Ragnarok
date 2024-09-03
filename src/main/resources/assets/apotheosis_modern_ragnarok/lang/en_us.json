@@ -6,6 +6,7 @@
   "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.full_auto": "Energy Weapon Shot",
   "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.bolt_action": "Powerful Energy Weapon Shot",
   "subtitles.apotheosis_modern_ragnarok.affix.magical.fireball": "Explosive Magic",
+  "subtitles.apotheosis_modern_ragnarok.critical_hit": "Critical Hit",
   "subtitles.apotheosis_modern_ragnarok.affix.head_explosion": "Head Explosion",
   "item.apotheosis_modern_ragnarok.izanagi_object": "Izanagi Object",
 
@@ -49,6 +50,16 @@
   "affix.apotheosis_modern_ragnarok:all_gun/special/head_explode.desc": "Headshot will damage enemies nearby the target by %s of original damage",
 
 
+
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_chance": "Heartbreaking",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_chance.suffix": "the Heartbreaker",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_chance": "Heartbreaking",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_chance.suffix": "the Heartbreaker",
+
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_damage": "Lethal",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_damage.suffix": "the Fatality",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_damage": "Lethal",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_damage.suffix": "the Fatality",
 
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous": "Anti Humanity",
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous.suffix": "Making UN Angry",

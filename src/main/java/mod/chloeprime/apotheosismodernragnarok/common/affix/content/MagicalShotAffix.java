@@ -93,7 +93,7 @@ public class MagicalShotAffix extends DummySpecialAffix implements GunAffix {
             return;
         }
         @SuppressWarnings("DataFlowIssue")
-        var newDamageSource = event.getBullet().damageSources().indirectMagic(origianlDamageSource.getEntity(), origianlDamageSource.getDirectEntity());
+        var newDamageSource = event.getBullet().damageSources().indirectMagic(origianlDamageSource.getDirectEntity(), origianlDamageSource.getEntity());
         event.setDamageSource(GunDamageSourcePart.NON_ARMOR_PIERCING, newDamageSource);
         event.setDamageSource(GunDamageSourcePart.ARMOR_PIERCING, newDamageSource);
     }

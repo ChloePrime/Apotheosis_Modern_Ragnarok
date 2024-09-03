@@ -9,6 +9,14 @@
       {
         "name": "apotheosis_modern_ragnarok:armor_break_2",
         "attenuation_distance": 64
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:armor_break_3",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:armor_break_4",
+        "attenuation_distance": 64
       }
     ]
   },
@@ -90,6 +98,31 @@
     "sounds": [
       {
         "name": "apotheosis_modern_ragnarok:head_explosion",
+        "attenuation_distance": 64
+      }
+    ]
+  },
+  "critical_hit": {
+    "subtitle": "subtitles.apotheosis_modern_ragnarok.critical_hit",
+    "sounds": [
+      {
+        "name": "apotheosis_modern_ragnarok:critical_1",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:critical_2",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:critical_3",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:critical_4",
+        "attenuation_distance": 64
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:critical_5",
         "attenuation_distance": 64
       }
     ]

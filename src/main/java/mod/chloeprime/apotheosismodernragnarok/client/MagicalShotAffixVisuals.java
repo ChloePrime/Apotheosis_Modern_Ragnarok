@@ -25,8 +25,8 @@ public class MagicalShotAffixVisuals {
                 0,
                 0
               ],
-              "speed": 0.05,
-              "life_time": 60,
+              "speed": 0.1,
+              "life_time": 20,
               "count": 30
             }""", AmmoParticle.class);
 

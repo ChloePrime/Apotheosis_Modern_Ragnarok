@@ -6,6 +6,7 @@
   "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.full_auto": "能量武器射击",
   "subtitles.apotheosis_modern_ragnarok.affix.magical_shot.bolt_action": "大威力能量武器射击",
   "subtitles.apotheosis_modern_ragnarok.affix.magical.fireball": "爆裂魔法",
+  "subtitles.apotheosis_modern_ragnarok.critical_hit": "暴击命中",
   "subtitles.apotheosis_modern_ragnarok.affix.head_explosion": "头部炸裂",
   "item.apotheosis_modern_ragnarok.izanagi_object": "伊奘诺物质",
 
@@ -49,6 +50,16 @@
   "affix.apotheosis_modern_ragnarok:all_gun/special/head_explode.desc": "爆头命中时对目标周围的敌人造成%s的溅射伤害",
 
 
+
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_chance": "直击要害",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_chance.suffix": "心胸大开",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_chance": "直击要害",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_chance.suffix": "心胸大开",
+
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_damage": "致命",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_damage.suffix": "致命武力",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_damage": "致命",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_damage.suffix": "致命武力",
 
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous": "反人道",
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous.suffix": "联合国对它感到愤怒",

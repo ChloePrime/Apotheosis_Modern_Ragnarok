@@ -2,6 +2,7 @@
   "type": "apotheosis_modern_ragnarok:mob_effect_rated",
   "mob_effect": "attributeslib:bleeding",
   "target": "ARROW_TARGET",
+  "stack_on_reapply": true,
   "values": {
     "rare": {
       "duration": 100,

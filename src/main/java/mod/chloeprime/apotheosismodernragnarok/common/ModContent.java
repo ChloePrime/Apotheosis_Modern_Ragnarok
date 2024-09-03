@@ -64,6 +64,7 @@ public class ModContent {
         public static final RegistryObject<SoundEvent> MAGIC_BOLT_ACTION = registerSound("affix.magical_shot.bolt_action");
         public static final RegistryObject<SoundEvent> MAGIC_FIREBALL = registerSound("affix.magical.fireball");
         public static final RegistryObject<SoundEvent> HEAD_EXPLOSION = registerSound("affix.head_explosion");
+        public static final RegistryObject<SoundEvent> CRITICAL_HIT = registerSound("critical_hit");
 
         private Sounds() {}
     }
