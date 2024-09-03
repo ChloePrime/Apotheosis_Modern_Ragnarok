@@ -4,13 +4,13 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
+import com.tacz.guns.api.event.common.EntityKillByGunEvent;
 import dev.shadowsoffire.attributeslib.AttributesLib;
 import dev.shadowsoffire.attributeslib.api.ALObjects;
 import dev.shadowsoffire.attributeslib.packet.CritParticleMessage;
 import dev.shadowsoffire.placebo.network.PacketDistro;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -95,12 +95,12 @@ public class GunCritFix {
     }
 
     @SubscribeEvent
-    public static void postKill(EntityHurtByGunEvent.Post event) {
+    public static void postKill(EntityKillByGunEvent event) {
         cleanup(event.getAttacker());
     }
 
     private static void cleanup(@Nullable LivingEntity shooter) {
-        if (shooter == null) {
+        if (shooter == null || shooter.level().isClientSide) {
             return;
         }
         shooter.getAttributes().removeAttributeModifiers(AM_TABLE.get());
