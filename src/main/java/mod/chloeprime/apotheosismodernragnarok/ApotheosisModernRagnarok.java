@@ -2,12 +2,15 @@ package mod.chloeprime.apotheosismodernragnarok;
 
 import com.mojang.logging.LogUtils;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
+import mod.chloeprime.apotheosismodernragnarok.common.util.debug.DamageAmountDebug;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLLoader;
 import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
 
@@ -46,5 +49,10 @@ public class ApotheosisModernRagnarok {
 
     private void setup(FMLCommonSetupEvent e) {
         e.enqueueWork(ModContent::setup);
+        e.enqueueWork(() -> {
+            if (!FMLLoader.isProduction()) {
+                MinecraftForge.EVENT_BUS.register(new DamageAmountDebug());
+            }
+        });
     }
 }
