@@ -51,15 +51,35 @@
 
 
 
+  "// 暴击率": "",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_chance": "直击要害",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_chance.suffix": "心胸大开",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_chance": "直击要害",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_chance.suffix": "心胸大开",
 
+  "// 暴击伤害": "",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_damage": "致命",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_damage.suffix": "致命武力",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_damage": "致命",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_damage.suffix": "致命武力",
+
+  "// 火焰伤害（灼热的）": "",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/fire_damage": "灼热",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/fire_damage.suffix": "铝热效应",
+  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/fire_damage": "灼热",
+  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/fire_damage.suffix": "铝热效应",
+  "affix.apotheosis_modern_ragnarok:shotgun/attribute/fire_damage": "灼热",
+  "affix.apotheosis_modern_ragnarok:shotgun/attribute/fire_damage.suffix": "铝热效应",
+  "effect.apotheosis_modern_ragnarok.fire_dot": "灼烧",
+
+  "// 冷冻伤害（冰封的）": "",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/cold_damage": "冰冷的",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/cold_damage.suffix": "完美冻结",
+  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/cold_damage": "冰冷的",
+  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/cold_damage.suffix": "完美冻结",
+  "affix.apotheosis_modern_ragnarok:shotgun/attribute/cold_damage": "冰冷的",
+  "affix.apotheosis_modern_ragnarok:shotgun/attribute/cold_damage.suffix": "完美冻结",
+  "effect.apotheosis_modern_ragnarok.freeze": "冰冻",
 
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous": "反人道",
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous.suffix": "联合国对它感到愤怒",

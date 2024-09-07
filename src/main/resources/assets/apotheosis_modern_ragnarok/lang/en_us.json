@@ -51,15 +51,35 @@
 
 
 
+  "// 暴击率": "",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_chance": "Heartbreaking",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_chance.suffix": "the Heartbreaker",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_chance": "Heartbreaking",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_chance.suffix": "the Heartbreaker",
 
+  "// 暴击伤害": "",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_damage": "Lethal",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_damage.suffix": "the Fatality",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_damage": "Lethal",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_damage.suffix": "the Fatality",
+
+  "// 火焰伤害（灼热的）": "",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/fire_damage": "Scorching",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/fire_damage.suffix": "of the Thermite",
+  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/fire_damage": "Scorching",
+  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/fire_damage.suffix": "of the Thermite",
+  "affix.apotheosis_modern_ragnarok:shotgun/attribute/fire_damage": "Scorching",
+  "affix.apotheosis_modern_ragnarok:shotgun/attribute/fire_damage.suffix": "of the Thermite",
+  "effect.apotheosis_modern_ragnarok.fire_dot": "Scorching",
+
+  "// 冷冻伤害（冰封的）": "",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/cold_damage": "Glacial",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/cold_damage.suffix": "of the Perfect Freeze",
+  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/cold_damage": "Glacial",
+  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/cold_damage.suffix": "of the Perfect Freeze",
+  "affix.apotheosis_modern_ragnarok:shotgun/attribute/cold_damage": "Glacial",
+  "affix.apotheosis_modern_ragnarok:shotgun/attribute/cold_damage.suffix": "of the Perfect Freeze",
+  "effect.apotheosis_modern_ragnarok.freeze": "Freezing",
 
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous": "Anti Humanity",
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous.suffix": "Making UN Angry",

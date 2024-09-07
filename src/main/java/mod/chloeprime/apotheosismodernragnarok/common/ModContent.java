@@ -11,7 +11,13 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummySpeci
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyValuedAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
+import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
+import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -20,6 +26,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.MOD_ID;
 import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.loc;
 
 /**
@@ -29,7 +36,7 @@ import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.l
  */
 public class ModContent {
     public static class Items {
-        private static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, ApotheosisModernRagnarok.MOD_ID);
+        private static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
         public static final RegistryObject<Item> ANCIENT_MATERIAL = REGISTRY.register(
                 "izanagi_object",
                 () -> new SalvageItem(RarityRegistry.INSTANCE.holder(Apotheosis.loc("ancient")), new Item.Properties())
@@ -37,6 +44,7 @@ public class ModContent {
 
         private Items() {}
     }
+
     public static class LootCategories extends ExtraLootCategories {
         private LootCategories() {}
     }
@@ -55,8 +63,23 @@ public class ModContent {
         private Affix() {}
     }
 
+    public static class MobEffects {
+        private static final DeferredRegister<MobEffect> REGISTRY = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MOD_ID);
+        public static final RegistryObject<FireDotEffect> FIRE_DOT = REGISTRY.register("fire_dot", FireDotEffect::create);
+        public static final RegistryObject<FreezeEffect> FREEZE = REGISTRY.register("freeze", FreezeEffect::create);
+
+        private MobEffects() {
+        }
+    }
+
+    public static class DamageTypes {
+        public static final ResourceKey<DamageType> BULLET_ICE = ResourceKey.create(Registries.DAMAGE_TYPE, loc("bullet_ice"));
+        public static final ResourceKey<DamageType> BULLET_FIRE = ResourceKey.create(Registries.DAMAGE_TYPE, loc("bullet_fire"));
+        public static final ResourceKey<DamageType> BULLET_IAF = ResourceKey.create(Registries.DAMAGE_TYPE, loc("bullet_iceandfire"));
+    }
+
     public static class Sounds {
-        private static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ApotheosisModernRagnarok.MOD_ID);
+        private static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
         public static final RegistryObject<SoundEvent> ARMOR_CRACK = registerSound("affix.armor_break");
         public static final RegistryObject<SoundEvent> MAGIC_SHOTGUN = registerSound("affix.magical_shot.shotgun");
         public static final RegistryObject<SoundEvent> MAGIC_SEMIAUTO = registerSound("affix.magical_shot.semi_auto");
@@ -84,6 +107,7 @@ public class ModContent {
 
     public static void init0(IEventBus bus) {
         Items.REGISTRY.register(bus);
+        MobEffects.REGISTRY.register(bus);
         Sounds.REGISTRY.register(bus);
     }
 

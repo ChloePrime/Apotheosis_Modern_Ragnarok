@@ -6,15 +6,20 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.loading.FMLLoader;
 
 import java.util.Objects;
+import java.util.concurrent.ForkJoinPool;
 
 public class ClientProxy {
     public static final boolean DEDICATED_SERVER = FMLLoader.getDist().isDedicatedServer();
 
     public static void runDeferred(Level level, Runnable code) {
+        ForkJoinPool.commonPool().execute(() -> runOnMainThread(level, code));
+    }
+
+    public static void runOnMainThread(Level level, Runnable code) {
         if (DEDICATED_SERVER || !level.isClientSide) {
             Objects.requireNonNull(level.getServer()).execute(code);
         } else {
-            ClientProxyImpl.runDeferred(code);
+            ClientProxyImpl.runOnMainThread(code);
         }
     }
 

@@ -20,7 +20,7 @@ class ClientProxyImpl {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void runDeferred(Runnable code) {
+    public static void runOnMainThread(Runnable code) {
         MC.execute(code);
     }
 

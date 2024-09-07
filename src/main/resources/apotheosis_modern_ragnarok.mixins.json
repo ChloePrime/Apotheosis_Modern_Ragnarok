@@ -9,6 +9,7 @@
     "apoth.AffixAdaptableMixin$Telepathic",
     "apoth.MeleeGunIsSwordMixin",
     "minecraft.MixinMinecraftServer",
+    "minecraft.MixinMobEffectInstance",
     "minecraft.client.ProjectileJoinWorldOwnerFixMixin",
     "tacz.MixinModernKineticGunItem",
     "tacz.MixinModernKineticGunItem$BulletSaverAffixMixin"
