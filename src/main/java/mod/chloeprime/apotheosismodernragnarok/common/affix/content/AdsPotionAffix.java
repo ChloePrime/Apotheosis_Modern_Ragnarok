@@ -16,6 +16,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -30,23 +31,31 @@ public class AdsPotionAffix extends PotionAffixBase implements AdsPickTargetHook
     public static final Codec<AdsPotionAffix> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     ForgeRegistries.MOB_EFFECTS.getCodec().fieldOf("mob_effect").forGetter(a -> a.effect),
+                    Target.CODEC.fieldOf("target").forGetter(a -> a.target),
                     LootRarity.mapCodec(EffectData.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
                     PlaceboCodecs.nullableField(Codec.BOOL, "stack_on_reapply", false).forGetter(a -> a.stackOnReapply))
             .apply(inst, AdsPotionAffix::new));
 
-    public AdsPotionAffix(MobEffect effect, Map<LootRarity, EffectData> values, Set<LootCategory> types, boolean stackOnReapply) {
-        super(AffixType.ABILITY, effect, ADS_TARGET, values, types, stackOnReapply);
+    public AdsPotionAffix(MobEffect effect, Target target, Map<LootRarity, EffectData> values, Set<LootCategory> types, boolean stackOnReapply) {
+        super(AffixType.ABILITY, effect, target, values, types, stackOnReapply);
     }
 
+    private static final Target ADS_SELF = Target.create("ADS_SELF", "ads_self");
     private static final Target ADS_TARGET = Target.create("ADS_TARGET", "ads_target");
 
     @Override
-    public void onAimingAtEntity(ItemStack stack, AffixInstance instance, EntityHitResult hit) {
+    public void onAimingAtEntity(ItemStack stack, Player gunner, AffixInstance instance, EntityHitResult hit) {
         if (!(hit.getEntity() instanceof LivingEntity victim)) {
             return;
         }
-        applyEffect(victim, instance.rarity().get(), instance.level());
+
+        if (target == ADS_SELF) {
+            applyEffect(gunner, instance.rarity().get(), instance.level());
+        } else if (target == ADS_TARGET) {
+            applyEffect(victim, instance.rarity().get(), instance.level());
+        }
+
     }
 
     @Override

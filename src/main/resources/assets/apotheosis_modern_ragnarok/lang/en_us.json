@@ -19,7 +19,8 @@
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.arrow_target": "On gunshot hit, %s chance to inflict %s",
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.block_self": "Upon blocking, %s chance to gain %s",
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.block_attacker": "Upon blocking, %s chance to inflict %s",
-  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.ads_target": "When aiming, apply %s to the target you are looking at",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.ads_self": "When aiming at target, gain %s",
+  "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.ads_target": "When aiming, inflict %s to the target you are looking at",
 
   "affix.apotheosis_modern_ragnarok.spectral.gun.desc": "Your bullets have a %s chance to make its target glow.",
 
@@ -31,6 +32,9 @@
 
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch": "Eldritch",
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch.suffix": "of Eldritch",
+
+  "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/studious": "Studious",
+  "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/studious.suffix": "of Excellent Student",
 
   "affix.apotheosis_modern_ragnarok:all_gun/special/frugality": "Frugality",
   "affix.apotheosis_modern_ragnarok:all_gun/special/frugality.suffix": "of Bullet Saver",
@@ -80,6 +84,12 @@
   "affix.apotheosis_modern_ragnarok:shotgun/attribute/cold_damage": "Glacial",
   "affix.apotheosis_modern_ragnarok:shotgun/attribute/cold_damage.suffix": "of the Perfect Freeze",
   "effect.apotheosis_modern_ragnarok.freeze": "Freezing",
+
+  "// 吸血/过量治疗": "",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/life_steal_x": "Vampiric",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/life_steal_x.suffix": "of Bloodletting",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/life_steal": "Vampiric",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/life_steal.suffix": "of Bloodletting",
 
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous": "Anti Humanity",
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous.suffix": "Making UN Angry",

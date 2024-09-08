@@ -141,7 +141,7 @@ public class GunAffixTrigger {
             }
             // 执行词条效果
             for (int i = 0; i < AFFIX_BUFFER.size(); i++) {
-                AFFIX_BUFFER.get(i).onAimingAtEntity(gun, AFFIX_INSTANCE_BUFFER.get(i), entityHit);
+                AFFIX_BUFFER.get(i).onAimingAtEntity(gun, player, AFFIX_INSTANCE_BUFFER.get(i), entityHit);
             }
         } finally {
             AFFIX_BUFFER.clear();

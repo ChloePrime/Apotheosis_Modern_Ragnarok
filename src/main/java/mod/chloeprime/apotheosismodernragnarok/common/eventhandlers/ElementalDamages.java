@@ -5,6 +5,9 @@ import com.tacz.guns.api.event.common.GunDamageSourcePart;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.attributeslib.api.ALObjects;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
+import mod.chloeprime.apotheosismodernragnarok.common.util.EffectHelper;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -32,6 +35,9 @@ public class ElementalDamages {
 
     @SubscribeEvent
     public static void onPostHurt(EntityHurtByGunEvent.Post event) {
+        if (event.getLogicalSide().isClient()) {
+            return;
+        }
         var shooter = event.getAttacker();
         var victim = event.getHurtEntity();
         if (shooter == null || victim == null) {
@@ -44,10 +50,7 @@ public class ElementalDamages {
             return;
         }
         if (fireDmg > 0 && coldDmg > 0) {
-            victim.invulnerableTime = 0;
-            victim.hurt(victim.damageSources().source(DamageTypes.BULLET_IAF, bullet, shooter), fireDmg + coldDmg);
-            victim.playSound(SoundEvents.FIRE_EXTINGUISH);
-            victim.invulnerableTime = 0;
+            applyIceAndFireDamage(victim, fireDmg + coldDmg, bullet, shooter);
         } else if (fireDmg > 0) {
             applyFireDamage(victim, fireDmg, shooter.getMainHandItem(), () -> {
                 var gun = shooter.getMainHandItem();
@@ -113,5 +116,21 @@ public class ElementalDamages {
         var dur = duration.getAsInt();
         var newAmp = Mth.clamp(amp + 1, 0, 126);
         livingVictim.addEffect(new MobEffectInstance(effect, dur, newAmp));
+    }
+
+    public static void applyIceAndFireDamage(Entity victim, float value, Entity bullet, LivingEntity shooter) {
+        victim.invulnerableTime = 0;
+        var effective = victim.hurt(victim.damageSources().source(DamageTypes.BULLET_IAF, bullet, shooter), value);
+        victim.invulnerableTime = 0;
+
+        if (!effective) {
+            return;
+        }
+
+        victim.playSound(SoundEvents.FIRE_EXTINGUISH);
+
+        if (victim instanceof LivingEntity lv) {
+            FireDotEffect.createSmoke(lv);
+        }
     }
 }

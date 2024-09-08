@@ -77,9 +77,9 @@ public class FireDotEffect extends MobEffect {
         owner.setRemainingFireTicks(fireTicks);
     }
 
-    private static final Vec3 PARTICLE_MOTION = new Vec3(0, 0.125, 0);
+    public static final Vec3 SMOKE_MOTION = new Vec3(0, 0.125, 0);
     public static void createSmoke(LivingEntity owner) {
-        EffectHelper.createSurroundingParticles(ParticleTypes.LARGE_SMOKE, owner, 8, PARTICLE_MOTION);
+        EffectHelper.createSurroundingParticles(ParticleTypes.LARGE_SMOKE, owner, 8, SMOKE_MOTION);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
