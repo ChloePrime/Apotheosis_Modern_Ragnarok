@@ -39,20 +39,28 @@ public class FreezeEffect extends MobEffect {
 
     @Override
     public void applyEffectTick(@Nonnull LivingEntity owner, int amplifier) {
-        if (amplifier >= FROZEN_THRESHOLD) {
-            return;
-        }
-        var rate = (amplifier + 1) / 5F;
-        if (owner.getRandom().nextFloat() > rate) {
-            return;
-        }
-        if (!owner.level().isClientSide) {
-            EffectHelper.createSurroundingParticles(ParticleTypes.SNOWFLAKE, owner, 1, Vec3.ZERO);
+        if (amplifier < FROZEN_THRESHOLD) {
+            if (owner.isOnFire()) {
+                owner.extinguishFire();
+                owner.removeEffect(this);
+                return;
+            }
+            var rate = (amplifier + 1) / 5F;
+            if (!owner.level().isClientSide && owner.getRandom().nextFloat() <= rate) {
+                EffectHelper.createSurroundingParticles(ParticleTypes.SNOWFLAKE, owner, 1, Vec3.ZERO);
+            }
+        } else {
+            if (owner.isOnFire()) {
+                owner.extinguishFire();
+            }
         }
     }
 
     @SubscribeEvent
     public void onAdded(MobEffectEvent.Added event) {
+        if (event.getEntity().isOnFire()) {
+            event.getEntity().extinguishFire();
+        }
         var instance = event.getEffectInstance();
         if (instance.getEffect() != this || instance.getAmplifier() < FROZEN_THRESHOLD) {
             return;
