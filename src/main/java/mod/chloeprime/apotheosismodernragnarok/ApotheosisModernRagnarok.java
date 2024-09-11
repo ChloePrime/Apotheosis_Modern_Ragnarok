@@ -12,7 +12,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import org.slf4j.Logger;
-import software.bernie.geckolib.GeckoLib;
 
 import javax.annotation.Nullable;
 
@@ -40,7 +39,6 @@ public class ApotheosisModernRagnarok {
     }
 
     public ApotheosisModernRagnarok() {
-        GeckoLib.initialize();
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModContent.init0(modEventBus);
         ModContent.init1(ModLoadingContext.get());

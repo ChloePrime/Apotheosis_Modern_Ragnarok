@@ -11,6 +11,7 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummySpeci
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyValuedAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
+import mod.chloeprime.apotheosismodernragnarok.common.gem.GemInjectionRegistry;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
 import net.minecraft.core.registries.Registries;
@@ -94,6 +95,7 @@ public class ModContent {
 
     public static void setup() {
         ExtraLootCategories.init();
+        GemInjectionRegistry.INSTANCE.registerToBus();
         AffixRegistry.INSTANCE.registerCodec(loc("bullet_saver"), BulletSaverAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("armor_squash"), ArmorSquashAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("explode_on_headshot"), ExplosionOnHeadshotAffix.CODEC);

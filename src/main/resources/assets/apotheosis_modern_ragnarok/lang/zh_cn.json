@@ -110,6 +110,21 @@
 
 
 
+
+  "text.apotheosis.category.apotheosis_modern_ragnarok:semi_auto": "半自动武器",
+  "text.apotheosis.category.apotheosis_modern_ragnarok:semi_auto.plural": "半自动武器",
+  "text.apotheosis.category.apotheosis_modern_ragnarok:full_auto": "全自动武器",
+  "text.apotheosis.category.apotheosis_modern_ragnarok:full_auto.plural": "全自动武器",
+  "text.apotheosis.category.apotheosis_modern_ragnarok:shotgun": "霰弹枪",
+  "text.apotheosis.category.apotheosis_modern_ragnarok:shotgun.plural": "霰弹枪",
+  "text.apotheosis.category.apotheosis_modern_ragnarok:bolt_action": "栓动式武器",
+  "text.apotheosis.category.apotheosis_modern_ragnarok:bolt_action.plural": "栓动式武器",
+  "gem_class.apotheosis_modern_ragnarok.all_gun": "枪械",
+
+
+
+
+
   "affix.apotheosis_modern_ragnarok:magnum": "加装药",
   "affix.apotheosis_modern_ragnarok:magnum.suffix": "马格南",
 
