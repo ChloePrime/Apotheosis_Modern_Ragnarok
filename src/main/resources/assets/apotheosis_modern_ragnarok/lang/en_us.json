@@ -119,7 +119,10 @@
   "text.apotheosis.category.apotheosis_modern_ragnarok:shotgun.plural": "Shotguns",
   "text.apotheosis.category.apotheosis_modern_ragnarok:bolt_action": "Bolt Action Weapon",
   "text.apotheosis.category.apotheosis_modern_ragnarok:bolt_action.plural": "Bolt Action Weapons",
-  "gem_class.apotheosis_modern_ragnarok.all_gun": "Guns",
+  "gem_class.apotheosis_modern_ragnarok.all_gun": "Firearms",
+  "gem_class.apotheosis_modern_ragnarok.all_auto": "Auto Firearms",
+  "gem_class.apotheosis_modern_ragnarok.bolt_action": "Bolt Action Weapons",
+  "gem_class.apotheosis_modern_ragnarok.shotgun": "Shotguns",
 
 
 
