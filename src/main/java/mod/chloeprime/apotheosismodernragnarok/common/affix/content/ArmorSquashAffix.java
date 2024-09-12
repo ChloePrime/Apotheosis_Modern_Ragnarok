@@ -11,6 +11,7 @@ import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.placebo.util.StepFunction;
 import mod.chloeprime.apotheosismodernragnarok.api.events.ArmorSquashAffixTakeEffectEvent;
+import mod.chloeprime.apotheosismodernragnarok.common.CommonConfig;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractValuedAffix;
@@ -88,7 +89,7 @@ public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
     @Override
     public void onGunshotPost(ItemStack stack, AffixInstance instance, EntityHurtByGunEvent.Post event) {
         Optional.ofNullable(event.getHurtEntity()).ifPresent(victim -> {
-            if (victim instanceof Player) {
+            if (CommonConfig.isArmorSquashBlacklist(victim)) {
                 return;
             }
             Optional.ofNullable(event.getAttacker())
