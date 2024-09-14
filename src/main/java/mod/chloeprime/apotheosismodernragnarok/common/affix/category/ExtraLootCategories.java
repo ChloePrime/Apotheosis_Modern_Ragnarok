@@ -1,6 +1,7 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.category;
 
 import com.tacz.guns.api.item.gun.FireMode;
+import com.tacz.guns.resource.index.CommonGunIndex;
 import com.tacz.guns.resource.pojo.data.gun.Bolt;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
@@ -25,10 +26,18 @@ public class ExtraLootCategories {
     }
 
     public static void init() {
-        BOLT_ACTION = register("bolt_action", GunPredicate.matchIndex(index -> index.getGunData().getBolt() == Bolt.MANUAL_ACTION), EquipmentSlot.MAINHAND);
+        BOLT_ACTION = register("bolt_action", GunPredicate.matchIndex(ExtraLootCategories::isBoltAction), EquipmentSlot.MAINHAND);
         SHOTGUN     = register("shotgun",     GunPredicate.matchIndex(index -> index.getBulletData().getBulletAmount() > 4), EquipmentSlot.MAINHAND);
         FULL_AUTO   = register("full_auto",   GunPredicate.supports(FireMode.AUTO), EquipmentSlot.MAINHAND);
         SEMI_AUTO   = register("semi_auto",   GunPredicate.supports(FireMode.SEMI, FireMode.BURST), EquipmentSlot.MAINHAND);
+    }
+
+    public static boolean isBoltAction(CommonGunIndex index) {
+        if (index.getGunData().getBolt() == Bolt.MANUAL_ACTION) {
+            return true;
+        }
+        // 让EMX莫尔斯类的单发装弹武器不被判断成全自动
+        return ((index.getGunData().getBolt() == Bolt.OPEN_BOLT ? 0 : 1) + index.getGunData().getAmmoAmount()) == 1;
     }
 
     private static final Set<LootCategory> ALL_GUNS = new LinkedHashSet<>(8);
