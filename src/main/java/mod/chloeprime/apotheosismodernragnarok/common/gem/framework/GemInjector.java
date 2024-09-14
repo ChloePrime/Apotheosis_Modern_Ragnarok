@@ -26,18 +26,13 @@ public class GemInjector {
 
     private static void injectGem(@Nonnull GemInjection injection, @Nonnull Gem gem) {
         var accessor = (EnhancedGem) gem;
-        if (accessor.amr_getInjectorHash() == injection.hash) {
-            return;
-        }
-        accessor.amr_setInjectorHash(injection.hash);
+        accessor.amr$reset();
 
         var newBonuses = Stream.concat(gem.getBonuses().stream(), injection.getBonuses().stream())
-                .distinct()
                 .collect(ImmutableList.toImmutableList());
         var newBonusMap = newBonuses.stream()
                 .<Pair<LootCategory, GemBonus>>mapMulti((gemData, mapper) -> gemData.getGemClass().types().forEach(c -> mapper.accept(Pair.of(c, gemData))))
-                .distinct()
-                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight));
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
         var uuidsNeeded = newBonuses.stream()
                 .mapToInt(GemBonus::getNumberOfUUIDs)
                 .max()
