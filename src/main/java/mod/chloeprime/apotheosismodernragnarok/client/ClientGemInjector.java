@@ -12,10 +12,9 @@ public class ClientGemInjector {
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (!WILL_INJECT) {
-            return;
+        if (WILL_INJECT) {
+            WILL_INJECT = false;
+            GemInjector.doInjections();
         }
-        WILL_INJECT = false;
-        GemInjector.doInjections();
     }
 }

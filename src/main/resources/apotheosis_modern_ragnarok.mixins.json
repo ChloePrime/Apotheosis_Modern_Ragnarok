@@ -7,7 +7,7 @@
   "mixins": [
     "apoth.AffixAdaptableMixin$Potion",
     "apoth.AffixAdaptableMixin$Telepathic",
-    "apoth.GemAccessor",
+    "apoth.MixinGem",
     "apoth.GemInstanceAccessor",
     "apoth.MeleeGunIsSwordMixin",
     "minecraft.MixinMinecraftServer",
