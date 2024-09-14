@@ -86,13 +86,13 @@ public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
     }
 
     @Override
-    public void onGunshotPost(ItemStack stack, AffixInstance instance, EntityHurtByGunEvent.Post event) {
+    public void onGunshotPost(ItemStack gun, AffixInstance instance, EntityHurtByGunEvent.Post event) {
         Optional.ofNullable(event.getHurtEntity()).ifPresent(victim -> {
             if (CommonConfig.isArmorSquashBlacklist(victim)) {
                 return;
             }
             Optional.ofNullable(event.getAttacker())
-                    .ifPresent(attacker -> onLivingHurt0(victim, stack, instance, attacker));
+                    .ifPresent(attacker -> onLivingHurt0(victim, gun, instance, attacker));
         });
     }
 

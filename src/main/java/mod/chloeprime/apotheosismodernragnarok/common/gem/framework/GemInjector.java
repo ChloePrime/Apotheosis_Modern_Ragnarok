@@ -1,4 +1,4 @@
-package mod.chloeprime.apotheosismodernragnarok.common.gem;
+package mod.chloeprime.apotheosismodernragnarok.common.gem.framework;
 
 import com.google.common.collect.ImmutableList;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;

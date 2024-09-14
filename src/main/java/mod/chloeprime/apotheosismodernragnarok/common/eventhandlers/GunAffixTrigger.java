@@ -8,7 +8,9 @@ import dev.shadowsoffire.apotheosis.adventure.affix.AffixHelper;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixInstance;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AdsPickTargetHookAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.GunAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GunGemBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.util.BulletCreateEvent;
+import mod.chloeprime.apotheosismodernragnarok.common.util.SocketHelper2;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
@@ -39,10 +41,17 @@ public class GunAffixTrigger {
         }
 
         var affixes = AffixHelper.streamAffixes(gun);
+        var gems = SocketHelper2.streamGemBonuses(gun);
         if (event instanceof EntityHurtByGunEvent.Pre pre) {
             affixes.forEach(instance -> {
                 if (instance.affix().get() instanceof GunAffix affix) {
                     affix.onGunshotPre(gun, instance, pre);
+                }
+            });
+            gems.forEach(pair -> {
+                if (pair.getLeft() instanceof GunGemBonus ggb) {
+                    var gi = pair.getRight();
+                    ggb.onGunshotPre(gun, gi.gemStack(), gi, pre);
                 }
             });
         }
@@ -50,6 +59,12 @@ public class GunAffixTrigger {
             affixes.forEach(instance -> {
                 if (instance.affix().get() instanceof GunAffix affix) {
                     affix.onGunshotPost(gun, instance, post);
+                }
+            });
+            gems.forEach(pair -> {
+                if (pair.getLeft() instanceof GunGemBonus ggb) {
+                    var gi = pair.getRight();
+                    ggb.onGunshotPost(gun, gi.gemStack(), gi, post);
                 }
             });
         }
@@ -69,9 +84,18 @@ public class GunAffixTrigger {
             return;
         }
 
-        AffixHelper.streamAffixes(gun).forEach(instance -> {
+        var affixes = AffixHelper.streamAffixes(gun);
+        var gems = SocketHelper2.streamGemBonuses(gun);
+
+        affixes.forEach(instance -> {
             if (instance.affix().get() instanceof GunAffix affix) {
                 affix.onGunshotKill(gun, instance, event);
+            }
+        });
+        gems.forEach(pair -> {
+            if (pair.getLeft() instanceof GunGemBonus ggb) {
+                var gi = pair.getRight();
+                ggb.onGunshotKill(gun, gi.gemStack(), gi, event);
             }
         });
     }
@@ -82,9 +106,18 @@ public class GunAffixTrigger {
             return;
         }
         var gun = event.getGun();
-        AffixHelper.streamAffixes(gun).forEach(instance -> {
+        var affixes = AffixHelper.streamAffixes(gun);
+        var gems = SocketHelper2.streamGemBonuses(gun);
+
+        affixes.forEach(instance -> {
             if (instance.affix().get() instanceof GunAffix affix) {
                 affix.onBulletCreated(gun, instance, event);
+            }
+        });
+        gems.forEach(pair -> {
+            if (pair.getLeft() instanceof GunGemBonus ggb) {
+                var gi = pair.getRight();
+                ggb.onBulletCreated(gun, gi.gemStack(), gi, event);
             }
         });
     }

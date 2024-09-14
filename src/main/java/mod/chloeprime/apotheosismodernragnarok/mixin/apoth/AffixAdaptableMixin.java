@@ -39,7 +39,7 @@ public class AffixAdaptableMixin {
     @SuppressWarnings("AddedMixinMembersNamePattern")
     public static abstract class Potion implements GunAffix {
         @Unique @Override
-        public void onGunshotPost(ItemStack stack, AffixInstance instance, EntityHurtByGunEvent.Post event) {
+        public void onGunshotPost(ItemStack gun, AffixInstance instance, EntityHurtByGunEvent.Post event) {
             if (this.target == PotionAffix.Target.ARROW_SELF) {
                 Optional.ofNullable(event.getAttacker()).ifPresent(owner -> this.applyEffect(owner, instance.rarity().get(), instance.level()));
             }
@@ -51,7 +51,7 @@ public class AffixAdaptableMixin {
         }
 
         @Unique @Override
-        public void onGunshotKill(ItemStack stack, AffixInstance instance, EntityKillByGunEvent event) {
+        public void onGunshotKill(ItemStack gun, AffixInstance instance, EntityKillByGunEvent event) {
             if (this.target == PotionAffix.Target.ARROW_SELF) {
                 Optional.ofNullable(event.getAttacker()).ifPresent(owner -> this.applyEffect(owner, instance.rarity().get(), instance.level()));
             }

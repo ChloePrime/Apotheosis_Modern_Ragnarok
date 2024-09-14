@@ -7,8 +7,8 @@ import mod.chloeprime.apotheosismodernragnarok.common.util.BulletCreateEvent;
 import net.minecraft.world.item.ItemStack;
 
 public interface GunAffix {
-    default void onGunshotPre(ItemStack stack, AffixInstance instance, EntityHurtByGunEvent.Pre event) {}
-    default void onGunshotPost(ItemStack stack, AffixInstance instance, EntityHurtByGunEvent.Post event) {}
-    default void onGunshotKill(ItemStack stack, AffixInstance instance, EntityKillByGunEvent event) {}
-    default void onBulletCreated(ItemStack stack, AffixInstance instance, BulletCreateEvent event) {}
+    default void onGunshotPre(ItemStack gun, AffixInstance instance, EntityHurtByGunEvent.Pre event) {}
+    default void onGunshotPost(ItemStack gun, AffixInstance instance, EntityHurtByGunEvent.Post event) {}
+    default void onGunshotKill(ItemStack gun, AffixInstance instance, EntityKillByGunEvent event) {}
+    default void onBulletCreated(ItemStack gun, AffixInstance instance, BulletCreateEvent event) {}
 }

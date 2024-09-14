@@ -11,7 +11,7 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummySpeci
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyValuedAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
-import mod.chloeprime.apotheosismodernragnarok.common.gem.GemInjectionRegistry;
+import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GemInjectionRegistry;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
 import net.minecraft.core.registries.Registries;

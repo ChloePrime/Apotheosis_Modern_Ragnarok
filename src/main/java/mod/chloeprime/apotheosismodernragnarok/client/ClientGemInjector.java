@@ -1,6 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.client;
 
-import mod.chloeprime.apotheosismodernragnarok.common.gem.GemInjector;
+import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GemInjector;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

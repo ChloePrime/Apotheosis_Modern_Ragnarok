@@ -79,7 +79,7 @@ public class MagicalShotAffix extends DummySpecialAffix implements GunAffix {
     }
 
     @Override
-    public void onBulletCreated(ItemStack stack, AffixInstance instance, BulletCreateEvent event) {
+    public void onBulletCreated(ItemStack gun, AffixInstance instance, BulletCreateEvent event) {
         event.getBullet().getPersistentData().putBoolean(PDATA_KEY, true);
     }
 

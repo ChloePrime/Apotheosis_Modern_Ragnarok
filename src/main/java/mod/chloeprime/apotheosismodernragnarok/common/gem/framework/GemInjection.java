@@ -1,4 +1,4 @@
-package mod.chloeprime.apotheosismodernragnarok.common.gem;
+package mod.chloeprime.apotheosismodernragnarok.common.gem.framework;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

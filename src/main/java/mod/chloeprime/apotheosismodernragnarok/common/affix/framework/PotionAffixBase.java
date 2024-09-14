@@ -93,7 +93,7 @@ public abstract class PotionAffixBase extends AffixBaseUtility implements GunAff
         }
     }
 
-    public void onGunshotPost(ItemStack stack, AffixInstance instance, EntityHurtByGunEvent.Post event) {
+    public void onGunshotPost(ItemStack gun, AffixInstance instance, EntityHurtByGunEvent.Post event) {
         if (this.target == Target.ARROW_SELF) {
             Optional.ofNullable(event.getAttacker()).ifPresent(owner -> this.applyEffect(owner, instance.rarity().get(), instance.level()));
         } else if (this.target == Target.ARROW_TARGET) {
@@ -104,7 +104,7 @@ public abstract class PotionAffixBase extends AffixBaseUtility implements GunAff
     }
 
     @Override
-    public void onGunshotKill(ItemStack stack, AffixInstance instance, EntityKillByGunEvent event) {
+    public void onGunshotKill(ItemStack gun, AffixInstance instance, EntityKillByGunEvent event) {
         if (this.target == Target.ARROW_SELF) {
             Optional.ofNullable(event.getAttacker()).ifPresent(owner -> this.applyEffect(owner, instance.rarity().get(), instance.level()));
         }

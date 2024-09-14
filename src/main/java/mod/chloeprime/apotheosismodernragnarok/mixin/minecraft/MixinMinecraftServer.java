@@ -1,6 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.mixin.minecraft;
 
-import mod.chloeprime.apotheosismodernragnarok.common.gem.GemInjector;
+import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GemInjector;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.CloseableResourceManager;

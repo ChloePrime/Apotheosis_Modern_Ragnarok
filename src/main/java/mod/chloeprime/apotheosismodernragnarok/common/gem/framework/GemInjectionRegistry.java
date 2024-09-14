@@ -1,4 +1,4 @@
-package mod.chloeprime.apotheosismodernragnarok.common.gem;
+package mod.chloeprime.apotheosismodernragnarok.common.gem.framework;
 
 import dev.shadowsoffire.placebo.reload.DynamicRegistry;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;

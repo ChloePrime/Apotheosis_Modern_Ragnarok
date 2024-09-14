@@ -141,6 +141,19 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        forRepositories(fg.repository) // Only add this if you're using ForgeGradle, otherwise remove this line
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
+
     maven {
         // Apotheosis
         url "https://maven.shadowsoffire.dev/releases"
@@ -175,6 +188,7 @@ dependencies {
     implementation fg.deobf("dev.shadowsoffire:Apotheosis:${minecraft_version}-${apoth_version}")
     implementation fg.deobf("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${apoth_attributes_version}")
     implementation fg.deobf("dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}")
+//    runtimeOnly fg.deobf("maven.modrinth:mmmmmmmmmmmm:kDOX4QqW")
 
     // TaCZ
     if (USE_LOCAL_TACZ_V) {

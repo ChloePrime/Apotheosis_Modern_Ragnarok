@@ -121,6 +121,7 @@
   "text.apotheosis.category.apotheosis_modern_ragnarok:bolt_action.plural": "栓动式武器",
   "gem_class.apotheosis_modern_ragnarok.all_gun": "枪械",
   "gem_class.apotheosis_modern_ragnarok.all_auto": "自动武器",
+  "gem_class.apotheosis_modern_ragnarok.all_auto_including_shotgun": "自动武器（包含霰弹枪）",
   "gem_class.apotheosis_modern_ragnarok.bolt_action": "栓动式武器",
   "gem_class.apotheosis_modern_ragnarok.shotgun": "霰弹枪",
 
