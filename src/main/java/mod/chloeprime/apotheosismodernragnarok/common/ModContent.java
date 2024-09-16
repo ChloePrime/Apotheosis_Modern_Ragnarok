@@ -4,6 +4,7 @@ import dev.shadowsoffire.apotheosis.Apotheosis;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixRegistry;
 import dev.shadowsoffire.apotheosis.adventure.affix.salvaging.SalvageItem;
 import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
+import dev.shadowsoffire.attributeslib.impl.PercentBasedAttribute;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyCoefficientAffix;
@@ -28,6 +29,8 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Consumer;
 
 import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.MOD_ID;
 import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.loc;
@@ -71,9 +74,36 @@ public class ModContent {
         public static final RegistryObject<Attribute> BULLET_DAMAGE = create("bullet_damage", 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
         public static final RegistryObject<Attribute> BULLET_SPEED = create("bullet_speed", 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 
+        public static final RegistryObject<Attribute> H_RECOIL = REGISTRY.register("horz_recoil",
+                () -> new PercentBasedAttribute(
+                        createLangKey("horz_recoil"),
+                        1, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY
+                ).setSyncable(true)
+        );
+
+        public static final RegistryObject<Attribute> V_RECOIL = REGISTRY.register("vert_recoil",
+                () -> new PercentBasedAttribute(
+                        createLangKey("vert_recoil"),
+                        1, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY
+                ).setSyncable(true)
+        );
+
+
         @SuppressWarnings("SameParameterValue")
         private static RegistryObject<Attribute> create(String name, double defaultValue, double min, double max) {
-            return REGISTRY.register(name, () -> new RangedAttribute("attribute.name.%s.%s".formatted(MOD_ID, name), defaultValue, min, max));
+            return create(name, defaultValue, min, max, _a -> {});
+        }
+
+        private static RegistryObject<Attribute> create(String name, double defaultValue, double min, double max, Consumer<Attribute> customizer) {
+            return REGISTRY.register(name, () -> {
+                var attribute = new RangedAttribute(createLangKey(name), defaultValue, min, max);
+                customizer.accept(attribute);
+                return attribute;
+            });
+        }
+
+        private static String createLangKey(String name) {
+            return "attribute.name.%s.%s".formatted(MOD_ID, name);
         }
 
         private Attributes() {}

@@ -127,7 +127,9 @@ public class MiscAttributesAdapter {
         public static void onAttachAttributes(EntityAttributeModificationEvent event) {
             event.getTypes().forEach(et -> addAll(et, event::add,
                     BULLET_DAMAGE,
-                    BULLET_SPEED));
+                    BULLET_SPEED,
+                    V_RECOIL,
+                    H_RECOIL));
         }
 
         @SafeVarargs

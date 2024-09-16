@@ -111,6 +111,14 @@
 
 
 
+  "// 宝石名称": "",
+  "item.apotheosis.gem.apotheosis_modern_ragnarok:core/amr/magnum": "Gem of the Magnum",
+
+
+
+
+
+
   "text.apotheosis.category.apotheosis_modern_ragnarok:semi_auto": "Semi Auto Weapon",
   "text.apotheosis.category.apotheosis_modern_ragnarok:semi_auto.plural": "Semi Auto Weapons",
   "text.apotheosis.category.apotheosis_modern_ragnarok:full_auto": "Full Auto Weapon",
@@ -123,11 +131,16 @@
   "attribute.name.apotheosis_modern_ragnarok.bullet_damage.desc": "Damage caused by gunshot (per shrapnel)",
   "attribute.name.apotheosis_modern_ragnarok.bullet_speed": "Bullet Speed",
   "attribute.name.apotheosis_modern_ragnarok.bullet_speed.desc": "Speed of bullets you shoot, m/tick",
+  "attribute.name.apotheosis_modern_ragnarok.vert_recoil": "Vertical Recoil",
+  "attribute.name.apotheosis_modern_ragnarok.vert_recoil.desc": "Scaling to Vertical Recoil",
+  "attribute.name.apotheosis_modern_ragnarok.horz_recoil": "Horizontal Recoil",
+  "attribute.name.apotheosis_modern_ragnarok.horz_recoil.desc": "Scaling to Horizontal Recoil",
   "gem_class.apotheosis_modern_ragnarok.all_gun": "Firearms",
   "gem_class.apotheosis_modern_ragnarok.all_auto": "Auto Firearms",
   "gem_class.apotheosis_modern_ragnarok.all_auto_including_shotgun": "Auto Firearms (Including Shotguns)",
   "gem_class.apotheosis_modern_ragnarok.bolt_action": "Bolt Action Weapons",
   "gem_class.apotheosis_modern_ragnarok.shotgun": "Shotguns",
+  "bonus.apotheosis:multi_attr.desc.amr:but2": "%s, but %s",
 
 
 

@@ -7,9 +7,9 @@
   "mixins": [
     "apoth.AffixAdaptableMixin$Potion",
     "apoth.AffixAdaptableMixin$Telepathic",
-    "apoth.MixinGem",
     "apoth.GemInstanceAccessor",
     "apoth.MeleeGunIsSwordMixin",
+    "apoth.MixinGem",
     "minecraft.MixinMinecraftServer",
     "minecraft.MixinMobEffectInstance",
     "minecraft.client.ProjectileJoinWorldOwnerFixMixin",
@@ -22,6 +22,7 @@
     "minecraft.client.MixinSoundEngine",
     "tacz.client.BlueMuzzleFlashMixin$CaptureState",
     "tacz.client.BlueMuzzleFlashMixin$ModifyTexture",
+    "tacz.client.RecoilAttributeMixin",
     "tacz.client.MagicShotParticleMixin"
   ],
   "injectors": {
