@@ -12,30 +12,32 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.ApiStatus;
 
+import javax.annotation.Nonnull;
+
 @Mod.EventBusSubscriber
 public final class BulletCreateEvent extends Event {
     @ApiStatus.Internal
-    public BulletCreateEvent(Projectile bullet, LivingEntity shooter, ItemStack gun) {
+    public BulletCreateEvent(@Nonnull Projectile bullet, @Nonnull LivingEntity shooter, @Nonnull ItemStack gun) {
         this.bullet = bullet;
         this.shooter = shooter;
         this.gun = gun;
     }
 
-    public Projectile getBullet() {
+    public @Nonnull Projectile getBullet() {
         return bullet;
     }
 
-    public LivingEntity getShooter() {
+    public @Nonnull LivingEntity getShooter() {
         return shooter;
     }
 
-    public ItemStack getGun() {
+    public @Nonnull ItemStack getGun() {
         return gun;
     }
 
-    private final Projectile bullet;
-    private final LivingEntity shooter;
-    private final ItemStack gun;
+    private final @Nonnull Projectile bullet;
+    private final @Nonnull LivingEntity shooter;
+    private final @Nonnull ItemStack gun;
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onBulletCreate(EntityJoinLevelEvent event) {

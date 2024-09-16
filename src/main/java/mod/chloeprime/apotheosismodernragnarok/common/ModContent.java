@@ -19,6 +19,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -62,6 +64,19 @@ public class ModContent {
         }
 
         private Affix() {}
+    }
+
+    public static class Attributes {
+        private static final DeferredRegister<Attribute> REGISTRY = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, MOD_ID);
+        public static final RegistryObject<Attribute> BULLET_DAMAGE = create("bullet_damage", 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        public static final RegistryObject<Attribute> BULLET_SPEED = create("bullet_speed", 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+        @SuppressWarnings("SameParameterValue")
+        private static RegistryObject<Attribute> create(String name, double defaultValue, double min, double max) {
+            return REGISTRY.register(name, () -> new RangedAttribute("attribute.name.%s.%s".formatted(MOD_ID, name), defaultValue, min, max));
+        }
+
+        private Attributes() {}
     }
 
     public static class MobEffects {
@@ -109,6 +124,7 @@ public class ModContent {
 
     public static void init0(IEventBus bus) {
         Items.REGISTRY.register(bus);
+        Attributes.REGISTRY.register(bus);
         MobEffects.REGISTRY.register(bus);
         Sounds.REGISTRY.register(bus);
     }
