@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonConfig {
     public static final ForgeConfigSpec.ConfigValue<List<String>> ARMOR_SQUASH_BLACKLIST;
+    public static final ForgeConfigSpec.BooleanValue BOLT_ACTION_SHOTGUN_IS_BOLT_ACTION;
     public static final List<String> DEFAULT_ARMOR_SQUASH_BLACKLIST = Lists.newArrayList(
             "minecraft:player",
             "minecraft:armor_stand",
@@ -60,6 +61,10 @@ public class CommonConfig {
         ARMOR_SQUASH_BLACKLIST = builder.
                 comment("Entity types that armor squash will not take effect on")
                 .define("armor_squash_blacklist", DEFAULT_ARMOR_SQUASH_BLACKLIST);
+
+        BOLT_ACTION_SHOTGUN_IS_BOLT_ACTION = builder
+                .comment("If true, bolt action shotgun is bolt action, otherwise is shotgun")
+                .define("ba_shotgun_is_ba", false);
 
         SPEC = builder.build();
     }
