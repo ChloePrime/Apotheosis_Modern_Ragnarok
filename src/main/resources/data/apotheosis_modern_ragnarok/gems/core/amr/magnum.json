@@ -166,12 +166,12 @@
           "attribute": "apotheosis_modern_ragnarok:vert_recoil",
           "operation": "ADDITION",
           "values": {
-            "common": 0.05,
-            "uncommon": 0.075,
-            "rare": 0.125,
-            "epic": 0.175,
-            "mythic": 0.225,
-            "ancient": 0.25
+            "common": 0.1,
+            "uncommon": 0.15,
+            "rare": 0.25,
+            "epic": 0.35,
+            "mythic": 0.45,
+            "ancient": 0.5
           }
         }
       ]
@@ -203,12 +203,12 @@
           "attribute": "apotheosis_modern_ragnarok:vert_recoil",
           "operation": "ADDITION",
           "values": {
-            "common": 0.05,
-            "uncommon": 0.075,
-            "rare": 0.125,
-            "epic": 0.175,
-            "mythic": 0.225,
-            "ancient": 0.25
+            "common": 0.1,
+            "uncommon": 0.15,
+            "rare": 0.25,
+            "epic": 0.35,
+            "mythic": 0.45,
+            "ancient": 0.5
           }
         }
       ]
@@ -240,12 +240,12 @@
           "attribute": "apotheosis_modern_ragnarok:vert_recoil",
           "operation": "ADDITION",
           "values": {
-            "common": 0.05,
-            "uncommon": 0.075,
-            "rare": 0.125,
-            "epic": 0.175,
-            "mythic": 0.225,
-            "ancient": 0.25
+            "common": 0.1,
+            "uncommon": 0.15,
+            "rare": 0.25,
+            "epic": 0.35,
+            "mythic": 0.45,
+            "ancient": 0.5
           }
         }
       ]
