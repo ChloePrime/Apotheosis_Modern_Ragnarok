@@ -1,0 +1,117 @@
+{
+  "gem": "apotheosis:core/ballast",
+  "bonuses": [
+    {
+      "__comment": "自动武器",
+      "type": "apotheosis:multi_attribute",
+      "desc": "bonus.apotheosis:multi_attr.desc.and",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.all_auto",
+        "types": [
+          "apotheosis_modern_ragnarok:full_auto",
+          "apotheosis_modern_ragnarok:semi_auto"
+        ]
+      },
+      "modifiers": [
+        {
+          "attribute": "apotheosis_modern_ragnarok:bullet_damage",
+          "operation": "ADDITION",
+          "values": {
+            "common": 0.8,
+            "uncommon": 1.6,
+            "rare": 2.8,
+            "epic": 4.2,
+            "mythic": 5.6,
+            "ancient": 8
+          }
+        },
+        {
+          "attribute": "apotheosis_modern_ragnarok:vert_recoil",
+          "operation": "ADDITION",
+          "values": {
+            "common": -0.04,
+            "uncommon": -0.06,
+            "rare": -0.1,
+            "epic": -0.14,
+            "mythic": -0.18,
+            "ancient": -0.2
+          }
+        }
+      ]
+    },
+    {
+      "__comment": "霰弹枪",
+      "type": "apotheosis:multi_attribute",
+      "desc": "bonus.apotheosis:multi_attr.desc.and",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.shotgun",
+        "types": [
+          "apotheosis_modern_ragnarok:shotgun"
+        ]
+      },
+      "modifiers": [
+        {
+          "attribute": "apotheosis_modern_ragnarok:bullet_damage",
+          "operation": "ADDITION",
+          "values": {
+            "common": 0.13,
+            "uncommon": 0.25,
+            "rare": 0.45,
+            "epic": 0.6,
+            "mythic": 1,
+            "ancient": 1.6
+          }
+        },
+        {
+          "attribute": "apotheosis_modern_ragnarok:vert_recoil",
+          "operation": "ADDITION",
+          "values": {
+            "common": -0.05,
+            "uncommon": -0.075,
+            "rare": -0.125,
+            "epic": -0.175,
+            "mythic": -0.225,
+            "ancient": -0.25
+          }
+        }
+      ]
+    },
+    {
+      "__comment": "拉大栓",
+      "type": "apotheosis:multi_attribute",
+      "desc": "bonus.apotheosis:multi_attr.desc.and",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.bolt_action",
+        "types": [
+          "apotheosis_modern_ragnarok:bolt_action"
+        ]
+      },
+      "modifiers": [
+        {
+          "attribute": "apotheosis_modern_ragnarok:bullet_damage",
+          "operation": "ADDITION",
+          "values": {
+            "common": 2,
+            "uncommon": 4,
+            "rare": 7,
+            "epic": 10,
+            "mythic": 16,
+            "ancient": 24
+          }
+        },
+        {
+          "attribute": "apotheosis_modern_ragnarok:vert_recoil",
+          "operation": "ADDITION",
+          "values": {
+            "common": -0.05,
+            "uncommon": -0.075,
+            "rare": -0.125,
+            "epic": -0.175,
+            "mythic": -0.225,
+            "ancient": -0.25
+          }
+        }
+      ]
+    }
+  ]
+}
