@@ -62,17 +62,17 @@ description='''${mod_description}'''
    ordering="NONE"
    side="BOTH"
 [[dependencies.${mod_id}]]
-  modId="apotheosis"
-  mandatory=true
-  # This version range declares a minimum of the current minecraft version up to but not including the next major version
-  versionRange="[7.4,)"
-  ordering="AFTER"
-  side="BOTH"
+   modId="apotheosis"
+   mandatory=true
+   # This version range declares a minimum of the current minecraft version up to but not including the next major version
+   versionRange="[7.4,)"
+   ordering="AFTER"
+   side="BOTH"
 [[dependencies.${mod_id}]]
-  modId="tacz"
-  mandatory=true
-  # This version range declares a minimum of the current minecraft version up to but not including the next major version
-  versionRange="[1.0.3,)"
-  ordering="NONE"
-  side="BOTH"
+   modId="tacz"
+   mandatory=true
+   # This version range declares a minimum of the current minecraft version up to but not including the next major version
+   versionRange="[1.0.3,)"
+   ordering="NONE"
+   side="BOTH"
 
