@@ -12,7 +12,6 @@
     "apoth.MixinGem",
     "minecraft.MixinMinecraftServer",
     "minecraft.MixinMobEffectInstance",
-    "minecraft.client.ProjectileJoinWorldOwnerFixMixin",
     "tacz.MixinModernKineticGunItem",
     "tacz.MixinModernKineticGunItem$BulletSaverAffixMixin"
   ],
@@ -22,7 +21,6 @@
     "minecraft.client.MixinSoundEngine",
     "tacz.client.BlueMuzzleFlashMixin$CaptureState",
     "tacz.client.BlueMuzzleFlashMixin$ModifyTexture",
-    "tacz.client.RecoilAttributeMixin",
     "tacz.client.MagicShotParticleMixin"
   ],
   "injectors": {

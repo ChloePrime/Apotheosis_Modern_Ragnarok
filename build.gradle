@@ -169,6 +169,13 @@ repositories {
             includeGroup("com.eliotlash.mclib")
         }
     }
+
+    if (file('../GunsmithLib').exists()) {
+        flatDir {
+            dir '../GunsmithLib/build/libs'
+        }
+    }
+
     flatDir {
         dir 'libs'
     }
@@ -196,6 +203,9 @@ dependencies {
     } else {
         implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:5529117-sources-5529578');
     }
+
+    // 前置
+    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:1.20.1-1.0.0')))
 
     // MixinExtras
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
@@ -228,6 +238,7 @@ tasks.named('processResources', ProcessResources).configure {
 
 // Example for how to get properties into the manifest for reading at runtime.
 tasks.named('jar', Jar).configure {
+    archiveClassifier = 'noumenon'
     manifest {
         attributes([
                 "Specification-Title": mod_id,
@@ -242,6 +253,11 @@ tasks.named('jar', Jar).configure {
 
     // This is the preferred method to reobfuscate your jar file
     finalizedBy 'reobfJar'
+}
+
+jarJar.enable()
+tasks.named('jarJar') {
+    archiveClassifier = ''
 }
 
 tasks.withType(JavaCompile).configureEach {

@@ -11,7 +11,7 @@
         "apotheosis_modern_ragnarok:bolt_action"
       ]
     },
-    "attribute": "apotheosis_modern_ragnarok:bullet_speed",
+    "attribute": "gunsmithlib:bullet_speed",
     "operation": "MULTIPLY_BASE",
     "values": {
       "common": 0.1,

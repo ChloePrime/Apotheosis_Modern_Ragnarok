@@ -14,7 +14,7 @@
       },
       "modifiers": [
         {
-          "attribute": "apotheosis_modern_ragnarok:bullet_damage",
+          "attribute": "gunsmithlib:bullet_damage",
           "operation": "ADDITION",
           "values": {
             "common": 0.8,
@@ -26,8 +26,8 @@
           }
         },
         {
-          "attribute": "apotheosis_modern_ragnarok:vert_recoil",
-          "operation": "ADDITION",
+          "attribute": "gunsmithlib:vert_recoil",
+          "operation": "MULTIPLY_BASE",
           "values": {
             "common": -0.04,
             "uncommon": -0.06,
@@ -51,7 +51,7 @@
       },
       "modifiers": [
         {
-          "attribute": "apotheosis_modern_ragnarok:bullet_damage",
+          "attribute": "gunsmithlib:bullet_damage",
           "operation": "ADDITION",
           "values": {
             "common": 0.13,
@@ -63,8 +63,8 @@
           }
         },
         {
-          "attribute": "apotheosis_modern_ragnarok:vert_recoil",
-          "operation": "ADDITION",
+          "attribute": "gunsmithlib:vert_recoil",
+          "operation": "MULTIPLY_BASE",
           "values": {
             "common": -0.05,
             "uncommon": -0.075,
@@ -88,7 +88,7 @@
       },
       "modifiers": [
         {
-          "attribute": "apotheosis_modern_ragnarok:bullet_damage",
+          "attribute": "gunsmithlib:bullet_damage",
           "operation": "ADDITION",
           "values": {
             "common": 2,
@@ -100,8 +100,8 @@
           }
         },
         {
-          "attribute": "apotheosis_modern_ragnarok:vert_recoil",
-          "operation": "ADDITION",
+          "attribute": "gunsmithlib:vert_recoil",
+          "operation": "MULTIPLY_BASE",
           "values": {
             "common": -0.05,
             "uncommon": -0.075,

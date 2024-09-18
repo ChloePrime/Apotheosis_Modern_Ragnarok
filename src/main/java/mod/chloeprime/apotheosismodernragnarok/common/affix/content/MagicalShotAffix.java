@@ -15,7 +15,7 @@ import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummySpecialAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.GunAffix;
-import mod.chloeprime.apotheosismodernragnarok.common.util.BulletCreateEvent;
+import mod.chloeprime.gunsmithlib.api.common.BulletCreateEvent;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.Tag;

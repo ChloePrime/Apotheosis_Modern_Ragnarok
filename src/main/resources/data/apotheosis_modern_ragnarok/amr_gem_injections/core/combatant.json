@@ -11,7 +11,7 @@
         "apotheosis_modern_ragnarok:bolt_action"
       ]
     },
-    "attribute": "apotheosis_modern_ragnarok:bullet_damage",
+    "attribute": "gunsmithlib:bullet_damage",
     "operation": "MULTIPLY_TOTAL",
     "values": {
       "common": 0.25,
