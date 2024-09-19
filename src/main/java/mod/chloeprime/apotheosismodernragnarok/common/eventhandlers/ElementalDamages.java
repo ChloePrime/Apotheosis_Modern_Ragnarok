@@ -38,7 +38,7 @@ public class ElementalDamages {
         }
         var shooter = event.getAttacker();
         var victim = event.getHurtEntity();
-        if (shooter == null || victim == null) {
+        if (shooter == null || victim == null || victim.getType().is(Tags.GUN_IMMUNE)) {
             return;
         }
         var bullet = event.getDamageSource(GunDamageSourcePart.NON_ARMOR_PIERCING).getDirectEntity();

@@ -10,6 +10,7 @@ import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
 import dev.shadowsoffire.placebo.util.StepFunction;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.RatedPotionAffix;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -94,6 +95,14 @@ public abstract class PotionAffixBase extends AffixBaseUtility implements GunAff
     }
 
     public void onGunshotPost(ItemStack gun, AffixInstance instance, EntityHurtByGunEvent.Post event) {
+        var isTargetCart = Optional.ofNullable(event.getHurtEntity())
+                .map(Entity::getType)
+                .map(et -> et.is(ModContent.Tags.GUN_IMMUNE))
+                .orElse(false);
+        if (isTargetCart) {
+            return;
+        }
+
         if (this.target == Target.ARROW_SELF) {
             Optional.ofNullable(event.getAttacker()).ifPresent(owner -> this.applyEffect(owner, instance.rarity().get(), instance.level()));
         } else if (this.target == Target.ARROW_TARGET) {
@@ -105,6 +114,14 @@ public abstract class PotionAffixBase extends AffixBaseUtility implements GunAff
 
     @Override
     public void onGunshotKill(ItemStack gun, AffixInstance instance, EntityKillByGunEvent event) {
+        var isTargetCart = Optional.ofNullable(event.getKilledEntity())
+                .map(Entity::getType)
+                .map(et -> et.is(ModContent.Tags.GUN_IMMUNE))
+                .orElse(false);
+        if (isTargetCart) {
+            return;
+        }
+
         if (this.target == Target.ARROW_SELF) {
             Optional.ofNullable(event.getAttacker()).ifPresent(owner -> this.applyEffect(owner, instance.rarity().get(), instance.level()));
         }

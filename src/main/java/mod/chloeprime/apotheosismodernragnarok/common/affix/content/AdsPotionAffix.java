@@ -9,6 +9,7 @@ import dev.shadowsoffire.apotheosis.adventure.affix.effect.PotionAffix;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AdsPickTargetHookAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.PotionAffixBase;
 import net.minecraft.network.chat.Component;
@@ -47,6 +48,10 @@ public class AdsPotionAffix extends PotionAffixBase implements AdsPickTargetHook
     @Override
     public void onAimingAtEntity(ItemStack stack, Player gunner, AffixInstance instance, EntityHitResult hit) {
         if (!(hit.getEntity() instanceof LivingEntity victim)) {
+            return;
+        }
+        // 瞄准标靶车不触发
+        if (victim.getType().is(ModContent.Tags.GUN_IMMUNE)) {
             return;
         }
 

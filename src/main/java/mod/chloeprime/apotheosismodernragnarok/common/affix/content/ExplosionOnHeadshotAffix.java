@@ -112,6 +112,10 @@ public class ExplosionOnHeadshotAffix extends AbstractValuedAffix {
         if (!(hurtEntity instanceof LivingEntity victim)) {
             return;
         }
+        // 打标靶车不触发
+        if (hurtEntity.getType().is(ModContent.Tags.GUN_IMMUNE)) {
+            return;
+        }
         INSTANCE.getOptional().ifPresent(affix -> Optional.ofNullable(attacker).ifPresent(shooter -> {
             // 获取武器stack并检查枪械id
             DamageUtils.getWeapon(shooter, gunId).ifPresent(

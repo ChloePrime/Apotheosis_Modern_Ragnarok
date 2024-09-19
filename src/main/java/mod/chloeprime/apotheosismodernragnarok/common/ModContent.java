@@ -16,9 +16,13 @@ import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -36,7 +40,7 @@ import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.l
  * apotheosis_modern_ragnarok:armor_squash  shots have rate to destroy target's armor
  */
 public class ModContent {
-    public static class Items {
+    public static final class Items {
         private static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
         public static final RegistryObject<Item> ANCIENT_MATERIAL = REGISTRY.register(
                 "izanagi_object",
@@ -46,11 +50,11 @@ public class ModContent {
         private Items() {}
     }
 
-    public static class LootCategories extends ExtraLootCategories {
+    public static final class LootCategories extends ExtraLootCategories {
         private LootCategories() {}
     }
 
-    public static class Affix {
+    public static final class Affix {
         public static final DynamicHolder<ArmorSquashAffix>         ARMOR_SQUASH = holder("all_gun/special/armor_squash");
         public static final DynamicHolder<BulletSaverAffix>         BULLET_SAVER = holder("all_gun/special/frugality");
         public static final DynamicHolder<ExplosionOnHeadshotAffix> HEAD_EXPLODE = holder("all_gun/special/head_explode");
@@ -64,7 +68,7 @@ public class ModContent {
         private Affix() {}
     }
 
-    public static class MobEffects {
+    public static final class MobEffects {
         private static final DeferredRegister<MobEffect> REGISTRY = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MOD_ID);
         public static final RegistryObject<FireDotEffect> FIRE_DOT = REGISTRY.register("fire_dot", FireDotEffect::create);
         public static final RegistryObject<FreezeEffect> FREEZE = REGISTRY.register("freeze", FreezeEffect::create);
@@ -73,13 +77,17 @@ public class ModContent {
         }
     }
 
-    public static class DamageTypes {
+    public static final class Tags {
+        public static final TagKey<EntityType<?>> GUN_IMMUNE = TagKey.create(Registries.ENTITY_TYPE, loc("gun_immune"));
+    }
+
+    public static final class DamageTypes {
         public static final ResourceKey<DamageType> BULLET_ICE = ResourceKey.create(Registries.DAMAGE_TYPE, loc("bullet_ice"));
         public static final ResourceKey<DamageType> BULLET_FIRE = ResourceKey.create(Registries.DAMAGE_TYPE, loc("bullet_fire"));
         public static final ResourceKey<DamageType> BULLET_IAF = ResourceKey.create(Registries.DAMAGE_TYPE, loc("bullet_iceandfire"));
     }
 
-    public static class Sounds {
+    public static final class Sounds {
         private static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
         public static final RegistryObject<SoundEvent> ARMOR_CRACK = registerSound("affix.armor_break");
         public static final RegistryObject<SoundEvent> MAGIC_SHOTGUN = registerSound("affix.magical_shot.shotgun");

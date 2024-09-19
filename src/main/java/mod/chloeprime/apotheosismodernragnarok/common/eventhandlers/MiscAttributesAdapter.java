@@ -3,6 +3,7 @@ package mod.chloeprime.apotheosismodernragnarok.common.eventhandlers;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;
 import dev.shadowsoffire.attributeslib.api.ALObjects;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -30,6 +31,11 @@ public class MiscAttributesAdapter {
         if (!(victim instanceof LivingEntity livingVictim)) {
             return;
         }
+        // 射击标靶车不触发
+        if (victim.getType().is(ModContent.Tags.GUN_IMMUNE)) {
+            return;
+        }
+
         float lifesteal = (float) attacker.getAttributeValue(ALObjects.Attributes.LIFE_STEAL.get());
         float dmg = Math.min(amount, livingVictim.getMaxHealth());
         if (lifesteal > 0.001) {

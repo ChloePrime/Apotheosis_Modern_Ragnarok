@@ -91,6 +91,10 @@ public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
             if (CommonConfig.isArmorSquashBlacklist(victim)) {
                 return;
             }
+            // 射击标靶车不触发
+            if (victim.getType().is(ModContent.Tags.GUN_IMMUNE)) {
+                return;
+            }
             Optional.ofNullable(event.getAttacker())
                     .ifPresent(attacker -> onLivingHurt0(victim, gun, instance, attacker));
         });
