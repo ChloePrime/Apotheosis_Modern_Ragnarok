@@ -106,7 +106,7 @@
         },
         {
           "attribute": "minecraft:generic.armor_toughness",
-          "operation": "MULTIPLY_BASE",
+          "operation": "ADDITION",
           "values": {
             "common": 0.5,
             "uncommon": 0.75,
