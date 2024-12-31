@@ -12,7 +12,7 @@ import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractValuedAffix;
-import mod.chloeprime.apotheosismodernragnarok.mixin.tacz.MixinModernKineticGunItem.BulletSaverAffixMixin;
+import mod.chloeprime.apotheosismodernragnarok.mixin.tacz.MixinModernKineticGunScriptAPI.BulletSaverAffixMixin;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

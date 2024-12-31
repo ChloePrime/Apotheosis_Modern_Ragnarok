@@ -12,8 +12,8 @@
     "apoth.MixinGem",
     "minecraft.MixinMinecraftServer",
     "minecraft.MixinMobEffectInstance",
-    "tacz.MixinModernKineticGunItem",
-    "tacz.MixinModernKineticGunItem$BulletSaverAffixMixin"
+    "tacz.MixinModernKineticGunScriptAPI",
+    "tacz.MixinModernKineticGunScriptAPI$BulletSaverAffixMixin"
   ],
   "client": [
     "minecraft.client.AbstractSoundInstanceAccessor",

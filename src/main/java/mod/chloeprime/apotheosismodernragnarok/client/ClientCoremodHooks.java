@@ -42,7 +42,7 @@ public class ClientCoremodHooks {
         }
         var gun = shooter.getMainHandItem();
         var isShootSound = Optional.ofNullable(IGun.getIGunOrNull(gun))
-                .flatMap(kun -> TimelessAPI.getClientGunIndex(kun.getGunId(gun)))
+                .flatMap(kun -> TimelessAPI.getGunDisplay(gun))
                 .filter(index -> {
                     var sound = instance.getRegistryName();
                     return sound != null && (

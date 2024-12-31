@@ -20,6 +20,7 @@ apply plugin: 'org.spongepowered.mixin'
 
 boolean USE_LOCAL_TACZ_V = Boolean.parseBoolean(USE_LOCAL_TACZ)
 
+mod_version = "${mod_version}+mc${minecraft_version}+tacz${tacz_version}"
 group = mod_group_id
 version = mod_version
 
@@ -199,14 +200,14 @@ dependencies {
 
     // TaCZ
     if (USE_LOCAL_TACZ_V) {
-        implementation fg.deobf('libs:tacz:1.20.1-1.0.3-all');
+        implementation fg.deobf('libs:tacz-1.20.1:pr-1.1.4-all');
     } else {
         implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:5529117-sources-5529578');
     }
 
     // 前置
-    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:1.20.1-1.0.0'))) {
-        jarJar.ranged(it, "[1.20.1-1.0,)")
+    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:2.+'))) {
+        jarJar.ranged(it, "[2.0,)")
     }
 
     // MixinExtras
