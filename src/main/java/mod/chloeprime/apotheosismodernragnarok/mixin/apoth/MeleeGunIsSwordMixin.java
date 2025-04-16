@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.Slice;
 @Mixin(value = LootCategory.class, remap = false)
 public class MeleeGunIsSwordMixin {
     @Shadow @Final public static LootCategory HEAVY_WEAPON;
+    @Shadow @Final public static LootCategory SWORD;
 
     @ModifyExpressionValue(
             method = "forItem",
@@ -32,8 +33,8 @@ public class MeleeGunIsSwordMixin {
                     .map(GunInfo::index)
                     .map(CommonGunIndex::getGunData)
                     .flatMap(gunData -> ((EnhancedGunData) gunData).amr$getApothData())
-                    .map(apoth -> (Object)(apoth.is_heavy_melee_weapon ? HEAVY_WEAPON : LootCategory.SWORD))
-                    .orElse(null);
+                    .map(apoth -> (Object)(apoth.is_heavy_melee_weapon ? HEAVY_WEAPON : SWORD))
+                    .orElse(SWORD);
         }
         return original;
     }
