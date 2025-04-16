@@ -30,7 +30,7 @@ public class ExtraLootCategories {
 
     public static void init() {
         BOLT_ACTION = register("bolt_action", GunPredicate.matchIndex(ExtraLootCategories::isBoltAction).and(ExtraLootCategories::isBoltActionShotgunBoltAction), EquipmentSlot.MAINHAND);
-        SHOTGUN     = register("shotgun",     GunPredicate.matchIndex(index -> index.getBulletData().getBulletAmount() > 4), EquipmentSlot.MAINHAND);
+        SHOTGUN     = register("shotgun",     GunPredicate.matchIndex(index -> "shotgun".equals(index.getType())), EquipmentSlot.MAINHAND);
         FULL_AUTO   = register("full_auto",   GunPredicate.supports(FireMode.AUTO), EquipmentSlot.MAINHAND);
         SEMI_AUTO   = register("semi_auto",   GunPredicate.supports(FireMode.SEMI, FireMode.BURST), EquipmentSlot.MAINHAND);
     }

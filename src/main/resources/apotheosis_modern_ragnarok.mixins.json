@@ -10,10 +10,13 @@
     "apoth.GemInstanceAccessor",
     "apoth.MeleeGunIsSwordMixin",
     "apoth.MixinGem",
+    "hacks.InterfaceDefaultImplInjectors$Item",
+    "minecraft.MakeGunEnchantableMixin",
     "minecraft.MixinMinecraftServer",
     "minecraft.MixinMobEffectInstance",
     "tacz.MixinModernKineticGunScriptAPI",
-    "tacz.MixinModernKineticGunScriptAPI$BulletSaverAffixMixin"
+    "tacz.MixinModernKineticGunScriptAPI$BulletSaverAffixMixin",
+    "tacz.gunpack.MixinGunData"
   ],
   "client": [
     "minecraft.client.AbstractSoundInstanceAccessor",

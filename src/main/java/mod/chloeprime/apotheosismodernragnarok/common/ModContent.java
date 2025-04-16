@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common;
 
+import com.tacz.guns.api.item.IGun;
 import dev.shadowsoffire.apotheosis.Apotheosis;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixRegistry;
 import dev.shadowsoffire.apotheosis.adventure.affix.salvaging.SalvageItem;
@@ -16,14 +17,14 @@ import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
@@ -101,6 +102,11 @@ public class ModContent {
         private Sounds() {}
     }
 
+    public static final class Enchantments {
+        public static final EnchantmentCategory THE_CATE0GORY = EnchantmentCategory.create("AMR_GUN_APOTH", IGun.class::isInstance);
+        private static final DeferredRegister<Enchantment> REGISTRY = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, MOD_ID);
+    }
+
     public static void setup() {
         ExtraLootCategories.init();
         GemInjectionRegistry.INSTANCE.registerToBus();
@@ -118,6 +124,7 @@ public class ModContent {
     public static void init0(IEventBus bus) {
         Items.REGISTRY.register(bus);
         MobEffects.REGISTRY.register(bus);
+        Enchantments.REGISTRY.register(bus);
         Sounds.REGISTRY.register(bus);
     }
 

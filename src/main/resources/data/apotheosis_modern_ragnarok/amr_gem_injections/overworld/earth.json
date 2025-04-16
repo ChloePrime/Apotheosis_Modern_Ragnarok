@@ -12,13 +12,13 @@
           "apotheosis_modern_ragnarok:bolt_action"
         ]
       },
-      "enchantment": "looting",
-      "must_exist": false,
+      "enchantment": "lnootig",
+      "must_exist": true,
       "values": {
-        "rare": 2,
-        "epic": 3,
-        "mythic": 5,
-        "ancient": 8
+        "rare": 1,
+        "epic": 2,
+        "mythic": 3,
+        "ancient": 4
       }
     }
   ]

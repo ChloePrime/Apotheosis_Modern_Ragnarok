@@ -4,6 +4,7 @@ import com.tacz.guns.api.TimelessAPI;
 import com.tacz.guns.api.item.IGun;
 import com.tacz.guns.api.item.gun.FireMode;
 import com.tacz.guns.resource.index.CommonGunIndex;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.EnhancedGunData;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Arrays;
@@ -30,6 +31,12 @@ public interface GunPredicate extends Predicate<ItemStack> {
     }
 
     static boolean isMeleeGun(CommonGunIndex index) {
+        int force = ((EnhancedGunData) index.getGunData()).amr$getApothData()
+                .map(apoth -> apoth.force_melee_weapon)
+                .orElse(0);
+        if (force != 0) {
+            return force > 0;
+        }
         var range = index.getBulletData().getSpeed() * index.getBulletData().getLifeSecond() * 20F;
         return range <= 4;
     }
