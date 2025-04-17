@@ -54,6 +54,9 @@ public abstract class MakeGunEnchantableMixin implements IForgeItem {
         }
         // 枪械
         else {
+            if (enchantment.category.canEnchant(stack.getItem())) {
+                return;
+            }
             cir.setReturnValue(GunEnchantmentHooks.isExistingEnchantmentAvailableOnGuns(enchantment));
         }
     }

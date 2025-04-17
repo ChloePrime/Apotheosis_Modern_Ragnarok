@@ -9,6 +9,8 @@
   "subtitles.apotheosis_modern_ragnarok.critical_hit": "暴击命中",
   "subtitles.apotheosis_modern_ragnarok.affix.head_explosion": "头部炸裂",
   "item.apotheosis_modern_ragnarok.izanagi_object": "伊奘诺物质",
+  "enchantment.apotheosis_modern_ragnarok.projection_magic": "投影魔术",
+  "enchantment.apotheosis_modern_ragnarok.projection_magic.desc": "随时间向弹匣内自动再生弹药",
 
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.attack_self": "击中目标时，%s概率获得%s",
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.attack_target": "击中目标时，%s概率造成%s",

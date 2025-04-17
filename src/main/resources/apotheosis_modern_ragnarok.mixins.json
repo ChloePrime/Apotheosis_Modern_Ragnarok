@@ -13,6 +13,7 @@
     "apoth.MixinGem",
     "hacks.InterfaceDefaultImplInjectors$Item",
     "minecraft.MakeGunEnchantableMixin",
+    "minecraft.MixinLivingEntity",
     "minecraft.MixinMinecraftServer",
     "minecraft.MixinMobEffectInstance",
     "tacz.MixinModernKineticGunItem",

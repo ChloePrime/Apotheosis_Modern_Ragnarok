@@ -25,6 +25,7 @@ public class CommonConfig {
     );
 
     public static final ForgeConfigSpec.BooleanValue FIX_MAGIC_PROTECTION;
+    public static final ForgeConfigSpec.IntValue PROJECTION_MAGIC_MAX_FILL_SPEED;
 
     @SubscribeEvent
     public static void onConfigReload(ModConfigEvent event) {
@@ -71,6 +72,10 @@ public class CommonConfig {
         FIX_MAGIC_PROTECTION = builder
                 .comment("If true, Magic damage reduction affix will only work on #forge:is_magic damage types, instead of every armor-piercing damage types")
                 .define("fix_magic_protection", true);
+
+        PROJECTION_MAGIC_MAX_FILL_SPEED = builder
+                .comment("Max fill amount of projection magic enchantment, per 2 ticks")
+                .defineInRange("projection_magic_max_fill_speed", 4, 1, Integer.MAX_VALUE);
 
         SPEC = builder.build();
     }

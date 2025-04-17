@@ -12,6 +12,7 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummySpeci
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyValuedAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
+import mod.chloeprime.apotheosismodernragnarok.common.enchantment.ProjectionMagicEnchantment;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GemInjectionRegistry;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
@@ -103,8 +104,9 @@ public class ModContent {
     }
 
     public static final class Enchantments {
-        public static final EnchantmentCategory THE_CATE0GORY = EnchantmentCategory.create("AMR_GUN_APOTH", IGun.class::isInstance);
+        public static final EnchantmentCategory THE_CATEGORY = EnchantmentCategory.create("AMR_GUN_APOTH", IGun.class::isInstance);
         private static final DeferredRegister<Enchantment> REGISTRY = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, MOD_ID);
+        public static final RegistryObject<Enchantment> PROJECTION_MAGIC = REGISTRY.register("projection_magic", ProjectionMagicEnchantment::new);
     }
 
     public static void setup() {
