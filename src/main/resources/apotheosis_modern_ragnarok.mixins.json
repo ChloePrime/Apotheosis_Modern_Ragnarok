@@ -8,6 +8,7 @@
     "apoth.AffixAdaptableMixin$Potion",
     "apoth.AffixAdaptableMixin$Telepathic",
     "apoth.GemInstanceAccessor",
+    "apoth.MagicDamageReductionFixMixin",
     "apoth.MeleeGunIsSwordMixin",
     "apoth.MixinGem",
     "hacks.InterfaceDefaultImplInjectors$Item",

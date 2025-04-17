@@ -24,6 +24,8 @@ public class CommonConfig {
             "dummmmmmy:target_dummy"
     );
 
+    public static final ForgeConfigSpec.BooleanValue FIX_MAGIC_PROTECTION;
+
     @SubscribeEvent
     public static void onConfigReload(ModConfigEvent event) {
         if (!(event instanceof ModConfigEvent.Loading) && !(event instanceof ModConfigEvent.Reloading)) {
@@ -65,6 +67,10 @@ public class CommonConfig {
         BOLT_ACTION_SHOTGUN_IS_BOLT_ACTION = builder
                 .comment("If true, bolt action shotgun is bolt action, otherwise is shotgun")
                 .define("ba_shotgun_is_ba", false);
+
+        FIX_MAGIC_PROTECTION = builder
+                .comment("If true, Magic damage reduction affix will only work on #forge:is_magic damage types, instead of every armor-piercing damage types")
+                .define("fix_magic_protection", true);
 
         SPEC = builder.build();
     }
