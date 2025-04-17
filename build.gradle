@@ -206,7 +206,7 @@ dependencies {
     }
 
     // 前置
-    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:2.+'))) {
+    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:2.1+'))) {
         jarJar.ranged(it, "[2.0,)")
     }
 

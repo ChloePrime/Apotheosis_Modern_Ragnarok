@@ -49,6 +49,16 @@ public class ProjectionMagicEnchantment extends Enchantment {
     }
 
     @Override
+    public boolean isTreasureOnly() {
+        return true;
+    }
+
+    @Override
+    public boolean isTradeable() {
+        return false;
+    }
+
+    @Override
     public Component getFullname(int level) {
         return ((MutableComponent) super.getFullname(level)).withStyle(ChatFormatting.DARK_GREEN);
     }

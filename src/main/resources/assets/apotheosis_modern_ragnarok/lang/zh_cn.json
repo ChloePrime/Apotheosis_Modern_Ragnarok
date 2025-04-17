@@ -9,6 +9,10 @@
   "subtitles.apotheosis_modern_ragnarok.critical_hit": "暴击命中",
   "subtitles.apotheosis_modern_ragnarok.affix.head_explosion": "头部炸裂",
   "item.apotheosis_modern_ragnarok.izanagi_object": "伊奘诺物质",
+  "enchantment.apotheosis_modern_ragnarok.stability": "稳重",
+  "enchantment.apotheosis_modern_ragnarok.stability.desc": "降低射击时的后坐力",
+  "enchantment.apotheosis_modern_ragnarok.riptide_warhead": "激流勇进",
+  "enchantment.apotheosis_modern_ragnarok.riptide_warhead.desc": "降低子弹的水下阻力",
   "enchantment.apotheosis_modern_ragnarok.projection_magic": "投影魔术",
   "enchantment.apotheosis_modern_ragnarok.projection_magic.desc": "随时间向弹匣内自动再生弹药",
 

@@ -16,6 +16,7 @@
     "minecraft.MixinLivingEntity",
     "minecraft.MixinMinecraftServer",
     "minecraft.MixinMobEffectInstance",
+    "tacz.MixinEntityKineticBullet",
     "tacz.MixinModernKineticGunItem",
     "tacz.MixinModernKineticGunScriptAPI",
     "tacz.MixinModernKineticGunScriptAPI$BulletSaverAffixMixin",
