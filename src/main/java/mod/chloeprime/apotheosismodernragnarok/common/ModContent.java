@@ -118,6 +118,7 @@ public class ModContent {
         public static final RegistryObject<Enchantment> EMERGENCY_PROTECTOR = REGISTRY.register("emergency_protector", EmergencyProtectorEnchantment::new);
         public static final RegistryObject<Enchantment> RIPTIDE_WARHEAD = REGISTRY.register("riptide_warhead", BulletRiptideEnchantment::new);
         public static final RegistryObject<Enchantment> SURVIVAL_INSTINCT = REGISTRY.register("survival_instinct", SurvivalInstinctEnchantment::new);
+        public static final RegistryObject<Enchantment> LAST_STAND = REGISTRY.register("last_stand", LastStandEnchantment::new);
         public static final RegistryObject<Enchantment> PROJECTION_MAGIC = REGISTRY.register("projection_magic", ProjectionMagicEnchantment::new);
     }
 
