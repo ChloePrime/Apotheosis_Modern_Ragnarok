@@ -127,6 +127,6 @@ public class SurvivalInstinctEnchantment extends Enchantment {
 
     @Override
     protected boolean checkCompatibility(Enchantment other) {
-        return !(other instanceof ProjectionMagicEnchantment);
+        return super.checkCompatibility(other) && !(other instanceof ProjectionMagicEnchantment);
     }
 }
