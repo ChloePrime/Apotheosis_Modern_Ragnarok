@@ -1,5 +1,7 @@
 package mod.chloeprime.apotheosismodernragnarok.common.enchantment;
 
+import com.tacz.guns.api.entity.IGunOperator;
+import com.tacz.guns.api.entity.ReloadState;
 import com.tacz.guns.api.event.common.GunShootEvent;
 import com.tacz.guns.api.item.IGun;
 import com.tacz.guns.resource.pojo.data.gun.Bolt;
@@ -21,6 +23,8 @@ import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import static com.tacz.guns.api.entity.ReloadState.StateType.*;
 
 @MethodsReturnNonnullByDefault
 public class ProjectionMagicEnchantment extends Enchantment {
@@ -67,7 +71,10 @@ public class ProjectionMagicEnchantment extends Enchantment {
         if (level < 0) {
             return 1;
         }
-        return 3.0 / (level + 2) * 2;
+        // f(0) = 2
+        // f(3) = 1.25
+        // f(x -> Inf) = 1
+        return 1 + (2.0 / 3) / (level - 1.0 / 3);
     }
 
     @SubscribeEvent
@@ -90,7 +97,7 @@ public class ProjectionMagicEnchantment extends Enchantment {
         var pmUser = (ProjectionMagicUser) user;
         var weapon = user.getMainHandItem();
 
-        if (IGun.getIGunOrNull(weapon) == null) {
+        if (IGun.getIGunOrNull(weapon) == null || IGunOperator.fromLivingEntity(user).getSynReloadState().getStateType() != NOT_RELOADING) {
             pmUser.amr$deactivateProjectionMagic();
             return;
         }
