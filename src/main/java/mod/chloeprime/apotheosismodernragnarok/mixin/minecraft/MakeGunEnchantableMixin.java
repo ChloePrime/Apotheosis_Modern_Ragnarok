@@ -1,18 +1,11 @@
 package mod.chloeprime.apotheosismodernragnarok.mixin.minecraft;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.Multimap;
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.tacz.guns.api.item.IGun;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
-import mod.chloeprime.apotheosismodernragnarok.common.enchantment.AttributedGunEnchantmentBase;
 import mod.chloeprime.apotheosismodernragnarok.common.enchantment.GunEnchantmentHooks;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.EnhancedGunData;
 import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -72,25 +65,17 @@ public abstract class MakeGunEnchantableMixin implements IForgeItem {
             if (enchantment.category.canEnchant(stack.getItem())) {
                 return;
             }
-            cir.setReturnValue(GunEnchantmentHooks.isExistingEnchantmentAvailableOnGuns(enchantment));
+            var available = GunEnchantmentHooks.isExistingEnchantmentAvailableOnGuns(enchantment) || switch (gun.index().getType()) {
+                case "pistol" -> (enchantment.category == ModContent.Enchantments.CAT_PISTOL);
+                case "sniper" -> (enchantment.category == ModContent.Enchantments.CAT_SNIPER);
+                case "rifle" -> (enchantment.category == ModContent.Enchantments.CAT_RIFLE);
+                case "shotgun" -> (enchantment.category == ModContent.Enchantments.CAT_SHOTGUN);
+                case "smg" -> (enchantment.category == ModContent.Enchantments.CAT_SMG);
+                case "rpg" -> (enchantment.category == ModContent.Enchantments.CAT_HEAVY_WEAPON);
+                case "mg" -> (enchantment.category == ModContent.Enchantments.CAT_MACHINE_GUN);
+                default -> false;
+            };
+            cir.setReturnValue(available);
         }
-    }
-
-    @Dynamic
-    @ModifyReturnValue(method = "getAttributeModifiers", at = @At("RETURN"), remap = false)
-    private Multimap<Attribute, AttributeModifier> enchToAttribute(Multimap<Attribute, AttributeModifier> original, EquipmentSlot slot, ItemStack stack) {
-        if (!(this instanceof IGun)) {
-            return original;
-        }
-        var ret = original;
-        for (var entry : stack.getAllEnchantments().entrySet()) {
-            if (entry.getKey() instanceof AttributedGunEnchantmentBase enchantment) {
-                var table = ret = original instanceof ImmutableMultimap<Attribute, AttributeModifier>
-                        ? LinkedHashMultimap.create()
-                        : original;
-                enchantment.addAttributes(entry.getValue(), table, slot);
-            }
-        }
-        return ret;
     }
 }

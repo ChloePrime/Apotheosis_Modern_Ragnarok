@@ -11,8 +11,12 @@
   "item.apotheosis_modern_ragnarok.izanagi_object": "伊奘诺物质",
   "enchantment.apotheosis_modern_ragnarok.stability": "稳重",
   "enchantment.apotheosis_modern_ragnarok.stability.desc": "降低射击时的后坐力",
+  "enchantment.apotheosis_modern_ragnarok.emergency_protector": "应急护具",
+  "enchantment.apotheosis_modern_ragnarok.emergency_protector.desc": "放在副手时提升护甲值",
   "enchantment.apotheosis_modern_ragnarok.riptide_warhead": "激流勇进",
   "enchantment.apotheosis_modern_ragnarok.riptide_warhead.desc": "降低子弹的水下阻力",
+  "enchantment.apotheosis_modern_ragnarok.survival_instinct": "求生本能",
+  "enchantment.apotheosis_modern_ragnarok.survival_instinct.desc": "击杀生物后有概率掉落弹药",
   "enchantment.apotheosis_modern_ragnarok.projection_magic": "投影魔术",
   "enchantment.apotheosis_modern_ragnarok.projection_magic.desc": "随时间向弹匣内自动再生弹药",
 

@@ -11,8 +11,12 @@
   "item.apotheosis_modern_ragnarok.izanagi_object": "Izanagi Object",
   "enchantment.apotheosis_modern_ragnarok.stability": "Stability",
   "enchantment.apotheosis_modern_ragnarok.stability.desc": "Reduces recoil",
+  "enchantment.apotheosis_modern_ragnarok.emergency_protector": "Emergency Protector",
+  "enchantment.apotheosis_modern_ragnarok.emergency_protector.desc": "Increases armor value when placed on offhand",
   "enchantment.apotheosis_modern_ragnarok.riptide_warhead": "Riptide Warhead",
   "enchantment.apotheosis_modern_ragnarok.riptide_warhead.desc": "Decrease bullets' friction underwater",
+  "enchantment.apotheosis_modern_ragnarok.survival_instinct": "Survival Instinct",
+  "enchantment.apotheosis_modern_ragnarok.survival_instinct.desc": "Drop bullets upon kill",
   "enchantment.apotheosis_modern_ragnarok.projection_magic": "Projection Magic",
   "enchantment.apotheosis_modern_ragnarok.projection_magic.desc": "Generates ammo upon time",
 
