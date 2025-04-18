@@ -23,7 +23,7 @@ import java.util.UUID;
 
 public class FreezeEffect extends MobEffect {
     public static final UUID SPEED_MODIFIER_UUID = UUID.fromString("42d5dcd6-c8a4-442b-b57b-0c7517d4ddaa");
-    public static final UUID DAMAGE_MODIFIER_UUID = UUID.fromString("42d5dcd6-c8a4-442b-b57b-0c7517d4ddab");
+    public static final UUID DAMAGE_MODIFIER_UUID = UUID.fromString("833ca9ad-b489-4da3-a67d-54033b148353");
     public static final int FROZEN_THRESHOLD = 5;
     public static final String PDKEY_NO_AI_BEFORE = ApotheosisModernRagnarok.loc("no_ai_before").toString();
 

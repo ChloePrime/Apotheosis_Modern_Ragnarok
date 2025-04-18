@@ -6,6 +6,7 @@ import dev.shadowsoffire.apotheosis.Apotheosis;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixRegistry;
 import dev.shadowsoffire.apotheosis.adventure.affix.salvaging.SalvageItem;
 import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyCoefficientAffix;
@@ -14,9 +15,11 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyValue
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
 import mod.chloeprime.apotheosismodernragnarok.common.enchantment.*;
+import mod.chloeprime.apotheosismodernragnarok.common.gem.content.PotionWhenShootBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GemInjectionRegistry;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
+import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.TyrannyEffect;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
@@ -75,6 +78,7 @@ public class ModContent {
         private static final DeferredRegister<MobEffect> REGISTRY = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MOD_ID);
         public static final RegistryObject<FireDotEffect> FIRE_DOT = REGISTRY.register("fire_dot", FireDotEffect::create);
         public static final RegistryObject<FreezeEffect> FREEZE = REGISTRY.register("freeze", FreezeEffect::create);
+        public static final RegistryObject<TyrannyEffect> TYRANNY = REGISTRY.register("tyranny", TyrannyEffect::create);
 
         private MobEffects() {
         }
@@ -134,6 +138,7 @@ public class ModContent {
         AffixRegistry.INSTANCE.registerCodec(loc("dummy_valued"), DummyValuedAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("dummy_coefficient"), DummyCoefficientAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("dummy_special"), DummySpecialAffix.CODEC);
+        GemBonus.CODEC.register(loc("mob_effect_when_shoot"), PotionWhenShootBonus.CODEC);
     }
 
     public static void init0(IEventBus bus) {

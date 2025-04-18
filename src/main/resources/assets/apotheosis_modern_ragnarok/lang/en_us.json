@@ -21,6 +21,7 @@
   "enchantment.apotheosis_modern_ragnarok.last_stand.desc": "Increases melee damage when magazine is empty",
   "enchantment.apotheosis_modern_ragnarok.projection_magic": "Projection Magic",
   "enchantment.apotheosis_modern_ragnarok.projection_magic.desc": "Generates ammo upon time",
+  "effect.apotheosis_modern_ragnarok.tyranny": "Tyrant Form",
 
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.attack_self": "On hit, %s chance to gain %s",
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.attack_target": "On hit, %s chance to inflict %s",
@@ -143,8 +144,10 @@
   "gem_class.apotheosis_modern_ragnarok.all_auto": "Auto Firearms",
   "gem_class.apotheosis_modern_ragnarok.all_auto_including_shotgun": "Auto Firearms (Including Shotguns)",
   "gem_class.apotheosis_modern_ragnarok.bolt_action": "Bolt Action Weapons",
+  "gem_class.apotheosis_modern_ragnarok.full_auto": "Full Auto Weapons",
   "gem_class.apotheosis_modern_ragnarok.shotgun": "Shotguns",
   "bonus.apotheosis:multi_attr.desc.amr:but2": "%s, but %s",
+  "bonus.apotheosis_modern_ragnarok.tyrannical.desc": "Continuous firing increases fire rate but decreases movement speed. max stacks to %d level",
 
 
 
