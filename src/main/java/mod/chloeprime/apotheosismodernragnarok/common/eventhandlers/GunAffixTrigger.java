@@ -36,35 +36,32 @@ public class GunAffixTrigger {
             return;
         }
         var gun = shooter.getMainHandItem();
-        if (!checkGun(gun, event.getGunId())) {
+        if (checkInvalidGun(gun, event.getGunId())) {
             return;
         }
 
-        var affixes = AffixHelper.streamAffixes(gun);
-        var gems = SocketHelper2.streamGemBonuses(gun);
+        var affixes = AffixHelper.getAffixes(gun);
         if (event instanceof EntityHurtByGunEvent.Pre pre) {
-            affixes.forEach(instance -> {
-                if (instance.affix().get() instanceof GunAffix affix) {
+            affixes.forEach((holder, instance) -> {
+                if (holder.get() instanceof GunAffix affix) {
                     affix.onGunshotPre(gun, instance, pre);
                 }
             });
-            gems.forEach(pair -> {
-                if (pair.getLeft() instanceof GunGemBonus ggb) {
-                    var gi = pair.getRight();
-                    ggb.onGunshotPre(gun, gi.gemStack(), gi, pre);
+            SocketHelper2.forEachGemBonus(gun, (gemBonus, gemInstance) -> {
+                if (gemBonus instanceof GunGemBonus ggb) {
+                    ggb.onGunshotPre(gun, gemInstance.gemStack(), gemInstance, pre);
                 }
             });
         }
         if (event instanceof EntityHurtByGunEvent.Post post) {
-            affixes.forEach(instance -> {
-                if (instance.affix().get() instanceof GunAffix affix) {
+            affixes.forEach((holder, instance) -> {
+                if (holder.get() instanceof GunAffix affix) {
                     affix.onGunshotPost(gun, instance, post);
                 }
             });
-            gems.forEach(pair -> {
-                if (pair.getLeft() instanceof GunGemBonus ggb) {
-                    var gi = pair.getRight();
-                    ggb.onGunshotPost(gun, gi.gemStack(), gi, post);
+            SocketHelper2.forEachGemBonus(gun, (gemBonus, gemInstance) -> {
+                if (gemBonus instanceof GunGemBonus ggb) {
+                    ggb.onGunshotPost(gun, gemInstance.gemStack(), gemInstance, post);
                 }
             });
         }
@@ -80,22 +77,18 @@ public class GunAffixTrigger {
             return;
         }
         var gun = shooter.getMainHandItem();
-        if (!checkGun(gun, event.getGunId())) {
+        if (checkInvalidGun(gun, event.getGunId())) {
             return;
         }
 
-        var affixes = AffixHelper.streamAffixes(gun);
-        var gems = SocketHelper2.streamGemBonuses(gun);
-
-        affixes.forEach(instance -> {
-            if (instance.affix().get() instanceof GunAffix affix) {
+        AffixHelper.getAffixes(gun).forEach((holder, instance) -> {
+            if (holder.get() instanceof GunAffix affix) {
                 affix.onGunshotKill(gun, instance, event);
             }
         });
-        gems.forEach(pair -> {
-            if (pair.getLeft() instanceof GunGemBonus ggb) {
-                var gi = pair.getRight();
-                ggb.onGunshotKill(gun, gi.gemStack(), gi, event);
+        SocketHelper2.forEachGemBonus(gun, (gemBonus, gemInstance) -> {
+            if (gemBonus instanceof GunGemBonus ggb) {
+                ggb.onGunshotKill(gun, gemInstance.gemStack(), gemInstance, event);
             }
         });
     }
@@ -105,24 +98,21 @@ public class GunAffixTrigger {
         if (event.getBullet().level().isClientSide) {
             return;
         }
-        var gun = event.getGun();
-        var affixes = AffixHelper.streamAffixes(gun);
-        var gems = SocketHelper2.streamGemBonuses(gun);
 
-        affixes.forEach(instance -> {
-            if (instance.affix().get() instanceof GunAffix affix) {
+        var gun = event.getGun();
+        AffixHelper.getAffixes(gun).forEach((holder, instance) -> {
+            if (holder.get() instanceof GunAffix affix) {
                 affix.onBulletCreated(gun, instance, event);
             }
         });
-        gems.forEach(pair -> {
-            if (pair.getLeft() instanceof GunGemBonus ggb) {
-                var gi = pair.getRight();
-                ggb.onBulletCreated(gun, gi.gemStack(), gi, event);
+        SocketHelper2.forEachGemBonus(gun, (gemBonus, gemInstance) -> {
+            if (gemBonus instanceof GunGemBonus ggb) {
+                ggb.onBulletCreated(gun, gemInstance.gemStack(), gemInstance, event);
             }
         });
     }
 
-    private static final List<AdsPickTargetHookAffix> AFFIX_BUFFER = new ArrayList<AdsPickTargetHookAffix>(8);
+    private static final List<AdsPickTargetHookAffix> AFFIX_BUFFER = new ArrayList<>(8);
     private static final List<AffixInstance> AFFIX_INSTANCE_BUFFER = new ArrayList<>(8);
 
     @SubscribeEvent
@@ -135,10 +125,13 @@ public class GunAffixTrigger {
             return;
         }
         var simDistanceBlocks = level.getServer().getPlayerList().getSimulationDistance() * 16;
-        event.level.players().stream()
-                .filter(IGun::mainhandHoldGun)
-                .filter(player -> IGunOperator.fromLivingEntity(player).getSynAimingProgress() >= 0.9)
-                .forEach(player -> tryTriggerAdsPickHook(player, simDistanceBlocks));
+        for (Player player : event.level.players()) {
+            if (IGun.mainhandHoldGun(player)) {
+                if (IGunOperator.fromLivingEntity(player).getSynAimingProgress() >= 0.9) {
+                    tryTriggerAdsPickHook(player, simDistanceBlocks);
+                }
+            }
+        }
     }
 
     private static void tryTriggerAdsPickHook(Player player, int simDistanceBlocks) {
@@ -146,8 +139,8 @@ public class GunAffixTrigger {
 
         try {
             // 先获取玩家手里有没有瞄准时给予效果类词条
-            AffixHelper.streamAffixes(gun).forEach(instance -> {
-                if (instance.affix().get() instanceof AdsPickTargetHookAffix affix && affix.isAdsPickEnabled()) {
+            AffixHelper.getAffixes(gun).forEach((holder, instance) -> {
+                if (holder.get() instanceof AdsPickTargetHookAffix affix && affix.isAdsPickEnabled()) {
                     AFFIX_BUFFER.add(affix);
                     AFFIX_INSTANCE_BUFFER.add(instance);
                 }
@@ -182,9 +175,9 @@ public class GunAffixTrigger {
         }
     }
 
-    private static boolean checkGun(ItemStack weapon, ResourceLocation gunId) {
+    private static boolean checkInvalidGun(ItemStack weapon, ResourceLocation gunId) {
         return Optional.ofNullable(IGun.getIGunOrNull(weapon))
                 .filter(ig -> ig.getGunId(weapon).equals(gunId))
-                .isPresent();
+                .isEmpty();
     }
 }

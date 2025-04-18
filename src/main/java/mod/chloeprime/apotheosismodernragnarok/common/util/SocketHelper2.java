@@ -7,10 +7,22 @@ import mod.chloeprime.apotheosismodernragnarok.mixin.apoth.GemInstanceAccessor;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class SocketHelper2 {
+    public static void forEachGemBonus(ItemStack item, BiConsumer<GemBonus, GemInstance> code) {
+        for (var instance : SocketHelper.getGems(item)) {
+            if (!instance.isValid()) {
+                continue;
+            }
+            ((GemInstanceAccessor) (Object) instance)
+                    .callMap(Function.identity())
+                    .ifPresent(bonus -> code.accept(bonus, instance));
+        }
+    }
+
     @SuppressWarnings("DataFlowIssue")
     public static Stream<Pair<GemBonus, GemInstance>> streamGemBonuses(ItemStack item) {
         return SocketHelper.getGems(item).streamValidGems()
