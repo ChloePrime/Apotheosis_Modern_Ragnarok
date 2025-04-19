@@ -2,6 +2,7 @@ package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.tacz.guns.api.event.common.GunShootEvent;
 import dev.shadowsoffire.apotheosis.adventure.affix.*;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
@@ -12,6 +13,7 @@ import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractValuedAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.BulletSaverAffixUser;
 import mod.chloeprime.apotheosismodernragnarok.mixin.tacz.MixinModernKineticGunScriptAPI.BulletSaverAffixMixin;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -19,6 +21,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Map;
@@ -49,6 +52,15 @@ public class BulletSaverAffix extends AbstractValuedAffix {
             Set<LootCategory> categories,
             Map<LootRarity, StepFunction> values) {
         super(AffixType.ABILITY, categories, values);
+    }
+
+    @SubscribeEvent
+    public static void onLivingShoot(GunShootEvent event) {
+        if (event.getShooter().level().isClientSide) {
+            return;
+        }
+        var consumesBullet = !check(event.getShooter().getRandom(), event.getGunItemStack());
+        ((BulletSaverAffixUser) event.getShooter()).amr$setConsumesBullet(consumesBullet);
     }
 
     public static boolean check(RandomSource context, ItemStack stack) {
