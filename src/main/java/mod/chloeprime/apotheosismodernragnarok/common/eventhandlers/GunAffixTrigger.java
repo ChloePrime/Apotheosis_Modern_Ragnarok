@@ -4,7 +4,6 @@ import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;
 import com.tacz.guns.api.item.IGun;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixHelper;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixInstance;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AdsPickTargetHookAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.GunAffix;
@@ -40,9 +39,8 @@ public class GunAffixTrigger {
             return;
         }
 
-        var affixes = AffixHelper.getAffixes(gun);
         if (event instanceof EntityHurtByGunEvent.Pre pre) {
-            affixes.forEach((holder, instance) -> {
+            SocketHelper2.forEachValidAffix(gun, (holder, instance) -> {
                 if (holder.get() instanceof GunAffix affix) {
                     affix.onGunshotPre(gun, instance, pre);
                 }
@@ -54,7 +52,7 @@ public class GunAffixTrigger {
             });
         }
         if (event instanceof EntityHurtByGunEvent.Post post) {
-            affixes.forEach((holder, instance) -> {
+            SocketHelper2.forEachValidAffix(gun, (holder, instance) -> {
                 if (holder.get() instanceof GunAffix affix) {
                     affix.onGunshotPost(gun, instance, post);
                 }
@@ -81,7 +79,7 @@ public class GunAffixTrigger {
             return;
         }
 
-        AffixHelper.getAffixes(gun).forEach((holder, instance) -> {
+        SocketHelper2.forEachValidAffix(gun, (holder, instance) -> {
             if (holder.get() instanceof GunAffix affix) {
                 affix.onGunshotKill(gun, instance, event);
             }
@@ -100,7 +98,7 @@ public class GunAffixTrigger {
         }
 
         var gun = event.getGun();
-        AffixHelper.getAffixes(gun).forEach((holder, instance) -> {
+        SocketHelper2.forEachValidAffix(gun, (holder, instance) -> {
             if (holder.get() instanceof GunAffix affix) {
                 affix.onBulletCreated(gun, instance, event);
             }
@@ -139,7 +137,7 @@ public class GunAffixTrigger {
 
         try {
             // 先获取玩家手里有没有瞄准时给予效果类词条
-            AffixHelper.getAffixes(gun).forEach((holder, instance) -> {
+            SocketHelper2.forEachValidAffix(gun, (holder, instance) -> {
                 if (holder.get() instanceof AdsPickTargetHookAffix affix && affix.isAdsPickEnabled()) {
                     AFFIX_BUFFER.add(affix);
                     AFFIX_INSTANCE_BUFFER.add(instance);
