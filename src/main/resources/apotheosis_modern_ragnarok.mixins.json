@@ -19,7 +19,6 @@
     "tacz.MixinEntityKineticBullet",
     "tacz.MixinModernKineticGunItem",
     "tacz.MixinModernKineticGunScriptAPI",
-    "tacz.MixinModernKineticGunScriptAPI$BulletSaverAffixMixin",
     "tacz.gunpack.MixinGunData"
   ],
   "client": [
