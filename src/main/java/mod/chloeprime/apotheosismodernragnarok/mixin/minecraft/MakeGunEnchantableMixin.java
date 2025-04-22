@@ -54,7 +54,7 @@ public abstract class MakeGunEnchantableMixin implements IForgeItem {
             return;
         }
         // 近战武器的情况
-        if (GunPredicate.isMeleeGun(gun.index())) {
+        if (GunPredicate.isDedicatedTaCZMeleeWeapon(gun.index())) {
             if (enchantment.category == EnchantmentCategory.BREAKABLE) {
                 return;
             }
@@ -75,6 +75,9 @@ public abstract class MakeGunEnchantableMixin implements IForgeItem {
                 case "mg" -> (enchantment.category == ModContent.Enchantments.CAT_MACHINE_GUN);
                 default -> false;
             };
+            if (enchantment.category == ModContent.Enchantments.CAT_MELEE_CAPABLE) {
+                available = available || gun.index().getGunData().getMeleeData() != null;
+            }
             cir.setReturnValue(available);
         }
     }

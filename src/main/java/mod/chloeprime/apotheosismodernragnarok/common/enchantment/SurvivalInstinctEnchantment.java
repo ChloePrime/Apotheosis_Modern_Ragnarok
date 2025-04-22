@@ -68,7 +68,7 @@ public class SurvivalInstinctEnchantment extends Enchantment {
         }
         var weapon = user.getMainHandItem();
         var gun = Gunsmith.getGunInfo(weapon).orElse(null);
-        if (gun == null || GunPredicate.isMeleeGun(gun.index())) {
+        if (gun == null || GunPredicate.isDedicatedTaCZMeleeWeapon(gun.index())) {
             return;
         }
         int level = weapon.getEnchantmentLevel(this);

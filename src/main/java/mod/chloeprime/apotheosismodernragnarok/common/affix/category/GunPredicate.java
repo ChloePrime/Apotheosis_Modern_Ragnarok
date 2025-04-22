@@ -19,18 +19,18 @@ public interface GunPredicate extends Predicate<ItemStack> {
     @Override
     default boolean test(ItemStack stack) {
         return stack.getItem() instanceof IGun gun && TimelessAPI.getCommonGunIndex(gun.getGunId(stack))
-                .filter(index -> !isMeleeGun(index))
+                .filter(index -> !isDedicatedTaCZMeleeWeapon(index))
                 .filter(index -> testGun(stack, gun, index))
                 .isPresent();
     }
 
-    static boolean isMeleeGun(ItemStack stack) {
+    static boolean isDedicatedTaCZMeleeWeapon(ItemStack stack) {
         return stack.getItem() instanceof IGun gun && TimelessAPI.getCommonGunIndex(gun.getGunId(stack))
-                .filter(GunPredicate::isMeleeGun)
+                .filter(GunPredicate::isDedicatedTaCZMeleeWeapon)
                 .isPresent();
     }
 
-    static boolean isMeleeGun(CommonGunIndex index) {
+    static boolean isDedicatedTaCZMeleeWeapon(CommonGunIndex index) {
         int force = ((EnhancedGunData) index.getGunData()).amr$getApothData()
                 .map(apoth -> apoth.force_melee_weapon)
                 .orElse(0);

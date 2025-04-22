@@ -28,7 +28,7 @@ public class MeleeGunIsSwordMixin {
                     to = @At("TAIL")
             ))
     private static Object overrideLootCategory(Object original, ItemStack item) {
-        if (original == null && GunPredicate.isMeleeGun(item)) {
+        if (original == null && GunPredicate.isDedicatedTaCZMeleeWeapon(item)) {
             return Gunsmith.getGunInfo(item)
                     .map(GunInfo::index)
                     .map(CommonGunIndex::getGunData)

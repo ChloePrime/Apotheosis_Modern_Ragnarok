@@ -126,5 +126,42 @@
         "attenuation_distance": 64
       }
     ]
+  },
+  "perfect_block": {
+    "subtitle": "subtitles.apotheosis_modern_ragnarok.perfect_block",
+    "sounds": [
+      {
+        "name": "apotheosis_modern_ragnarok:perfect_block_1",
+        "attenuation_distance": 16
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:perfect_block_2",
+        "attenuation_distance": 16
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:perfect_block_3",
+        "attenuation_distance": 16
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:perfect_block_4",
+        "attenuation_distance": 16
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:perfect_block_5",
+        "attenuation_distance": 16
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:perfect_block_6",
+        "attenuation_distance": 16
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:perfect_block_7",
+        "attenuation_distance": 16
+      },
+      {
+        "name": "apotheosis_modern_ragnarok:perfect_block_8",
+        "attenuation_distance": 16
+      }
+    ]
   }
 }

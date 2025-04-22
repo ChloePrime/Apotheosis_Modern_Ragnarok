@@ -104,6 +104,7 @@ public class ModContent {
         public static final RegistryObject<SoundEvent> MAGIC_FIREBALL = registerSound("affix.magical.fireball");
         public static final RegistryObject<SoundEvent> HEAD_EXPLOSION = registerSound("affix.head_explosion");
         public static final RegistryObject<SoundEvent> CRITICAL_HIT = registerSound("critical_hit");
+        public static final RegistryObject<SoundEvent> PERFECT_BLOCK = registerSound("perfect_block");
 
         private Sounds() {}
     }
@@ -117,6 +118,7 @@ public class ModContent {
         public static final EnchantmentCategory CAT_SMG = EnchantmentCategory.create("AMR_SMG_APOTH", Predicates.alwaysFalse());
         public static final EnchantmentCategory CAT_HEAVY_WEAPON = EnchantmentCategory.create("AMR_HEAVY_WEAPON_APOTH", Predicates.alwaysFalse());
         public static final EnchantmentCategory CAT_MACHINE_GUN = EnchantmentCategory.create("AMR_MACHINE_GUN_APOTH", Predicates.alwaysFalse());
+        public static final EnchantmentCategory CAT_MELEE_CAPABLE = EnchantmentCategory.create("AMR_MACHINE_GUN_APOTH", Predicates.alwaysFalse());
         private static final DeferredRegister<Enchantment> REGISTRY = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, MOD_ID);
         public static final RegistryObject<Enchantment> STABILITY = REGISTRY.register("stability", ReduceRecoilEnchantment::new);
         public static final RegistryObject<Enchantment> EMERGENCY_PROTECTOR = REGISTRY.register("emergency_protector", EmergencyProtectorEnchantment::new);
@@ -124,6 +126,7 @@ public class ModContent {
         public static final RegistryObject<Enchantment> SURVIVAL_INSTINCT = REGISTRY.register("survival_instinct", SurvivalInstinctEnchantment::new);
         public static final RegistryObject<Enchantment> LAST_STAND = REGISTRY.register("last_stand", LastStandEnchantment::new);
         public static final RegistryObject<Enchantment> PROJECTION_MAGIC = REGISTRY.register("projection_magic", ProjectionMagicEnchantment::new);
+        public static final RegistryObject<Enchantment> PERFECT_BLOCK = REGISTRY.register("perfect_block", PerfectBlockEnchantment::new);
     }
 
     public static void setup() {

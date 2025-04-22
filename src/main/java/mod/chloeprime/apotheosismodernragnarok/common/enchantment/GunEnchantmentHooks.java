@@ -45,7 +45,7 @@ public class GunEnchantmentHooks {
             return;
         }
         var weapon = attacker.getMainHandItem();
-        if (IGun.getIGunOrNull(weapon) == null || !GunPredicate.isMeleeGun(weapon)) {
+        if (IGun.getIGunOrNull(weapon) == null || !GunPredicate.isDedicatedTaCZMeleeWeapon(weapon)) {
             return;
         }
         int i = EnchantmentHelper.getFireAspect(attacker);
