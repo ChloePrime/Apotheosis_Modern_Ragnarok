@@ -120,7 +120,6 @@ public abstract class MixinLivingEntity extends Entity implements BulletSaverAff
         if (now > amr$getPerfectBlockEndTime()) {
             return;
         }
-        amr$setPerfectBlockEndTime(0);
         PerfectBlockEnchantment.onPerfectBlockTriggered(user, source);
         cir.setReturnValue(false);
     }

@@ -26,8 +26,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLLoader;
 
-import java.util.Map;
-import java.util.WeakHashMap;
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * 完美招架
@@ -48,7 +48,9 @@ public class PerfectBlockEnchantment extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return 3;
+        return Apotheosis.enableEnch
+                ? 5
+                : 3;
     }
 
     @Override
@@ -100,7 +102,9 @@ public class PerfectBlockEnchantment extends Enchantment {
             return;
         }
         var now = event.getEntity().level().getGameTime();
-        ((PerfectBlockEnchantmentUser) event.getEntity()).amr$setCannotPerfectBlockEndTime(now + CANNOT_BLOCK_DELAY_AFTER_HURT);
+        var user = (PerfectBlockEnchantmentUser) event.getEntity();
+        user.amr$setPerfectBlockEndTime(0);
+        user.amr$setCannotPerfectBlockEndTime(now + CANNOT_BLOCK_DELAY_AFTER_HURT);
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
@@ -113,14 +117,38 @@ public class PerfectBlockEnchantment extends Enchantment {
         if (badSource) {
             return false;
         }
-        // 玩家不能动的情况下不能格挡了
-        return user.getAttributeValue(Attributes.MOVEMENT_SPEED) > 0;
+        // 只对正面方向上的伤害有效
+        return isDamageFromFrontSide(user, source)
+                // 玩家不能动的情况下不能格挡了
+                && user.getAttributeValue(Attributes.MOVEMENT_SPEED) > 0;
+    }
+
+    private static boolean isDamageFromFrontSide(LivingEntity user, DamageSource source) {
+        var attacker = firstNonNull(source.getDirectEntity(), source.getEntity());
+        if (attacker == null) {
+            return false;
+        }
+        var front = user.getLookAngle();
+        var isRanged = source.getEntity() != source.getDirectEntity();
+        if (isRanged) {
+            // 远程攻击的情况下，弹射物速度和玩家朝向相反则判定为正面攻击
+            return front.dot(attacker.getDeltaMovement()) < 0;
+        } else {
+            // 近战攻击，攻击者在玩家前方则为正面攻击
+            var offset = attacker.position().subtract(user.position());
+            return offset.dot(front) > 0;
+        }
+    }
+
+    private static <T> @Nullable T firstNonNull(@Nullable T a, @Nullable T b) {
+        return a != null ? a : b;
     }
 
     public static void onPerfectBlockTriggered(LivingEntity user, DamageSource source) {
         if (user.level().isClientSide) {
             return;
         }
+        END_BLOCK_ASYNC_TABLE.add(user);
         // 播放格挡音效
         user.level().playSound(null, user, ModContent.Sounds.PERFECT_BLOCK.get(), SoundSource.PLAYERS, 1, 1);
         // 弹飞攻击者
@@ -133,20 +161,30 @@ public class PerfectBlockEnchantment extends Enchantment {
         }
         if (source.getDirectEntity() instanceof Projectile projectile) {
             var velocity = projectile.getDeltaMovement();
-//            projectile.setPos(projectile.position().subtract(velocity));
+            var userSize = (user.getBoundingBox().getXsize() + user.getBoundingBox().getZsize()) / 2;
+            projectile.setPos(projectile.position().subtract(velocity.normalize().scale(-userSize)));
             PROJECTILE_ASYNC_REFLECT_TABLE.put(projectile, velocity);
         }
     }
 
     @SubscribeEvent
     public static void onEndOfTick(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {
+            return;
+        }
         PROJECTILE_ASYNC_REFLECT_TABLE.forEach((projectile, velocity) -> {
             if (projectile.isAlive()) {
                 projectile.setDeltaMovement(velocity.scale(-1));
             }
         });
         PROJECTILE_ASYNC_REFLECT_TABLE.clear();
+
+        END_BLOCK_ASYNC_TABLE.forEach(user -> {
+            ((PerfectBlockEnchantmentUser) user).amr$setPerfectBlockEndTime(0);
+        });
+        END_BLOCK_ASYNC_TABLE.clear();
     }
 
     private static final Map<Entity, Vec3> PROJECTILE_ASYNC_REFLECT_TABLE = new WeakHashMap<>();
+    private static final Set<LivingEntity> END_BLOCK_ASYNC_TABLE = Collections.newSetFromMap(new WeakHashMap<>());
 }
