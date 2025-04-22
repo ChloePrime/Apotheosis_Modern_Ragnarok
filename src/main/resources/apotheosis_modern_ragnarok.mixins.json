@@ -12,6 +12,7 @@
     "apoth.MeleeGunIsSwordMixin",
     "apoth.MixinGem",
     "hacks.InterfaceDefaultImplInjectors$Item",
+    "minecraft.LivingEntityAccessor",
     "minecraft.MakeGunEnchantableMixin",
     "minecraft.MixinLivingEntity",
     "minecraft.MixinMinecraftServer",

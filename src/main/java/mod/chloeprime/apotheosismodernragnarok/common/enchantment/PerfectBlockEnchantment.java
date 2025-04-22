@@ -5,10 +5,14 @@ import dev.shadowsoffire.apotheosis.Apotheosis;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.PerfectBlockEnchantmentUser;
+import mod.chloeprime.apotheosismodernragnarok.mixin.minecraft.LivingEntityAccessor;
+import mod.chloeprime.apotheosismodernragnarok.network.ModNetwork;
+import mod.chloeprime.apotheosismodernragnarok.network.S2CPerfectBlockTriggered;
 import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -144,13 +148,21 @@ public class PerfectBlockEnchantment extends Enchantment {
         return a != null ? a : b;
     }
 
+    private static void setHealth(LivingEntity entity, float value) {
+        entity.getEntityData().set(LivingEntityAccessor.getDataHealthId(), Mth.clamp(value, 0, entity.getMaxHealth()));
+    }
+
     public static void onPerfectBlockTriggered(LivingEntity user, DamageSource source) {
         if (user.level().isClientSide) {
             return;
         }
-        END_BLOCK_ASYNC_TABLE.add(user);
-        // 播放格挡音效
-        user.level().playSound(null, user, ModContent.Sounds.PERFECT_BLOCK.get(), SoundSource.PLAYERS, 1, 1);
+        // 以下if内的代码每tick只执行一次
+        if (END_BLOCK_ASYNC_TABLE.add(user)) {
+            // 播放格挡音效
+            user.level().playSound(null, user, ModContent.Sounds.PERFECT_BLOCK.get(), SoundSource.PLAYERS, 1, 1);
+            // 播放粒子（RPC）
+            ModNetwork.sendToNearby(new S2CPerfectBlockTriggered(user.getId()), user);
+        }
         // 弹飞攻击者
         if (source.getDirectEntity() instanceof LivingEntity swordsman) {
             var knockback = 1.5 + user.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
@@ -172,6 +184,7 @@ public class PerfectBlockEnchantment extends Enchantment {
         if (event.phase == TickEvent.Phase.START) {
             return;
         }
+
         PROJECTILE_ASYNC_REFLECT_TABLE.forEach((projectile, velocity) -> {
             if (projectile.isAlive()) {
                 projectile.setDeltaMovement(velocity.scale(-1));

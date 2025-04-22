@@ -3,6 +3,7 @@ package mod.chloeprime.apotheosismodernragnarok;
 import com.mojang.logging.LogUtils;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.util.debug.DamageAmountDebug;
+import mod.chloeprime.apotheosismodernragnarok.network.ModNetwork;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -46,6 +47,7 @@ public class ApotheosisModernRagnarok {
     }
 
     private void setup(FMLCommonSetupEvent e) {
+        e.enqueueWork(ModNetwork::init);
         e.enqueueWork(ModContent::setup);
         e.enqueueWork(() -> {
             if (!FMLLoader.isProduction()) {
