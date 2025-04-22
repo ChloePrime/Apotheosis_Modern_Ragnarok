@@ -20,7 +20,10 @@ import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLLoader;
 
 import java.util.Map;
@@ -29,7 +32,9 @@ import java.util.WeakHashMap;
 /**
  * 完美招架
  */
+@Mod.EventBusSubscriber
 public class PerfectBlockEnchantment extends Enchantment {
+    public static final long CANNOT_BLOCK_DELAY_AFTER_HURT = 10;
     private static final boolean IS_DEV = !FMLLoader.isProduction();
 
     public PerfectBlockEnchantment() {
@@ -69,6 +74,10 @@ public class PerfectBlockEnchantment extends Enchantment {
         if (shooter.level().isClientSide) {
             return;
         }
+        var user = ((PerfectBlockEnchantmentUser) shooter);
+        if (!user.amr$canUsePerfectBlock()) {
+            return;
+        }
         var gun = Gunsmith.getGunInfo(event.getGunItemStack()).orElse(null);
         if (gun == null || GunPredicate.isDedicatedTaCZMeleeWeapon(gun.index())) {
             return;
@@ -77,13 +86,28 @@ public class PerfectBlockEnchantment extends Enchantment {
         if (enchantLevel <= 0) {
             return;
         }
-        var user = ((PerfectBlockEnchantmentUser) shooter);
         var now = shooter.level().getGameTime();
         var period = getDefenseDurationTicks(enchantLevel);
         user.amr$setPerfectBlockEndTime(now + period);
     }
 
+    /**
+     * 受伤后5tick内无法完美格挡
+     */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingHurt(LivingDamageEvent event) {
+        if (!canTrigger(event.getEntity(), event.getSource())) {
+            return;
+        }
+        var now = event.getEntity().level().getGameTime();
+        ((PerfectBlockEnchantmentUser) event.getEntity()).amr$setCannotPerfectBlockEndTime(now + CANNOT_BLOCK_DELAY_AFTER_HURT);
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean canTrigger(LivingEntity user, DamageSource source) {
+        if (user.level().isClientSide) {
+            return false;
+        }
         var badSource = (source.getEntity() == null && source.getDirectEntity() == null)
                 || source.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
         if (badSource) {

@@ -75,6 +75,7 @@ public abstract class MixinLivingEntity extends Entity implements BulletSaverAff
     // 完美招架附魔
 
     private @Unique long amr$perfectBlockEndTime;
+    private @Unique long amr$cannotPerfectBlockEndTime;
 
     @Override
     public long amr$getPerfectBlockEndTime() {
@@ -84,6 +85,22 @@ public abstract class MixinLivingEntity extends Entity implements BulletSaverAff
     @Override
     public void amr$setPerfectBlockEndTime(long value) {
         amr$perfectBlockEndTime = value;
+    }
+
+    @Override
+    public boolean amr$canUsePerfectBlock() {
+        var now = level().getGameTime();
+        return now >= amr$getCannotPerfectBlockEndTime();
+    }
+
+    @Override
+    public long amr$getCannotPerfectBlockEndTime() {
+        return amr$cannotPerfectBlockEndTime;
+    }
+
+    @Override
+    public void amr$setCannotPerfectBlockEndTime(long value) {
+        amr$cannotPerfectBlockEndTime = value;
     }
 
     @Inject(
