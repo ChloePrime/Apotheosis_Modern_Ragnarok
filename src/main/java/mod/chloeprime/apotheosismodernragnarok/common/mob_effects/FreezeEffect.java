@@ -6,6 +6,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -18,7 +19,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 public class FreezeEffect extends MobEffect {
@@ -58,11 +59,14 @@ public class FreezeEffect extends MobEffect {
 
     @SubscribeEvent
     public void onAdded(MobEffectEvent.Added event) {
+        var instance = event.getEffectInstance();
+        if (instance.getEffect() != this) {
+            return;
+        }
         if (event.getEntity().isOnFire()) {
             event.getEntity().extinguishFire();
         }
-        var instance = event.getEffectInstance();
-        if (instance.getEffect() != this || instance.getAmplifier() < FROZEN_THRESHOLD) {
+        if (instance.getAmplifier() < FROZEN_THRESHOLD) {
             return;
         }
         if (event.getEntity() instanceof Mob mob) {
@@ -83,7 +87,8 @@ public class FreezeEffect extends MobEffect {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onExpired(MobEffectEvent.Expired event) {
-        if (Objects.requireNonNull(event.getEffectInstance()).getEffect() != this) {
+        var effect = Optional.ofNullable(event.getEffectInstance()).map(MobEffectInstance::getEffect).orElse(null);
+        if (effect != this) {
             return;
         }
         onRemovedOrExpired(event);
