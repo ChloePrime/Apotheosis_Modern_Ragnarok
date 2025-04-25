@@ -25,6 +25,7 @@ public class CommonConfig {
     );
 
     public static final ForgeConfigSpec.BooleanValue FIX_MAGIC_PROTECTION;
+    public static final ForgeConfigSpec.BooleanValue PERFECT_BLOCK_ENABLE_INSTANT_KILL;
     public static final ForgeConfigSpec.IntValue PROJECTION_MAGIC_MAX_FILL_SPEED;
 
     @SubscribeEvent
@@ -76,6 +77,14 @@ public class CommonConfig {
         PROJECTION_MAGIC_MAX_FILL_SPEED = builder
                 .comment("Max fill amount of projection magic enchantment, per 2 ticks")
                 .defineInRange("projection_magic_max_fill_speed", 4, 1, Integer.MAX_VALUE);
+
+        builder.push("perfect_blocking");
+        {
+            PERFECT_BLOCK_ENABLE_INSTANT_KILL = builder
+                    .comment("If true, Executing posture broken enemies will instantly kill it")
+                    .define("enable_instant_kill", false);
+        }
+        builder.pop();
 
         SPEC = builder.build();
     }

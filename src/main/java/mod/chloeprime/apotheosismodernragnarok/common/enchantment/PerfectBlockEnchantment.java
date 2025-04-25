@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.enchantment;
 
+import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.api.event.common.GunMeleeEvent;
 import dev.shadowsoffire.apotheosis.Apotheosis;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
@@ -12,7 +13,6 @@ import mod.chloeprime.apotheosismodernragnarok.mixin.minecraft.LivingEntityAcces
 import mod.chloeprime.apotheosismodernragnarok.network.ModNetwork;
 import mod.chloeprime.apotheosismodernragnarok.network.S2CExecutionFeedback;
 import mod.chloeprime.apotheosismodernragnarok.network.S2CPerfectBlockTriggered;
-import mod.chloeprime.gunsmithlib.api.common.GunAttributes;
 import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -198,25 +198,9 @@ public class PerfectBlockEnchantment extends Enchantment {
         }
     }
 
+    @SuppressWarnings("unused")
     private static float getExecutionDamage(Entity attacker, float attackDamage) {
-        var bonus = 4F;
-        if (attacker instanceof LivingEntity gunner) {
-            var gunDamage = gunner.getAttributeValue(GunAttributes.BULLET_DAMAGE.get());
-            int shrapnel;
-            if (gunDamage > 0) {
-                shrapnel = Gunsmith.getGunInfo(gunner.getMainHandItem())
-                        .map(gi -> gi.index().getGunData().getBulletData().getBulletAmount())
-                        .orElse(1);
-            } else {
-                shrapnel = 1;
-            }
-            var estimatedDamage = gunDamage > 0
-                    ? gunDamage * shrapnel
-                    : gunner.getAttributeValue(Attributes.ATTACK_DAMAGE);
-            return bonus * (float) (attackDamage + estimatedDamage);
-        } else {
-            return bonus * attackDamage;
-        }
+        return (float) Math.pow(attackDamage + 25, 1.5);
     }
 
     @SuppressWarnings("SameParameterValue")
@@ -227,10 +211,11 @@ public class PerfectBlockEnchantment extends Enchantment {
     public static void onPerfectBlockTriggered(LivingEntity user, DamageSource source) {
         if (user.level().isClientSide) {
             return;
-
         }
         // 以下if内的代码每tick只执行一次
         if (END_BLOCK_ASYNC_TABLE.add(user)) {
+            // 阻止该次枪械近战，以避免弹反后立刻造成伤害杀死目标的bug
+            IGunOperator.fromLivingEntity(user).getDataHolder().meleePrepTickCount = -1;
             // 播放粒子（RPC）
             ModNetwork.sendToNearby(new S2CPerfectBlockTriggered(user.getId()), user);
             // 弹飞攻击者
