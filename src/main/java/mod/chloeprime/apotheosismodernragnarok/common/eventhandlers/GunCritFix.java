@@ -78,14 +78,22 @@ public class GunCritFix {
         event.setBaseAmount(event.getBaseAmount() * (float) critMult);
 
         if (critMult > 1 && !attacker.level().isClientSide) {
-            PacketDistro.sendToTracking(AttributesLib.CHANNEL, new CritParticleMessage(victim.getId()), (ServerLevel) attacker.level(), victim.blockPosition());
-            // 播放暴击音效
-            var snd = ModContent.Sounds.CRITICAL_HIT.get();
-            var sndPitch = Mth.lerp(rand.nextFloat(), 0.8F, 1.25F);
-            victim.playSound(snd, 1, sndPitch);
-            if (attacker instanceof Player player && player.position().distanceToSqr(victim.position()) > 4 * 4) {
-                player.playNotifySound(snd, victim.getSoundSource(), 1, sndPitch);
-            }
+            criticalFeedback(attacker, victim);
+        }
+    }
+
+    public static void criticalFeedback(LivingEntity attacker, Entity victim) {
+        if (attacker.level().isClientSide) {
+            return;
+        }
+        PacketDistro.sendToTracking(AttributesLib.CHANNEL, new CritParticleMessage(victim.getId()), (ServerLevel) attacker.level(), victim.blockPosition());
+        // 播放暴击音效
+        var rand = attacker.getRandom();
+        var snd = ModContent.Sounds.CRITICAL_HIT.get();
+        var sndPitch = Mth.lerp(rand.nextFloat(), 0.8F, 1.25F);
+        victim.playSound(snd, 1, sndPitch);
+        if (attacker instanceof Player player && player.position().distanceToSqr(victim.position()) > 4 * 4) {
+            player.playNotifySound(snd, victim.getSoundSource(), 1, sndPitch);
         }
     }
 

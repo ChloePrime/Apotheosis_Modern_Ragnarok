@@ -3,10 +3,13 @@ package mod.chloeprime.apotheosismodernragnarok.common.enchantment;
 import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.api.event.common.GunMeleeEvent;
 import dev.shadowsoffire.apotheosis.Apotheosis;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.CommonConfig;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
+import mod.chloeprime.apotheosismodernragnarok.common.eventhandlers.GunCritFix;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.PerfectBlockEnchantmentUser;
 import mod.chloeprime.apotheosismodernragnarok.common.util.PostureSystem;
 import mod.chloeprime.apotheosismodernragnarok.mixin.minecraft.LivingEntityAccessor;
@@ -210,13 +213,23 @@ public class PerfectBlockEnchantment extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void boostRangedDamageWhenPostureBroken(LivingDamageEvent event) {
-        var direct = event.getSource().getDirectEntity();
-        var actual = event.getSource().getEntity();
-        if (direct == actual) {
+        var victim = event.getEntity();
+        if (victim.level().isClientSide) {
             return;
         }
-        if (PostureSystem.isPostureBroken(event.getEntity())) {
-            event.setAmount(event.getAmount() * CommonConfig.POSTURE_BREAK_RANGED_DAMAGE_BONUS.get().floatValue());
+        // 每tick只执行一次
+        if (CRIT_FEEDBACK_RUN_ONCE_BUFFER.add(victim.getId())) {
+            var direct = event.getSource().getDirectEntity();
+            var actual = event.getSource().getEntity();
+            if (direct == actual) {
+                return;
+            }
+            if (PostureSystem.isPostureBroken(victim)) {
+                event.setAmount(event.getAmount() * CommonConfig.POSTURE_BREAK_RANGED_DAMAGE_BONUS.get().floatValue());
+                if (actual instanceof LivingEntity attacker) {
+                    GunCritFix.criticalFeedback(attacker, victim);
+                }
+            }
         }
     }
 
@@ -281,8 +294,11 @@ public class PerfectBlockEnchantment extends Enchantment {
             ((PerfectBlockEnchantmentUser) user).amr$setPerfectBlockEndTime(0);
         });
         END_BLOCK_ASYNC_TABLE.clear();
+
+        CRIT_FEEDBACK_RUN_ONCE_BUFFER.clear();
     }
 
+    private static final IntSet CRIT_FEEDBACK_RUN_ONCE_BUFFER = new IntOpenHashSet();
     private static final Map<Entity, Vec3> PROJECTILE_ASYNC_REFLECT_TABLE = new WeakHashMap<>();
     private static final Set<LivingEntity> END_BLOCK_ASYNC_TABLE = Collections.newSetFromMap(new WeakHashMap<>());
 }
