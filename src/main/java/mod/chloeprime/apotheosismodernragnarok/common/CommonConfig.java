@@ -26,6 +26,7 @@ public class CommonConfig {
 
     public static final ForgeConfigSpec.BooleanValue FIX_MAGIC_PROTECTION;
     public static final ForgeConfigSpec.BooleanValue PERFECT_BLOCK_ENABLE_INSTANT_KILL;
+    public static final ForgeConfigSpec.DoubleValue POSTURE_BREAK_RANGED_DAMAGE_BONUS;
     public static final ForgeConfigSpec.IntValue PROJECTION_MAGIC_MAX_FILL_SPEED;
 
     @SubscribeEvent
@@ -83,6 +84,9 @@ public class CommonConfig {
             PERFECT_BLOCK_ENABLE_INSTANT_KILL = builder
                     .comment("If true, Executing posture broken enemies will instantly kill it")
                     .define("enable_instant_kill", false);
+            POSTURE_BREAK_RANGED_DAMAGE_BONUS = builder
+                    .comment("If true, Executing posture broken enemies will instantly kill it")
+                    .defineInRange("ranged_damage_bonus", 1.5, 0, Float.MAX_VALUE);
         }
         builder.pop();
 

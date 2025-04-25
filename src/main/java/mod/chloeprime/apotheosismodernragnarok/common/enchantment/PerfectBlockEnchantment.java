@@ -208,6 +208,18 @@ public class PerfectBlockEnchantment extends Enchantment {
         entity.getEntityData().set(LivingEntityAccessor.getDataHealthId(), Mth.clamp(value, 0, entity.getMaxHealth()));
     }
 
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void boostRangedDamageWhenPostureBroken(LivingDamageEvent event) {
+        var direct = event.getSource().getDirectEntity();
+        var actual = event.getSource().getEntity();
+        if (direct == actual) {
+            return;
+        }
+        if (PostureSystem.isPostureBroken(event.getEntity())) {
+            event.setAmount(event.getAmount() * CommonConfig.POSTURE_BREAK_RANGED_DAMAGE_BONUS.get().floatValue());
+        }
+    }
+
     public static void onPerfectBlockTriggered(LivingEntity user, DamageSource source) {
         if (user.level().isClientSide) {
             return;
