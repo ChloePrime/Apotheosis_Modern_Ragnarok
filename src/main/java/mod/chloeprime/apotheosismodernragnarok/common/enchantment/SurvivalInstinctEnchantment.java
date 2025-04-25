@@ -3,12 +3,19 @@ package mod.chloeprime.apotheosismodernragnarok.common.enchantment;
 import com.tacz.guns.api.TimelessAPI;
 import com.tacz.guns.api.item.builder.AmmoItemBuilder;
 import com.tacz.guns.resource.index.CommonAmmoIndex;
+import com.tacz.guns.resource.pojo.data.gun.FeedType;
 import com.tacz.guns.util.AttachmentDataUtils;
+import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.gunsmithlib.api.common.GunAttributes;
+import mod.chloeprime.gunsmithlib.api.util.GunInfo;
 import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -27,6 +34,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 public class SurvivalInstinctEnchantment extends Enchantment {
+    public static final TagKey<DamageType> HAS_BULLET_LOOT_BONUS = TagKey.create(Registries.DAMAGE_TYPE, ApotheosisModernRagnarok.loc("has_bullet_loot_bonus"));
+
     public SurvivalInstinctEnchantment() {
         this(Rarity.RARE, ModContent.Enchantments.THE_CATEGORY, EquipmentSlot.MAINHAND);
     }
@@ -53,12 +62,24 @@ public class SurvivalInstinctEnchantment extends Enchantment {
     }
 
     /**
+     * 处决击杀会掉落更多弹药
+     */
+    public int getDropBonus(DamageSource source) {
+        return source.is(HAS_BULLET_LOOT_BONUS) ? 3 : 1;
+    }
+
+    /**
      * 降低弹匣容量<=5的重型武器的子弹掉率
-     * @param magazineSize 武器的弹匣容量
+     * @param gun 武器的信息
      * @return 掉率的倍率
      */
-    public double getDropRatePenalty(int magazineSize) {
-        return magazineSize < 5 ? 1.0 / 16 : 1;
+    public double getDropRatePenalty(GunInfo gun) {
+        var gunData = gun.index().getGunData();
+        if (gunData.getReloadData().getType() == FeedType.FUEL) {
+            return 1.0 / AttachmentDataUtils.getAmmoCountWithAttachment(gun.gunStack(), gunData);
+        } else {
+            return gunData.getAmmoAmount() < 5 ? 1.0 / 16 : 1;
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
@@ -79,9 +100,9 @@ public class SurvivalInstinctEnchantment extends Enchantment {
         var victim = event.getEntity();
         var damage = user.getAttributeValue(GunAttributes.BULLET_DAMAGE.get());
         int magSize = AttachmentDataUtils.getAmmoCountWithAttachment(gun.gunStack(), gun.index().getGunData());
-        int maxTriage = Mth.clamp((int) Math.round(victim.getMaxHealth() / damage), 1, magSize);
+        int maxTriage = getDropBonus(event.getSource()) * Mth.clamp((int) Math.round(victim.getMaxHealth() / damage), 1, magSize);
         // 计算掉率惩罚时使用原装枪械的弹匣容量进行计算
-        var dropRate = getDropRate(level) * getDropRatePenalty(gun.index().getGunData().getAmmoAmount());
+        var dropRate = getDropRate(level) * getDropRatePenalty(gun);
 
         // 计算掉落数量
         var rng = user.getRandom();
