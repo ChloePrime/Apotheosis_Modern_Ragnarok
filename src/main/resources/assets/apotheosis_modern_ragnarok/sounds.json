@@ -163,5 +163,23 @@
         "attenuation_distance": 16
       }
     ]
+  },
+  "perfect_block_neutralized_target": {
+    "subtitle": "subtitles.apotheosis_modern_ragnarok.perfect_block_neutralized_target",
+    "sounds": [
+      {
+        "name": "apotheosis_modern_ragnarok:perfect_block_neutralized_target",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "execution": {
+    "subtitle": "subtitles.apotheosis_modern_ragnarok.execution",
+    "sounds": [
+      {
+        "name": "apotheosis_modern_ragnarok:execution",
+        "attenuation_distance": 16
+      }
+    ]
   }
 }

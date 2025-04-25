@@ -2,33 +2,42 @@ package mod.chloeprime.apotheosismodernragnarok.common.enchantment;
 
 import com.tacz.guns.api.event.common.GunMeleeEvent;
 import dev.shadowsoffire.apotheosis.Apotheosis;
+import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.PerfectBlockEnchantmentUser;
+import mod.chloeprime.apotheosismodernragnarok.common.util.PostureSystem;
 import mod.chloeprime.apotheosismodernragnarok.mixin.minecraft.LivingEntityAccessor;
 import mod.chloeprime.apotheosismodernragnarok.network.ModNetwork;
+import mod.chloeprime.apotheosismodernragnarok.network.S2CExecutionFeedback;
 import mod.chloeprime.apotheosismodernragnarok.network.S2CPerfectBlockTriggered;
 import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLLoader;
+import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -39,6 +48,7 @@ import java.util.*;
 @Mod.EventBusSubscriber
 public class PerfectBlockEnchantment extends Enchantment {
     public static final long CANNOT_BLOCK_DELAY_AFTER_HURT = 10;
+    public static final ResourceKey<DamageType> EXECUTION_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, ApotheosisModernRagnarok.loc("execution"));
     private static final boolean IS_DEV = !FMLLoader.isProduction();
 
     public PerfectBlockEnchantment() {
@@ -52,15 +62,13 @@ public class PerfectBlockEnchantment extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return Apotheosis.enableEnch
-                ? 5
-                : 3;
+        return 3;
     }
 
     @Override
     public int getMinCost(int level) {
         return Apotheosis.enableEnch
-                ? 15 + level * level * 7 // 22 ~ 190
+                ? 15 + level * level * 4 // 22 ~
                 : 15 + level * 5; // 20 ~ 30
     }
 
@@ -148,6 +156,42 @@ public class PerfectBlockEnchantment extends Enchantment {
         return a != null ? a : b;
     }
 
+    @ApiStatus.Internal
+    public static boolean tryExecute(LivingEntity entity, DamageSource source) {
+        // 防止无限递归
+        if (EXECUTION_DAMAGE.equals(source.typeHolder())) {
+            return true;
+        }
+        // 环境伤害不触发处决
+        if (source.getEntity() == null && source.getDirectEntity() == null) {
+            return false;
+        }
+        // 远程伤害不触发处决
+        if (source.getEntity() != source.getDirectEntity()) {
+            return false;
+        }
+
+        if (!PostureSystem.isPostureBroken(entity)) {
+            return false;
+        }
+        PostureSystem.setPosture(entity, 0);
+        return execute(entity, source.getDirectEntity(), source.getEntity());
+    }
+
+    public static boolean execute(LivingEntity victim, @Nullable Entity direct, @Nullable Entity actual) {
+        if (victim instanceof Player player && player.getAbilities().instabuild) {
+            return false;
+        }
+        var attacker = firstNonNull(actual, direct);
+        if (attacker != null) {
+            attacker.level().playSound(null, attacker, ModContent.Sounds.EXECUTION.get(), attacker.getSoundSource(), 1, 1);
+            ModNetwork.sendToNearby(new S2CExecutionFeedback(victim.getId(), attacker.getId()), victim);
+        }
+        setHealth(victim, 1e-6F);
+        return victim.hurt(victim.damageSources().source(EXECUTION_DAMAGE, direct, actual), Float.MAX_VALUE);
+    }
+
+    @SuppressWarnings("SameParameterValue")
     private static void setHealth(LivingEntity entity, float value) {
         entity.getEntityData().set(LivingEntityAccessor.getDataHealthId(), Mth.clamp(value, 0, entity.getMaxHealth()));
     }
@@ -155,27 +199,43 @@ public class PerfectBlockEnchantment extends Enchantment {
     public static void onPerfectBlockTriggered(LivingEntity user, DamageSource source) {
         if (user.level().isClientSide) {
             return;
+
         }
         // 以下if内的代码每tick只执行一次
         if (END_BLOCK_ASYNC_TABLE.add(user)) {
-            // 播放格挡音效
-            user.level().playSound(null, user, ModContent.Sounds.PERFECT_BLOCK.get(), SoundSource.PLAYERS, 1, 1);
             // 播放粒子（RPC）
             ModNetwork.sendToNearby(new S2CPerfectBlockTriggered(user.getId()), user);
-        }
-        // 弹飞攻击者
-        if (source.getDirectEntity() instanceof LivingEntity swordsman) {
-            var knockback = 1.5 + user.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
-            var knockbackDirection = swordsman.position().subtract(user.position())
-                    .with(Direction.Axis.Y, 0)
-                    .normalize();
-            swordsman.knockback(knockback, -knockbackDirection.x(), -knockbackDirection.z());
-        }
-        if (source.getDirectEntity() instanceof Projectile projectile) {
-            var velocity = projectile.getDeltaMovement();
-            var userSize = (user.getBoundingBox().getXsize() + user.getBoundingBox().getZsize()) / 2;
-            projectile.setPos(projectile.position().subtract(velocity.normalize().scale(-userSize)));
-            PROJECTILE_ASYNC_REFLECT_TABLE.put(projectile, velocity);
+            // 弹飞攻击者
+            Entity directSource = source.getDirectEntity();
+            if (directSource instanceof PartEntity<?> part) {
+                directSource = part.getParent();
+            }
+            if (directSource instanceof LivingEntity swordsman) {
+                var knockback = 1.5 + user.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+                var knockbackDirection = swordsman.position().subtract(user.position())
+                        .with(Direction.Axis.Y, 0)
+                        .normalize();
+                swordsman.knockback(knockback, -knockbackDirection.x(), -knockbackDirection.z());
+                PostureSystem.onAttackBeingBlocked(swordsman);
+            }
+            if (directSource instanceof Projectile projectile) {
+                projectile.setOwner(user);
+                var velocity = projectile.getDeltaMovement();
+//                var userSize = (user.getBoundingBox().getXsize() + user.getBoundingBox().getZsize()) / 2;
+//                projectile.setPos(projectile.position().subtract(velocity.normalize().scale(-velocity.length() - userSize)));
+                PROJECTILE_ASYNC_REFLECT_TABLE.put(projectile, velocity);
+            }
+            // 播放格挡音效
+            SoundEvent sound;
+            if (directSource instanceof LivingEntity target) {
+                // 判断dead字段来让弹反苦力怕爆炸时播放普通弹刀音效
+                sound = target.isAlive() && !((LivingEntityAccessor) target).isDead() && PostureSystem.isPostureBroken(target)
+                        ? ModContent.Sounds.POSTURE_BREAK.get()
+                        : ModContent.Sounds.PERFECT_BLOCK.get();
+            } else {
+                sound = ModContent.Sounds.PERFECT_BLOCK.get();
+            }
+            user.level().playSound(null, user, sound, user.getSoundSource(), 1, 1);
         }
     }
 

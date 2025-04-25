@@ -20,6 +20,8 @@ import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GemInjection
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.TyrannyEffect;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
@@ -27,6 +29,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -36,6 +40,8 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Consumer;
 
 import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.MOD_ID;
 import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.loc;
@@ -74,6 +80,13 @@ public class ModContent {
         private Affix() {}
     }
 
+    public static final class Attributes {
+        private static final DeferredRegister<Attribute> REGISTRY = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, MOD_ID);
+        public static final RegistryObject<Attribute> POSTURE = createAttribute("posture", 0, 0, 1);
+        private Attributes() {
+        }
+    }
+
     public static final class MobEffects {
         private static final DeferredRegister<MobEffect> REGISTRY = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MOD_ID);
         public static final RegistryObject<FireDotEffect> FIRE_DOT = REGISTRY.register("fire_dot", FireDotEffect::create);
@@ -94,6 +107,11 @@ public class ModContent {
         public static final ResourceKey<DamageType> BULLET_IAF = ResourceKey.create(Registries.DAMAGE_TYPE, loc("bullet_iceandfire"));
     }
 
+    public static final class Particles {
+        private static final DeferredRegister<ParticleType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, MOD_ID);
+        public static final RegistryObject<SimpleParticleType> BLOOD = REGISTRY.register("blood", () -> new SimpleParticleType(true));
+    }
+
     public static final class Sounds {
         private static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
         public static final RegistryObject<SoundEvent> ARMOR_CRACK = registerSound("affix.armor_break");
@@ -104,7 +122,9 @@ public class ModContent {
         public static final RegistryObject<SoundEvent> MAGIC_FIREBALL = registerSound("affix.magical.fireball");
         public static final RegistryObject<SoundEvent> HEAD_EXPLOSION = registerSound("affix.head_explosion");
         public static final RegistryObject<SoundEvent> CRITICAL_HIT = registerSound("critical_hit");
+        public static final RegistryObject<SoundEvent> EXECUTION = registerSound("execution");
         public static final RegistryObject<SoundEvent> PERFECT_BLOCK = registerSound("perfect_block");
+        public static final RegistryObject<SoundEvent> POSTURE_BREAK = registerSound("perfect_block_neutralized_target");
 
         private Sounds() {}
     }
@@ -129,6 +149,23 @@ public class ModContent {
         public static final RegistryObject<Enchantment> PERFECT_BLOCK = REGISTRY.register("perfect_block", PerfectBlockEnchantment::new);
     }
 
+    @SuppressWarnings("SameParameterValue")
+    private static RegistryObject<Attribute> createAttribute(String name, double defaultValue, double min, double max) {
+        return createAttribute(name, defaultValue, min, max, (a) -> a.setSyncable(true));
+    }
+
+    private static RegistryObject<Attribute> createAttribute(String name, double defaultValue, double min, double max, Consumer<Attribute> customizer) {
+        return Attributes.REGISTRY.register(name, () -> {
+            RangedAttribute attribute = new RangedAttribute(createAttributeLangKey(name), defaultValue, min, max);
+            customizer.accept(attribute);
+            return attribute;
+        });
+    }
+
+    private static String createAttributeLangKey(String name) {
+        return "attribute.name.%s.%s".formatted(MOD_ID, name);
+    }
+
     public static void setup() {
         ExtraLootCategories.init();
         GemInjectionRegistry.INSTANCE.registerToBus();
@@ -146,8 +183,10 @@ public class ModContent {
 
     public static void init0(IEventBus bus) {
         Items.REGISTRY.register(bus);
+        Attributes.REGISTRY.register(bus);
         MobEffects.REGISTRY.register(bus);
         Enchantments.REGISTRY.register(bus);
+        Particles.REGISTRY.register(bus);
         Sounds.REGISTRY.register(bus);
     }
 

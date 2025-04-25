@@ -11,4 +11,6 @@ public interface LivingEntityAccessor {
     static EntityDataAccessor<Float> getDataHealthId() {
         throw new AbstractMethodError();
     }
+
+    @Accessor boolean isDead();
 }

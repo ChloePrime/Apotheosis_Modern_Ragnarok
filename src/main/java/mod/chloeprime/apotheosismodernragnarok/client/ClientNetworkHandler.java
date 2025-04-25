@@ -1,6 +1,10 @@
 package mod.chloeprime.apotheosismodernragnarok.client;
 
+import mod.chloeprime.apotheosismodernragnarok.client.fx.ExecutionFeedback;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.PostureHolder;
+import mod.chloeprime.apotheosismodernragnarok.network.S2CExecutionFeedback;
 import mod.chloeprime.apotheosismodernragnarok.network.S2CPerfectBlockTriggered;
+import mod.chloeprime.apotheosismodernragnarok.network.S2CSyncStartRecoverPostureTime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -11,9 +15,10 @@ import java.util.random.RandomGenerator;
 
 public class ClientNetworkHandler {
     private static final RandomGenerator RNG = new Random();
+    private static final Minecraft MC = Minecraft.getInstance();
 
     public static void handlePerfectBlockTriggered(S2CPerfectBlockTriggered packet) {
-        var level = Minecraft.getInstance().level;
+        var level = MC.level;
         if (level == null) {
             return;
         }
@@ -31,5 +36,15 @@ public class ClientNetworkHandler {
             var velocity = new Vec3(RNG.nextGaussian(), RNG.nextGaussian(), RNG.nextGaussian()).normalize().scale(speed);
             level.addParticle(particle, position.x(), position.y(), position.z(), velocity.x(), velocity.y(), velocity.z());
         }
+    }
+
+    public static void handleSyncStartRecoverPostureTime(S2CSyncStartRecoverPostureTime packet) {
+        if (MC.level != null && MC.level.getEntity(packet.id()) instanceof PostureHolder holder) {
+            holder.amr$setStartRecoverPostureTime(packet.eta());
+        }
+    }
+
+    public static void handleExecutionFeedback(S2CExecutionFeedback packet) {
+        ExecutionFeedback.handleExecutionFeedback(packet);
     }
 }

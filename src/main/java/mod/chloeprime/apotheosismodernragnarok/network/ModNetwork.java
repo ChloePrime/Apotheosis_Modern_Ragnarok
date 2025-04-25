@@ -30,7 +30,10 @@ public final class ModNetwork {
     private static final AtomicInteger ID_COUNT = new AtomicInteger(1);
 
     public static void init() {
-        CHANNEL.registerMessage(ID_COUNT.getAndIncrement(), S2CPerfectBlockTriggered.class, S2CPerfectBlockTriggered::encode, S2CPerfectBlockTriggered::decode, S2CPerfectBlockTriggered::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        var playToClient = Optional.of(NetworkDirection.PLAY_TO_CLIENT);
+        CHANNEL.registerMessage(ID_COUNT.getAndIncrement(), S2CPerfectBlockTriggered.class, S2CPerfectBlockTriggered::encode, S2CPerfectBlockTriggered::decode, S2CPerfectBlockTriggered::handle, playToClient);
+        CHANNEL.registerMessage(ID_COUNT.getAndIncrement(), S2CSyncStartRecoverPostureTime.class, S2CSyncStartRecoverPostureTime::encode, S2CSyncStartRecoverPostureTime::decode, S2CSyncStartRecoverPostureTime::handle, playToClient);
+        CHANNEL.registerMessage(ID_COUNT.getAndIncrement(), S2CExecutionFeedback.class, S2CExecutionFeedback::encode, S2CExecutionFeedback::decode, S2CExecutionFeedback::handle, playToClient);
     }
 
     private ModNetwork() {}

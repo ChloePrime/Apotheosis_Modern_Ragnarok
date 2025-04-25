@@ -23,8 +23,10 @@
     "tacz.gunpack.MixinGunData"
   ],
   "client": [
+    "minecraft.client.MixinParticle",
     "minecraft.client.AbstractSoundInstanceAccessor",
     "minecraft.client.EntityBoundSoundInstanceAccessor",
+    "minecraft.client.EntityRenderAccessor",
     "minecraft.client.MixinSoundEngine",
     "tacz.client.BlueMuzzleFlashMixin$CaptureState",
     "tacz.client.BlueMuzzleFlashMixin$ModifyTexture",
