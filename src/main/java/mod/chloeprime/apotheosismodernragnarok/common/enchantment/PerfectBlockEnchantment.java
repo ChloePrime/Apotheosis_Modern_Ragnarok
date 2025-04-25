@@ -3,6 +3,7 @@ package mod.chloeprime.apotheosismodernragnarok.common.enchantment;
 import com.tacz.guns.api.event.common.GunMeleeEvent;
 import dev.shadowsoffire.apotheosis.Apotheosis;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.common.CommonConfig;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.PerfectBlockEnchantmentUser;
@@ -11,6 +12,7 @@ import mod.chloeprime.apotheosismodernragnarok.mixin.minecraft.LivingEntityAcces
 import mod.chloeprime.apotheosismodernragnarok.network.ModNetwork;
 import mod.chloeprime.apotheosismodernragnarok.network.S2CExecutionFeedback;
 import mod.chloeprime.apotheosismodernragnarok.network.S2CPerfectBlockTriggered;
+import mod.chloeprime.gunsmithlib.api.common.GunAttributes;
 import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -157,7 +159,7 @@ public class PerfectBlockEnchantment extends Enchantment {
     }
 
     @ApiStatus.Internal
-    public static boolean tryExecute(LivingEntity entity, DamageSource source) {
+    public static boolean tryExecute(LivingEntity entity, DamageSource source, float attackDamage) {
         // 防止无限递归
         if (EXECUTION_DAMAGE.equals(source.typeHolder())) {
             return true;
@@ -175,10 +177,10 @@ public class PerfectBlockEnchantment extends Enchantment {
             return false;
         }
         PostureSystem.setPosture(entity, 0);
-        return execute(entity, source.getDirectEntity(), source.getEntity());
+        return execute(entity, source.getDirectEntity(), source.getEntity(), attackDamage);
     }
 
-    public static boolean execute(LivingEntity victim, @Nullable Entity direct, @Nullable Entity actual) {
+    public static boolean execute(LivingEntity victim, @Nullable Entity direct, @Nullable Entity actual, float attackDamage) {
         if (victim instanceof Player player && player.getAbilities().instabuild) {
             return false;
         }
@@ -187,8 +189,34 @@ public class PerfectBlockEnchantment extends Enchantment {
             attacker.level().playSound(null, attacker, ModContent.Sounds.EXECUTION.get(), attacker.getSoundSource(), 1, 1);
             ModNetwork.sendToNearby(new S2CExecutionFeedback(victim.getId(), attacker.getId()), victim);
         }
-        setHealth(victim, 1e-6F);
-        return victim.hurt(victim.damageSources().source(EXECUTION_DAMAGE, direct, actual), Float.MAX_VALUE);
+        if (CommonConfig.PERFECT_BLOCK_ENABLE_INSTANT_KILL.get()) {
+            setHealth(victim, 1e-6F);
+            return victim.hurt(victim.damageSources().source(EXECUTION_DAMAGE, direct, actual), Float.MAX_VALUE);
+        } else {
+            var damage = getExecutionDamage(attacker, attackDamage);
+            return victim.hurt(victim.damageSources().source(EXECUTION_DAMAGE, direct, actual), damage);
+        }
+    }
+
+    private static float getExecutionDamage(Entity attacker, float attackDamage) {
+        var bonus = 4F;
+        if (attacker instanceof LivingEntity gunner) {
+            var gunDamage = gunner.getAttributeValue(GunAttributes.BULLET_DAMAGE.get());
+            int shrapnel;
+            if (gunDamage > 0) {
+                shrapnel = Gunsmith.getGunInfo(gunner.getMainHandItem())
+                        .map(gi -> gi.index().getGunData().getBulletData().getBulletAmount())
+                        .orElse(1);
+            } else {
+                shrapnel = 1;
+            }
+            var estimatedDamage = gunDamage > 0
+                    ? gunDamage * shrapnel
+                    : gunner.getAttributeValue(Attributes.ATTACK_DAMAGE);
+            return bonus * (float) (attackDamage + estimatedDamage);
+        } else {
+            return bonus * attackDamage;
+        }
     }
 
     @SuppressWarnings("SameParameterValue")

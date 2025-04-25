@@ -143,10 +143,10 @@ abstract class MixinLivingEntity extends Entity implements
                     remap = false,
                     shift = At.Shift.AFTER),
             cancellable = true)
-    private void onDetectInvulnerability(DamageSource source, float pAmount, CallbackInfoReturnable<Boolean> cir) {
+    private void onDetectInvulnerability(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         var user = (LivingEntity) (Object) this;
         // 失衡被处决
-        if (PerfectBlockEnchantment.tryExecute(user, source)) {
+        if (PerfectBlockEnchantment.tryExecute(user, source, amount)) {
             return;
         }
         // 格挡判定
