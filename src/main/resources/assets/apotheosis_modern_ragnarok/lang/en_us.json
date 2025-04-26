@@ -14,6 +14,8 @@
   "item.apotheosis_modern_ragnarok.izanagi_object": "Izanagi Object",
   "attribute.name.apotheosis_modern_ragnarok.posture": "Posture Counter",
   "attribute.name.apotheosis_modern_ragnarok.posture.desc": "Posture counter (0-1). Internal use only, don't add modifiers!",
+  "death.attack.apotheosis_modern_ragnarok.execution": "%1$s was executed by %2$s",
+  "death.attack.apotheosis_modern_ragnarok.execution.item": "%1$s was executed by %2$s using %3$s",
   "enchantment.apotheosis_modern_ragnarok.stability": "Stability",
   "enchantment.apotheosis_modern_ragnarok.stability.desc": "Reduces recoil",
   "enchantment.apotheosis_modern_ragnarok.emergency_protector": "Emergency Protector",

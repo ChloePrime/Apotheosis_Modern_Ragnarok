@@ -14,6 +14,8 @@
   "item.apotheosis_modern_ragnarok.izanagi_object": "伊奘诺物质",
   "attribute.name.apotheosis_modern_ragnarok.posture": "架势量表",
   "attribute.name.apotheosis_modern_ragnarok.posture.desc": "架势条填充比例。程序内部属性，请勿添加modifiers！",
+  "death.attack.apotheosis_modern_ragnarok.execution": "%1$s 被 %2$s 处决了",
+  "death.attack.apotheosis_modern_ragnarok.execution.item": "%2$s 使用 %3$s 处决了 %1$s",
   "enchantment.apotheosis_modern_ragnarok.stability": "稳重",
   "enchantment.apotheosis_modern_ragnarok.stability.desc": "降低射击时的后坐力",
   "enchantment.apotheosis_modern_ragnarok.emergency_protector": "应急护具",
