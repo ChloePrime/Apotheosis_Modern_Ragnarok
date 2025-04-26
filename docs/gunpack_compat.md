@@ -11,7 +11,17 @@
   "force_melee_weapon": 1,
   // 为true时，该武器被识别为神化重型武器（斧头）
   // 只对专用近战武器有效，对枪械的近战武器（肘击，刺刀等）无效。
-  "is_heavy_melee_weapon": true
+  "is_heavy_melee_weapon": true,
+  // 词条黑名单，3.2.0版本新增
+  "disabled_affixes": [
+    // 这将让这把武器无法在重铸台上获得 "轻便的"（增加速度）这个词条
+    "apotheosis_modern_ragnarok:all_gun/attribute/lightweight"
+  ],
+  // 附魔黑名单，3.2.0版本新增
+  "disabled_enchantments": [
+    // 这将让这把武器无法拥有 "投影魔术" 附魔
+    "apotheosis_modern_ragnarok:projection_magic"
+  ]
 }
 ```
 完整的data文件应该看起来像这样：
@@ -28,7 +38,17 @@
     "force_melee_weapon": 1,
     // 为true时，该武器被识别为神化重型武器（斧头）
     // 只对专用近战武器有效，对枪械的近战武器（肘击，刺刀等）无效。
-    "is_heavy_melee_weapon": true
+    "is_heavy_melee_weapon": true,
+    // 词条黑名单，3.2.0版本新增
+    "disabled_affixes": [
+      // 这将让这把武器无法在重铸台上获得 "轻便的"（增加速度）这个词条
+      "apotheosis_modern_ragnarok:all_gun/attribute/lightweight"
+    ],
+    // 附魔黑名单，3.2.0版本新增
+    "disabled_enchantments": [
+      // 这将让这把武器无法拥有 "投影魔术" 附魔
+      "apotheosis_modern_ragnarok:projection_magic"
+    ]
   },
   "ammo": "namespace:path",
   "ammo_amount": 666,
