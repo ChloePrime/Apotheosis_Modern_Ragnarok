@@ -1,9 +1,11 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.framework;
 
 import com.tacz.guns.api.item.IGun;
+import dev.shadowsoffire.apotheosis.adventure.affix.AffixRegistry;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
+import mod.chloeprime.apotheosismodernragnarok.common.gunpack.GunApothData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -38,6 +40,12 @@ public abstract class AbstractAffix extends AffixBaseUtility {
     @Override
     public boolean canApplyTo(ItemStack stack, LootCategory category, LootRarity rarity) {
         if (category == LootCategory.NONE) {
+            return false;
+        }
+        var isInBlacklist = GunApothData.of(stack)
+                .filter(apoth -> apoth.getDisabledAffixes().contains(AffixRegistry.INSTANCE.getKey(this)))
+                .isPresent();
+        if (isInBlacklist) {
             return false;
         }
         var validTypes = getApplicableCategories();
