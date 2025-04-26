@@ -1,6 +1,7 @@
 package mod.chloeprime.apotheosismodernragnarok.common.enchantment;
 
 import com.tacz.guns.api.item.IGun;
+import com.tacz.guns.resource.pojo.data.gun.GunMeleeData;
 import dev.shadowsoffire.apotheosis.ench.enchantments.masterwork.KnowledgeEnchant;
 import dev.shadowsoffire.apotheosis.ench.enchantments.masterwork.ScavengerEnchant;
 import dev.shadowsoffire.apotheosis.spawn.enchantment.CapturingEnchant;
@@ -22,6 +23,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Mod.EventBusSubscriber
@@ -69,7 +71,9 @@ public class GunEnchantmentHooks {
                 default -> false;
             };
             if (enchantment.category == ModContent.Enchantments.CAT_MELEE_CAPABLE) {
-                available = available || gun.index().getGunData().getMeleeData() != null;
+                available = available || Optional.ofNullable(gun.index().getGunData().getMeleeData())
+                        .map(GunMeleeData::getDefaultMeleeData)
+                        .isPresent();
             }
             cir.setReturnValue(available);
         }
