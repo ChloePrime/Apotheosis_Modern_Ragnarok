@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -35,7 +36,30 @@ public class GunApothData {
      */
     public boolean is_heavy_melee_weapon;
 
+    /**
+     * 强制指定该武器的神化装备类型。
+     * 典型值参考：
+     * "apotheosis_modern_ragnarok:bolt_action" 栓动大狙，享受最高的数值加成
+     * "apotheosis_modern_ragnarok:shotgun"     霰弹枪，享受最低的（单弹片）数值加成
+     * "apotheosis_modern_ragnarok:full_auto"   全自动武器，享受和半自动一样的，中等的数值加成
+     * "apotheosis_modern_ragnarok:semi_auto"   半自动武器，享受和全自动一样的，中等的数值加成
+     * "sword"                                  剑/轻型武器
+     * "heavy_weapon"                           斧头/重型武器
+     *
+     * @since 3.3.0
+     */
+    public @Nullable String loot_category_override;
+
+    /**
+     * 该武器禁用的词条
+     * @since 3.2.0
+     */
     private ResourceLocation[] disabled_affixes;
+
+    /**
+     * 该武器禁用的附魔
+     * @since 3.2.0
+     */
     private ResourceLocation[] disabled_enchantments;
 
     // 配置项结束

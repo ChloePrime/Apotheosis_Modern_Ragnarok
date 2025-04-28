@@ -11,6 +11,7 @@
     "apoth.MagicDamageReductionFixMixin",
     "apoth.MeleeGunIsSwordMixin",
     "apoth.MixinGem",
+    "apoth.MixinLootCategory",
     "apoth.MixinLootController",
     "hacks.InterfaceDefaultImplInjectors$Item",
     "minecraft.LivingEntityAccessor",
