@@ -37,7 +37,7 @@ public interface GunPredicate extends Predicate<ItemStack> {
         if (force != 0) {
             return force > 0;
         }
-        var range = index.getBulletData().getSpeed() * index.getBulletData().getLifeSecond() * 20F;
+        double range = index.getBulletData().getSpeed() * (index.getBulletData().getLifeSecond() - 0.05);
         return range <= 10;
     }
 
