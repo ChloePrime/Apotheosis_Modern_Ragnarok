@@ -38,7 +38,7 @@ public interface GunPredicate extends Predicate<ItemStack> {
             return force > 0;
         }
         var range = index.getBulletData().getSpeed() * index.getBulletData().getLifeSecond() * 20F;
-        return range <= 4;
+        return range <= 10;
     }
 
     boolean testGun(ItemStack stack, IGun gun, CommonGunIndex index);
