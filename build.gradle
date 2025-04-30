@@ -203,14 +203,14 @@ dependencies {
 
     // TaCZ
     if (USE_LOCAL_TACZ_V) {
-        implementation fg.deobf('libs:tacz-1.20.1:pr-1.1.4-all');
+        implementation fg.deobf('libs:tacz-1.20.1:1.1.5.chloe1-all')
     } else {
         implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:6069384-sources-6069403');
     }
 
     // 前置
-    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:2.1.3+'))) {
-        jarJar.ranged(it, "[2.1.3,)")
+    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:3.0.1+'))) {
+        jarJar.ranged(it, "[3.0.1,)")
     }
 
     // MixinExtras
