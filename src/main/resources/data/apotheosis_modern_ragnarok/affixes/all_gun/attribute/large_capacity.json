@@ -1,0 +1,50 @@
+{
+	"type": "apotheosis_modern_ragnarok:magazine_capacity_conditional_attribute",
+	"minium_magazine_capacity": 5,
+	"attribute": "gunsmithlib:ammo_capacity",
+	"operation": "MULTIPLY_BASE",
+	"values": {
+		"common": {
+			"comment": "1.1x - 1.2x",
+			"min": 0.1,
+			"steps": 200,
+			"step": 0.0005
+		},
+		"uncommon": {
+			"comment": "1.1x - 1.25x",
+			"min": 0.1,
+			"steps": 250,
+			"step": 0.0005
+		},
+		"rare": {
+			"comment": "1.2x - 1.3x",
+			"min": 0.2,
+			"steps": 200,
+			"step": 0.0005
+		},
+		"epic": {
+			"comment": "1.2x - 1.4x",
+			"min": 0.2,
+			"steps": 400,
+			"step": 0.0005
+		},
+		"mythic": {
+			"comment": "1.25x - 1.5x",
+			"min": 0.25,
+			"steps": 500,
+			"step": 0.0005
+		},
+		"ancient": {
+			"comment": "2.5x - 3x",
+			"min": 1.5,
+			"steps": 500,
+			"step": 0.001
+		}
+	},
+	"types": [
+		"apotheosis_modern_ragnarok:shotgun",
+		"apotheosis_modern_ragnarok:full_auto",
+		"apotheosis_modern_ragnarok:semi_auto",
+		"apotheosis_modern_ragnarok:bolt_action"
+	]
+}

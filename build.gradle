@@ -210,8 +210,8 @@ dependencies {
     }
 
     // 前置
-    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:3.0.1+'))) {
-        jarJar.ranged(it, "[3.0.1,)")
+    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:3.1+'))) {
+        jarJar.ranged(it, "[3.1.0,)")
     }
 
     // MixinExtras

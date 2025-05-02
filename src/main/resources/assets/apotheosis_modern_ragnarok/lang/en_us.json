@@ -52,6 +52,9 @@
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/lightweight": "Lightweight",
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/lightweight.suffix": "Light Version",
 
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/large_capacity": "Large Capacity",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/large_capacity.suffix": "with Extended Magazine",
+
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch": "Eldritch",
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch.suffix": "of Eldritch",
 
