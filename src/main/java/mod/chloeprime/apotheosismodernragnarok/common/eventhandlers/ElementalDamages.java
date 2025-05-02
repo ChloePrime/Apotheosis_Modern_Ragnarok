@@ -102,15 +102,15 @@ public class ElementalDamages {
         if (!(victim instanceof LivingEntity livingVictim)) {
             return;
         }
-        // 20伤 = 100%触发
-        var triggerRate = value * 0.05F;
+        var effect = MobEffects.FREEZE.get();
+        int amp = Optional.ofNullable(livingVictim.getEffect(effect))
+                .map(MobEffectInstance::getAmplifier)
+                .orElse(-1);
+        // 20伤 = 20%触发，每提高1级概率减半，将要达到6级以上（冻住）时概率再/5
+        var triggerRate = value * 0.01F / (1L << Math.min(amp + 1, 62)) / (amp >= 4 ? 5 : 1);
         if (livingVictim.getRandom().nextFloat() > triggerRate) {
             return;
         }
-        var effect = MobEffects.FREEZE.get();
-        var amp = Optional.ofNullable(livingVictim.getEffect(effect))
-                .map(MobEffectInstance::getAmplifier)
-                .orElse(-1);
         var dur = duration.getAsInt();
         var newAmp = Mth.clamp(amp + 1, 0, 126);
         livingVictim.addEffect(new MobEffectInstance(effect, dur, newAmp));
