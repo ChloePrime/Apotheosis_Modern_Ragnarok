@@ -27,6 +27,8 @@ public class CommonConfig {
     public static final ForgeConfigSpec.BooleanValue FIX_MAGIC_PROTECTION;
     public static final ForgeConfigSpec.BooleanValue PERFECT_BLOCK_ENABLE_INSTANT_KILL;
     public static final ForgeConfigSpec.DoubleValue POSTURE_BREAK_RANGED_DAMAGE_BONUS;
+    public static final ForgeConfigSpec.IntValue MAX_POSTURE_FOR_MINIONS;
+    public static final ForgeConfigSpec.IntValue MAX_POSTURE_FOR_BOSSES;
     public static final ForgeConfigSpec.IntValue PROJECTION_MAGIC_MAX_FILL_SPEED;
 
     @SubscribeEvent
@@ -85,8 +87,14 @@ public class CommonConfig {
                     .comment("If true, Executing posture broken enemies will instantly kill it")
                     .define("enable_instant_kill", false);
             POSTURE_BREAK_RANGED_DAMAGE_BONUS = builder
-                    .comment("If true, Executing posture broken enemies will instantly kill it")
+                    .comment("Damage bonus for ranged damage towards posture-broken enemies")
                     .defineInRange("ranged_damage_bonus", 1.5, 0, Float.MAX_VALUE);
+            MAX_POSTURE_FOR_MINIONS = builder
+                    .comment("Max perfect blocks needed to break minions' posture")
+                    .defineInRange("max_posture_for_minions", 1, 1, Integer.MAX_VALUE);
+            MAX_POSTURE_FOR_BOSSES = builder
+                    .comment("Max perfect blocks needed to break bosses' (#forge:bosses) posture")
+                    .defineInRange("max_posture_for_bosses", 5, 1, Integer.MAX_VALUE);
         }
         builder.pop();
 

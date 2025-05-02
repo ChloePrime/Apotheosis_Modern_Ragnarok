@@ -22,6 +22,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
+import static mod.chloeprime.apotheosismodernragnarok.common.CommonConfig.*;
+
 /**
  * 架势系统
  */
@@ -32,7 +34,7 @@ public class PostureSystem {
             "Posture Broken", -100_0000, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     public static void onAttackBeingBlocked(LivingEntity attacker) {
-        var addend = isBoss(attacker) ? 0.2 : 1;
+        var addend = 1.0 / (isBoss(attacker) ? MAX_POSTURE_FOR_BOSSES : MAX_POSTURE_FOR_MINIONS).get();
         setPosture(attacker, getPosture(attacker) + addend);
     }
 
