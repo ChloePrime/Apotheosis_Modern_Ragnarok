@@ -17,13 +17,17 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
 import mod.chloeprime.apotheosismodernragnarok.common.enchantment.*;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.content.PotionWhenShootBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GemInjectionRegistry;
+import mod.chloeprime.apotheosismodernragnarok.common.loot.ApothReforgeFunction;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.TyrannyEffect;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -35,6 +39,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.level.storage.loot.Serializer;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
@@ -161,6 +168,23 @@ public class ModContent {
         public static final RegistryObject<Enchantment> PERFECT_BLOCK = REGISTRY.register("perfect_block", PerfectBlockEnchantment::new);
     }
 
+    public static final class LootFunctions {
+        public static final LootItemFunctionType APOTH_REFORGE = register("apoth_reforge", new ApothReforgeFunction.Serializer());
+
+        private LootFunctions() {
+        }
+
+        private static LootItemFunctionType register(String name, Serializer<? extends LootItemFunction> serializer) {
+            return Registry.register(
+                    BuiltInRegistries.LOOT_FUNCTION_TYPE,
+                    new ResourceLocation(ApotheosisModernRagnarok.MOD_ID, name),
+                    new LootItemFunctionType(serializer));
+        }
+
+        private static void init() {
+        }
+    }
+
     @SuppressWarnings("SameParameterValue")
     private static RegistryObject<Attribute> createAttribute(String name, double defaultValue, double min, double max) {
         return createAttribute(name, defaultValue, min, max, (a) -> a.setSyncable(true));
@@ -179,6 +203,7 @@ public class ModContent {
     }
 
     public static void setup() {
+        LootFunctions.init();
         ExtraLootCategories.init();
         GemInjectionRegistry.INSTANCE.registerToBus();
         AffixRegistry.INSTANCE.registerCodec(loc("bullet_saver"), BulletSaverAffix.CODEC);
