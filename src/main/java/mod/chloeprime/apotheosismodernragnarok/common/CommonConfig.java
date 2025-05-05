@@ -23,13 +23,16 @@ public class CommonConfig {
             "minecraft:armor_stand",
             "dummmmmmy:target_dummy"
     );
-
+    public static final ForgeConfigSpec.IntValue PROJECTION_MAGIC_MAX_FILL_SPEED;
     public static final ForgeConfigSpec.BooleanValue FIX_MAGIC_PROTECTION;
+
     public static final ForgeConfigSpec.BooleanValue PERFECT_BLOCK_ENABLE_INSTANT_KILL;
     public static final ForgeConfigSpec.DoubleValue POSTURE_BREAK_RANGED_DAMAGE_BONUS;
     public static final ForgeConfigSpec.IntValue MAX_POSTURE_FOR_MINIONS;
     public static final ForgeConfigSpec.IntValue MAX_POSTURE_FOR_BOSSES;
-    public static final ForgeConfigSpec.IntValue PROJECTION_MAGIC_MAX_FILL_SPEED;
+
+    public static final ForgeConfigSpec.BooleanValue INJECT_ARCHEOLOGY_LOOT_TABLES;
+    public static final ForgeConfigSpec.BooleanValue INJECT_CHEST_LOOT_TABLES;
 
     @SubscribeEvent
     public static void onConfigReload(ModConfigEvent event) {
@@ -95,6 +98,17 @@ public class CommonConfig {
             MAX_POSTURE_FOR_BOSSES = builder
                     .comment("Max perfect blocks needed to break bosses' (#forge:bosses) posture")
                     .defineInRange("max_posture_for_bosses", 5, 1, Integer.MAX_VALUE);
+        }
+        builder.pop();
+
+        builder.push("loot");
+        {
+            INJECT_ARCHEOLOGY_LOOT_TABLES = builder
+                    .comment("If true, add guns to some archeology loot tables")
+                    .define("inject_archeology_loot_tables", true);
+            INJECT_CHEST_LOOT_TABLES = builder
+                    .comment("If true, add guns to some chest loot tables")
+                    .define("inject_chest_loot_tables", true);
         }
         builder.pop();
 

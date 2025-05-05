@@ -1,0 +1,56 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "gunsmithlib:is_gun_installed",
+              "gun_id": "tacz:m95"
+            }
+          ],
+          "functions": [
+            {
+              "ammo": 0.0,
+              "function": "gunsmithlib:init_gun_info",
+              "gun_id": "tacz:m95"
+            }
+          ],
+          "name": "tacz:modern_kinetic_gun"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "ammo_id": "tacz:50bmg",
+              "condition": "gunsmithlib:is_ammo_installed"
+            }
+          ],
+          "functions": [
+            {
+              "ammo_id": "tacz:50bmg",
+              "function": "gunsmithlib:init_ammo_info"
+            },
+            {
+              "add": false,
+              "count": 20.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "tacz:ammo"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "apotheosis_modern_ragnarok:kits/sniper/tacz/m95"
+}

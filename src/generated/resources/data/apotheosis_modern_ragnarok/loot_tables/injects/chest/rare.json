@@ -1,0 +1,126 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "chance": 0.25,
+          "condition": "minecraft:random_chance"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/pistol/tacz/deagle"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/pistol/tacz/b93r"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/pistol/tacz/deagle_golden"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/pistol/tacz/cz75"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/sniper/tacz/m700"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/sniper/tacz/ai_awp"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/type_81"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/qbz_95"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/ak47"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/hk416d"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/m4a1"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/hk_g3"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/spr15hb"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/scar_l"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/scar_h"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/mk14"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/aug"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/g36k"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/shotgun/tacz/m870"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/smg/tacz/ump45"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/smg/tacz/vector45"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/smg/tacz/mp5a5"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/smg/tacz/p90"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/heavy/tacz/rpg7"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/heavy/tacz/m320"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/mg/tacz/m249"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/mg/tacz/rpk"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "apotheosis_modern_ragnarok:injects/chest/rare"
+}
