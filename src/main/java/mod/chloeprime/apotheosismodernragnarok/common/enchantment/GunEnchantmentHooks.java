@@ -1,6 +1,7 @@
 package mod.chloeprime.apotheosismodernragnarok.common.enchantment;
 
 import com.tacz.guns.api.item.IGun;
+import com.tacz.guns.resource.pojo.data.gun.FeedType;
 import com.tacz.guns.resource.pojo.data.gun.GunMeleeData;
 import dev.shadowsoffire.apotheosis.ench.enchantments.masterwork.KnowledgeEnchant;
 import dev.shadowsoffire.apotheosis.ench.enchantments.masterwork.ScavengerEnchant;
@@ -74,6 +75,8 @@ public class GunEnchantmentHooks {
                 available = available || Optional.ofNullable(gun.index().getGunData().getMeleeData())
                         .map(GunMeleeData::getDefaultMeleeData)
                         .isPresent();
+            } else if (enchantment.category == ModContent.Enchantments.CAT_HAS_MAGAZINE) {
+                available = available || gun.index().getGunData().getReloadData().getType() != FeedType.INVENTORY;
             }
             cir.setReturnValue(available);
         }

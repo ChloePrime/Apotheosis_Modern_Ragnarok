@@ -32,6 +32,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -40,6 +41,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Consumer;
 
@@ -129,6 +131,9 @@ public class ModContent {
         private Sounds() {}
     }
 
+    /**
+     * @see GunEnchantmentHooks#canGunApplyEnchantmentAtTable(Item, ItemStack, Enchantment, CallbackInfoReturnable) 几个 alwaysFalse 的附魔类型的具体实现
+     */
     public static final class Enchantments {
         public static final EnchantmentCategory THE_CATEGORY = EnchantmentCategory.create("AMR_GUN_APOTH", IGun.class::isInstance);
         public static final EnchantmentCategory CAT_PISTOL = EnchantmentCategory.create("AMR_PISTOL_APOTH", Predicates.alwaysFalse());
@@ -139,6 +144,13 @@ public class ModContent {
         public static final EnchantmentCategory CAT_HEAVY_WEAPON = EnchantmentCategory.create("AMR_HEAVY_WEAPON_APOTH", Predicates.alwaysFalse());
         public static final EnchantmentCategory CAT_MACHINE_GUN = EnchantmentCategory.create("AMR_MACHINE_GUN_APOTH", Predicates.alwaysFalse());
         public static final EnchantmentCategory CAT_MELEE_CAPABLE = EnchantmentCategory.create("AMR_MACHINE_GUN_APOTH", Predicates.alwaysFalse());
+
+        /**
+         * 所有非背包供弹武器
+         * @since 4.0.0
+         */
+        public static final EnchantmentCategory CAT_HAS_MAGAZINE = EnchantmentCategory.create("AMR_HAS_MAGAZINE_APOTH", Predicates.alwaysFalse());
+
         private static final DeferredRegister<Enchantment> REGISTRY = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, MOD_ID);
         public static final RegistryObject<Enchantment> STABILITY = REGISTRY.register("stability", ReduceRecoilEnchantment::new);
         public static final RegistryObject<Enchantment> EMERGENCY_PROTECTOR = REGISTRY.register("emergency_protector", EmergencyProtectorEnchantment::new);

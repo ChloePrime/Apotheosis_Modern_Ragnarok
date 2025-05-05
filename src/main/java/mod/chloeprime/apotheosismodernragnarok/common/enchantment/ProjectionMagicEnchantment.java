@@ -1,7 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.enchantment;
 
 import com.tacz.guns.api.entity.IGunOperator;
-import com.tacz.guns.api.entity.ReloadState;
 import com.tacz.guns.api.event.common.GunShootEvent;
 import com.tacz.guns.api.item.IGun;
 import com.tacz.guns.resource.pojo.data.gun.Bolt;
@@ -29,7 +28,7 @@ import static com.tacz.guns.api.entity.ReloadState.StateType.*;
 @MethodsReturnNonnullByDefault
 public class ProjectionMagicEnchantment extends Enchantment {
     public ProjectionMagicEnchantment() {
-        this(Rarity.VERY_RARE, ModContent.Enchantments.THE_CATEGORY, EquipmentSlot.MAINHAND);
+        this(Rarity.VERY_RARE, ModContent.Enchantments.CAT_HAS_MAGAZINE, EquipmentSlot.MAINHAND);
     }
 
     public ProjectionMagicEnchantment(Rarity pRarity, EnchantmentCategory category, EquipmentSlot... slots) {
