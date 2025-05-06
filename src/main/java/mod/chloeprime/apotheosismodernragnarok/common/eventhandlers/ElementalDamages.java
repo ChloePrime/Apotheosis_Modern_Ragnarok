@@ -4,6 +4,7 @@ import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.GunDamageSourcePart;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.attributeslib.api.ALObjects;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import net.minecraft.sounds.SoundEvents;
@@ -42,8 +43,9 @@ public class ElementalDamages {
             return;
         }
         var bullet = event.getDamageSource(GunDamageSourcePart.NON_ARMOR_PIERCING).getDirectEntity();
-        var fireDmg = (float) shooter.getAttributeValue(ALObjects.Attributes.FIRE_DAMAGE.get());
-        var coldDmg = (float) shooter.getAttributeValue(ALObjects.Attributes.COLD_DAMAGE.get());
+        var coefficient = GunPredicate.getBuffCoefficient(event.getGunId());
+        var fireDmg = (float) (coefficient * shooter.getAttributeValue(ALObjects.Attributes.FIRE_DAMAGE.get()));
+        var coldDmg = (float) (coefficient * shooter.getAttributeValue(ALObjects.Attributes.COLD_DAMAGE.get()));
         if (fireDmg <= 0 && coldDmg <= 0) {
             return;
         }

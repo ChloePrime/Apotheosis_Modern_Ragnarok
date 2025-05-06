@@ -56,9 +56,9 @@ public class AdsPotionAffix extends PotionAffixBase implements AdsPickTargetHook
         }
 
         if (target == ADS_SELF) {
-            applyEffect(gunner, instance.rarity().get(), instance.level());
+            applyEffect(gunner, gunner, instance.rarity().get(), instance.level());
         } else if (target == ADS_TARGET) {
-            applyEffect(victim, instance.rarity().get(), instance.level());
+            applyEffect(gunner, victim, instance.rarity().get(), instance.level());
         }
 
     }

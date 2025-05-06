@@ -5,6 +5,9 @@ import com.tacz.guns.api.item.IGun;
 import com.tacz.guns.api.item.gun.FireMode;
 import com.tacz.guns.resource.index.CommonGunIndex;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.EnhancedGunData;
+import mod.chloeprime.gunsmithlib.api.util.GunInfo;
+import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Arrays;
@@ -40,6 +43,39 @@ public interface GunPredicate extends Predicate<ItemStack> {
         double range = index.getBulletData().getSpeed() * (index.getBulletData().getLifeSecond() - 0.05);
         return range <= 10;
     }
+
+    /**
+     * 分散左键近战武器的增益
+     */
+    static double getBuffCoefficient(ItemStack gun) {
+        return Gunsmith.getGunInfo(gun)
+                .map(GunInfo::index)
+                .map(GunPredicate::getBuffCoefficient)
+                .orElse(1.0);
+    }
+
+    /**
+     * 分散左键近战武器的增益
+     */
+    static double getBuffCoefficient(ResourceLocation gunId) {
+        return TimelessAPI.getCommonGunIndex(gunId)
+                .map(GunPredicate::getBuffCoefficient)
+                .orElse(1.0);
+    }
+
+    /**
+     * 分散左键近战武器的增益
+     */
+    static double getBuffCoefficient(CommonGunIndex index) {
+        var isMelee = isDedicatedTaCZMeleeWeapon(index);
+        if (isMelee) {
+            var shrapnel = index.getGunData().getBulletData().getBulletAmount();
+            return shrapnel == 0 ? 1 : 1.0 / Math.abs(shrapnel);
+        } else {
+            return 1;
+        }
+    }
+
 
     boolean testGun(ItemStack stack, IGun gun, CommonGunIndex index);
 

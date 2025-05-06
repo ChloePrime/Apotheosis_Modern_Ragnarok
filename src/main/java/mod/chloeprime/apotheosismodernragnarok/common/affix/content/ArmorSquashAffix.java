@@ -13,6 +13,7 @@ import dev.shadowsoffire.placebo.util.StepFunction;
 import mod.chloeprime.apotheosismodernragnarok.api.events.ArmorSquashAffixTakeEffectEvent;
 import mod.chloeprime.apotheosismodernragnarok.common.CommonConfig;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractValuedAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.GunAffix;
@@ -105,7 +106,8 @@ public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
             return;
         }
         // 概率检定
-        if (livingVictim.getRandom().nextFloat() > getValue(gun, instance)) {
+        var coefficient = GunPredicate.getBuffCoefficient(gun);
+        if (livingVictim.getRandom().nextFloat() > getValue(gun, instance) * coefficient) {
             return;
         }
         // 寻找一件护甲

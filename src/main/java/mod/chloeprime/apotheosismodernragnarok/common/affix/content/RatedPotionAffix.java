@@ -8,6 +8,7 @@ import dev.shadowsoffire.apotheosis.adventure.affix.effect.PotionAffix;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.PotionAffixBase;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -87,18 +88,26 @@ public class RatedPotionAffix extends PotionAffixBase {
         return this.values.get(rarity).rate().get(level);
     }
 
-    public void applyEffect(LivingEntity target, LootRarity rarity, float level) {
+    @Override
+    public void applyEffect(LivingEntity owner, LivingEntity target, LootRarity rarity, float level) {
         if (target.level().isClientSide()) {
-            super.applyEffect(target, rarity, level);
+            super.applyEffect(owner, target, rarity, level);
             return;
         }
+
+        // 对于左键近战武器来说，把概率分摊到每个弹片上
+        double coefficient = switch (this.target) {
+            case ARROW_SELF, ARROW_TARGET -> GunPredicate.getBuffCoefficient(owner.getMainHandItem());
+            default -> 1;
+        };
+        // 对于左键近战武器来说，把概率分摊到每个弹片上
 
         // 概率检定
-        if (target.getRandom().nextFloat() > getTriggerRate(rarity, level)) {
+        if (target.getRandom().nextFloat() > coefficient * getTriggerRate(rarity, level)) {
             return;
         }
 
-        super.applyEffect(target, rarity, level);
+        super.applyEffect(owner, target, rarity, level);
     }
 
     @Override

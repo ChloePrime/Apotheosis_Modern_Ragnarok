@@ -56,20 +56,20 @@ public abstract class PotionAffixBase extends AffixBaseUtility implements GunAff
 
     @Override
     public void doPostHurt(ItemStack stack, LootRarity rarity, float level, LivingEntity user, Entity attacker) {
-        if (this.target == Target.HURT_SELF) this.applyEffect(user, rarity, level);
+        if (this.target == Target.HURT_SELF) this.applyEffect(user, user, rarity, level);
         else if (this.target == Target.HURT_ATTACKER) {
             if (attacker instanceof LivingEntity tLiving) {
-                this.applyEffect(tLiving, rarity, level);
+                this.applyEffect(user, tLiving, rarity, level);
             }
         }
     }
 
     @Override
     public void doPostAttack(ItemStack stack, LootRarity rarity, float level, LivingEntity user, Entity target) {
-        if (this.target == Target.ATTACK_SELF) this.applyEffect(user, rarity, level);
+        if (this.target == Target.ATTACK_SELF) this.applyEffect(user, user, rarity, level);
         else if (this.target == Target.ATTACK_TARGET) {
             if (target instanceof LivingEntity tLiving) {
-                this.applyEffect(tLiving, rarity, level);
+                this.applyEffect(user, tLiving, rarity, level);
             }
         }
     }
@@ -77,7 +77,7 @@ public abstract class PotionAffixBase extends AffixBaseUtility implements GunAff
     @Override
     public void onBlockBreak(ItemStack stack, LootRarity rarity, float level, Player player, LevelAccessor world, BlockPos pos, BlockState state) {
         if (this.target == Target.BREAK_SELF) {
-            this.applyEffect(player, rarity, level);
+            this.applyEffect(player, player, rarity, level);
         }
     }
 
@@ -85,15 +85,18 @@ public abstract class PotionAffixBase extends AffixBaseUtility implements GunAff
     public void onArrowImpact(AbstractArrow arrow, LootRarity rarity, float level, HitResult res, HitResult.Type type) {
         if (this.target == Target.ARROW_SELF) {
             if (arrow.getOwner() instanceof LivingEntity owner) {
-                this.applyEffect(owner, rarity, level);
+                this.applyEffect(owner, owner, rarity, level);
             }
         } else if (this.target == Target.ARROW_TARGET) {
-            if (type == HitResult.Type.ENTITY && ((EntityHitResult) res).getEntity() instanceof LivingEntity target) {
-                this.applyEffect(target, rarity, level);
+            if (type == HitResult.Type.ENTITY && ((EntityHitResult) res).getEntity() instanceof LivingEntity victim) {
+                if (arrow.getOwner() instanceof LivingEntity owner) {
+                    this.applyEffect(owner, victim, rarity, level);
+                }
             }
         }
     }
 
+    @Override
     public void onGunshotPost(ItemStack gun, AffixInstance instance, EntityHurtByGunEvent.Post event) {
         var isTargetCart = Optional.ofNullable(event.getHurtEntity())
                 .map(Entity::getType)
@@ -103,11 +106,16 @@ public abstract class PotionAffixBase extends AffixBaseUtility implements GunAff
             return;
         }
 
+        var owner = event.getAttacker();
+        if (owner == null) {
+            return;
+        }
+
         if (this.target == Target.ARROW_SELF) {
-            Optional.ofNullable(event.getAttacker()).ifPresent(owner -> this.applyEffect(owner, instance.rarity().get(), instance.level()));
+            this.applyEffect(owner, owner, instance.rarity().get(), instance.level());
         } else if (this.target == Target.ARROW_TARGET) {
             if (event.getHurtEntity() instanceof LivingEntity victim) {
-                this.applyEffect(victim, instance.rarity().get(), instance.level());
+                this.applyEffect(owner, victim, instance.rarity().get(), instance.level());
             }
         }
     }
@@ -122,22 +130,27 @@ public abstract class PotionAffixBase extends AffixBaseUtility implements GunAff
             return;
         }
 
+        var owner = event.getAttacker();
+        if (owner == null) {
+            return;
+        }
+
         if (this.target == Target.ARROW_SELF) {
-            Optional.ofNullable(event.getAttacker()).ifPresent(owner -> this.applyEffect(owner, instance.rarity().get(), instance.level()));
+            this.applyEffect(owner, owner, instance.rarity().get(), instance.level());
         }
     }
 
     @Override
     public float onShieldBlock(ItemStack stack, LootRarity rarity, float level, LivingEntity entity, DamageSource source, float amount) {
         if (this.target == Target.BLOCK_SELF) {
-            this.applyEffect(entity, rarity, level);
-        } else if (this.target == Target.BLOCK_ATTACKER && source.getDirectEntity() instanceof LivingEntity target) {
-            this.applyEffect(target, rarity, level);
+            this.applyEffect(entity, entity, rarity, level);
+        } else if (this.target == Target.BLOCK_ATTACKER && source.getDirectEntity() instanceof LivingEntity attacker) {
+            this.applyEffect(entity, attacker, rarity, level);
         }
         return amount;
     }
 
-    public void applyEffect(LivingEntity target, LootRarity rarity, float level) {
+    public void applyEffect(LivingEntity owner, LivingEntity target, LootRarity rarity, float level) {
         if (target.level().isClientSide()) return;
 
         EffectData data = this.values.get(rarity);
@@ -171,6 +184,7 @@ public abstract class PotionAffixBase extends AffixBaseUtility implements GunAff
             this.id = id;
         }
 
+        @SuppressWarnings("unused")
         public static Target create(String fieldName, String langKey) {
             throw new AssertionError("Enum not extended");
         }
