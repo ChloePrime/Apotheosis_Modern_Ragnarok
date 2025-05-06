@@ -65,6 +65,7 @@ public class DefaultLootInjections {
             // 箱子
             case "minecraft:chests/ruined_portal":
             case "minecraft:chests/spawn_bonus_chest":
+            case "apotheosis:chests/tome_tower":
                 if (CommonConfig.INJECT_CHEST_LOOT_TABLES.get()) {
                     injectChest(table, "injects/chest/for_newcomers");
                 }
@@ -72,6 +73,7 @@ public class DefaultLootInjections {
             case "minecraft:chests/igloo_chest":
             case "minecraft:chests/pillager_outpost":
             case "minecraft:chests/shipwreck_supply":
+            case "minecraft:chests/simple_dungeon":
             case "minecraft:chests/stronghold_corridor":
             case "minecraft:chests/stronghold_crossing":
                 if (CommonConfig.INJECT_CHEST_LOOT_TABLES.get()) {
@@ -83,6 +85,7 @@ public class DefaultLootInjections {
             case "minecraft:chests/bastion_other":
             case "minecraft:chests/nether_bridge":
             case "minecraft:chests/woodland_mansion":
+            case "apotheosis:chests/chest_valuable":
                 if (CommonConfig.INJECT_CHEST_LOOT_TABLES.get()) {
                     injectChest(table, "injects/chest/rare");
                 }
