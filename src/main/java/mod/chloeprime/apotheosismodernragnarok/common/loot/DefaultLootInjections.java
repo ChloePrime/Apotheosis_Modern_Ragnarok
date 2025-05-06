@@ -13,6 +13,8 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -109,12 +111,14 @@ public class DefaultLootInjections {
         LootPool pool = ((LootTableAccessor) table).getPools()
                 .stream().findFirst()
                 .orElse(null);
-
         LootPoolEntryContainer.Builder<?> entry = LootItem
                 .lootTableItem(ModItems.MODERN_KINETIC_GUN.get())
                 .when(GunLootFunctions.isGunInstalled(gunId))
                 .apply(GunLootFunctions.initGunInfo(gunId))
-                .apply(ApothReforgeFunction.apothReforge(new ResourceLocation("apotheosis:ancient")));
+                .apply(ApothReforgeFunction.apothReforge(new ResourceLocation("apotheosis:uncommon")))
+                .apply(reforgeWithCondition(new ResourceLocation("apotheosis:rare"), 0.25F))
+                .apply(reforgeWithCondition(new ResourceLocation("apotheosis:epic"), 0.1F));
+
 
         if (pool == null) {
             table.addPool(LootPool.lootPool().add(entry).build());
@@ -124,5 +128,11 @@ public class DefaultLootInjections {
             entries.add(entry.build());
             accessor.setEntries(entries.toArray(new LootPoolEntryContainer[0]));
         }
+    }
+
+    private static LootItemFunction.Builder reforgeWithCondition(ResourceLocation rarity, float chance) {
+        return ApothReforgeFunction
+                .apothReforge(rarity)
+                .when(LootItemRandomChanceCondition.randomChance(chance));
     }
 }
