@@ -10,6 +10,7 @@
     "apoth.GemInstanceAccessor",
     "apoth.MagicDamageReductionFixMixin",
     "apoth.MeleeGunIsSwordMixin",
+    "apoth.MixinAttributeLibAttributeEvents",
     "apoth.MixinGem",
     "apoth.MixinLootCategory",
     "apoth.MixinLootController",

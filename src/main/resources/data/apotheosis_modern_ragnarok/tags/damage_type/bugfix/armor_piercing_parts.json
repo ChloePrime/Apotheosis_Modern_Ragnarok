@@ -1,7 +1,8 @@
 {
   "replace": false,
   "values": [
-    "apotheosis_modern_ragnarok:execution",
+    "tacz:bullet_ignore_armor",
+    "tacz:bullet_void_ignore_armor",
     "apotheosis_modern_ragnarok:mob_armor_piercing_attack",
     "apotheosis_modern_ragnarok:player_armor_piercing_attack"
   ]

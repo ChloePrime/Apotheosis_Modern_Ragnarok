@@ -7,6 +7,7 @@ import dev.shadowsoffire.attributeslib.api.ALObjects;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
+import mod.chloeprime.apotheosismodernragnarok.common.util.DamageUtils;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -42,7 +43,11 @@ public class ElementalDamages {
         if (shooter == null || victim == null || victim.getType().is(Tags.GUN_IMMUNE)) {
             return;
         }
-        var bullet = event.getDamageSource(GunDamageSourcePart.NON_ARMOR_PIERCING).getDirectEntity();
+        // 左键近战武器用神化原版的元素伤害，不执行神化枪械的元素伤害
+        if (DamageUtils.isMeleeDamage(event.getDamageSource(GunDamageSourcePart.NON_ARMOR_PIERCING))) {
+            return;
+        }
+        var bullet = event.getBullet();
         var coefficient = GunPredicate.getBuffCoefficient(event.getGunId());
         var fireDmg = (float) (coefficient * shooter.getAttributeValue(ALObjects.Attributes.FIRE_DAMAGE.get()));
         var coldDmg = (float) (coefficient * shooter.getAttributeValue(ALObjects.Attributes.COLD_DAMAGE.get()));

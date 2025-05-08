@@ -114,6 +114,8 @@ public class ModContent {
         public static final ResourceKey<DamageType> BULLET_ICE = ResourceKey.create(Registries.DAMAGE_TYPE, loc("bullet_ice"));
         public static final ResourceKey<DamageType> BULLET_FIRE = ResourceKey.create(Registries.DAMAGE_TYPE, loc("bullet_fire"));
         public static final ResourceKey<DamageType> BULLET_IAF = ResourceKey.create(Registries.DAMAGE_TYPE, loc("bullet_iceandfire"));
+        public static final ResourceKey<DamageType> PLAYER_ARMOR_PIERCING_ATTACK = ResourceKey.create(Registries.DAMAGE_TYPE, loc("player_armor_piercing_attack"));
+        public static final ResourceKey<DamageType> MOB_ARMOR_PIERCING_ATTACK = ResourceKey.create(Registries.DAMAGE_TYPE, loc("mob_armor_piercing_attack"));
     }
 
     public static final class Particles {

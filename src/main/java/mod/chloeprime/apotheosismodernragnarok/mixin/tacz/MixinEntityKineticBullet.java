@@ -6,7 +6,7 @@ import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.entity.EntityKineticBullet;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.EnhancedKineticBullet;
-import mod.chloeprime.apotheosismodernragnarok.common.util.LeftButtonMeleeFix;
+import mod.chloeprime.apotheosismodernragnarok.common.eventhandlers.LeftButtonMeleeFix;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.Projectile;

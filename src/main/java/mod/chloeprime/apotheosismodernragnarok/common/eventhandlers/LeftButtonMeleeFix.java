@@ -1,9 +1,10 @@
-package mod.chloeprime.apotheosismodernragnarok.common.util;
+package mod.chloeprime.apotheosismodernragnarok.common.eventhandlers;
 
 import com.tacz.guns.api.TimelessAPI;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;
 import com.tacz.guns.api.event.common.GunDamageSourcePart;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.apotheosismodernragnarok.mixin.tacz.EntityKineticBulletAccessor;
 import mod.chloeprime.gunsmithlib.api.common.BulletCreateEvent;
@@ -45,8 +46,8 @@ public class LeftButtonMeleeFix {
         var oldSource1 = event.getDamageSource(GunDamageSourcePart.NON_ARMOR_PIERCING);
         var oldSource2 = event.getDamageSource(GunDamageSourcePart.ARMOR_PIERCING);
 
-        var newType1 = oldSource1.is(TACZ_BULLETS) ? getMeleeDamageSource(event.getAttacker()).orElseGet(oldSource1::typeHolder) : oldSource1.typeHolder();
-        var newType2 = oldSource2.is(TACZ_BULLETS) ? getMeleeDamageSource(event.getAttacker()).orElseGet(oldSource2::typeHolder) : oldSource2.typeHolder();
+        var newType1 = oldSource1.is(TACZ_BULLETS) ? getMeleeDamageSource(event.getAttacker(), false).orElseGet(oldSource1::typeHolder) : oldSource1.typeHolder();
+        var newType2 = oldSource2.is(TACZ_BULLETS) ? getMeleeDamageSource(event.getAttacker(), true).orElseGet(oldSource2::typeHolder) : oldSource2.typeHolder();
 
         var newSource1 = new DamageSource(newType1, oldSource1.getEntity(), oldSource1.getEntity(), oldSource1.sourcePositionRaw());
         var newSource2 = new DamageSource(newType2, oldSource2.getEntity(), oldSource2.getEntity(), oldSource2.sourcePositionRaw());
@@ -77,11 +78,13 @@ public class LeftButtonMeleeFix {
         bullet.setDeltaMovement(velocity.scale(newSpeed / oldSpeed));
     }
 
-    private static Optional<Holder<DamageType>> getMeleeDamageSource(LivingEntity attacker) {
+    private static Optional<Holder<DamageType>> getMeleeDamageSource(LivingEntity attacker, boolean ap) {
         if (attacker == null) {
             return Optional.empty();
         }
-        var key = attacker instanceof Player ? DamageTypes.PLAYER_ATTACK : DamageTypes.MOB_ATTACK;
+        var key = attacker instanceof Player
+                ? (ap ? ModContent.DamageTypes.PLAYER_ARMOR_PIERCING_ATTACK : DamageTypes.PLAYER_ATTACK)
+                : (ap ? ModContent.DamageTypes.MOB_ARMOR_PIERCING_ATTACK :DamageTypes.MOB_ATTACK);
         return attacker.level().registryAccess()
                 .registry(Registries.DAMAGE_TYPE)
                 .flatMap(registry -> registry.getHolder(key));

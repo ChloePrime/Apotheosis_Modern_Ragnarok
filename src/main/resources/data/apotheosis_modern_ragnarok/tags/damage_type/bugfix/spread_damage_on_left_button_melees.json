@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "attributeslib:cold_damage",
+    "attributeslib:current_hp_damage",
+    "attributeslib:fire_damage"
+  ]
+}
