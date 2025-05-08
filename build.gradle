@@ -165,23 +165,21 @@ repositories {
             includeGroup "dev.shadowsoffire"
         }
     }
-    maven {
-        name = 'GeckoLib'
-        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
-        content {
-            includeGroupByRegex("software\\.bernie.*")
-            includeGroup("com.eliotlash.mclib")
-        }
-    }
 
-    if (file('../GunsmithLib').exists()) {
-        flatDir {
-            dir '../GunsmithLib/build/libs'
+    maven {
+        name 'Chloe Maven'
+        url 'https://maven.chloeprime.cn:4080/snapshots'
+        content {
+            includeGroup("mod.chloeprime")
+            includeGroup("cn.chloeprime")
         }
     }
 
     flatDir {
         dir 'libs'
+        content {
+            includeGroup("libs")
+        }
     }
 }
 
@@ -210,7 +208,7 @@ dependencies {
     }
 
     // 前置
-    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:3.2+'))) {
+    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:3.2.0.a2+mc1.20.1+tacz1.1.5'))) {
         jarJar.ranged(it, "[3.2,)")
     }
 
