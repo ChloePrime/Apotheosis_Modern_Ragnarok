@@ -220,6 +220,7 @@ dependencies {
 
     // 测试环境杂项（Jade，小女仆等）
     runtimeOnly fg.deobf("maven.modrinth:jade:11.13.1+forge")
+    runtimeOnly fg.deobf("maven.modrinth:when-dungeons-arise:2.1.57-1.20.1")
     implementation fg.deobf("curse.maven:touhou-little-maid-355044:6440955")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'

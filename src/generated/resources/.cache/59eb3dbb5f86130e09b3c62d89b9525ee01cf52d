@@ -1,8 +1,9 @@
-// 1.20.1	2025-05-05T22:43:30.8240764	Loot Tables
-37c7a0d8f2631bfaa91b4739399438f4471078bc data/apotheosis_modern_ragnarok/loot_tables/injects/chest/common.json
+// 1.20.1	2025-05-10T00:07:29.8924644	Loot Tables
+2b30c39b932919b0ad5d94ea92afbdfdc285f27b data/apotheosis_modern_ragnarok/loot_tables/injects/chest/common.json
 331f5799582ca9efd21f66e8613a5b009fd8a0fd data/apotheosis_modern_ragnarok/loot_tables/injects/chest/for_newcomers.json
 20a85c39012c910a5fe61dbb457913597c9a7bc4 data/apotheosis_modern_ragnarok/loot_tables/injects/chest/legendary.json
-bf40fe43e222d944663b688be114789fca087dc4 data/apotheosis_modern_ragnarok/loot_tables/injects/chest/rare.json
+c8c06991a828a81d977a2044d120fa370f571f63 data/apotheosis_modern_ragnarok/loot_tables/injects/chest/middle_east.json
+67e34c437357d14caead0467b1453f1851e00f8d data/apotheosis_modern_ragnarok/loot_tables/injects/chest/rare.json
 a81fddf1902c102131288d38e81ffd0973fb5548 data/apotheosis_modern_ragnarok/loot_tables/kits/heavy/tacz/m320.json
 b301e9376d5b09c2c901f2d750d377ac59c841ce data/apotheosis_modern_ragnarok/loot_tables/kits/heavy/tacz/rpg7.json
 e1d9ff10577d4b0b557c18eca44c84e3fb3a19e0 data/apotheosis_modern_ragnarok/loot_tables/kits/mg/tacz/m249.json

@@ -1,0 +1,56 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/sks_tactical",
+          "weight": 64
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/ak47",
+          "weight": 64
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/shotgun/tacz/db_short",
+          "weight": 14
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "apotheosis_modern_ragnarok:kits/shotgun/tacz/db_long",
+          "weight": 14
+        },
+        {
+          "type": "minecraft:loot_table",
+          "functions": [
+            {
+              "function": "apotheosis_modern_ragnarok:apoth_reforge",
+              "rarity": "apotheosis:epic"
+            }
+          ],
+          "name": "apotheosis_modern_ragnarok:kits/heavy/tacz/rpg7",
+          "quality": 2,
+          "weight": 2
+        },
+        {
+          "type": "minecraft:loot_table",
+          "functions": [
+            {
+              "function": "apotheosis_modern_ragnarok:apoth_reforge",
+              "rarity": "apotheosis:epic"
+            }
+          ],
+          "name": "apotheosis_modern_ragnarok:kits/mg/tacz/rpk",
+          "quality": 2,
+          "weight": 2
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "apotheosis_modern_ragnarok:injects/chest/middle_east"
+}

@@ -11,7 +11,6 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.*;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -103,7 +102,6 @@ public class AMRLootProvider {
             // 普通箱子
             output.accept(loc("injects/chest/common"), LootTable.lootTable()
                     .withPool(LootPool.lootPool()
-                            .when(LootItemRandomChanceCondition.randomChance(0.1F))
                             .add(LootTableReference.lootTableReference(loc("kits/pistol/tacz/deagle")))
                             .add(LootTableReference.lootTableReference(loc("kits/pistol/tacz/glock_17")))
                             .add(LootTableReference.lootTableReference(loc("kits/pistol/tacz/b93r")))
@@ -147,7 +145,6 @@ public class AMRLootProvider {
             // 稀有箱子
             output.accept(loc("injects/chest/rare"), LootTable.lootTable()
                     .withPool(LootPool.lootPool()
-                            .when(LootItemRandomChanceCondition.randomChance(0.25F))
                             .add(LootTableReference.lootTableReference(loc("kits/pistol/tacz/deagle")))
                             // no glock_17
                             .add(LootTableReference.lootTableReference(loc("kits/pistol/tacz/b93r")))
@@ -214,6 +211,25 @@ public class AMRLootProvider {
                                     .setWeight(-20)
                                     .setQuality(1)
                                     .apply(ApothReforgeFunction.apothReforge(new ResourceLocation("apotheosis:ancient")))
+                            )
+                    ));
+
+            // 中东特色箱子
+            output.accept(loc("injects/chest/middle_east"), LootTable.lootTable()
+                    .withPool(LootPool.lootPool()
+                            .add(LootTableReference.lootTableReference(loc("kits/rifle/tacz/sks_tactical")).setWeight(64))
+                            .add(LootTableReference.lootTableReference(loc("kits/rifle/tacz/ak47")).setWeight(64))
+                            .add(LootTableReference.lootTableReference(loc("kits/shotgun/tacz/db_short")).setWeight(14))
+                            .add(LootTableReference.lootTableReference(loc("kits/shotgun/tacz/db_long")).setWeight(14))
+                            .add(LootTableReference.lootTableReference(loc("kits/heavy/tacz/rpg7"))
+                                    .setWeight(2)
+                                    .setQuality(2)
+                                    .apply(ApothReforgeFunction.apothReforge(new ResourceLocation("apotheosis:epic")))
+                            )
+                            .add(LootTableReference.lootTableReference(loc("kits/mg/tacz/rpk"))
+                                    .setWeight(2)
+                                    .setQuality(2)
+                                    .apply(ApothReforgeFunction.apothReforge(new ResourceLocation("apotheosis:epic")))
                             )
                     ));
         }
