@@ -6,23 +6,23 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/pistol/tacz/glock_17"
+          "name": "apotheosis_modern_ragnarok:kits/tacz/pistol/glock_17"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/pistol/tacz/m1911"
+          "name": "apotheosis_modern_ragnarok:kits/tacz/pistol/m1911"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/sniper/tacz/springfield1873"
+          "name": "apotheosis_modern_ragnarok:kits/tacz/sniper/springfield1873"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/shotgun/tacz/db_short"
+          "name": "apotheosis_modern_ragnarok:kits/tacz/shotgun/db_short"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/shotgun/tacz/db_long"
+          "name": "apotheosis_modern_ragnarok:kits/tacz/shotgun/db_long"
         }
       ],
       "rolls": 1.0

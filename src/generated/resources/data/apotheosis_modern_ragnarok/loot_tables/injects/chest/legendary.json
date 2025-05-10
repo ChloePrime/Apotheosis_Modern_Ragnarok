@@ -6,52 +6,52 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/sniper/tacz/ai_awp",
+          "name": "apotheosis_modern_ragnarok:kits/tacz/sniper/ai_awp",
           "weight": 1000
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/sniper/tacz/m107",
+          "name": "apotheosis_modern_ragnarok:kits/tacz/sniper/m107",
           "weight": 1000
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/sniper/tacz/m95",
+          "name": "apotheosis_modern_ragnarok:kits/tacz/sniper/m95",
           "weight": 1000
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/spr15hb",
+          "name": "apotheosis_modern_ragnarok:kits/tacz/rifle/spr15hb",
           "weight": 1000
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/scar_h",
+          "name": "apotheosis_modern_ragnarok:kits/tacz/rifle/scar_h",
           "weight": 1000
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/rifle/tacz/mk14",
+          "name": "apotheosis_modern_ragnarok:kits/tacz/rifle/mk14",
           "weight": 1000
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/shotgun/tacz/aa12",
+          "name": "apotheosis_modern_ragnarok:kits/tacz/shotgun/aa12",
           "weight": 1000
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/smg/tacz/p90",
+          "name": "apotheosis_modern_ragnarok:kits/tacz/smg/p90",
           "weight": 1000
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/mg/tacz/m249",
+          "name": "apotheosis_modern_ragnarok:kits/tacz/mg/m249",
           "weight": 1000
         },
         {
           "type": "minecraft:loot_table",
-          "name": "apotheosis_modern_ragnarok:kits/mg/tacz/rpk",
+          "name": "apotheosis_modern_ragnarok:kits/tacz/mg/rpk",
           "weight": 1000
         },
         {
@@ -62,7 +62,7 @@
               "rarity": "apotheosis:ancient"
             }
           ],
-          "name": "apotheosis_modern_ragnarok:kits/mg/tacz/minigun",
+          "name": "apotheosis_modern_ragnarok:kits/tacz/mg/minigun",
           "quality": 1,
           "weight": -20
         }
