@@ -167,6 +167,11 @@ repositories {
     }
 
     maven {
+        // Curios
+        url = "https://maven.theillusivec4.top/"
+    }
+
+    maven {
         name 'Chloe Maven'
         url 'https://maven.chloeprime.cn:4080/snapshots'
         content {
@@ -208,8 +213,8 @@ dependencies {
     }
 
     // 前置
-    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:3.2.0.a2+mc1.20.1+tacz1.1.5'))) {
-        jarJar.ranged(it, "[3.2,)")
+    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:3.2.1+mc1.20.1+tacz1.1.5'))) {
+        jarJar.ranged(it, "[3.2.1,)")
     }
 
     // MixinExtras
@@ -221,6 +226,9 @@ dependencies {
     // 测试环境杂项（Jade，小女仆等）
     runtimeOnly fg.deobf("maven.modrinth:jade:11.13.1+forge")
     runtimeOnly fg.deobf("maven.modrinth:when-dungeons-arise:2.1.57-1.20.1")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:5.9.1+1.20.1")
+    runtimeOnly fg.deobf("maven.modrinth:lionfish-api:2.4")
+    runtimeOnly fg.deobf("maven.modrinth:l_enders-cataclysm:2.65")
     implementation fg.deobf("curse.maven:touhou-little-maid-355044:6440955")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
