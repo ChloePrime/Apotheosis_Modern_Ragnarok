@@ -9,8 +9,11 @@ import dev.shadowsoffire.apotheosis.spawn.enchantment.CapturingEnchant;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.apotheosismodernragnarok.common.gunpack.GunApothData;
+import mod.chloeprime.gunsmithlib.api.util.GunInfo;
 import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -24,6 +27,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -33,6 +37,14 @@ public class GunEnchantmentHooks {
     private static final Set<Enchantment> BLACKLIST = Set.of(
             Enchantments.SWEEPING_EDGE
     );
+
+    private static final Map<ResourceLocation, Integer> DEFAULT_ENCH_VALUES = Map.of(
+            new ResourceLocation("tacz", "deagle_golden"), ArmorMaterials.GOLD.getEnchantmentValue()
+    );
+
+    public static  int defaultEnchantValue(GunInfo gun) {
+        return DEFAULT_ENCH_VALUES.getOrDefault(gun.gunId(), ArmorMaterials.IRON.getEnchantmentValue());
+    }
 
     public static void canGunApplyEnchantmentAtTable(Item item, ItemStack stack, Enchantment enchantment, CallbackInfoReturnable<Boolean> cir) {
         if (!(item instanceof IGun)) {

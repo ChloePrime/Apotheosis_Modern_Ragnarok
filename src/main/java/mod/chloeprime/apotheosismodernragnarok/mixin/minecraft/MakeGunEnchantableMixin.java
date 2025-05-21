@@ -4,7 +4,6 @@ import com.tacz.guns.api.item.IGun;
 import mod.chloeprime.apotheosismodernragnarok.common.enchantment.GunEnchantmentHooks;
 import mod.chloeprime.apotheosismodernragnarok.common.gunpack.GunApothData;
 import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
-import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -37,7 +36,7 @@ public abstract class MakeGunEnchantableMixin implements IForgeItem {
         }
         cir.setReturnValue(GunApothData.of(gun)
                 .map(apd -> apd.enchantment_value)
-                .orElse(ArmorMaterials.IRON.getEnchantmentValue()));
+                .orElseGet(() -> GunEnchantmentHooks.defaultEnchantValue(gun)));
     }
 
     @Dynamic
