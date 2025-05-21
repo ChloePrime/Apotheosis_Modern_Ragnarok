@@ -173,7 +173,7 @@ repositories {
 
     maven {
         name 'Chloe Maven'
-        url 'https://maven.chloeprime.cn:4080/snapshots'
+        url 'https://maven.chloeprime.cn:4080/releases'
         content {
             includeGroup("mod.chloeprime")
             includeGroup("cn.chloeprime")
@@ -213,8 +213,8 @@ dependencies {
     }
 
     // 前置
-    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:3.2.1+mc1.20.1+tacz1.1.5'))) {
-        jarJar.ranged(it, "[3.2.1,)")
+    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:3.5.2+mc1.20.1+tacz1.1.5'))) {
+        jarJar.ranged(it, "[3.5.2,)")
     }
 
     // MixinExtras
