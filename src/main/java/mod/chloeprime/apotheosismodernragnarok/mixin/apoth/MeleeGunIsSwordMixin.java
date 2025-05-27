@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.tacz.guns.resource.index.CommonGunIndex;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
+import mod.chloeprime.apotheosismodernragnarok.common.compat.lrtactical.LRTacProxy;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.EnhancedGunData;
 import mod.chloeprime.gunsmithlib.api.util.GunInfo;
 import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
@@ -28,6 +29,9 @@ public class MeleeGunIsSwordMixin {
                     to = @At("TAIL")
             ))
     private static Object overrideLootCategory(Object original, ItemStack item) {
+        if (LRTacProxy.isLRTacMeleeWeapon(item)) {
+            return SWORD;
+        }
         if (original == null && GunPredicate.isDedicatedTaCZMeleeWeapon(item)) {
             return Gunsmith.getGunInfo(item)
                     .map(GunInfo::index)

@@ -209,13 +209,15 @@ dependencies {
     if (USE_LOCAL_TACZ_V) {
         implementation fg.deobf('libs:tacz-1.20.1:1.1.5.chloe1-all')
     } else {
-        implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:6069384-sources-6069403');
+        implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:6069384-sources-6069403')
     }
 
     // 前置
     implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:3.5.2+mc1.20.1+tacz1.1.5'))) {
         jarJar.ranged(it, "[3.5.2,)")
     }
+
+    implementation fg.deobf('curse.maven:tacz-lesraisins-tactical-equipements-1273094:6566681')
 
     // MixinExtras
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
