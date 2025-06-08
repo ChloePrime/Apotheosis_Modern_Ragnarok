@@ -34,6 +34,8 @@ public class CommonConfig {
     public static final ForgeConfigSpec.BooleanValue INJECT_ARCHEOLOGY_LOOT_TABLES;
     public static final ForgeConfigSpec.BooleanValue INJECT_CHEST_LOOT_TABLES;
 
+    public static final ForgeConfigSpec.IntValue LRTAC_HEAVY_WEAPON_COOLDOWN_THRESHOLD;
+
     @SubscribeEvent
     public static void onConfigReload(ModConfigEvent event) {
         if (!(event instanceof ModConfigEvent.Loading) && !(event instanceof ModConfigEvent.Reloading)) {
@@ -109,6 +111,14 @@ public class CommonConfig {
             INJECT_CHEST_LOOT_TABLES = builder
                     .comment("If true, add guns to some chest loot tables")
                     .define("inject_chest_loot_tables", true);
+        }
+        builder.pop();
+
+        builder.push("lesraisins_tactical_equipements");
+        {
+            LRTAC_HEAVY_WEAPON_COOLDOWN_THRESHOLD = builder
+                    .comment("The minimum left attack cooldown for a melee weapon to be considered as Apotheosis heavy weapon.")
+                    .defineInRange("lrtac_heavy_weapon_cooldown_threshold", 15, 0, Integer.MAX_VALUE);
         }
         builder.pop();
 

@@ -29,8 +29,9 @@ public class MeleeGunIsSwordMixin {
                     to = @At("TAIL")
             ))
     private static Object overrideLootCategory(Object original, ItemStack item) {
-        if (LRTacProxy.isLRTacMeleeWeapon(item)) {
-            return SWORD;
+        var lrCompatCategory = LRTacProxy.getLRTacMeleeType(item);
+        if (lrCompatCategory.isPresent()) {
+            return lrCompatCategory.get();
         }
         if (original == null && GunPredicate.isDedicatedTaCZMeleeWeapon(item)) {
             return Gunsmith.getGunInfo(item)
