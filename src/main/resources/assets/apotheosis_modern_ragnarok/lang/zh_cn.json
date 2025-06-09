@@ -52,8 +52,11 @@
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/lightweight": "减重款",
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/lightweight.suffix": "减重款",
 
-  "affix.apotheosis_modern_ragnarok:all_gun/attribute/large_capacity": "大容量的",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/large_capacity": "大容量",
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/large_capacity.suffix": "已配备扩容弹匣",
+
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/adrenalinic": "肾上腺素飙升",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/adrenalinic.suffix": "紧张时刻",
 
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch": "不可名状",
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch.suffix": "不可名状之物",

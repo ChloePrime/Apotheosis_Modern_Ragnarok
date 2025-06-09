@@ -1,0 +1,49 @@
+{
+  "type": "apotheosis:attribute",
+  "attribute": "gunsmithlib:reload_speed",
+  "operation": "MULTIPLY_BASE",
+  "values": {
+    "common": {
+      "comment": "1.1x - 1.2x",
+      "min": 0.1,
+      "steps": 2,
+      "step": 0.05
+    },
+    "uncommon": {
+      "comment": "1.2x - 1.3x",
+      "min": 0.2,
+      "steps": 2,
+      "step": 0.05
+    },
+    "rare": {
+      "comment": "1.25x - 1.55x",
+      "min": 0.25,
+      "steps": 3,
+      "step": 0.1
+    },
+    "epic": {
+      "comment": "1.4x - 1.8x",
+      "min": 0.4,
+      "steps": 4,
+      "step": 0.1
+    },
+    "mythic": {
+      "comment": "1.5x - 1.95x",
+      "min": 0.5,
+      "steps": 3,
+      "step": 0.15
+    },
+    "ancient": {
+      "comment": "2x - 2.75x",
+      "min": 1,
+      "steps": 3,
+      "step": 0.25
+    }
+  },
+  "types": [
+    "apotheosis_modern_ragnarok:shotgun",
+    "apotheosis_modern_ragnarok:full_auto",
+    "apotheosis_modern_ragnarok:semi_auto",
+    "apotheosis_modern_ragnarok:bolt_action"
+  ]
+}
