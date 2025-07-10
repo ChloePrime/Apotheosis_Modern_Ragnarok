@@ -1,6 +1,7 @@
 package mod.chloeprime.apotheosismodernragnarok.common.compat.lrtactical;
 
 import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
+import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.ModList;
 
@@ -11,7 +12,20 @@ public class LRTacProxy {
 
     public static Optional<LootCategory> getLRTacMeleeType(ItemStack stack) {
         return INSTALLED
-                ? LRTacProxyImpl.getLRTacMeleeType(stack)
+                ? getLRTacMeleeTypeSafeImpl(stack)
                 : Optional.empty();
+    }
+
+    private static boolean getLRTacMeleeTypeSafeImplErrorLogged = false;
+    private static Optional<LootCategory> getLRTacMeleeTypeSafeImpl(ItemStack stack) {
+        try {
+            return LRTacProxyImpl.getLRTacMeleeType(stack);
+        } catch (IncompatibleClassChangeError error) {
+            if (!getLRTacMeleeTypeSafeImplErrorLogged) {
+                getLRTacMeleeTypeSafeImplErrorLogged = true;
+                ApotheosisModernRagnarok.logError("Error when getting loot category for LRTac melee weapon", error);
+            }
+            return Optional.empty();
+        }
     }
 }

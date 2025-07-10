@@ -24,6 +24,6 @@ class LRTacProxyImpl {
         if (attackInfo == null) {
             return false;
         }
-        return attackInfo.cooldown() >= CommonConfig.LRTAC_HEAVY_WEAPON_COOLDOWN_THRESHOLD.get();
+        return attackInfo.getCooldown() >= CommonConfig.LRTAC_HEAVY_WEAPON_COOLDOWN_THRESHOLD.get();
     }
 }

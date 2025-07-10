@@ -219,7 +219,7 @@ dependencies {
         jarJar.ranged(it, "[4.1.1,)")
     }
 
-    implementation fg.deobf('curse.maven:tacz-lesraisins-tactical-equipements-1273094:6566681')
+    implementation fg.deobf('curse.maven:tacz-lesraisins-tactical-equipements-1273094:6751092') // 0.3.0
 
     // MixinExtras
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
