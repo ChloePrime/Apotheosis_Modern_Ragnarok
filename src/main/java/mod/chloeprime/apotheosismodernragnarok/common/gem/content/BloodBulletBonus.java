@@ -156,15 +156,16 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
             return original.getAsBoolean();
         }
 
+        var failed = !original.getAsBoolean();
+        if (failed) {
+            info.amr$setAttackFailed(true);
+        }
+
         Entity bullet = source.getDirectEntity();
         if (bullet instanceof Projectile && bullet instanceof BloodBulletUser bloody && bloody.amr$getDefenseIgnoreRatio() > 0) {
             info.amr$setDefenseIgnoreRatio(bloody.amr$getDefenseIgnoreRatio());
             return true;
         } else {
-            var failed = !original.getAsBoolean();
-            if (failed) {
-                info.amr$setAttackFailed(true);
-            }
             return !failed;
         }
     }
@@ -177,12 +178,9 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
         if (info.amr$getOriginalDamage() < amount) {
             info.amr$setOriginalDamage(amount);
         }
-        var originalDamage = info.amr$getOriginalDamage();
         var power = info.amr$getDefenseIgnoreRatio();
-
-        // 如果在没有本效果的前提下，attack 被拦截后依然访问了本方法，
-        // 那么尊重它原来的行为，不触发事件
-        var originalValue = info.amr$isAttackFailed() ? 0 : original.get();
+        var originalDamage = info.amr$getOriginalDamage();
+        var originalValue = (info.amr$isAttackFailed() ? 0 : 1) * original.get();
 
         if (originalDamage <= 0 || power <= 0) {
             return originalValue;
@@ -204,12 +202,9 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
         if (info.amr$getOriginalDamage() < amount) {
             info.amr$setOriginalDamage(amount);
         }
-        var originalDamage = info.amr$getOriginalDamage();
         var power = info.amr$getDefenseIgnoreRatio();
-
-        // 如果在没有本效果的前提下，attack 被拦截后依然访问了本方法，
-        // 那么尊重它原来的行为，不触发事件
-        var originalValue = info.amr$isAttackFailed() ? 0 : original.get();
+        var originalDamage = info.amr$getOriginalDamage();
+        var originalValue = (info.amr$isAttackFailed() ? 0 : 1) * original.get();
 
         // 第一部分针对伤害大于最低伤害的情况
         if (originalValue >= originalDamage || originalDamage <= 0 || power <= 0) {
