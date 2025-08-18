@@ -4,10 +4,8 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import mod.chloeprime.apotheosismodernragnarok.common.enchantment.PerfectBlockEnchantment;
-import mod.chloeprime.apotheosismodernragnarok.common.internal.BulletSaverAffixUser;
-import mod.chloeprime.apotheosismodernragnarok.common.internal.PerfectBlockEnchantmentUser;
-import mod.chloeprime.apotheosismodernragnarok.common.internal.PostureHolder;
-import mod.chloeprime.apotheosismodernragnarok.common.internal.ProjectionMagicUser;
+import mod.chloeprime.apotheosismodernragnarok.common.gem.content.BloodBulletBonus;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.*;
 import mod.chloeprime.apotheosismodernragnarok.common.util.PostureSystem;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -31,6 +29,7 @@ abstract class MixinLivingEntity extends Entity implements
         BulletSaverAffixUser,
         ProjectionMagicUser,
         PerfectBlockEnchantmentUser,
+        BloodBulletUser,
         PostureHolder
 {
     @ApiStatus.Internal
@@ -83,6 +82,41 @@ abstract class MixinLivingEntity extends Entity implements
     @ModifyReturnValue(method = "consumesAmmoOrNot", at = @At("RETURN"), remap = false)
     public boolean overrideConsumesAmmoOrNot(boolean value) {
         return value && amr$willConsumesBullet();
+    }
+
+    // 血子弹效果
+
+    private @Unique float amr$defenseIgnoreRatio;
+
+    @Override
+    public float amr$getDefenseIgnoreRatio() {
+        return amr$defenseIgnoreRatio;
+    }
+
+    @Override
+    public void amr$setDefenseIgnoreRatio(float value) {
+        amr$defenseIgnoreRatio = value;
+    }
+
+    @WrapOperation(
+            method = "hurt",
+            at = @At(value = "INVOKE", remap = false, target = "Lnet/minecraftforge/common/ForgeHooks;onLivingAttack(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
+    private static boolean onLivingAttack(LivingEntity victim, DamageSource src, float amount, Operation<Boolean> original) {
+        return BloodBulletBonus.onLivingAttack(src, amount, () -> original.call(victim, src, amount));
+    }
+
+    @WrapOperation(
+            method = "actuallyHurt",
+            at = @At(value = "INVOKE", remap = false, target = "Lnet/minecraftforge/common/ForgeHooks;onLivingHurt(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/damagesource/DamageSource;F)F"))
+    private static float onLivingHurt(LivingEntity victim, DamageSource src, float amount, Operation<Float> original) {
+        return BloodBulletBonus.onLivingHurt(src, amount, () -> original.call(victim, src, amount));
+    }
+
+    @WrapOperation(
+            method = "actuallyHurt",
+            at = @At(value = "INVOKE", remap = false, target = "Lnet/minecraftforge/common/ForgeHooks;onLivingDamage(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/damagesource/DamageSource;F)F"))
+    private static float onLivingDamage(LivingEntity victim, DamageSource src, float amount, Operation<Float> original) {
+        return BloodBulletBonus.onLivingDamage(src, amount, () -> original.call(victim, src, amount));
     }
 
     // 完美招架附魔

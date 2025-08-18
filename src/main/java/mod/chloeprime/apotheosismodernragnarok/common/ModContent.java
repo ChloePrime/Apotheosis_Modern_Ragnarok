@@ -15,6 +15,7 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyValue
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
 import mod.chloeprime.apotheosismodernragnarok.common.enchantment.*;
+import mod.chloeprime.apotheosismodernragnarok.common.gem.content.BloodBulletBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.content.PotionWhenShootBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GemInjectionRegistry;
 import mod.chloeprime.apotheosismodernragnarok.common.loot.ApothReforgeFunction;
@@ -218,7 +219,8 @@ public class ModContent {
         AffixRegistry.INSTANCE.registerCodec(loc("dummy_valued"), DummyValuedAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("dummy_coefficient"), DummyCoefficientAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("dummy_special"), DummySpecialAffix.CODEC);
-        GemBonus.CODEC.register(loc("mob_effect_when_shoot"), PotionWhenShootBonus.CODEC);
+        GemBonus.CODEC.register(PotionWhenShootBonus.ID, PotionWhenShootBonus.CODEC);
+        GemBonus.CODEC.register(BloodBulletBonus.ID, BloodBulletBonus.CODEC);
     }
 
     public static void init0(IEventBus bus) {

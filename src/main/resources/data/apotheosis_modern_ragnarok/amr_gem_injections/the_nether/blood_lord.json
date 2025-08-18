@@ -1,0 +1,41 @@
+{
+  "gem": "apotheosis:the_nether/blood_lord",
+  "bonuses": [
+    {
+      "type": "apotheosis_modern_ragnarok:blood_bullet",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.all_auto",
+        "types": [
+          "apotheosis_modern_ragnarok:full_auto",
+          "apotheosis_modern_ragnarok:semi_auto"
+        ]
+      },
+      "hp_cost": {
+        "mythic": 0.1,
+        "ancient": 0.2
+      },
+      "min_damage_ratio": {
+        "mythic": 0.1,
+        "ancient": 0.25
+      }
+    },
+    {
+      "type": "apotheosis_modern_ragnarok:blood_bullet",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.bolt_action_and_shotgun",
+        "types": [
+          "apotheosis_modern_ragnarok:shotgun",
+          "apotheosis_modern_ragnarok:bolt_action"
+        ]
+      },
+      "hp_cost": {
+        "mythic": 0.5,
+        "ancient": 1
+      },
+      "min_damage_ratio": {
+        "mythic": 0.1,
+        "ancient": 0.25
+      }
+    }
+  ]
+}

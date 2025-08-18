@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.entity.EntityKineticBullet;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.common.internal.BloodBulletUser;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.EnhancedKineticBullet;
 import mod.chloeprime.apotheosismodernragnarok.common.eventhandlers.LeftButtonMeleeFix;
 import net.minecraft.util.Mth;
@@ -21,7 +22,23 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(EntityKineticBullet.class)
-public abstract class MixinEntityKineticBullet extends Projectile implements EnhancedKineticBullet {
+public abstract class MixinEntityKineticBullet extends Projectile implements
+        EnhancedKineticBullet,
+        BloodBulletUser {
+    // 血子弹附魔
+
+    private @Unique float amr$defenseIgnoreRatio;
+
+    @Override
+    public float amr$getDefenseIgnoreRatio() {
+        return amr$defenseIgnoreRatio;
+    }
+
+    @Override
+    public void amr$setDefenseIgnoreRatio(float value) {
+        amr$defenseIgnoreRatio = value;
+    }
+
     // 提高左键近战兼容的事件优先级
 
     @WrapOperation(

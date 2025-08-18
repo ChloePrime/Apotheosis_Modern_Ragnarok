@@ -11,9 +11,10 @@ import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.PotionBonus;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AffixBaseUtility;
 import mod.chloeprime.apotheosismodernragnarok.common.util.SocketHelper2;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -29,6 +30,8 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber
 public class PotionWhenShootBonus extends GemBonus {
+    public static final ResourceLocation ID = ApotheosisModernRagnarok.loc("mob_effect_when_shoot");
+
     public static Codec<PotionBonus.EffectData> EFFECT_DATA_CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     Codec.INT.fieldOf("duration").forGetter(PotionBonus.EffectData::duration),
@@ -60,7 +63,7 @@ public class PotionWhenShootBonus extends GemBonus {
             Map<LootRarity, Integer> maxLevel,
             @Nullable String customDescription
     ) {
-        super(ApotheosisModernRagnarok.loc("mob_effect_when_shoot"), gemClass);
+        super(ID, gemClass);
         this.effect = effect;
         this.values = values;
         this.stackOnReapply = stackOnReapply;
@@ -111,7 +114,7 @@ public class PotionWhenShootBonus extends GemBonus {
     @Override
     public Component getSocketBonusTooltip(ItemStack gem, LootRarity rarity) {
         if (customDescription != null) {
-            return Component.translatable(customDescription, maxLevel.get(rarity)).withStyle(ChatFormatting.YELLOW);
+            return Component.translatable(customDescription, maxLevel.get(rarity)).withStyle(AffixBaseUtility.BRIGHT_RED);
         }
         // 以下代码不应该被执行
         var comp = Component.literal("");

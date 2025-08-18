@@ -5,13 +5,16 @@ import com.google.gson.GsonBuilder;
 import com.tacz.guns.client.resource.pojo.display.ammo.AmmoParticle;
 import com.tacz.guns.client.resource.serialize.Vector3fSerializer;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.joml.Vector3f;
 
-@Mod.EventBusSubscriber(Dist.CLIENT)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class MagicalShotAffixVisuals {
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Vector3f.class, new Vector3fSerializer())
@@ -29,9 +32,23 @@ public class MagicalShotAffixVisuals {
               "life_time": 20,
               "count": 30
             }""", AmmoParticle.class);
+    public static final AmmoParticle BLOOD_PARTICLE = GSON.fromJson("""
+            {
+              "name": "apotheosis_modern_ragnarok:blood",
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "speed": 0.05,
+              "life_time": 50,
+              "count": 30
+            }""", AmmoParticle.class);
 
-    static {
+    @SubscribeEvent
+    public static void onCommonSetup(FMLCommonSetupEvent event) {
         MAGIC_PARTICLE.setParticleOptions(ParticleTypes.ELECTRIC_SPARK);
+        BLOOD_PARTICLE.setParticleOptions(ModContent.Particles.BLOOD.get());
     }
 
     public static boolean isMagicGunState;

@@ -159,10 +159,12 @@
   "gem_class.apotheosis_modern_ragnarok.all_auto": "Auto Firearms",
   "gem_class.apotheosis_modern_ragnarok.all_auto_including_shotgun": "Auto Firearms (Including Shotguns)",
   "gem_class.apotheosis_modern_ragnarok.bolt_action": "Bolt Action Weapons",
+  "gem_class.apotheosis_modern_ragnarok.bolt_action_and_shotgun": "Bolt Action Weapons ans Shotguns",
   "gem_class.apotheosis_modern_ragnarok.full_auto": "Full Auto Weapons",
   "gem_class.apotheosis_modern_ragnarok.shotgun": "Shotguns",
   "bonus.apotheosis:multi_attr.desc.amr:but2": "%s, but %s",
   "bonus.apotheosis_modern_ragnarok.tyrannical.desc": "Continuous firing increases fire rate but decreases movement speed. max stacks to %d level",
+  "bonus.apotheosis_modern_ragnarok.blood_bullet.desc": "Shot cost %s health and reduce enemies' total defense effort by %s",
 
 
 

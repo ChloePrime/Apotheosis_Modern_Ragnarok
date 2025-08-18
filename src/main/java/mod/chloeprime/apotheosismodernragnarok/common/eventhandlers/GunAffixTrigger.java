@@ -3,6 +3,7 @@ package mod.chloeprime.apotheosismodernragnarok.common.eventhandlers;
 import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;
+import com.tacz.guns.api.event.common.GunFireEvent;
 import com.tacz.guns.api.item.IGun;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixInstance;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AdsPickTargetHookAffix;
@@ -25,6 +26,29 @@ import java.util.Optional;
 
 @Mod.EventBusSubscriber
 public class GunAffixTrigger {
+    @SubscribeEvent
+    public static void shot(GunFireEvent event) {
+        if (event.getLogicalSide().isClient()) {
+            return;
+        }
+        var shooter = event.getShooter();
+        if (shooter == null) {
+            return;
+        }
+        var gun = event.getGunItemStack();
+
+        SocketHelper2.forEachValidAffix(gun, (holder, instance) -> {
+            if (holder.get() instanceof GunAffix affix) {
+                affix.onGunFire(gun, instance, event);
+            }
+        });
+        SocketHelper2.forEachGemBonus(gun, (gemBonus, gemInstance) -> {
+            if (gemBonus instanceof GunGemBonus ggb) {
+                ggb.onGunFire(gun, gemInstance.gemStack(), gemInstance, event);
+            }
+        });
+    }
+
     @SubscribeEvent
     public static void hurt(EntityHurtByGunEvent event) {
         if (event.getLogicalSide().isClient()) {
@@ -93,19 +117,25 @@ public class GunAffixTrigger {
 
     @SubscribeEvent
     public static void onBulletCreate(BulletCreateEvent event) {
-        if (event.getBullet().level().isClientSide) {
-            return;
-        }
+        boolean isClientSide = event.getBullet().level().isClientSide;
 
         var gun = event.getGun();
         SocketHelper2.forEachValidAffix(gun, (holder, instance) -> {
             if (holder.get() instanceof GunAffix affix) {
-                affix.onBulletCreated(gun, instance, event);
+                if (isClientSide) {
+                    affix.clientOnBulletCreated(gun, instance, event);
+                } else {
+                    affix.onBulletCreated(gun, instance, event);
+                }
             }
         });
         SocketHelper2.forEachGemBonus(gun, (gemBonus, gemInstance) -> {
             if (gemBonus instanceof GunGemBonus ggb) {
-                ggb.onBulletCreated(gun, gemInstance.gemStack(), gemInstance, event);
+                if (isClientSide) {
+                    ggb.clientOnBulletCreated(gun, gemInstance.gemStack(), gemInstance, event);
+                } else {
+                    ggb.onBulletCreated(gun, gemInstance.gemStack(), gemInstance, event);
+                }
             }
         });
     }
@@ -124,7 +154,7 @@ public class GunAffixTrigger {
         }
         var simDistanceBlocks = level.getServer().getPlayerList().getSimulationDistance() * 16;
         for (Player player : event.level.players()) {
-            if (IGun.mainhandHoldGun(player)) {
+            if (IGun.mainHandHoldGun(player)) {
                 if (IGunOperator.fromLivingEntity(player).getSynAimingProgress() >= 0.9) {
                     tryTriggerAdsPickHook(player, simDistanceBlocks);
                 }

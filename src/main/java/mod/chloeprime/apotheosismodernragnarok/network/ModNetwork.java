@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 public final class ModNetwork {
-    public static final String VERSION = "1.0.0";
+    public static final String VERSION = "1.1.0";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             ApotheosisModernRagnarok.loc("play_channel"),
@@ -34,6 +34,7 @@ public final class ModNetwork {
         CHANNEL.registerMessage(ID_COUNT.getAndIncrement(), S2CPerfectBlockTriggered.class, S2CPerfectBlockTriggered::encode, S2CPerfectBlockTriggered::decode, S2CPerfectBlockTriggered::handle, playToClient);
         CHANNEL.registerMessage(ID_COUNT.getAndIncrement(), S2CSyncStartRecoverPostureTime.class, S2CSyncStartRecoverPostureTime::encode, S2CSyncStartRecoverPostureTime::decode, S2CSyncStartRecoverPostureTime::handle, playToClient);
         CHANNEL.registerMessage(ID_COUNT.getAndIncrement(), S2CExecutionFeedback.class, S2CExecutionFeedback::encode, S2CExecutionFeedback::decode, S2CExecutionFeedback::handle, playToClient);
+        CHANNEL.registerMessage(ID_COUNT.getAndIncrement(), S2CMarkBulletAsBloody.class, S2CMarkBulletAsBloody::encode, S2CMarkBulletAsBloody::decode, S2CMarkBulletAsBloody::handle, playToClient);
     }
 
     private ModNetwork() {}

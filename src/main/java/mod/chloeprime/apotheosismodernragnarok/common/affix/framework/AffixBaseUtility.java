@@ -4,8 +4,12 @@ import dev.shadowsoffire.apotheosis.adventure.affix.Affix;
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 
 public abstract class AffixBaseUtility extends Affix {
+    public static final Style BRIGHT_RED = Style.EMPTY.withColor(TextColor.parseColor("#FF8080"));
+
     public AffixBaseUtility(AffixType type) {
         super(type);
     }
@@ -32,11 +36,11 @@ public abstract class AffixBaseUtility extends Affix {
         }
     }
 
-    public String fmtPercent(double value) {
+    public static String fmtPercent(double value) {
         return fmtPercent((float) value);
     }
 
-    public String fmtPercent(float value) {
+    public static String fmtPercent(float value) {
         return fmt(100 * value) + '%';
     }
 

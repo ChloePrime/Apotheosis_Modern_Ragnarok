@@ -19,6 +19,7 @@
     "minecraft.LootPoolAccessor",
     "minecraft.LootTableAccessor",
     "minecraft.MakeGunEnchantableMixin",
+    "minecraft.MixinDamageSource",
     "minecraft.MixinLivingEntity",
     "minecraft.MixinMinecraftServer",
     "minecraft.MixinMobEffectInstance",

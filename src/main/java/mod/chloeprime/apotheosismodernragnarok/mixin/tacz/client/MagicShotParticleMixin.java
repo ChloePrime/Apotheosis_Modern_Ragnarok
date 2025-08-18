@@ -5,6 +5,7 @@ import com.tacz.guns.client.resource.pojo.display.ammo.AmmoParticle;
 import com.tacz.guns.entity.EntityKineticBullet;
 import mod.chloeprime.apotheosismodernragnarok.client.MagicalShotAffixVisuals;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.MagicalShotAffix;
+import mod.chloeprime.apotheosismodernragnarok.common.gem.content.BloodBulletBonus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,6 +18,9 @@ public abstract class MagicShotParticleMixin {
     private static void spawnMagicShotParticle(EntityKineticBullet bullet, CallbackInfo ci) {
         if (MagicalShotAffix.clientIsMagicBullet(bullet)) {
             spawnParticle(bullet, MagicalShotAffixVisuals.MAGIC_PARTICLE);
+        }
+        if (BloodBulletBonus.clientIsBloodBullet(bullet)) {
+            spawnParticle(bullet, MagicalShotAffixVisuals.BLOOD_PARTICLE);
         }
     }
 

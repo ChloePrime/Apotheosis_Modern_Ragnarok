@@ -18,7 +18,6 @@ import javax.annotation.Nullable;
 
 @Mod(ApotheosisModernRagnarok.MOD_ID)
 public class ApotheosisModernRagnarok {
-
     public static final String MOD_ID = "apotheosis_modern_ragnarok";
 
     public static ResourceLocation loc(String path) {
