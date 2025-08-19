@@ -78,7 +78,7 @@ public class ElementalDamages {
             return;
         }
         victim.invulnerableTime = 0;
-        var effective = victim.hurt(victim.damageSources().source(DamageTypes.BULLET_FIRE, bullet, shooter), value);
+        var effective = DamageUtils.hurt(victim, victim.damageSources().source(DamageTypes.BULLET_FIRE, bullet, shooter), value);
         if (!effective) {
             return;
         }
@@ -102,7 +102,7 @@ public class ElementalDamages {
 
     public static void applyIceDamage(Entity victim, float value, ItemStack gun, IntSupplier duration, Entity bullet, LivingEntity shooter) {
         victim.invulnerableTime = 0;
-        var effective = victim.hurt(victim.damageSources().source(DamageTypes.BULLET_ICE, bullet, shooter), value);
+        var effective = DamageUtils.hurt(victim, victim.damageSources().source(DamageTypes.BULLET_ICE, bullet, shooter), value);
         if (!effective) {
             return;
         }
@@ -125,7 +125,7 @@ public class ElementalDamages {
 
     public static void applyIceAndFireDamage(Entity victim, float value, Entity bullet, LivingEntity shooter) {
         victim.invulnerableTime = 0;
-        var effective = victim.hurt(victim.damageSources().source(DamageTypes.BULLET_IAF, bullet, shooter), value);
+        var effective = DamageUtils.hurt(victim, victim.damageSources().source(DamageTypes.BULLET_IAF, bullet, shooter), value);
         victim.invulnerableTime = 0;
 
         if (!effective) {

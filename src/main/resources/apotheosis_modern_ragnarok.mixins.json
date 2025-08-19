@@ -27,6 +27,7 @@
     "tacz.EntityKineticBulletAccessor",
     "tacz.MixinAbstractGunItem",
     "tacz.MixinEntityKineticBullet",
+    "tacz.MixinEntityKineticBulletHigh",
     "tacz.MixinModernKineticGunItem",
     "tacz.MixinModernKineticGunScriptAPI",
     "tacz.gunpack.MixinGunData"

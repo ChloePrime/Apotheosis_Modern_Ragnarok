@@ -27,7 +27,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 
-import java.awt.*;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 
@@ -151,10 +150,10 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
      */
     public static boolean onLivingAttack(DamageSource source, float amount, BooleanSupplier original) {
         var info = ((DamageInfo) source);
-        info.amr$setOriginalDamage(amount);
         if (amount <= 0) {
             return original.getAsBoolean();
         }
+        info.amr$recordNewHighestDamage(amount);
 
         var failed = !original.getAsBoolean();
         if (failed) {
@@ -175,9 +174,8 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
      */
     public static float onLivingHurt(DamageSource src, float amount, Supplier<Float> original) {
         var info = (DamageInfo) src;
-        if (info.amr$getOriginalDamage() < amount) {
-            info.amr$setOriginalDamage(amount);
-        }
+        info.amr$recordNewHighestDamage(amount);
+
         var power = info.amr$getDefenseIgnoreRatio();
         var originalDamage = info.amr$getOriginalDamage();
         var originalValue = (info.amr$isAttackFailed() ? 0 : 1) * original.get();
@@ -186,7 +184,7 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
             return originalValue;
         } else if (originalValue > originalDamage) {
             // 这一阶段伤害不减反增的情况
-            info.amr$setOriginalDamage(originalValue);
+            info.amr$recordNewHighestDamage(originalValue);
             return originalValue;
         } else {
             var ensure = Math.min(1e-4F, originalDamage * power);
@@ -199,9 +197,8 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
      */
     public static float onLivingDamage(DamageSource src, float amount, Supplier<Float> original) {
         var info = (DamageInfo) src;
-        if (info.amr$getOriginalDamage() < amount) {
-            info.amr$setOriginalDamage(amount);
-        }
+        info.amr$recordNewHighestDamage(amount);
+
         var power = info.amr$getDefenseIgnoreRatio();
         var originalDamage = info.amr$getOriginalDamage();
         var originalValue = (info.amr$isAttackFailed() ? 0 : 1) * original.get();
