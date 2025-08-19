@@ -9,6 +9,7 @@ import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.client.ClientConfig;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyCoefficientAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummySpecialAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyValuedAffix;
@@ -46,6 +47,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -237,6 +239,7 @@ public class ModContent {
 
     public static void init1(ModLoadingContext context) {
         context.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
+        context.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
     }
 
     private static RegistryObject<SoundEvent> registerSound(String path) {
