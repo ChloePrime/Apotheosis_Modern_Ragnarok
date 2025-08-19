@@ -1,5 +1,5 @@
 {
-	"type": "apotheosis_modern_ragnarok:magazine_capacity_conditional_attribute",
+	"type": "apotheosis_modern_ragnarok:conditional_attribute",
 	"minium_magazine_capacity": 5,
 	"attribute": "gunsmithlib:ammo_capacity",
 	"operation": "MULTIPLY_BASE",

@@ -205,6 +205,7 @@ public class ModContent {
         return "attribute.name.%s.%s".formatted(MOD_ID, name);
     }
 
+    @SuppressWarnings("deprecation")
     public static void setup() {
         LootFunctions.init();
         ExtraLootCategories.init();
@@ -215,12 +216,14 @@ public class ModContent {
         AffixRegistry.INSTANCE.registerCodec(loc("mob_effect_rated"), RatedPotionAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("mob_effect_ads"), AdsPotionAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("magical_shot"), MagicalShotAffix.CODEC);
-        AffixRegistry.INSTANCE.registerCodec(loc("magazine_capacity_conditional_attribute"), MagazineCapacityConditionalAttributeAffix.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("conditional_attribute"), ConditionalAttributeAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("dummy_valued"), DummyValuedAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("dummy_coefficient"), DummyCoefficientAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("dummy_special"), DummySpecialAffix.CODEC);
         GemBonus.CODEC.register(PotionWhenShootBonus.ID, PotionWhenShootBonus.CODEC);
         GemBonus.CODEC.register(BloodBulletBonus.ID, BloodBulletBonus.CODEC);
+        // 已不再使用
+        AffixRegistry.INSTANCE.registerCodec(loc("magazine_capacity_conditional_attribute"), ConditionalAttributeAffix.CODEC_WITH_OLD_NAME);
     }
 
     public static void init0(IEventBus bus) {

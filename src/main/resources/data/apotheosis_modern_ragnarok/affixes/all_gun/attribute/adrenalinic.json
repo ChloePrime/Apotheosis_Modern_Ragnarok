@@ -1,5 +1,6 @@
 {
-  "type": "apotheosis:attribute",
+  "type": "apotheosis_modern_ragnarok:conditional_attribute",
+  "disable_on_inventory_bullet_feed_guns": true,
   "attribute": "gunsmithlib:reload_speed",
   "operation": "MULTIPLY_BASE",
   "values": {
