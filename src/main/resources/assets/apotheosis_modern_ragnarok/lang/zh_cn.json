@@ -171,6 +171,7 @@
   "bonus.apotheosis:multi_attr.desc.amr:but2": "%s但%s",
   "bonus.apotheosis_modern_ragnarok.tyrannical.desc": "持续射击时逐渐提升射速但逐渐降低移动速度，最高叠加%d层",
   "bonus.apotheosis_modern_ragnarok.blood_bullet.desc": "射击时消耗自身%s点生命值，使命中目标的所有防御效果降低%s",
+  "bonus.apotheosis_modern_ragnarok.dictator.desc": "射击被动生物时伤害降低至%s点并获得目标的掉落物",
 
 
 

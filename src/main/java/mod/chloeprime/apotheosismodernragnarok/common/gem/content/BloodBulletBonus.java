@@ -54,7 +54,7 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
     }
 
     @Override
-    public GemBonus validate() {
+    public BloodBulletBonus validate() {
         Preconditions.checkNotNull(hpCost, "Null hp cost table");
         Preconditions.checkNotNull(power, "Null power cost table");
         return this;

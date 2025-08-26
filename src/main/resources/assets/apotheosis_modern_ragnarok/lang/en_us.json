@@ -171,6 +171,7 @@
   "bonus.apotheosis:multi_attr.desc.amr:but2": "%s, but %s",
   "bonus.apotheosis_modern_ragnarok.tyrannical.desc": "Continuous firing increases fire rate but decreases movement speed. max stacks to %d level",
   "bonus.apotheosis_modern_ragnarok.blood_bullet.desc": "Shot cost %s health and reduce enemies' total defense effort by %s",
+  "bonus.apotheosis_modern_ragnarok.dictator.desc": "Reduce damage to %s and get loot when hitting passive creatures",
 
 
 

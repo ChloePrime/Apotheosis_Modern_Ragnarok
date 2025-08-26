@@ -1,0 +1,21 @@
+{
+  "gem": "apotheosis:overworld/royalty",
+  "bonuses": [
+    {
+      "type": "apotheosis_modern_ragnarok:dictator",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.all_auto",
+        "types": [
+          "apotheosis_modern_ragnarok:full_auto",
+          "apotheosis_modern_ragnarok:semi_auto"
+        ]
+      },
+      "damage": {
+        "rare": 4,
+        "epic": 2,
+        "mythic": 1,
+        "ancient": 0.5
+      }
+    }
+  ]
+}

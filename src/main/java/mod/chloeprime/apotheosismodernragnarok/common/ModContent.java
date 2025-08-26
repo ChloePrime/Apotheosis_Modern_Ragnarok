@@ -17,6 +17,7 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCa
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
 import mod.chloeprime.apotheosismodernragnarok.common.enchantment.*;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.content.BloodBulletBonus;
+import mod.chloeprime.apotheosismodernragnarok.common.gem.content.DictatorGemBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.content.PotionWhenShootBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GemInjectionRegistry;
 import mod.chloeprime.apotheosismodernragnarok.common.loot.ApothReforgeFunction;
@@ -223,6 +224,7 @@ public class ModContent {
         AffixRegistry.INSTANCE.registerCodec(loc("dummy_special"), DummySpecialAffix.CODEC);
         GemBonus.CODEC.register(PotionWhenShootBonus.ID, PotionWhenShootBonus.CODEC);
         GemBonus.CODEC.register(BloodBulletBonus.ID, BloodBulletBonus.CODEC);
+        GemBonus.CODEC.register(DictatorGemBonus.ID, DictatorGemBonus.CODEC);
         // 已不再使用
         AffixRegistry.INSTANCE.registerCodec(loc("magazine_capacity_conditional_attribute"), ConditionalAttributeAffix.CODEC_WITH_OLD_NAME);
     }
