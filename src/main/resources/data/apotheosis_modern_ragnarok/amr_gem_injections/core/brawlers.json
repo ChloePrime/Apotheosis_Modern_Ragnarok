@@ -1,30 +1,46 @@
 {
-  "conditions": [
-    {
-      "type": "forge:false"
-    }
-  ],
   "gem": "apotheosis:core/brawlers",
-  "bonuses": [{
-    "type": "apotheosis:attribute",
-    "gem_class": {
-      "key": "apotheosis_modern_ragnarok.all_gun",
-      "types": [
-        "apotheosis_modern_ragnarok:shotgun",
-        "apotheosis_modern_ragnarok:full_auto",
-        "apotheosis_modern_ragnarok:semi_auto",
-        "apotheosis_modern_ragnarok:bolt_action"
-      ]
+  "bonuses": [
+    {
+      "// 轻武器增加护甲穿透": "",
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.all_auto_including_shotgun",
+        "types": [
+          "apotheosis_modern_ragnarok:shotgun",
+          "apotheosis_modern_ragnarok:full_auto",
+          "apotheosis_modern_ragnarok:semi_auto"
+        ]
+      },
+      "attribute": "attributeslib:armor_pierce",
+      "operation": "ADDITION",
+      "values": {
+        "common": 1,
+        "uncommon": 2.5,
+        "rare": 4,
+        "epic": 6,
+        "mythic": 8,
+        "ancient": 10
+      }
     },
-    "attribute": "minecraft:generic.attack_damage",
-    "operation": "ADDITION",
-    "values": {
-      "common": 1,
-      "uncommon": 2,
-      "rare": 3.5,
-      "epic": 5,
-      "mythic": 7,
-      "ancient": 10
+    {
+      "// 栓动大狙增加保护穿透": "",
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.bolt_action",
+        "types": [
+          "apotheosis_modern_ragnarok:bolt_action"
+        ]
+      },
+      "attribute": "attributeslib:prot_pierce",
+      "operation": "ADDITION",
+      "values": {
+        "uncommon": 1,
+        "rare": 2.5,
+        "epic": 4,
+        "mythic": 6,
+        "ancient": 8
+      }
     }
-  }]
+  ]
 }
