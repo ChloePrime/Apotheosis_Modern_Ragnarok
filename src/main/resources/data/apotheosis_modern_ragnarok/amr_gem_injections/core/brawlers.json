@@ -1,4 +1,9 @@
 {
+  "conditions": [
+    {
+      "type": "forge:false"
+    }
+  ],
   "gem": "apotheosis:core/brawlers",
   "bonuses": [{
     "type": "apotheosis:attribute",
