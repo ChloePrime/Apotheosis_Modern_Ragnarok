@@ -47,98 +47,98 @@
   "affix.apotheosis_modern_ragnarok.spectral.gun.desc": "Your bullets have a %s chance to make its target glow.",
 
   "affix.apotheosis:cleaving.apotheosis_modern_ragnarok.alt": "Bolt",
-  "affix.apotheosis:cleaving.apotheosis_modern_ragnarok.alt.suffix": "AP & HE & Incendiary",
+  "affix.apotheosis:cleaving.apotheosis_modern_ragnarok.alt.suffix": "(AP & HE & Incendiary)",
 
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/lightweight": "Lightweight",
-  "affix.apotheosis_modern_ragnarok:all_gun/attribute/lightweight.suffix": "Light Version",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/lightweight.suffix": "(Lightweight Version)",
 
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/large_capacity": "Large Capacity",
-  "affix.apotheosis_modern_ragnarok:all_gun/attribute/large_capacity.suffix": "with Extended Magazine",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/large_capacity.suffix": "(Extended Magazine)",
 
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/adrenalinic": "Adrenalinic",
-  "affix.apotheosis_modern_ragnarok:all_gun/attribute/adrenalinic.suffix": "Crisis Time",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/adrenalinic.suffix": "(Crisis Time)",
 
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/tungstenic": "Tungstenic",
-  "affix.apotheosis_modern_ragnarok:all_gun/attribute/tungstenic.suffix": "AP",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/tungstenic.suffix": "(AP)",
 
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/mundane": "Mundane",
-  "affix.apotheosis_modern_ragnarok:all_gun/attribute/mundane.suffix": "Imagine Breaker",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/mundane.suffix": "(Imagine Breaker)",
 
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch": "Eldritch",
-  "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch.suffix": "of Eldritch",
+  "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch.suffix": "(Eldritch)",
 
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/studious": "Studious",
-  "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/studious.suffix": "of Excellent Student",
+  "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/studious.suffix": "(Excellent Student)",
 
   "affix.apotheosis_modern_ragnarok:all_gun/special/frugality": "Frugality",
-  "affix.apotheosis_modern_ragnarok:all_gun/special/frugality.suffix": "of Bullet Saver",
+  "affix.apotheosis_modern_ragnarok:all_gun/special/frugality.suffix": "(Bullet Saver)",
   "affix.apotheosis_modern_ragnarok:all_gun/special/frugality.desc": "Chance of %s hat shot will not consume the bullet",
 
   "affix.apotheosis_modern_ragnarok:all_gun/special/magical_shot": "Magical",
-  "affix.apotheosis_modern_ragnarok:all_gun/special/magical_shot.suffix": "of the Arcane",
+  "affix.apotheosis_modern_ragnarok:all_gun/special/magical_shot.suffix": "(Arcane)",
   "affix.apotheosis_modern_ragnarok:all_gun/special/magical_shot.desc": "Bullets fired from this gun deal magic damage.",
 
   "affix.apotheosis_modern_ragnarok:all_gun/special/armor_squash": "Hentai",
-  "affix.apotheosis_modern_ragnarok:all_gun/special/armor_squash.suffix": "with Armor-Squash Warhead",
+  "affix.apotheosis_modern_ragnarok:all_gun/special/armor_squash.suffix": "(Armor-Squash Warhead)",
   "affix.apotheosis_modern_ragnarok:all_gun/special/armor_squash.desc": "Gun hit has a chance of %s to destroy one of target's armor",
   "subtitles.apotheosis_modern_ragnarok.affix.armor_crack": "Armor Crack",
 
   "affix.apotheosis_modern_ragnarok:all_gun/special/head_explode": "Headache",
-  "affix.apotheosis_modern_ragnarok:all_gun/special/head_explode.suffix": "Head Exploding",
+  "affix.apotheosis_modern_ragnarok:all_gun/special/head_explode.suffix": "(Head Exploding)",
   "affix.apotheosis_modern_ragnarok:all_gun/special/head_explode.desc": "Headshot will damage enemies nearby the target by %s of original damage",
 
 
 
   "// 暴击率": "",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_chance": "Heartbreaking",
-  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_chance.suffix": "the Heartbreaker",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_chance.suffix": "(Heartbreaker)",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_chance": "Heartbreaking",
-  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_chance.suffix": "the Heartbreaker",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_chance.suffix": "(Heartbreaker)",
 
   "// 暴击伤害": "",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_damage": "Lethal",
-  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_damage.suffix": "the Fatality",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/crit_damage.suffix": "(Fatality)",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_damage": "Lethal",
-  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_damage.suffix": "the Fatality",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/crit_damage.suffix": "(Fatality)",
 
   "// 火焰伤害（灼热的）": "",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/fire_damage": "Scorching",
-  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/fire_damage.suffix": "of the Thermite",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/fire_damage.suffix": "(Thermite)",
   "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/fire_damage": "Scorching",
-  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/fire_damage.suffix": "of the Thermite",
+  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/fire_damage.suffix": "(Thermite)",
   "affix.apotheosis_modern_ragnarok:shotgun/attribute/fire_damage": "Scorching",
-  "affix.apotheosis_modern_ragnarok:shotgun/attribute/fire_damage.suffix": "of the Thermite",
+  "affix.apotheosis_modern_ragnarok:shotgun/attribute/fire_damage.suffix": "(Thermite)",
   "effect.apotheosis_modern_ragnarok.fire_dot": "Scorching",
 
   "// 冷冻伤害（冰封的）": "",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/cold_damage": "Glacial",
-  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/cold_damage.suffix": "of the Perfect Freeze",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/cold_damage.suffix": "(Perfect Freeze)",
   "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/cold_damage": "Glacial",
-  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/cold_damage.suffix": "of the Perfect Freeze",
+  "affix.apotheosis_modern_ragnarok:rapid_fire/attribute/cold_damage.suffix": "(Perfect Freeze)",
   "affix.apotheosis_modern_ragnarok:shotgun/attribute/cold_damage": "Glacial",
-  "affix.apotheosis_modern_ragnarok:shotgun/attribute/cold_damage.suffix": "of the Perfect Freeze",
+  "affix.apotheosis_modern_ragnarok:shotgun/attribute/cold_damage.suffix": "(Perfect Freeze)",
   "effect.apotheosis_modern_ragnarok.freeze": "Freezing",
 
   "// 吸血/过量治疗": "",
   "affix.apotheosis_modern_ragnarok:bolt_action/attribute/life_steal_x": "Vampiric",
-  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/life_steal_x.suffix": "of Bloodletting",
+  "affix.apotheosis_modern_ragnarok:bolt_action/attribute/life_steal_x.suffix": "(Bloodletting)",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/life_steal": "Vampiric",
-  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/life_steal.suffix": "of Bloodletting",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/attribute/life_steal.suffix": "(Bloodletting)",
 
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous": "Anti Humanity",
-  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous.suffix": "Making UN Angry",
+  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/grievous.suffix": "(Making UN Angry)",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/grievous": "Hague-Peace-Conference Violating",
-  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/grievous.suffix": "Making UN Unhappy",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/grievous.suffix": "(Making UN Unhappy)",
 
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/bleeding": "Anticoagulation",
-  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/bleeding.suffix": "of Anticoagulant",
+  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/bleeding.suffix": "(Anticoagulant)",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/bleeding": "Anticoagulation",
-  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/bleeding.suffix": "of Anticoagulant",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/bleeding.suffix": "(Anticoagulant)",
 
   "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/sundering": "Corrosive",
-  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/sundering.suffix": "the Cloth Dissolver",
+  "affix.apotheosis_modern_ragnarok:bolt_action/mob_effect/sundering.suffix": "(Cloth Dissolver)",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/sundering": "Corrosive",
-  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/sundering.suffix": "the Cloth Dissolver",
+  "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/sundering.suffix": "(Cloth Dissolver)",
 
 
 
