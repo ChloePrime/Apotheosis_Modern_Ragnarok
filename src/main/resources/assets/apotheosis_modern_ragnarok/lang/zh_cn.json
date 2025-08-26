@@ -58,6 +58,12 @@
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/adrenalinic": "肾上腺素飙升",
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/adrenalinic.suffix": "紧张时刻",
 
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/tungstenic": "钨芯",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/tungstenic.suffix": "穿甲弹",
+
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/mundane": "现实",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/mundane.suffix": "幻想杀手",
+
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch": "不可名状",
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch.suffix": "不可名状之物",
 

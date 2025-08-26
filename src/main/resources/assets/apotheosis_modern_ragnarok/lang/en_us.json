@@ -58,6 +58,12 @@
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/adrenalinic": "Adrenalinic",
   "affix.apotheosis_modern_ragnarok:all_gun/attribute/adrenalinic.suffix": "Crisis Time",
 
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/tungstenic": "Tungstenic",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/tungstenic.suffix": "AP",
+
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/mundane": "Mundane",
+  "affix.apotheosis_modern_ragnarok:all_gun/attribute/mundane.suffix": "Imagine Breaker",
+
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch": "Eldritch",
   "affix.apotheosis_modern_ragnarok:all_gun/mob_effect/eldritch.suffix": "of Eldritch",
 
