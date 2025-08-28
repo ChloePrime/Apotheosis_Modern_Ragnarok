@@ -1,0 +1,17 @@
+{
+    "values": [
+        "minecraft:looting",
+        {
+            "id": "apothic_enchanting:knowledge_of_the_ages",
+            "required": false
+        },
+        {
+            "id": "apothic_enchanting:scavenger",
+            "required": false
+        },
+        {
+            "id": "apothic_spawners:capturing",
+            "required": false
+        }
+    ]
+}

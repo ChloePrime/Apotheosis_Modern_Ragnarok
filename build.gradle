@@ -178,7 +178,8 @@ dependencies {
     implementation "dev.shadowsoffire:Apotheosis:1.21.1-8.4.0"
     implementation "dev.shadowsoffire:ApothicAttributes:1.21.1-2.9.0"
     implementation "dev.shadowsoffire:Placebo:1.21.1-9.9.1"
-    localRuntime "dev.shadowsoffire:ApothicEnchanting:1.21.1-1.5.0"
+    implementation "dev.shadowsoffire:ApothicEnchanting:1.21.1-1.5.0"
+    implementation "dev.shadowsoffire:ApothicSpawners:1.21.1-1.3.2"
     localRuntime "dev.shadowsoffire:GatewaysToEternity:1.21.1-5.1.0"
 }
 

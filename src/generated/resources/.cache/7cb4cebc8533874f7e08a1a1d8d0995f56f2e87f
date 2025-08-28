@@ -1,4 +1,5 @@
-// 1.21.1	2025-08-28T20:34:22.9090651	Tags for minecraft:enchantment mod id apotheosis_modern_ragnarok
+// 1.21.1	2025-08-29T01:35:16.3261231	Tags for minecraft:enchantment mod id apotheosis_modern_ragnarok
+8f59de76b5351d1e22ad4c12d3ad220c622cf3d5 data/apotheosis_modern_ragnarok/tags/enchantment/available_for_guns.json
 698ee7d47b754fe70d7a00650de4c26db1b4ded2 data/apotheosis_modern_ragnarok/tags/enchantment/bullet_regeneration_exclusive.json
 895ceaa74a0e6ef35182e4c31c7207c4e2081d37 data/apotheosis_modern_ragnarok/tags/enchantment/melee_capable.json
 5070b9df9b2f795e8ce250a978cda3c0102e7b09 data/apotheosis_modern_ragnarok/tags/enchantment/requires_magazine.json

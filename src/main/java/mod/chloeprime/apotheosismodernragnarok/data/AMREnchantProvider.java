@@ -13,6 +13,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EnchantmentTagsProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.item.enchantment.effects.AddValue;
 import net.minecraft.world.item.enchantment.effects.EnchantmentAttributeEffect;
@@ -110,6 +112,11 @@ public class AMREnchantProvider {
             tag(CAT_HAS_MAGAZINE).add(PROJECTION_MAGIC);
             tag(CAT_MELEE_CAPABLE).add(PERFECT_BLOCK);
             tag(BULLET_REGENERATION_EXCLUSIVE).add(SURVIVAL_INSTINCT, PROJECTION_MAGIC);
+            tag(AVAILABLE_FOR_GUNS)
+                    .add(Enchantments.LOOTING)
+                    .addOptional(ResourceLocation.parse("apothic_enchanting:knowledge_of_the_ages"))
+                    .addOptional(ResourceLocation.parse("apothic_enchanting:scavenger"))
+                    .addOptional(ResourceLocation.parse("apothic_spawners:capturing"));
         }
     }
 }
