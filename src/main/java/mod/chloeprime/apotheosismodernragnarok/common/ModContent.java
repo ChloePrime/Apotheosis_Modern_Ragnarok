@@ -221,9 +221,9 @@ public class ModContent {
         public static class DataAttachments {
             private static final DeferredRegister<AttachmentType<?>> REGISTRY = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MOD_ID);
 
-            public static final Supplier<AttachmentType<Long>> PERFECT_BLOCK_END_TIME = REGISTRY.register("perfect_block_end_time", DataAttachments::createLong);
-            public static final Supplier<AttachmentType<Double>> POSTURE = REGISTRY.register("posture", DataAttachments::createDouble);
-            public static final Supplier<AttachmentType<Long>> POSTURE_RECOVER_START_TIME = REGISTRY.register("posture_recover_start_time", DataAttachments::createLong);
+            public static final Supplier<AttachmentType<Long>> PERFECT_BLOCK_END_TIME = REGISTRY.register("perfect_block_end_time", DataAttachments::createTimestamp);
+            public static final Supplier<AttachmentType<Double>> POSTURE = REGISTRY.register("posture", () -> DataAttachments.createDouble(0));
+            public static final Supplier<AttachmentType<Long>> POSTURE_RECOVER_START_TIME = REGISTRY.register("posture_recover_start_time", DataAttachments::createTimestamp);
 
             public static final Supplier<AttachmentType<Boolean>> IS_BLOODY = REGISTRY.register("bloody", () -> AttachmentType
                     .builder(() -> false)
@@ -234,17 +234,17 @@ public class ModContent {
                     .serialize(Codec.BOOL)
                     .build());
 
-            public static final Supplier<AttachmentType<Double>> BULLET_UNDERWATER_FRICTION_FACTOR = REGISTRY.register("bullet_underwater_friction_factor", DataAttachments::createDouble);
+            public static final Supplier<AttachmentType<Double>> BULLET_UNDERWATER_FRICTION_FACTOR = REGISTRY.register("bullet_underwater_friction_factor", () -> DataAttachments.createDouble(1));
 
-            private static AttachmentType<Long> createLong() {
+            private static AttachmentType<Long> createTimestamp() {
                 return AttachmentType
                         .builder(() -> 0L)
                         .serialize(Codec.LONG).sync(ByteBufCodecs.VAR_LONG)
                         .build();
             }
-            private static AttachmentType<Double> createDouble() {
+            private static AttachmentType<Double> createDouble(double defaultValue) {
                 return AttachmentType
-                        .builder(() -> 1.0)
+                        .builder(() -> defaultValue)
                         .serialize(Codec.DOUBLE).sync(ByteBufCodecs.DOUBLE)
                         .build();
             }
