@@ -2,8 +2,8 @@ package mod.chloeprime.apotheosismodernragnarok.common.eventhandlers;
 
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.GunDamageSourcePart;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
-import dev.shadowsoffire.attributeslib.api.ALObjects;
+import dev.shadowsoffire.apotheosis.loot.LootCategory;
+import dev.shadowsoffire.apothic_attributes.api.ALObjects;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
@@ -14,8 +14,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 import java.util.Optional;
 import java.util.function.IntSupplier;
@@ -23,7 +23,7 @@ import java.util.function.IntSupplier;
 import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.loc;
 import static mod.chloeprime.apotheosismodernragnarok.common.ModContent.*;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class ElementalDamages {
     private ElementalDamages() {
     }
@@ -49,8 +49,8 @@ public class ElementalDamages {
         }
         var bullet = event.getBullet();
         var coefficient = GunPredicate.getBuffCoefficient(event.getGunId());
-        var fireDmg = (float) (coefficient * shooter.getAttributeValue(ALObjects.Attributes.FIRE_DAMAGE.get()));
-        var coldDmg = (float) (coefficient * shooter.getAttributeValue(ALObjects.Attributes.COLD_DAMAGE.get()));
+        var fireDmg = (float) (coefficient * shooter.getAttributeValue(ALObjects.Attributes.FIRE_DAMAGE));
+        var coldDmg = (float) (coefficient * shooter.getAttributeValue(ALObjects.Attributes.COLD_DAMAGE));
         if (fireDmg <= 0 && coldDmg <= 0) {
             return;
         }
@@ -59,14 +59,14 @@ public class ElementalDamages {
         } else if (fireDmg > 0) {
             applyFireDamage(victim, fireDmg, shooter.getMainHandItem(), () -> {
                 var gun = shooter.getMainHandItem();
-                var isBoltAction = LootCategory.forItem(gun) == LootCategories.BOLT_ACTION &&
+                var isBoltAction = LootCategory.forItem(gun) == LootCategories.BOLT_ACTION.get() &&
                         AbstractAffix.isStillHoldingTheSameGun(gun, event.getGunId());
                 return isBoltAction ? ONE_MINUTE : TEN_SECONDS;
             }, bullet, shooter);
         } else {
             applyIceDamage(victim, coldDmg, shooter.getMainHandItem(), () -> {
                 var gun = shooter.getMainHandItem();
-                var isBoltAction = LootCategory.forItem(gun) == LootCategories.BOLT_ACTION &&
+                var isBoltAction = LootCategory.forItem(gun) == LootCategories.BOLT_ACTION.get() &&
                         AbstractAffix.isStillHoldingTheSameGun(gun, event.getGunId());
                 return isBoltAction ? ONE_MINUTE : 3 * TEN_SECONDS;
             }, bullet, shooter);
@@ -87,7 +87,7 @@ public class ElementalDamages {
             var now = living.level().getGameTime();
             var lastHit = pd.getLong(PDKEY_LAST_FIRE_HIT_TICK);
             var lastAmount = pd.getFloat(PDKEY_LAST_FIRE_AMOUNT);
-            var isShotgun = LootCategories.SHOTGUN.isValid(gun);
+            var isShotgun = LootCategories.SHOTGUN.get().isValid(gun);
             if (now - lastHit <= (isShotgun ? 1 : 0)) {
                 value += lastAmount;
             } else {
@@ -96,7 +96,7 @@ public class ElementalDamages {
             pd.putFloat(PDKEY_LAST_FIRE_AMOUNT, value);
 
             var amplifier = Mth.clamp((int) value - 1, 0, 126);
-            living.addEffect(new MobEffectInstance(MobEffects.FIRE_DOT.get(), duration.getAsInt(), amplifier), shooter);
+            living.addEffect(new MobEffectInstance(MobEffects.FIRE_DOT, duration.getAsInt(), amplifier), shooter);
         }
     }
 
@@ -109,7 +109,7 @@ public class ElementalDamages {
         if (!(victim instanceof LivingEntity livingVictim)) {
             return;
         }
-        var effect = MobEffects.FREEZE.get();
+        var effect = MobEffects.FREEZE;
         int amp = Optional.ofNullable(livingVictim.getEffect(effect))
                 .map(MobEffectInstance::getAmplifier)
                 .orElse(-1);

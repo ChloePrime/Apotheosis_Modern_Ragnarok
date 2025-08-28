@@ -7,14 +7,10 @@ import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class GunApothData {
@@ -22,7 +18,7 @@ public class GunApothData {
      * 武器的附魔性能，
      * 默认值为⑨（铁质工具的附魔性能）
      */
-    public int enchantment_value = ArmorMaterials.IRON.getEnchantmentValue();
+    public int enchantment_value = ArmorMaterials.IRON.value().enchantmentValue();
 
     /**
      * 为 1 时这把武器会被强制判断为近战武器，无论子弹总射程多少。
@@ -77,17 +73,13 @@ public class GunApothData {
         return disabledAffixSet.get();
     }
 
-    public Set<Enchantment> getDisabledEnchantments() {
+    public Set<ResourceLocation> getDisabledEnchantments() {
         return disabledEnchantmentSet.get();
     }
 
     private transient final Supplier<Set<ResourceLocation>> disabledAffixSet = Suppliers.memoize(
             () -> disabled_affixes != null ? Set.of(disabled_affixes) : Collections.emptySet());
 
-    private transient final Supplier<Set<Enchantment>> disabledEnchantmentSet = Suppliers.memoize(
-            () -> disabled_enchantments != null ? mapRegistryObjects(ForgeRegistries.ENCHANTMENTS::getValue, disabled_enchantments) : Collections.emptySet());
-
-    private static <T> Set<T> mapRegistryObjects(Function<ResourceLocation, T> registry, ResourceLocation[] ids) {
-        return Arrays.stream(ids).map(registry).filter(Objects::nonNull).collect(Collectors.toUnmodifiableSet());
-    }
+    private transient final Supplier<Set<ResourceLocation>> disabledEnchantmentSet = Suppliers.memoize(
+            () -> disabled_enchantments != null ? Set.of(disabled_enchantments) : Collections.emptySet());
 }

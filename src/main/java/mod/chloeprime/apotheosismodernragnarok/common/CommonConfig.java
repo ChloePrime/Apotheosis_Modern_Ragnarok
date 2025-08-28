@@ -1,40 +1,40 @@
 package mod.chloeprime.apotheosismodernragnarok.common;
 
 import com.google.common.collect.Lists;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class CommonConfig {
-    public static final ForgeConfigSpec.ConfigValue<List<String>> ARMOR_SQUASH_BLACKLIST;
-    public static final ForgeConfigSpec.BooleanValue BOLT_ACTION_SHOTGUN_IS_BOLT_ACTION;
+    public static final ModConfigSpec.ConfigValue<List<String>> ARMOR_SQUASH_BLACKLIST;
+    public static final ModConfigSpec.BooleanValue BOLT_ACTION_SHOTGUN_IS_BOLT_ACTION;
     public static final List<String> DEFAULT_ARMOR_SQUASH_BLACKLIST = Lists.newArrayList(
             "minecraft:player",
             "minecraft:armor_stand",
             "dummmmmmy:target_dummy"
     );
-    public static final ForgeConfigSpec.IntValue PROJECTION_MAGIC_MAX_FILL_SPEED;
-    public static final ForgeConfigSpec.BooleanValue FIX_MAGIC_PROTECTION;
+    public static final ModConfigSpec.IntValue PROJECTION_MAGIC_MAX_FILL_SPEED;
+    public static final ModConfigSpec.BooleanValue FIX_MAGIC_PROTECTION;
 
-    public static final ForgeConfigSpec.BooleanValue PERFECT_BLOCK_ENABLE_INSTANT_KILL;
-    public static final ForgeConfigSpec.DoubleValue POSTURE_BREAK_RANGED_DAMAGE_BONUS;
-    public static final ForgeConfigSpec.IntValue MAX_POSTURE_FOR_MINIONS;
-    public static final ForgeConfigSpec.IntValue MAX_POSTURE_FOR_BOSSES;
+    public static final ModConfigSpec.BooleanValue PERFECT_BLOCK_ENABLE_INSTANT_KILL;
+    public static final ModConfigSpec.DoubleValue POSTURE_BREAK_RANGED_DAMAGE_BONUS;
+    public static final ModConfigSpec.IntValue MAX_POSTURE_FOR_MINIONS;
+    public static final ModConfigSpec.IntValue MAX_POSTURE_FOR_BOSSES;
 
-    public static final ForgeConfigSpec.BooleanValue INJECT_ARCHEOLOGY_LOOT_TABLES;
-    public static final ForgeConfigSpec.BooleanValue INJECT_CHEST_LOOT_TABLES;
+    public static final ModConfigSpec.BooleanValue INJECT_ARCHEOLOGY_LOOT_TABLES;
+    public static final ModConfigSpec.BooleanValue INJECT_CHEST_LOOT_TABLES;
 
-    public static final ForgeConfigSpec.IntValue LRTAC_HEAVY_WEAPON_COOLDOWN_THRESHOLD;
+    public static final ModConfigSpec.IntValue LRTAC_HEAVY_WEAPON_COOLDOWN_THRESHOLD;
 
     @SubscribeEvent
     public static void onConfigReload(ModConfigEvent event) {
@@ -49,12 +49,11 @@ public class CommonConfig {
             synchronized (AS_BLACKLIST) {
                 if (asb_dirty) {
                     AS_BLACKLIST.clear();
-                    var reg = ForgeRegistries.ENTITY_TYPES;
+                    var reg = BuiltInRegistries.ENTITY_TYPE;
                     ARMOR_SQUASH_BLACKLIST.get().stream()
-                            .map(ResourceLocation::new)
+                            .map(ResourceLocation::parse)
                             .filter(reg::containsKey)
-                            .map(reg::getValue)
-                            .filter(Objects::nonNull)
+                            .map(reg::get)
                             .forEach(AS_BLACKLIST::add);
                 }
                 asb_dirty = false;
@@ -65,10 +64,10 @@ public class CommonConfig {
 
     static volatile boolean asb_dirty = true;
     static final Set<EntityType<?>> AS_BLACKLIST = Collections.newSetFromMap(new ConcurrentHashMap<>());
-    static final ForgeConfigSpec SPEC;
+    static final ModConfigSpec SPEC;
 
     static {
-        var builder = new ForgeConfigSpec.Builder();
+        var builder = new ModConfigSpec.Builder();
 
         ARMOR_SQUASH_BLACKLIST = builder.
                 comment("Entity types that armor squash will not take effect on")

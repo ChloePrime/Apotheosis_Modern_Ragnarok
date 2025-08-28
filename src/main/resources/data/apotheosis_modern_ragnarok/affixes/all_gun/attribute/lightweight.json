@@ -1,43 +1,51 @@
 {
-	"type": "apotheosis:attribute",
-	"attribute": "minecraft:generic.movement_speed",
-	"operation": "MULTIPLY_TOTAL",
-	"values": {
-		"common": {
-			"min": 0.10,
-			"steps": 200,
-			"step": 0.0005
-		},
-		"uncommon": {
-			"min": 0.10,
-			"steps": 300,
-			"step": 0.0005
-		},
-		"rare": {
-			"min": 0.15,
-			"steps": 300,
-			"step": 0.0005
-		},
-		"epic": {
-			"min": 0.15,
-			"steps": 400,
-			"step": 0.0005
-		},
-		"mythic": {
-			"min": 0.15,
-			"steps": 400,
-			"step": 0.0005
-		},
-		"ancient": {
-			"min": 0.25,
-			"steps": 500,
-			"step": 0.0005
-		}
-	},
-	"types": [
-		"apotheosis_modern_ragnarok:shotgun",
-		"apotheosis_modern_ragnarok:full_auto",
-		"apotheosis_modern_ragnarok:semi_auto",
-		"apotheosis_modern_ragnarok:bolt_action"
-	]
+  "type": "apotheosis:attribute",
+  "definition": {
+    "affix_type": "stat",
+    "exclusive_set": [],
+    "weights": {
+      "quality": 0.1,
+      "weight": 25
+    }
+  },
+  "categories": [
+    "apotheosis_modern_ragnarok:shotgun",
+    "apotheosis_modern_ragnarok:full_auto",
+    "apotheosis_modern_ragnarok:semi_auto",
+    "apotheosis_modern_ragnarok:bolt_action"
+  ],
+  "attribute": "minecraft:generic.movement_speed",
+  "operation": "add_multiplied_total",
+  "values": {
+    "apotheosis:common": {
+      "min": 0.10,
+      "steps": 200,
+      "step": 0.0005
+    },
+    "apotheosis:uncommon": {
+      "min": 0.10,
+      "steps": 300,
+      "step": 0.0005
+    },
+    "apotheosis:rare": {
+      "min": 0.15,
+      "steps": 300,
+      "step": 0.0005
+    },
+    "apotheosis:epic": {
+      "min": 0.15,
+      "steps": 400,
+      "step": 0.0005
+    },
+    "apotheosis:mythic": {
+      "min": 0.15,
+      "steps": 400,
+      "step": 0.0005
+    },
+    "apotheosis_modern_ragnarok:ancient": {
+      "min": 0.25,
+      "steps": 500,
+      "step": 0.0005
+    }
+  }
 }

@@ -1,0 +1,30 @@
+{
+  "conditions": [
+    {
+      "type": "forge:false"
+    }
+  ],
+  "gem": "apotheosis:core/brawlers",
+  "bonuses": [{
+    "type": "apotheosis:attribute",
+    "gem_class": {
+      "key": "apotheosis_modern_ragnarok.all_gun",
+      "types": [
+        "apotheosis_modern_ragnarok:shotgun",
+        "apotheosis_modern_ragnarok:full_auto",
+        "apotheosis_modern_ragnarok:semi_auto",
+        "apotheosis_modern_ragnarok:bolt_action"
+      ]
+    },
+    "attribute": "minecraft:generic.attack_damage",
+    "operation": "add_value",
+    "values": {
+      "cracked": 1,
+      "chipped": 2,
+      "flawed": 3.5,
+      "normal": 5,
+      "flawless": 7,
+      "perfect": 10
+    }
+  }]
+}

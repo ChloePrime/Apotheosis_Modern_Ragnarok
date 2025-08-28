@@ -140,6 +140,7 @@
   "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/sundering": "腐蚀性",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/sundering.suffix": "衣物溶解者",
 
+  "rarity.apotheosis_modern_ragnarok:ancient": "远古遗珍",
 
 
 
@@ -153,14 +154,14 @@
 
 
 
-  "text.apotheosis.category.apotheosis_modern_ragnarok:semi_auto": "半自动武器",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:semi_auto.plural": "半自动武器",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:full_auto": "全自动武器",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:full_auto.plural": "全自动武器",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:shotgun": "霰弹枪",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:shotgun.plural": "霰弹枪",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:bolt_action": "栓动式武器",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:bolt_action.plural": "栓动式武器",
+  "loot_category.apotheosis_modern_ragnarok.semi_auto": "半自动武器",
+  "loot_category.apotheosis_modern_ragnarok.semi_auto.plural": "半自动武器",
+  "loot_category.apotheosis_modern_ragnarok.full_auto": "全自动武器",
+  "loot_category.apotheosis_modern_ragnarok.full_auto.plural": "全自动武器",
+  "loot_category.apotheosis_modern_ragnarok.shotgun": "霰弹枪",
+  "loot_category.apotheosis_modern_ragnarok.shotgun.plural": "霰弹枪",
+  "loot_category.apotheosis_modern_ragnarok.bolt_action": "栓动式武器",
+  "loot_category.apotheosis_modern_ragnarok.bolt_action.plural": "栓动式武器",
   "gem_class.apotheosis_modern_ragnarok.all_gun": "枪械",
   "gem_class.apotheosis_modern_ragnarok.all_auto": "自动武器",
   "gem_class.apotheosis_modern_ragnarok.all_auto_including_shotgun": "自动武器和霰弹枪",

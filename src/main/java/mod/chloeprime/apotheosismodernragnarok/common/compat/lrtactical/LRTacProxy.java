@@ -1,9 +1,9 @@
 package mod.chloeprime.apotheosismodernragnarok.common.compat.lrtactical;
 
-import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
+import dev.shadowsoffire.apotheosis.loot.LootCategory;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 import java.util.Optional;
 

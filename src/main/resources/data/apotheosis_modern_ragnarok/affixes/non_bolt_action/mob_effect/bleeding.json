@@ -1,15 +1,28 @@
 {
   "type": "apotheosis_modern_ragnarok:mob_effect_rated",
-  "mob_effect": "attributeslib:bleeding",
+  "definition": {
+    "affix_type": "basic_effect",
+    "exclusive_set": [],
+    "weights": {
+      "quality": 0.1,
+      "weight": 25
+    }
+  },
+  "types": [
+    "apotheosis_modern_ragnarok:shotgun",
+    "apotheosis_modern_ragnarok:full_auto",
+    "apotheosis_modern_ragnarok:semi_auto"
+  ],
+  "mob_effect": "apothic_attributes:bleeding",
   "target": "ARROW_TARGET",
   "stack_on_reapply": true,
   "values": {
-    "rare": {
+    "apotheosis:rare": {
       "duration": 100,
       "amplifier": 0,
       "rate": 0.025
     },
-    "epic": {
+    "apotheosis:epic": {
       "duration": 100,
       "amplifier": 0,
       "rate": {
@@ -18,7 +31,7 @@
         "step": 0.0001
       }
     },
-    "mythic": {
+    "apotheosis:mythic": {
       "duration": 100,
       "amplifier": 1,
       "rate": {
@@ -27,7 +40,7 @@
         "step": 0.00025
       }
     },
-    "ancient": {
+    "apotheosis_modern_ragnarok:ancient": {
       "duration": {
         "min": 100,
         "steps": 50,
@@ -40,10 +53,5 @@
         "step": 0.001
       }
     }
-  },
-  "types": [
-    "apotheosis_modern_ragnarok:shotgun",
-    "apotheosis_modern_ragnarok:full_auto",
-    "apotheosis_modern_ragnarok:semi_auto"
-  ]
+  }
 }

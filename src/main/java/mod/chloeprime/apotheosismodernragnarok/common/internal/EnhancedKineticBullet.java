@@ -4,5 +4,4 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 public interface EnhancedKineticBullet {
-    void amr$applyWaterFrictionFactor(double factor);
 }

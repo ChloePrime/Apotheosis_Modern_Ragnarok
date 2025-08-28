@@ -1,0 +1,25 @@
+{
+  "gem": "apotheosis:core/slipstream",
+  "bonuses": [{
+    "type": "apotheosis:attribute",
+    "gem_class": {
+      "key": "apotheosis_modern_ragnarok.all_gun",
+      "types": [
+        "apotheosis_modern_ragnarok:shotgun",
+        "apotheosis_modern_ragnarok:full_auto",
+        "apotheosis_modern_ragnarok:semi_auto",
+        "apotheosis_modern_ragnarok:bolt_action"
+      ]
+    },
+    "attribute": "gunsmithlib:reload_speed",
+    "operation": "add_multiplied_base",
+    "values": {
+      "cracked": 0.10,
+      "chipped": 0.25,
+      "flawed": 0.35,
+      "normal": 0.45,
+      "flawless": 0.5,
+      "perfect": 0.60
+    }
+  }]
+}

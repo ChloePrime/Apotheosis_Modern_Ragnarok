@@ -1,0 +1,42 @@
+{
+    "anvil_cost": 1,
+    "description": {
+        "translate": "enchantment.apotheosis_modern_ragnarok.stability"
+    },
+    "effects": {
+        "minecraft:attributes": [
+            {
+                "amount": {
+                    "type": "apotheosis_modern_ragnarok:nashorn_javascript",
+                    "code": "30 / (30 + level)"
+                },
+                "attribute": "gunsmithlib:horz_recoil",
+                "id": "apotheosis_modern_ragnarok:enchantment.stability",
+                "operation": "add_multiplied_total"
+            },
+            {
+                "amount": {
+                    "type": "apotheosis_modern_ragnarok:nashorn_javascript",
+                    "code": "30 / (30 + level)"
+                },
+                "attribute": "gunsmithlib:vert_recoil",
+                "id": "apotheosis_modern_ragnarok:enchantment.stability",
+                "operation": "add_multiplied_total"
+            }
+        ]
+    },
+    "max_cost": {
+        "base": 55,
+        "per_level_above_first": 25
+    },
+    "max_level": 6,
+    "min_cost": {
+        "base": 5,
+        "per_level_above_first": 10
+    },
+    "slots": [
+        "mainhand"
+    ],
+    "supported_items": "tacz:modern_kinetic_gun",
+    "weight": 10
+}

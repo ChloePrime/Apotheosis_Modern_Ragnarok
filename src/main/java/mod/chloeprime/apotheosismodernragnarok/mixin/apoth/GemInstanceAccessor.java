@@ -1,7 +1,7 @@
 package mod.chloeprime.apotheosismodernragnarok.mixin.apoth;
 
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemInstance;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
+import dev.shadowsoffire.apotheosis.socket.gem.GemInstance;
+import dev.shadowsoffire.apotheosis.socket.gem.bonus.GemBonus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 

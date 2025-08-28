@@ -11,11 +11,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = AbstractGunItem.class, remap = false)
+@Mixin(AbstractGunItem.class)
 public abstract class MixinAbstractGunItem extends Item implements IGun {
     @Inject(method = "dropAllAmmo", at = @At("HEAD"), cancellable = true)
     private void dontDropAmmoForProjectionMagicGuns(Player player, ItemStack gunItem, CallbackInfo ci) {
-        if (gunItem.getEnchantmentLevel(ModContent.Enchantments.PROJECTION_MAGIC.get()) > 0) {
+        var enchantment = player.registryAccess().holder(ModContent.Enchantments.PROJECTION_MAGIC).orElse(null);
+        if (enchantment != null && gunItem.getEnchantmentLevel(enchantment) > 0) {
             setCurrentAmmoCount(gunItem, 0);
             ci.cancel();
         }

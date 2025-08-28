@@ -1,0 +1,29 @@
+{
+    "anvil_cost": 2,
+    "description": {
+        "translate": "enchantment.apotheosis_modern_ragnarok.riptide_warhead"
+    },
+    "effects": {
+        "apotheosis_modern_ragnarok:bullet_underwater_friction": {
+            "type": "minecraft:multiply",
+            "factor": {
+                "type": "apotheosis_modern_ragnarok:nashorn_javascript",
+                "code": "1.0 / (1 + level)"
+            }
+        }
+    },
+    "max_cost": {
+        "base": 50,
+        "per_level_above_first": 15
+    },
+    "max_level": 4,
+    "min_cost": {
+        "base": 10,
+        "per_level_above_first": 15
+    },
+    "slots": [
+        "mainhand"
+    ],
+    "supported_items": "tacz:modern_kinetic_gun",
+    "weight": 5
+}

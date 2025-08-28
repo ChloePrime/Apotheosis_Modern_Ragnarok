@@ -1,0 +1,46 @@
+{
+  "gem": "apotheosis:core/brawlers",
+  "bonuses": [
+    {
+      "// 轻武器增加护甲穿透": "",
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.all_auto_including_shotgun",
+        "types": [
+          "apotheosis_modern_ragnarok:shotgun",
+          "apotheosis_modern_ragnarok:full_auto",
+          "apotheosis_modern_ragnarok:semi_auto"
+        ]
+      },
+      "attribute": "apothic_attributes:armor_pierce",
+      "operation": "add_value",
+      "values": {
+        "cracked": 1,
+        "chipped": 2.5,
+        "flawed": 4,
+        "normal": 6,
+        "flawless": 8,
+        "perfect": 10
+      }
+    },
+    {
+      "// 栓动大狙增加保护穿透": "",
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.bolt_action",
+        "types": [
+          "apotheosis_modern_ragnarok:bolt_action"
+        ]
+      },
+      "attribute": "apothic_attributes:prot_pierce",
+      "operation": "add_value",
+      "values": {
+        "chipped": 1,
+        "flawed": 2.5,
+        "normal": 4,
+        "flawless": 6,
+        "perfect": 8
+      }
+    }
+  ]
+}

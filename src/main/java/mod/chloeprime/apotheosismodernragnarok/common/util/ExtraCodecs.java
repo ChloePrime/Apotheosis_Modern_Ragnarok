@@ -1,9 +1,9 @@
 package mod.chloeprime.apotheosismodernragnarok.common.util;
 
 import com.mojang.serialization.Codec;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
+import dev.shadowsoffire.apotheosis.affix.AffixType;
+import dev.shadowsoffire.apotheosis.loot.LootCategory;
+import dev.shadowsoffire.apotheosis.loot.LootRarity;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
 
 import java.util.Map;

@@ -3,31 +3,26 @@ package mod.chloeprime.apotheosismodernragnarok;
 import com.mojang.logging.LogUtils;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.util.debug.DamageAmountDebug;
-import mod.chloeprime.apotheosismodernragnarok.network.ModNetwork;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLLoader;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
-
-import javax.annotation.Nullable;
 
 @Mod(ApotheosisModernRagnarok.MOD_ID)
 public class ApotheosisModernRagnarok {
     public static final String MOD_ID = "apotheosis_modern_ragnarok";
 
     public static ResourceLocation loc(String path) {
-        return new ResourceLocation(MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
-    @Nullable
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
-    @SuppressWarnings("CallToPrintStackTrace")
+    @SuppressWarnings({"CallToPrintStackTrace", "ConstantValue"})
     public static void logError(String message, Throwable throwable) {
         if (LOGGER != null) {
             LOGGER.error(message, throwable);
@@ -38,19 +33,17 @@ public class ApotheosisModernRagnarok {
         }
     }
 
-    public ApotheosisModernRagnarok() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public ApotheosisModernRagnarok(IEventBus modEventBus, ModContainer container) {
         ModContent.init0(modEventBus);
-        ModContent.init1(ModLoadingContext.get());
+        ModContent.init1(container);
         modEventBus.addListener(this::setup);
     }
 
     private void setup(FMLCommonSetupEvent e) {
-        e.enqueueWork(ModNetwork::init);
         e.enqueueWork(ModContent::setup);
         e.enqueueWork(() -> {
             if (!FMLLoader.isProduction()) {
-                MinecraftForge.EVENT_BUS.register(new DamageAmountDebug());
+                NeoForge.EVENT_BUS.register(new DamageAmountDebug());
             }
         });
     }

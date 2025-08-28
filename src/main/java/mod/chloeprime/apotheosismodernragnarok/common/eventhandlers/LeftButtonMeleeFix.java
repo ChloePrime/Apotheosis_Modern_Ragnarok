@@ -12,25 +12,27 @@ import mod.chloeprime.gunsmithlib.common.util.GsHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class LeftButtonMeleeFix {
-    public static final TagKey<DamageType> TACZ_BULLETS = TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("tacz", "bullets"));
+    public static final TagKey<DamageType> TACZ_BULLETS = TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath("tacz", "bullets"));
 
     /**
      * 如果用 HIGHEST 的话会在 GunsmithLib 后面执行，
@@ -58,6 +60,9 @@ public class LeftButtonMeleeFix {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void fixRangeOnBulletCreate(BulletCreateEvent event) {
+        if (!isDedicatedMeleeWeapon(event.getGunInfo().gunId())) {
+            return;
+        }
         var attacker = event.getShooter();
         var bullet = event.getBullet();
         if (!(bullet instanceof EntityKineticBulletAccessor accessor)) {
@@ -70,7 +75,7 @@ public class LeftButtonMeleeFix {
             return;
         }
         double oldRange = oldSpeed * life;
-        double newRange = GsHelper.getAttributeValueWithBase(attacker, ForgeMod.ENTITY_REACH.get(), oldRange);
+        double newRange = GsHelper.getAttributeValueWithBase(attacker, Attributes.ENTITY_INTERACTION_RANGE, oldRange);
         if (Math.abs(newRange - oldRange) <= 1e-3) {
             return;
         }
@@ -92,22 +97,29 @@ public class LeftButtonMeleeFix {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onGunshotPost(EntityHurtByGunEvent.Post event) {
-        onGunshotPostOrKill(event.getGunId(), event.getAttacker(), event.getHurtEntity());
+        if (event.getLogicalSide().isClient()) {
+            return;
+        }
+        var damageSource = event.getDamageSource(GunDamageSourcePart.NON_ARMOR_PIERCING);
+        onGunshotPostOrKill(event.getGunId(), event.getAttacker(), damageSource, event.getHurtEntity());
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onGunshotKill(EntityKillByGunEvent event) {
-        onGunshotPostOrKill(event.getGunId(), event.getAttacker(), event.getKilledEntity());
+        if (event.getLogicalSide().isClient()) {
+            return;
+        }
+        var damageSource = event.getDamageSource(GunDamageSourcePart.NON_ARMOR_PIERCING);
+        onGunshotPostOrKill(event.getGunId(), event.getAttacker(), damageSource, event.getKilledEntity());
     }
 
-    private static void onGunshotPostOrKill(ResourceLocation gunId, @Nullable LivingEntity user, Entity target) {
+    private static void onGunshotPostOrKill(ResourceLocation gunId, @Nullable LivingEntity user, DamageSource source, Entity target) {
         if (!isDedicatedMeleeWeapon(gunId)) {
             return;
         }
-        if (user == null || !(target instanceof LivingEntity victim)) {
-            return;
+        if (user != null && user.level() instanceof ServerLevel level) {
+            EnchantmentHelper.doPostAttackEffects(level, target, source);
         }
-        user.doEnchantDamageEffects(user, victim);
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")

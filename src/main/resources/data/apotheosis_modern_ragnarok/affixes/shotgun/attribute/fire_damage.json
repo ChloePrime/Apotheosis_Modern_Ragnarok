@@ -1,35 +1,43 @@
 {
   "type": "apotheosis:attribute",
-  "attribute": "attributeslib:fire_damage",
-  "operation": "ADDITION",
+  "definition": {
+    "affix_type": "stat",
+    "exclusive_set": [],
+    "weights": {
+      "quality": 0.1,
+      "weight": 25
+    }
+  },
+  "categories": [
+    "apotheosis_modern_ragnarok:shotgun"
+  ],
+  "attribute": "apothic_attributes:fire_damage",
+  "operation": "add_value",
   "values": {
-    "uncommon": {
+    "apotheosis:uncommon": {
       "min": 0.4,
       "steps": 4,
       "step": 0.05
     },
-    "rare": {
+    "apotheosis:rare": {
       "min": 0.4,
       "steps": 4,
       "step": 0.05
     },
-    "epic": {
+    "apotheosis:epic": {
       "min": 0.5,
       "steps": 8,
       "step": 0.05
     },
-    "mythic": {
+    "apotheosis:mythic": {
       "min": 0.6,
       "steps": 8,
       "step": 0.05
     },
-    "ancient": {
+    "apotheosis_modern_ragnarok:ancient": {
       "min": 0.8,
       "steps": 12,
       "step": 0.05
     }
-  },
-  "types": [
-    "apotheosis_modern_ragnarok:shotgun"
-  ]
+  }
 }

@@ -1,19 +1,33 @@
 {
   "type": "apotheosis_modern_ragnarok:explode_on_headshot",
+  "definition": {
+    "affix_type": "ability",
+    "exclusive_set": [],
+    "weights": {
+      "quality": 0.1,
+      "weight": 25
+    }
+  },
+  "types": [
+    "apotheosis_modern_ragnarok:shotgun",
+    "apotheosis_modern_ragnarok:full_auto",
+    "apotheosis_modern_ragnarok:semi_auto",
+    "apotheosis_modern_ragnarok:bolt_action"
+  ],
   "values": {
-    "epic": {
+    "apotheosis:epic": {
       "_comment": "0.1 ~ 0.15",
       "min": 0.1,
       "steps": 50,
       "step": 0.001
     },
-    "mythic": {
+    "apotheosis:mythic": {
       "_comment": "0.2 ~ 0.25",
       "min": 0.2,
       "steps": 50,
       "step": 0.001
     },
-    "ancient": {
+    "apotheosis_modern_ragnarok:ancient": {
       "_comment": "0.3 ~ 0.5",
       "min": 0.3,
       "steps": 20,
@@ -21,14 +35,8 @@
     }
   },
   "ranges": {
-    "epic": 5,
-    "mythic": 6,
-    "ancient": 8
-  },
-  "types": [
-    "apotheosis_modern_ragnarok:shotgun",
-    "apotheosis_modern_ragnarok:full_auto",
-    "apotheosis_modern_ragnarok:semi_auto",
-    "apotheosis_modern_ragnarok:bolt_action"
-  ]
+    "apotheosis:epic": 5,
+    "apotheosis:mythic": 6,
+    "apotheosis_modern_ragnarok:ancient": 8
+  }
 }

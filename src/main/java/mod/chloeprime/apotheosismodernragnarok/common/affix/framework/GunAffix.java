@@ -3,7 +3,7 @@ package mod.chloeprime.apotheosismodernragnarok.common.affix.framework;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;
 import com.tacz.guns.api.event.common.GunFireEvent;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixInstance;
+import dev.shadowsoffire.apotheosis.affix.AffixInstance;
 import mod.chloeprime.gunsmithlib.api.common.BulletCreateEvent;
 import net.minecraft.world.item.ItemStack;
 

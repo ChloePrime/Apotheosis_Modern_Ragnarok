@@ -1,32 +1,32 @@
 package mod.chloeprime.apotheosismodernragnarok.common.mob_effects;
 
-import com.google.common.collect.ImmutableList;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.util.EffectHelper;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.EffectCure;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.awt.*;
-import java.util.List;
+import java.util.Set;
 
-public class FireDotEffect extends MobEffect {
-    public static final List<ItemStack> CURES = ImmutableList.of();
-
+public class FireDotEffect extends MobEffectBaseUtility {
     public FireDotEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
     }
 
     public static FireDotEffect create() {
@@ -34,14 +34,14 @@ public class FireDotEffect extends MobEffect {
     }
 
     @Override
-    public boolean isDurationEffectTick(int pDuration, int pAmplifier) {
+    public boolean shouldApplyEffectTickThisTick(int pDuration, int pAmplifier) {
         return pDuration % 5 == 0;
     }
 
     @SubscribeEvent
-    public void onEffectApplied(MobEffectEvent.Added event) {
+    public final void onEffectApplied(MobEffectEvent.Added event) {
         var instance = event.getEffectInstance();
-        if (instance.getEffect() != this) {
+        if (instance.getEffect().value() != this) {
             return;
         }
         var fireTicks = instance.isInfiniteDuration() ? Integer.MAX_VALUE : instance.getDuration();
@@ -49,32 +49,32 @@ public class FireDotEffect extends MobEffect {
     }
 
     @Override
-    public List<ItemStack> getCurativeItems() {
-        return CURES;
+    @ParametersAreNonnullByDefault
+    public void fillEffectCures(Set<EffectCure> cures, MobEffectInstance effectInstance) {
     }
 
     @Override
-    public void applyEffectTick(@Nonnull LivingEntity owner, int pAmplifier) {
+    public boolean applyEffectTick(@Nonnull LivingEntity owner, int pAmplifier) {
+        Holder<MobEffect> thisHolder = holder();
         if (!owner.level().isClientSide) {
             if (owner.fireImmune()) {
-                owner.removeEffect(this);
-                return;
+                return false;
             }
-            var freeze = ModContent.MobEffects.FREEZE.get();
+            var freeze = ModContent.MobEffects.FREEZE;
             if (owner.hasEffect(freeze)) {
-                owner.removeEffect(this);
                 owner.removeEffect(freeze);
                 owner.playSound(SoundEvents.FIRE_EXTINGUISH);
                 createSmoke(owner);
-                return;
+                return false;
             }
         }
-        var instance = owner.getEffect(this);
+        var instance = owner.getEffect(thisHolder);
         if (instance == null) {
-            return;
+            return false;
         }
         var fireTicks = instance.isInfiniteDuration() ? Integer.MAX_VALUE : instance.getDuration();
         owner.setRemainingFireTicks(fireTicks);
+        return true;
     }
 
     public static final Vec3 SMOKE_MOTION = new Vec3(0, 0.125, 0);
@@ -83,11 +83,11 @@ public class FireDotEffect extends MobEffect {
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public void onLivingHurt(LivingHurtEvent event) {
+    public final void onLivingHurt(LivingIncomingDamageEvent event) {
         if (event.getEntity().level().isClientSide || !event.getSource().is(DamageTypes.ON_FIRE)) {
             return;
         }
-        var instance = event.getEntity().getEffect(this);
+        var instance = event.getEntity().getEffect(holder());
         if (instance == null) {
             return;
         }

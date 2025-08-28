@@ -1,0 +1,56 @@
+{
+    "type": "minecraft:chest",
+    "pools": [
+        {
+            "bonus_rolls": 0.0,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "conditions": [
+                        {
+                            "condition": "gunsmithlib:is_gun_installed",
+                            "gun_id": "tacz:hk416d"
+                        }
+                    ],
+                    "functions": [
+                        {
+                            "ammo": 0.0,
+                            "function": "gunsmithlib:init_gun_info",
+                            "gun_id": "tacz:hk416d"
+                        }
+                    ],
+                    "name": "tacz:modern_kinetic_gun"
+                }
+            ],
+            "rolls": 1.0
+        },
+        {
+            "bonus_rolls": 0.0,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "conditions": [
+                        {
+                            "ammo_id": "tacz:556x45",
+                            "condition": "gunsmithlib:is_ammo_installed"
+                        }
+                    ],
+                    "functions": [
+                        {
+                            "ammo_id": "tacz:556x45",
+                            "function": "gunsmithlib:init_ammo_info"
+                        },
+                        {
+                            "add": false,
+                            "count": 50.0,
+                            "function": "minecraft:set_count"
+                        }
+                    ],
+                    "name": "tacz:ammo"
+                }
+            ],
+            "rolls": 4.0
+        }
+    ],
+    "random_sequence": "apotheosis_modern_ragnarok:kits/tacz/rifle/hk416d"
+}

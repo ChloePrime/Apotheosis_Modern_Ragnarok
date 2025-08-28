@@ -1,9 +1,22 @@
 {
   "type": "apotheosis_modern_ragnarok:mob_effect_rated",
-  "mob_effect": "attributeslib:grievous",
+  "definition": {
+    "affix_type": "basic_effect",
+    "exclusive_set": [],
+    "weights": {
+      "quality": 0.1,
+      "weight": 25
+    }
+  },
+  "types": [
+    "apotheosis_modern_ragnarok:shotgun",
+    "apotheosis_modern_ragnarok:full_auto",
+    "apotheosis_modern_ragnarok:semi_auto"
+  ],
+  "mob_effect": "apothic_attributes:grievous",
   "target": "ARROW_TARGET",
   "values": {
-    "rare": {
+    "apotheosis:rare": {
       "duration": {
         "min": 200,
         "steps": 500,
@@ -12,7 +25,7 @@
       "amplifier": 0,
       "rate": 0.025
     },
-    "epic": {
+    "apotheosis:epic": {
       "duration": 200,
       "amplifier": 0,
       "rate": {
@@ -21,7 +34,7 @@
         "step": 0.0001
       }
     },
-    "mythic": {
+    "apotheosis:mythic": {
       "duration": 200,
       "amplifier": 1,
       "rate": {
@@ -30,7 +43,7 @@
         "step": 0.00025
       }
     },
-    "ancient": {
+    "apotheosis_modern_ragnarok:ancient": {
       "duration": {
         "min": 100,
         "steps": 5,
@@ -43,10 +56,5 @@
         "step": 0.001
       }
     }
-  },
-  "types": [
-    "apotheosis_modern_ragnarok:shotgun",
-    "apotheosis_modern_ragnarok:full_auto",
-    "apotheosis_modern_ragnarok:semi_auto"
-  ]
+  }
 }

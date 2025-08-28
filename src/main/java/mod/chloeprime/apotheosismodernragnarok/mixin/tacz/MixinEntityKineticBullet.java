@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.entity.EntityKineticBullet;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent.SinceMC1211.DataAttachments;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.BloodBulletUser;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.EnhancedKineticBullet;
 import mod.chloeprime.apotheosismodernragnarok.common.eventhandlers.LeftButtonMeleeFix;
@@ -13,8 +14,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.IEventBus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -24,7 +25,8 @@ import org.spongepowered.asm.mixin.injection.Slice;
 @Mixin(EntityKineticBullet.class)
 public abstract class MixinEntityKineticBullet extends Projectile implements
         EnhancedKineticBullet,
-        BloodBulletUser {
+        BloodBulletUser
+{
     // 血子弹附魔
 
     private @Unique float amr$defenseIgnoreRatio;
@@ -43,12 +45,12 @@ public abstract class MixinEntityKineticBullet extends Projectile implements
 
     @WrapOperation(
             method = "onHitEntity", remap = false,
-            at = @At(value = "INVOKE", remap = false, target = "Lnet/minecraftforge/eventbus/api/IEventBus;post(Lnet/minecraftforge/eventbus/api/Event;)Z"),
+            at = @At(value = "INVOKE", remap = false, target = "Lnet/neoforged/bus/api/IEventBus;post(Lnet/neoforged/bus/api/Event;)Lnet/neoforged/bus/api/Event;"),
             slice = @Slice(
-                    from = @At(value = "INVOKE", remap = false, target = "Lcom/tacz/guns/api/event/common/EntityHurtByGunEvent$Pre;<init>(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/resources/ResourceLocation;FLorg/apache/commons/lang3/tuple/Pair;ZFLnet/minecraftforge/fml/LogicalSide;)V"),
+                    from = @At(value = "INVOKE", remap = false, target = "Lcom/tacz/guns/api/event/common/EntityHurtByGunEvent$Pre;<init>(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/resources/ResourceLocation;FLorg/apache/commons/lang3/tuple/Pair;ZFLnet/neoforged/fml/LogicalSide;)V"),
                     to = @At(value = "INVOKE", remap = false, target = "Lcom/tacz/guns/entity/EntityKineticBullet;tacAttackEntity(Lcom/tacz/guns/entity/EntityKineticBullet$MaybeMultipartEntity;FLorg/apache/commons/lang3/tuple/Pair;)V")
             ))
-    private boolean fixDamageSources(IEventBus bus, Event event, Operation<Boolean> original) {
+    private Event fixDamageSources(IEventBus bus, Event event, Operation<Event> original) {
         if (event instanceof EntityHurtByGunEvent.Pre pre) {
             LeftButtonMeleeFix.fixDamageTypesOnGunshotPre(pre);
         } else {
@@ -59,22 +61,16 @@ public abstract class MixinEntityKineticBullet extends Projectile implements
 
     // 激流勇进
 
-    private @Unique double amr$waterFrictionFactor = 1;
-
-    @Override
-    public void amr$applyWaterFrictionFactor(double factor) {
-        amr$waterFrictionFactor *= factor;
-    }
-
     @WrapOperation(
             method = "tick",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;scale(D)Lnet/minecraft/world/phys/Vec3;"),
             slice = @Slice(from = @At(value = "INVOKE", target = "Lcom/tacz/guns/entity/EntityKineticBullet;isInWater()Z")))
     private Vec3 bulletRiptide(Vec3 instance, double arg, Operation<Vec3> original) {
         if (isInWater()) {
+            double frictionFactor = getData(DataAttachments.BULLET_UNDERWATER_FRICTION_FACTOR.get());
             var oldFriction = 1 - arg;
             var minFriction = friction;
-            var newFriction = Mth.lerp(amr$waterFrictionFactor, minFriction, oldFriction);
+            var newFriction = Mth.lerp(frictionFactor, minFriction, oldFriction);
             return original.call(instance, 1 - newFriction);
         } else {
             return original.call(instance, arg);

@@ -1,0 +1,30 @@
+{
+    "anvil_cost": 3,
+    "description": {
+        "translate": "enchantment.apotheosis_modern_ragnarok.survival_instinct"
+    },
+    "effects": {
+        "apotheosis_modern_ragnarok:bullet_drop_rate": {
+            "type": "minecraft:add",
+            "value": {
+                "type": "apotheosis_modern_ragnarok:nashorn_javascript",
+                "code": "1 - 16.0 / (level + 16)"
+            }
+        }
+    },
+    "exclusive_set": "#apotheosis_modern_ragnarok:bullet_regeneration_exclusive",
+    "max_cost": {
+        "base": 65,
+        "per_level_above_first": 9
+    },
+    "max_level": 3,
+    "min_cost": {
+        "base": 15,
+        "per_level_above_first": 9
+    },
+    "slots": [
+        "mainhand"
+    ],
+    "supported_items": "tacz:modern_kinetic_gun",
+    "weight": 2
+}

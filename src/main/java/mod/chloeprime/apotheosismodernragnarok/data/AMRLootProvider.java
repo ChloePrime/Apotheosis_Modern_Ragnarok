@@ -1,10 +1,14 @@
 package mod.chloeprime.apotheosismodernragnarok.data;
 
 import com.tacz.guns.init.ModItems;
+import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.loot.ApothReforgeFunction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -18,22 +22,26 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
-import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.loc;
 import static mod.chloeprime.gunsmithlib.api.common.GunLootFunctions.*;
 
 public class AMRLootProvider {
-    public static LootTableProvider create(PackOutput output) {
+    public static LootTableProvider create(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         return new LootTableProvider(output, Collections.emptySet(), List.of(
                 new LootTableProvider.SubProviderEntry(InjectSubProvider::new, LootContextParamSets.CHEST)
-        ));
+        ), registries);
+    }
+
+    private static ResourceKey<LootTable> loc(String path) {
+        return ResourceKey.create(Registries.LOOT_TABLE, ApotheosisModernRagnarok.loc(path));
     }
 
     @ParametersAreNonnullByDefault
-    public static class InjectSubProvider implements LootTableSubProvider {
+    public record InjectSubProvider(HolderLookup.Provider registries) implements LootTableSubProvider {
         @Override
-        public void generate(BiConsumer<ResourceLocation, LootTable.Builder> output) {
+        public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
             // 手枪套餐
             output.accept(loc("kits/tacz/pistol/deagle"), gunAndAmmo("tacz:deagle", "tacz:50ae", 1, 18));
             output.accept(loc("kits/tacz/pistol/glock_17"), gunAndAmmo("tacz:glock_17", "tacz:9mm", 2, 50));
@@ -92,144 +100,144 @@ public class AMRLootProvider {
             // 新手礼包箱子
             output.accept(loc("injects/chest/for_newcomers"), LootTable.lootTable()
                     .withPool(LootPool.lootPool()
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/glock_17")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/m1911")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/sniper/springfield1873")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/shotgun/db_short")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/shotgun/db_long")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/glock_17")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/m1911")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/sniper/springfield1873")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/shotgun/db_short")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/shotgun/db_long")))
                     ));
 
             // 普通箱子
             output.accept(loc("injects/chest/common"), LootTable.lootTable()
                     .withPool(LootPool.lootPool()
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/deagle")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/glock_17")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/b93r")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/deagle_golden")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/m1911")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/cz75")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/p320")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/deagle")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/glock_17")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/b93r")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/deagle_golden")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/m1911")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/cz75")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/p320")))
 
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/sniper/m700")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/sniper/m700")))
                             // no springfield1873
                             // no ai_awp
                             // no m107
                             // no m95
 
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/sks_tactical")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/type_81")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/qbz_95")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/ak47")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/hk416d")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/m4a1")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/m16a1")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/hk_g3")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/m16a4")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/sks_tactical")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/type_81")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/qbz_95")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/ak47")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/hk416d")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/m4a1")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/m16a1")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/hk_g3")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/m16a4")))
                             // no spr15hb
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/scar_l")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/scar_l")))
                             // no scar_h
                             // no mk14
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/aug")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/g36k")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/aug")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/g36k")))
 
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/shotgun/db_short")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/shotgun/db_long")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/shotgun/db_short")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/shotgun/db_long")))
 
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/smg/ump45")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/smg/vector45")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/smg/mp5a5")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/smg/uzi")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/smg/p90")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/smg/ump45")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/smg/vector45")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/smg/mp5a5")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/smg/uzi")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/smg/p90")))
                     ));
 
             // 稀有箱子
             output.accept(loc("injects/chest/rare"), LootTable.lootTable()
                     .withPool(LootPool.lootPool()
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/deagle")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/deagle")))
                             // no glock_17
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/b93r")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/deagle_golden")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/b93r")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/deagle_golden")))
                             // no m1911
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/pistol/cz75")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/pistol/cz75")))
                             // no p320
 
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/sniper/m700")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/sniper/m700")))
                             // no springfield1873
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/sniper/ai_awp")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/sniper/ai_awp")))
                             // no m107
                             // no m95
 
                             // no sks_tactical
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/type_81")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/qbz_95")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/ak47")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/hk416d")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/m4a1")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/type_81")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/qbz_95")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/ak47")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/hk416d")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/m4a1")))
                             // no m16a1
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/hk_g3")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/hk_g3")))
                             // no m16a4
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/spr15hb")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/scar_l")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/scar_h")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/mk14")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/aug")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/g36k")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/spr15hb")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/scar_l")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/scar_h")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/mk14")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/aug")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/g36k")))
 
                             // no db_short
                             // no db_long
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/shotgun/m870")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/shotgun/m870")))
                             // no aa12
 
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/smg/ump45")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/smg/vector45")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/smg/mp5a5")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/smg/ump45")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/smg/vector45")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/smg/mp5a5")))
                             // no uzi
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/smg/p90")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/smg/p90")))
 
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/heavy/rpg7")))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/heavy/m320")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/heavy/rpg7")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/heavy/m320")))
 
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/mg/m249")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/mg/m249")))
                             // no minigun
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/mg/rpk")))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/mg/rpk")))
                     ));
 
             // 宝藏箱子
             output.accept(loc("injects/chest/legendary"), LootTable.lootTable()
                     .withPool(LootPool.lootPool()
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/sniper/ai_awp")).setWeight(1000))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/sniper/m107")).setWeight(1000))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/sniper/m95")).setWeight(1000))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/spr15hb")).setWeight(1000))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/scar_h")).setWeight(1000))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/mk14")).setWeight(1000))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/shotgun/aa12")).setWeight(1000))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/smg/p90")).setWeight(1000))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/mg/m249")).setWeight(1000))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/mg/rpk")).setWeight(1000))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/mg/minigun"))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/sniper/ai_awp")).setWeight(1000))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/sniper/m107")).setWeight(1000))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/sniper/m95")).setWeight(1000))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/spr15hb")).setWeight(1000))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/scar_h")).setWeight(1000))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/mk14")).setWeight(1000))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/shotgun/aa12")).setWeight(1000))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/smg/p90")).setWeight(1000))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/mg/m249")).setWeight(1000))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/mg/rpk")).setWeight(1000))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/mg/minigun"))
                                     .setWeight(-20)
                                     .setQuality(1)
-                                    .apply(ApothReforgeFunction.apothReforge(new ResourceLocation("apotheosis:ancient")))
+                                    .apply(ApothReforgeFunction.apothReforge(ApotheosisModernRagnarok.loc("ancient")))
                             )
                     ));
 
             // 中东特色箱子
             output.accept(loc("injects/chest/middle_east"), LootTable.lootTable()
                     .withPool(LootPool.lootPool()
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/sks_tactical")).setWeight(64))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/rifle/ak47")).setWeight(64))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/shotgun/db_short")).setWeight(14))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/shotgun/db_long")).setWeight(14))
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/heavy/rpg7"))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/sks_tactical")).setWeight(64))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/rifle/ak47")).setWeight(64))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/shotgun/db_short")).setWeight(14))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/shotgun/db_long")).setWeight(14))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/heavy/rpg7"))
                                     .setWeight(2)
                                     .setQuality(2)
-                                    .apply(ApothReforgeFunction.apothReforge(new ResourceLocation("apotheosis:mythic")))
+                                    .apply(ApothReforgeFunction.apothReforge(ResourceLocation.parse("apotheosis:mythic")))
                             )
-                            .add(LootTableReference.lootTableReference(loc("kits/tacz/mg/rpk"))
+                            .add(NestedLootTable.lootTableReference(loc("kits/tacz/mg/rpk"))
                                     .setWeight(2)
                                     .setQuality(2)
-                                    .apply(ApothReforgeFunction.apothReforge(new ResourceLocation("apotheosis:mythic")))
+                                    .apply(ApothReforgeFunction.apothReforge(ResourceLocation.parse("apotheosis:mythic")))
                             )
                     ));
         }
@@ -244,12 +252,12 @@ public class AMRLootProvider {
         private LootTable.Builder gunAndAmmo(String gunId, String ammoId, NumberProvider rolls, NumberProvider ammoCountPerRoll) {
             return LootTable.lootTable()
                     .withPool(LootPool.lootPool().add(LootItem.lootTableItem(ModItems.MODERN_KINETIC_GUN.get())
-                                            .when(isGunInstalled(new ResourceLocation(gunId)))
-                                            .apply(initGunInfo(new ResourceLocation(gunId)))))
+                                            .when(isGunInstalled(ResourceLocation.parse(gunId)))
+                                            .apply(initGunInfo(ResourceLocation.parse(gunId)))))
                     .withPool(LootPool.lootPool()
                             .add(LootItem.lootTableItem(ModItems.AMMO.get())
-                                    .when(isAmmoInstalled(new ResourceLocation(ammoId)))
-                                    .apply(initAmmoInfo(new ResourceLocation(ammoId)))
+                                    .when(isAmmoInstalled(ResourceLocation.parse(ammoId)))
+                                    .apply(initAmmoInfo(ResourceLocation.parse(ammoId)))
                                     .apply(SetItemCountFunction.setCount(ammoCountPerRoll))
                             )
                             .setRolls(rolls));

@@ -2,17 +2,17 @@ package mod.chloeprime.apotheosismodernragnarok.common.eventhandlers;
 
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;
-import dev.shadowsoffire.attributeslib.api.ALObjects;
+import dev.shadowsoffire.apothic_attributes.api.ALObjects;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 import javax.annotation.Nullable;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class MiscAttributesAdapter {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void lifeStealOverheal(EntityHurtByGunEvent.Post e) {
@@ -36,12 +36,12 @@ public class MiscAttributesAdapter {
             return;
         }
 
-        float lifesteal = (float) attacker.getAttributeValue(ALObjects.Attributes.LIFE_STEAL.get());
+        float lifesteal = (float) attacker.getAttributeValue(ALObjects.Attributes.LIFE_STEAL);
         float dmg = Math.min(amount, livingVictim.getMaxHealth());
         if (lifesteal > 0.001) {
             attacker.heal(dmg * lifesteal);
         }
-        float overheal = (float) attacker.getAttributeValue(ALObjects.Attributes.OVERHEAL.get());
+        float overheal = (float) attacker.getAttributeValue(ALObjects.Attributes.OVERHEAL);
         float maxOverheal = attacker.getMaxHealth() * 0.5F;
         if (overheal > 0 && attacker.getAbsorptionAmount() < maxOverheal) {
             attacker.setAbsorptionAmount(Math.min(maxOverheal, attacker.getAbsorptionAmount() + dmg * overheal));

@@ -1,0 +1,56 @@
+{
+    "type": "minecraft:chest",
+    "pools": [
+        {
+            "bonus_rolls": 0.0,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/rifle/sks_tactical",
+                    "weight": 64
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/rifle/ak47",
+                    "weight": 64
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/shotgun/db_short",
+                    "weight": 14
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/shotgun/db_long",
+                    "weight": 14
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "functions": [
+                        {
+                            "function": "apotheosis_modern_ragnarok:apoth_reforge",
+                            "rarity": "apotheosis:mythic"
+                        }
+                    ],
+                    "quality": 2,
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/heavy/rpg7",
+                    "weight": 2
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "functions": [
+                        {
+                            "function": "apotheosis_modern_ragnarok:apoth_reforge",
+                            "rarity": "apotheosis:mythic"
+                        }
+                    ],
+                    "quality": 2,
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/mg/rpk",
+                    "weight": 2
+                }
+            ],
+            "rolls": 1.0
+        }
+    ],
+    "random_sequence": "apotheosis_modern_ragnarok:injects/chest/middle_east"
+}

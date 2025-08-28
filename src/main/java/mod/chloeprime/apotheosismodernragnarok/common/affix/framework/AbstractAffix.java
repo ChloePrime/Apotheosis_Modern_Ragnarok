@@ -1,10 +1,11 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.framework;
 
 import com.tacz.guns.api.item.IGun;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixRegistry;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
+import dev.shadowsoffire.apotheosis.Apoth;
+import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
+import dev.shadowsoffire.apotheosis.affix.AffixRegistry;
+import dev.shadowsoffire.apotheosis.loot.LootCategory;
+import dev.shadowsoffire.apotheosis.loot.LootRarity;
 import mod.chloeprime.apotheosismodernragnarok.common.gunpack.GunApothData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -17,8 +18,8 @@ import java.util.Set;
 public abstract class AbstractAffix extends AffixBaseUtility {
     protected final Set<LootCategory> categories;
 
-    public AbstractAffix(AffixType type, Set<LootCategory> categories) {
-        super(type);
+    public AbstractAffix(AffixDefinition def, Set<LootCategory> categories) {
+        super(def);
         this.categories = categories;
     }
 
@@ -27,7 +28,7 @@ public abstract class AbstractAffix extends AffixBaseUtility {
     }
 
     public String desc() {
-        return "affix." + getId() + ".desc";
+        return "affix." + id() + ".desc";
     }
 
     public static boolean isStillHoldingTheSameGun(ItemStack gunStack, @Nonnull ResourceLocation gunId) {
@@ -39,7 +40,7 @@ public abstract class AbstractAffix extends AffixBaseUtility {
 
     @Override
     public boolean canApplyTo(ItemStack stack, LootCategory category, LootRarity rarity) {
-        if (category == LootCategory.NONE) {
+        if (category == Apoth.LootCategories.NONE) {
             return false;
         }
         var isInBlacklist = GunApothData.of(stack)

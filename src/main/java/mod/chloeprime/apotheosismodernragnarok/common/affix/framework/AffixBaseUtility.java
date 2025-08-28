@@ -1,17 +1,17 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.framework;
 
-import dev.shadowsoffire.apotheosis.adventure.affix.Affix;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
+import dev.shadowsoffire.apotheosis.affix.Affix;
+import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 
 public abstract class AffixBaseUtility extends Affix {
-    public static final Style BRIGHT_RED = Style.EMPTY.withColor(TextColor.parseColor("#FF8080"));
+    public static final Style BRIGHT_RED = Style.EMPTY.withColor(TextColor.parseColor("#FF8080").getOrThrow());
 
-    public AffixBaseUtility(AffixType type) {
-        super(type);
+    public AffixBaseUtility(AffixDefinition def) {
+        super(def);
     }
 
     public static String fmt(double value) {

@@ -1,14 +1,15 @@
 package mod.chloeprime.apotheosismodernragnarok.common.gem.content;
 
-import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.GunDamageSourcePart;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemClass;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemInstance;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
+import dev.shadowsoffire.apotheosis.loot.LootRarity;
+import dev.shadowsoffire.apotheosis.socket.gem.GemClass;
+import dev.shadowsoffire.apotheosis.socket.gem.GemInstance;
+import dev.shadowsoffire.apotheosis.socket.gem.GemView;
+import dev.shadowsoffire.apotheosis.socket.gem.Purity;
+import dev.shadowsoffire.apotheosis.socket.gem.bonus.GemBonus;
 import it.unimi.dsi.fastutil.objects.Object2FloatLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
@@ -24,6 +25,7 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
+import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.Map;
@@ -34,16 +36,16 @@ public class DictatorGemBonus extends GemBonus implements GunGemBonus {
     public static final Codec<DictatorGemBonus> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     gemClass(),
-                    LootRarity.mapCodec(Codec.FLOAT).fieldOf("damage").forGetter(instance -> instance.damage)
+                    Purity.mapCodec(Codec.FLOAT).fieldOf("damage").forGetter(instance -> instance.damage)
             ).apply(inst, DictatorGemBonus::new));
 
-    private final Object2FloatMap<LootRarity> damage;
+    private final Object2FloatMap<Purity> damage;
 
     public DictatorGemBonus(
             GemClass gemClass,
-            Map<LootRarity, Float> damage
+            Map<Purity, Float> damage
     ) {
-        super(ID, gemClass);
+        super(gemClass);
         this.damage = new Object2FloatLinkedOpenHashMap<>(damage);
     }
 
@@ -53,11 +55,10 @@ public class DictatorGemBonus extends GemBonus implements GunGemBonus {
         if (victim instanceof Enemy || victim instanceof NeutralMob) {
             return;
         }
-        event.setBaseAmount(this.damage.getOrDefault(instance.rarity().get(), event.getBaseAmount()));
+        event.setBaseAmount(this.damage.getOrDefault(instance.purity(), event.getBaseAmount()));
     }
 
     @Override
-    @SuppressWarnings({"ConstantValue", "DataFlowIssue"})
     public void onGunshotPost(ItemStack gun, ItemStack gem, GemInstance instance, EntityHurtByGunEvent.Post event) {
         Entity victim = event.getHurtEntity();
         if (victim instanceof Enemy) {
@@ -71,7 +72,7 @@ public class DictatorGemBonus extends GemBonus implements GunGemBonus {
                 living.callDropFromLootTable(damageSource, damageSource.getEntity() instanceof Player);
             }
             // 掉落经验
-            living.callDropExperience();
+            living.callDropExperience(event.getAttacker());
             // 生成掉落物实体
             var drops = victim.captureDrops(null);
             if (drops != null) {
@@ -85,24 +86,13 @@ public class DictatorGemBonus extends GemBonus implements GunGemBonus {
     }
 
     @Override
-    public DictatorGemBonus validate() {
-        Preconditions.checkNotNull(damage, "Null damage table");
-        return this;
-    }
-
-    @Override
-    public boolean supports(LootRarity rarity) {
+    public boolean supports(Purity rarity) {
         return damage.containsKey(rarity);
     }
 
     @Override
-    public int getNumberOfUUIDs() {
-        return 0;
-    }
-
-    @Override
-    public Component getSocketBonusTooltip(ItemStack itemStack, LootRarity rarity) {
-        var damage = AffixBaseUtility.fmt(this.damage.getFloat(rarity));
+    public Component getSocketBonusTooltip(GemView gem, AttributeTooltipContext ctx) {
+        var damage = AffixBaseUtility.fmt(this.damage.getFloat(gem.purity()));
         return Component
                 .translatable("bonus.apotheosis_modern_ragnarok.dictator.desc", damage)
                 .withStyle(AffixBaseUtility.BRIGHT_RED);

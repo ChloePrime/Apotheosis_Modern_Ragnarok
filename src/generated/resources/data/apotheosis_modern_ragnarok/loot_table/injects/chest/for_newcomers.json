@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:chest",
+    "pools": [
+        {
+            "bonus_rolls": 0.0,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/pistol/glock_17"
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/pistol/m1911"
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/sniper/springfield1873"
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/shotgun/db_short"
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/shotgun/db_long"
+                }
+            ],
+            "rolls": 1.0
+        }
+    ],
+    "random_sequence": "apotheosis_modern_ragnarok:injects/chest/for_newcomers"
+}

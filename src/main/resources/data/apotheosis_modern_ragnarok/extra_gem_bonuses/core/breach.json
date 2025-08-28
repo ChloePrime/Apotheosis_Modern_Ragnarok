@@ -1,0 +1,21 @@
+{
+  "gem": "apotheosis:core/breach",
+  "bonuses": [{
+    "type": "apotheosis:enchantment",
+    "gem_class": {
+      "key": "apotheosis_modern_ragnarok.all_gun",
+      "types": [
+        "apotheosis_modern_ragnarok:shotgun",
+        "apotheosis_modern_ragnarok:full_auto",
+        "apotheosis_modern_ragnarok:semi_auto",
+        "apotheosis_modern_ragnarok:bolt_action"
+      ]
+    },
+    "enchantment": "minecraft:piercing",
+    "values": {
+      "normal": 1,
+      "flawless": 1,
+      "perfect": 2
+    }
+  }]
+}

@@ -1,16 +1,16 @@
 package mod.chloeprime.apotheosismodernragnarok.mixin.apoth;
 
-import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
+import dev.shadowsoffire.apotheosis.Apoth;
+import dev.shadowsoffire.apotheosis.loot.LootCategory;
 import mod.chloeprime.apotheosismodernragnarok.common.gunpack.GunApothData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Map;
+import java.util.Optional;
 
 @Mixin(value = LootCategory.class, remap = false)
 public class MixinLootCategory {
@@ -21,13 +21,10 @@ public class MixinLootCategory {
         }
         GunApothData.of(item).ifPresent(apoth -> {
             if (apoth.loot_category_override != null) {
-                var override = BY_ID.get(apoth.loot_category_override);
-                if (override != null) {
-                    cir.setReturnValue(override);
-                }
+                Optional.ofNullable(ResourceLocation.tryParse(apoth.loot_category_override))
+                        .map(Apoth.BuiltInRegs.LOOT_CATEGORY::get)
+                        .ifPresent(cir::setReturnValue);
             }
         });
     }
-
-    @Shadow @Final public static Map<String, LootCategory> BY_ID;
 }

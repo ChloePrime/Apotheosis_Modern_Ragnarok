@@ -3,12 +3,11 @@ package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
-import dev.shadowsoffire.apotheosis.adventure.affix.Affix;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixInstance;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixType;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
+import dev.shadowsoffire.apotheosis.affix.Affix;
+import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
+import dev.shadowsoffire.apotheosis.affix.AffixInstance;
+import dev.shadowsoffire.apotheosis.loot.LootCategory;
+import dev.shadowsoffire.apotheosis.loot.LootRarity;
 import dev.shadowsoffire.placebo.util.StepFunction;
 import mod.chloeprime.apotheosismodernragnarok.api.events.ArmorSquashAffixTakeEffectEvent;
 import mod.chloeprime.apotheosismodernragnarok.common.CommonConfig;
@@ -25,8 +24,8 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 
 import java.util.Map;
 import java.util.Optional;
@@ -41,21 +40,22 @@ import java.util.stream.StreamSupport;
  * 实例名 apotheosis_modern_ragnarok:armor_squash
  * <p/>
  */
-@Mod.EventBusSubscriber
 public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
 
     public static final Codec<ArmorSquashAffix> CODEC = RecordCodecBuilder.create(builder -> builder
             .group(
+                    affixDef(),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
-                    GemBonus.VALUES_CODEC.fieldOf("values").forGetter(AbstractValuedAffix::getValues),
+                    LootRarity.mapCodec(StepFunction.CODEC).fieldOf("values").forGetter(AbstractValuedAffix::getValues),
                     ExtraCodecs.COEFFICIENT_BY_CATEGORY.fieldOf("coefficients").forGetter(a -> a.coefficients))
             .apply(builder, ArmorSquashAffix::new));
 
     public ArmorSquashAffix(
+            AffixDefinition def,
             Set<LootCategory> categories,
             Map<LootRarity, StepFunction> values,
             Map<LootCategory, Double> coefficients) {
-        super(AffixType.ABILITY, categories, values);
+        super(def, categories, values);
         this.coefficients = coefficients;
     }
 
@@ -69,13 +69,19 @@ public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
     }
 
     @Override
-    public MutableComponent getDescription(ItemStack stack, LootRarity rarity, float level) {
+    public MutableComponent getDescription(AffixInstance affixInstance, AttributeTooltipContext ctx) {
+        var stack = affixInstance.stack();
+        var rarity = affixInstance.getRarity();
+        float level = affixInstance.level();
         var percent = getValue(stack, rarity, level);
         return Component.translatable(desc(), fmtPercent(percent)).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
     }
 
     @Override
-    public Component getAugmentingText(ItemStack stack, LootRarity rarity, float level) {
+    public Component getAugmentingText(AffixInstance affixInstance, AttributeTooltipContext ctx) {
+        var stack = affixInstance.stack();
+        var rarity = affixInstance.getRarity();
+        float level = affixInstance.level();
         var rate = getValue(stack, rarity, level);
         var min = getValue(stack, rarity, 0);
         var max = getValue(stack, rarity, 1);
@@ -124,7 +130,7 @@ public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
 
     private static void onArmorBreak(LivingEntity victim, Entity source, ArmorSquashAffix affix, ItemStack armor) {
         // runs on the server :)
-        if (MinecraftForge.EVENT_BUS.post(new ArmorSquashAffixTakeEffectEvent(victim, source, affix, armor))) {
+        if (NeoForge.EVENT_BUS.post(new ArmorSquashAffixTakeEffectEvent(victim, source, affix, armor)).isCanceled()) {
             return;
         }
         armor.shrink(1);

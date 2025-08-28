@@ -1,34 +1,30 @@
 package mod.chloeprime.apotheosismodernragnarok.common.gem.content;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Supplier;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.api.event.common.GunFireEvent;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemClass;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemInstance;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
+import dev.shadowsoffire.apotheosis.socket.gem.GemClass;
+import dev.shadowsoffire.apotheosis.socket.gem.GemInstance;
+import dev.shadowsoffire.apotheosis.socket.gem.GemView;
+import dev.shadowsoffire.apotheosis.socket.gem.Purity;
+import dev.shadowsoffire.apotheosis.socket.gem.bonus.GemBonus;
 import it.unimi.dsi.fastutil.objects.*;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AffixBaseUtility;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GunGemBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.BloodBulletUser;
-import mod.chloeprime.apotheosismodernragnarok.common.internal.DamageInfo;
-import mod.chloeprime.apotheosismodernragnarok.network.ModNetwork;
-import mod.chloeprime.apotheosismodernragnarok.network.S2CMarkBulletAsBloody;
 import mod.chloeprime.gunsmithlib.api.common.BulletCreateEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 
 import java.util.Map;
-import java.util.function.BooleanSupplier;
 
 public class BloodBulletBonus extends GemBonus implements GunGemBonus {
     public static final ResourceLocation ID = ApotheosisModernRagnarok.loc("blood_bullet");
@@ -36,42 +32,31 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
     public static final Codec<BloodBulletBonus> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     gemClass(),
-                    LootRarity.mapCodec(Codec.FLOAT).fieldOf("hp_cost").forGetter(instance -> instance.hpCost),
-                    LootRarity.mapCodec(Codec.FLOAT).fieldOf("min_damage_ratio").forGetter(instance -> instance.power))
+                    Purity.mapCodec(Codec.FLOAT).fieldOf("hp_cost").forGetter(instance -> instance.hpCost),
+                    Purity.mapCodec(Codec.FLOAT).fieldOf("min_damage_ratio").forGetter(instance -> instance.power))
             .apply(inst, BloodBulletBonus::new));
 
-    protected final Object2FloatMap<LootRarity> hpCost;
-    protected final Object2FloatMap<LootRarity> power;
+    protected final Object2FloatMap<Purity> hpCost;
+    protected final Object2FloatMap<Purity> power;
 
     public BloodBulletBonus(
             GemClass gemClass,
-            Map<LootRarity, Float> hpCost,
-            Map<LootRarity, Float> power
+            Map<Purity, Float> hpCost,
+            Map<Purity, Float> power
     ) {
-        super(ID, gemClass);
+        super(gemClass);
         this.hpCost = new Object2FloatLinkedOpenHashMap<>(hpCost);
         this.power = new Object2FloatLinkedOpenHashMap<>(power);
     }
 
     @Override
-    public BloodBulletBonus validate() {
-        Preconditions.checkNotNull(hpCost, "Null hp cost table");
-        Preconditions.checkNotNull(power, "Null power cost table");
-        return this;
-    }
-
-    @Override
-    public boolean supports(LootRarity rarity) {
+    public boolean supports(Purity rarity) {
         return hpCost.containsKey(rarity) && power.containsKey(rarity);
     }
 
     @Override
-    public int getNumberOfUUIDs() {
-        return 0;
-    }
-
-    @Override
-    public Component getSocketBonusTooltip(ItemStack gem, LootRarity rarity) {
+    public Component getSocketBonusTooltip(GemView gem, AttributeTooltipContext ctx) {
+        var rarity = gem.purity();
         var hpCost = AffixBaseUtility.fmt(this.hpCost.getFloat(rarity));
         var power = AffixBaseUtility.fmtPercent(this.power.getFloat(rarity));
         return Component
@@ -80,6 +65,17 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
     }
 
     // 效果实现
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void cleanupBeforeGunFire(GunFireEvent event) {
+        var shooter = event.getShooter();
+        if (shooter == null || shooter.level().isClientSide) {
+            return;
+        }
+        var user = ((BloodBulletUser) shooter);
+        // 初始化效力数据
+        user.amr$setDefenseIgnoreRatio(0);
+    }
 
     /**
      * 射击时扣血并记录破甲效力。
@@ -95,13 +91,13 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
         // 初始化效力数据
         user.amr$setDefenseIgnoreRatio(0);
 
-        var power = this.power.getFloat(instance.rarity().get());
+        var power = this.power.getFloat(instance.purity());
         if (power <= 0) {
             return;
         }
 
         // 创造模式下不扣血
-        var hpCost = this.hpCost.getFloat(instance.rarity().get());
+        var hpCost = this.hpCost.getFloat(instance.purity());
         var isCreative = shooter instanceof Player player && player.getAbilities().instabuild;
         if (isCreative) {
             // 创造模式，不需要消耗任何资源，
@@ -140,81 +136,12 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
         if (power > 0 && event.getBullet() instanceof BloodBulletUser bullet) {
             // 将效力数据从射手 -> 子弹
             bullet.amr$setDefenseIgnoreRatio(power);
-            ModNetwork.sendToNearby(new S2CMarkBulletAsBloody(event.getBullet().getId()), event.getShooter());
+            event.getBullet().setData(ModContent.SinceMC1211.DataAttachments.IS_BLOODY, true);
         }
     }
-
-    /**
-     * 保证 onLivingAttack 必定不会被取消，
-     * 并传输效力数据：子弹 -> DamageSource。
-     */
-    public static boolean onLivingAttack(DamageSource source, float amount, BooleanSupplier original) {
-        var info = ((DamageInfo) source);
-        if (amount <= 0) {
-            return original.getAsBoolean();
-        }
-        info.amr$recordNewHighestDamage(amount);
-
-        var failed = !original.getAsBoolean();
-        if (failed) {
-            info.amr$setAttackFailed(true);
-        }
-
-        Entity bullet = source.getDirectEntity();
-        if (bullet instanceof Projectile && bullet instanceof BloodBulletUser bloody && bloody.amr$getDefenseIgnoreRatio() > 0) {
-            info.amr$setDefenseIgnoreRatio(bloody.amr$getDefenseIgnoreRatio());
-            return true;
-        } else {
-            return !failed;
-        }
-    }
-
-    /**
-     * 保证不会因为 LivingHurtEvent 被取消而失败
-     */
-    public static float onLivingHurt(DamageSource src, float amount, Supplier<Float> original) {
-        var info = (DamageInfo) src;
-        info.amr$recordNewHighestDamage(amount);
-
-        var power = info.amr$getDefenseIgnoreRatio();
-        var originalDamage = info.amr$getOriginalDamage();
-        var originalValue = (info.amr$isAttackFailed() ? 0 : 1) * original.get();
-
-        if (originalDamage <= 0 || power <= 0) {
-            return originalValue;
-        } else if (originalValue > originalDamage) {
-            // 这一阶段伤害不减反增的情况
-            info.amr$recordNewHighestDamage(originalValue);
-            return originalValue;
-        } else {
-            var ensure = Math.min(1e-4F, originalDamage * power);
-            return Math.max(ensure, originalValue);
-        }
-    }
-
-    /**
-     * 确保最小伤害
-     */
-    public static float onLivingDamage(DamageSource src, float amount, Supplier<Float> original) {
-        var info = (DamageInfo) src;
-        info.amr$recordNewHighestDamage(amount);
-
-        var power = info.amr$getDefenseIgnoreRatio();
-        var originalDamage = info.amr$getOriginalDamage();
-        var originalValue = (info.amr$isAttackFailed() ? 0 : 1) * original.get();
-
-        // 第一部分针对伤害大于最低伤害的情况
-        if (originalValue >= originalDamage || originalDamage <= 0 || power <= 0) {
-            return originalValue;
-        } else {
-            return Mth.lerp(power, originalValue, originalDamage);
-        }
-    }
-
-    public static final String PDK_CLIENT_IS_BLOOD_BULLET = ApotheosisModernRagnarok.loc("is_blood_bullet").toString();
 
     public static boolean clientIsBloodBullet(Projectile bullet) {
-        return bullet.getPersistentData().getBoolean(PDK_CLIENT_IS_BLOOD_BULLET);
+        return bullet.getData(ModContent.SinceMC1211.DataAttachments.IS_BLOODY);
     }
 
     @Override

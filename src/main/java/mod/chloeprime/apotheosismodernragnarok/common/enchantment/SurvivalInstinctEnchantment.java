@@ -6,65 +6,46 @@ import com.tacz.guns.resource.index.CommonAmmoIndex;
 import com.tacz.guns.resource.pojo.data.gun.FeedType;
 import com.tacz.guns.util.AttachmentDataUtils;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
-import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent.SinceMC1211.EnchantmentEffectComponents;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
+import mod.chloeprime.apotheosismodernragnarok.common.util.MC121Utils;
 import mod.chloeprime.gunsmithlib.api.common.GunAttributes;
 import mod.chloeprime.gunsmithlib.api.util.GunInfo;
 import mod.chloeprime.gunsmithlib.api.util.Gunsmith;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-
-import javax.annotation.ParametersAreNonnullByDefault;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 
 /**
  * 求生本能
  * 击杀怪物后概率掉落子弹
  */
-@ParametersAreNonnullByDefault
-public class SurvivalInstinctEnchantment extends Enchantment {
+@EventBusSubscriber
+public class SurvivalInstinctEnchantment {
     public static final TagKey<DamageType> HAS_BULLET_LOOT_BONUS = TagKey.create(Registries.DAMAGE_TYPE, ApotheosisModernRagnarok.loc("has_bullet_loot_bonus"));
 
-    public SurvivalInstinctEnchantment() {
-        this(Rarity.RARE, ModContent.Enchantments.THE_CATEGORY, EquipmentSlot.MAINHAND);
+    public static double getDropRate(ItemStack stack, RandomSource random) {
+        return Math.max(0, MC121Utils.evaluateEnchantValue(
+                EnchantmentEffectComponents.BULLET_DROP_RATE.get(),
+                stack, random, 0
+        ));
     }
 
-    public SurvivalInstinctEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
-        super(pRarity, pCategory, pApplicableSlots);
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    public int getMaxLevel() {
-        return 3;
-    }
-
-    public int getMinCost(int level) {
-        return 15 + (level - 1) * 9;
-    }
-
-    public int getMaxCost(int level) {
-        return super.getMinCost(level) + 50;
-    }
-
-    public double getDropRate(int level) {
-        return 1 - 16.0 / (level + 16);
-    }
 
     /**
      * 处决击杀会掉落更多弹药
      */
-    public int getDropBonus(DamageSource source) {
+    public static int getDropBonus(DamageSource source) {
         return source.is(HAS_BULLET_LOOT_BONUS) ? 3 : 1;
     }
 
@@ -73,7 +54,7 @@ public class SurvivalInstinctEnchantment extends Enchantment {
      * @param gun 武器的信息
      * @return 掉率的倍率
      */
-    public double getDropRatePenalty(GunInfo gun) {
+    public static double getDropRatePenalty(GunInfo gun) {
         var gunData = gun.index().getGunData();
         if (gunData.getReloadData().getType() == FeedType.FUEL) {
             return 1.0 / AttachmentDataUtils.getAmmoCountWithAttachment(gun.gunStack(), gunData);
@@ -83,7 +64,7 @@ public class SurvivalInstinctEnchantment extends Enchantment {
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public void drops(LivingDropsEvent event) {
+    public static void drops(LivingDropsEvent event) {
         if (!(event.getSource().getEntity() instanceof LivingEntity user)) {
             return;
         }
@@ -92,17 +73,17 @@ public class SurvivalInstinctEnchantment extends Enchantment {
         if (gun == null || GunPredicate.isDedicatedTaCZMeleeWeapon(gun.index())) {
             return;
         }
-        int level = weapon.getEnchantmentLevel(this);
-        if (level <= 0) {
+        var baseDropRate = getDropRate(weapon, user.getRandom());
+        if (baseDropRate <= 1e-8) {
             return;
         }
         // 最大掉落数量 = 怪物最大生命值/伤害 和 枪械弹匣容量 中较小的那个
         var victim = event.getEntity();
-        var damage = user.getAttributeValue(GunAttributes.BULLET_DAMAGE.get());
+        var damage = user.getAttributeValue(GunAttributes.BULLET_DAMAGE);
         int magSize = AttachmentDataUtils.getAmmoCountWithAttachment(gun.gunStack(), gun.index().getGunData());
         int maxTriage = getDropBonus(event.getSource()) * Mth.clamp((int) Math.round(victim.getMaxHealth() / damage), 1, magSize);
         // 计算掉率惩罚时使用原装枪械的弹匣容量进行计算
-        var dropRate = getDropRate(level) * getDropRatePenalty(gun);
+        var dropRate = baseDropRate * getDropRatePenalty(gun);
 
         // 计算掉落数量
         var rng = user.getRandom();
@@ -144,10 +125,5 @@ public class SurvivalInstinctEnchantment extends Enchantment {
                 dropCount -= dropped;
             }
         }
-    }
-
-    @Override
-    protected boolean checkCompatibility(Enchantment other) {
-        return super.checkCompatibility(other) && !(other instanceof ProjectionMagicEnchantment);
     }
 }

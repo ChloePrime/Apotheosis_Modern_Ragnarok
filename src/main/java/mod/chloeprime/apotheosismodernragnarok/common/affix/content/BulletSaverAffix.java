@@ -3,13 +3,11 @@ package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.api.event.common.GunShootEvent;
-import dev.shadowsoffire.apotheosis.adventure.affix.*;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
+import dev.shadowsoffire.apotheosis.affix.*;
+import dev.shadowsoffire.apotheosis.loot.LootCategory;
+import dev.shadowsoffire.apotheosis.loot.LootRarity;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import dev.shadowsoffire.placebo.util.StepFunction;
-import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AbstractValuedAffix;
@@ -20,8 +18,9 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 
 import java.util.Map;
 import java.util.Optional;
@@ -34,22 +33,23 @@ import java.util.Set;
  * 实例名 apotheosis_modern_ragnarok:frugality
  * <p/>
  */
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class BulletSaverAffix extends AbstractValuedAffix {
 
     public static final Codec<BulletSaverAffix> CODEC = RecordCodecBuilder.create(builder -> builder
             .group(
+                    affixDef(),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
-                    GemBonus.VALUES_CODEC.fieldOf("values").forGetter(AbstractValuedAffix::getValues))
+                    LootRarity.mapCodec(StepFunction.CODEC).fieldOf("values").forGetter(AbstractValuedAffix::getValues))
             .apply(builder, BulletSaverAffix::new));
 
-    public static final DynamicHolder<BulletSaverAffix> INSTANCE
-            = AffixRegistry.INSTANCE.holder(ApotheosisModernRagnarok.loc("frugality"));
+    public static final DynamicHolder<BulletSaverAffix> INSTANCE = ModContent.Affix.BULLET_SAVER;
 
     public BulletSaverAffix(
+            AffixDefinition def,
             Set<LootCategory> categories,
             Map<LootRarity, StepFunction> values) {
-        super(AffixType.ABILITY, categories, values);
+        super(def, categories, values);
     }
 
     @SubscribeEvent
@@ -72,13 +72,19 @@ public class BulletSaverAffix extends AbstractValuedAffix {
     }
 
     @Override
-    public MutableComponent getDescription(ItemStack stack, LootRarity rarity, float level) {
+    public MutableComponent getDescription(AffixInstance affixInstance, AttributeTooltipContext ctx) {
+        var stack = affixInstance.stack();
+        var rarity = affixInstance.getRarity();
+        float level = affixInstance.level();
         var rate = getValue(stack, rarity, level);
         return Component.translatable(desc(), fmtPercent(rate)).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
     }
 
     @Override
-    public Component getAugmentingText(ItemStack stack, LootRarity rarity, float level) {
+    public Component getAugmentingText(AffixInstance affixInstance, AttributeTooltipContext ctx) {
+        var stack = affixInstance.stack();
+        var rarity = affixInstance.getRarity();
+        float level = affixInstance.level();
         var rate = getValue(stack, rarity, level);
         var min = getValue(stack, rarity, 0);
         var max = getValue(stack, rarity, 1);

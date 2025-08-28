@@ -8,18 +8,18 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderLivingEvent;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(Dist.CLIENT)
+@EventBusSubscriber(Dist.CLIENT)
 public class FreezeEffectVisuals {
     public static final Supplier<RenderType> MATERIAL = Suppliers.memoize(
-            () -> RenderType.entityTranslucent(new ResourceLocation("minecraft", "textures/block/blue_ice.png"))
+            () -> RenderType.entityTranslucent(ResourceLocation.withDefaultNamespace("textures/block/blue_ice.png"))
     );
 
     @SubscribeEvent
@@ -27,7 +27,7 @@ public class FreezeEffectVisuals {
         var attributes = event.getEntity().getAttributes();
         var isFrozen = Optional.ofNullable(attributes.getInstance(Attributes.MOVEMENT_SPEED))
                 .map(instance -> instance.getModifier(FreezeEffect.SPEED_MODIFIER_UUID))
-                .filter(modifier -> modifier.getAmount() <= -1)
+                .filter(modifier -> modifier.amount() <= -1)
                 .isPresent();
         if (!isFrozen) {
             return;
@@ -48,8 +48,7 @@ public class FreezeEffectVisuals {
 
     public static void renderCube(PoseStack pos, VertexConsumer builder, int packedLight) {
         var mesh = MESH_DATA;
-        var pose = pos.last().pose();
-        var norm = pos.last().normal();
+        var pose = pos.last();
         for (int i = 0; i < mesh.length / 5; i++) {
             var x = mesh[i * 5] - 0.5F;
             var y = mesh[i * 5 + 1] - 0.5F;
@@ -59,13 +58,12 @@ public class FreezeEffectVisuals {
             var nx = normals[(i / 4) * 3];
             var ny = normals[(i / 4) * 3 + 1];
             var nz = normals[(i / 4) * 3 + 2];
-            builder.vertex(pose, x, y, z)
-                    .color(255, 255, 255, 128)
-                    .uv(u, v)
-                    .overlayCoords(OverlayTexture.NO_OVERLAY)
-                    .uv2(packedLight)
-                    .normal(norm, nx, ny, nz)
-                    .endVertex();
+            builder.addVertex(pose, x, y, z)
+                    .setColor(255, 255, 255, 128)
+                    .setUv(u, v)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(packedLight)
+                    .setNormal(pos.last(), nx, ny, nz);
         }
     }
 

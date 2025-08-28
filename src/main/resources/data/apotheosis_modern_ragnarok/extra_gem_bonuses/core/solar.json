@@ -1,0 +1,63 @@
+{
+  "gem": "apotheosis:core/solar",
+  "bonuses": [
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.all_auto",
+        "types": [
+          "apotheosis_modern_ragnarok:full_auto",
+          "apotheosis_modern_ragnarok:semi_auto"
+        ]
+      },
+      "attribute": "apothic_attributes:fire_damage",
+      "operation": "add_value",
+      "values": {
+        "cracked": 1,
+        "chipped": 1.5,
+        "flawed": 2.5,
+        "normal": 4,
+        "flawless": 6,
+        "perfect": 8
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.shotgun",
+        "types": [
+          "apotheosis_modern_ragnarok:shotgun"
+        ]
+      },
+      "attribute": "apothic_attributes:fire_damage",
+      "operation": "add_value",
+      "values": {
+        "cracked": 0.2,
+        "chipped": 0.3,
+        "flawed": 0.5,
+        "normal": 0.8,
+        "flawless": 1.2,
+        "perfect": 1.6
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.bolt_action",
+        "types": [
+          "apotheosis_modern_ragnarok:bolt_action"
+        ]
+      },
+      "attribute": "apothic_attributes:fire_damage",
+      "operation": "add_value",
+      "values": {
+        "cracked": 2.5,
+        "chipped": 3.75,
+        "flawed": 6.25,
+        "normal": 10,
+        "flawless": 15,
+        "perfect": 20
+      }
+    }
+  ]
+}

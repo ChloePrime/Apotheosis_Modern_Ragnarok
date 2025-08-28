@@ -1,13 +1,13 @@
 package mod.chloeprime.apotheosismodernragnarok.common;
 
-import com.google.common.base.Predicates;
-import com.tacz.guns.api.item.IGun;
-import dev.shadowsoffire.apotheosis.Apotheosis;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixRegistry;
-import dev.shadowsoffire.apotheosis.adventure.affix.salvaging.SalvageItem;
-import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import dev.shadowsoffire.apotheosis.affix.AffixRegistry;
+import dev.shadowsoffire.apotheosis.affix.salvaging.SalvageItem;
+import dev.shadowsoffire.apotheosis.loot.RarityRegistry;
+import dev.shadowsoffire.apotheosis.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
+import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.client.ClientConfig;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyCoefficientAffix;
@@ -16,44 +16,45 @@ import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.DummyValue
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.ExtraLootCategories;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.content.*;
 import mod.chloeprime.apotheosismodernragnarok.common.enchantment.*;
+import mod.chloeprime.apotheosismodernragnarok.common.enchantment.component.FusedMultiplyAddFormula;
+import mod.chloeprime.apotheosismodernragnarok.common.enchantment.component.NashornJavascriptValue;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.content.BloodBulletBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.content.DictatorGemBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.content.PotionWhenShootBonus;
-import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GemInjectionRegistry;
 import mod.chloeprime.apotheosismodernragnarok.common.loot.ApothReforgeFunction;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.TyrannyEffect;
-import net.minecraft.core.Registry;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraft.world.level.storage.loot.Serializer;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
+import net.minecraft.world.item.enchantment.LevelBasedValue;
+import net.minecraft.world.item.enchantment.effects.EnchantmentAttributeEffect;
+import net.minecraft.world.item.enchantment.effects.EnchantmentValueEffect;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-import java.util.function.Consumer;
+import java.util.List;
+import java.util.function.Supplier;
 
 import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.MOD_ID;
 import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.loc;
@@ -65,10 +66,10 @@ import static mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok.l
  */
 public class ModContent {
     public static final class Items {
-        private static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
-        public static final RegistryObject<Item> ANCIENT_MATERIAL = REGISTRY.register(
+        private static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(BuiltInRegistries.ITEM, MOD_ID);
+        public static final Supplier<Item> ANCIENT_MATERIAL = REGISTRY.register(
                 "izanagi_object",
-                () -> new SalvageItem(RarityRegistry.INSTANCE.holder(Apotheosis.loc("ancient")), new Item.Properties())
+                () -> new SalvageItem(RarityRegistry.INSTANCE.holder(loc("ancient")), new Item.Properties())
         );
 
         private Items() {}
@@ -79,31 +80,25 @@ public class ModContent {
     }
 
     public static final class Affix {
-        public static final DynamicHolder<ArmorSquashAffix>         ARMOR_SQUASH = holder("all_gun/special/armor_squash");
+        public static final DynamicHolder<ArmorSquashAffix> ARMOR_SQUASH = holder("all_gun/special/armor_squash");
         public static final DynamicHolder<BulletSaverAffix>         BULLET_SAVER = holder("all_gun/special/frugality");
         public static final DynamicHolder<ExplosionOnHeadshotAffix> HEAD_EXPLODE = holder("all_gun/special/head_explode");
         public static final DynamicHolder<MagicalShotAffix>         MAGICAL_SHOT = holder("all_gun/special/magical_shot");
 //        public static final DynamicHolder<DummyCoefficientAffix>    SPECTRAL_BULLET = holder("all_gun/special/spectral");
 
-        private static <T extends dev.shadowsoffire.apotheosis.adventure.affix.Affix> DynamicHolder<T> holder(String path) {
-            return AffixRegistry.INSTANCE.holder(ApotheosisModernRagnarok.loc(path));
+        @SuppressWarnings("unchecked")
+        private static <T extends dev.shadowsoffire.apotheosis.affix.Affix> DynamicHolder<T> holder(String path) {
+            return (DynamicHolder<T>) AffixRegistry.INSTANCE.holder(ApotheosisModernRagnarok.loc(path));
         }
 
         private Affix() {}
     }
 
-    public static final class Attributes {
-        private static final DeferredRegister<Attribute> REGISTRY = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, MOD_ID);
-        public static final RegistryObject<Attribute> POSTURE = createAttribute("posture", 0, 0, 1);
-        private Attributes() {
-        }
-    }
-
     public static final class MobEffects {
-        private static final DeferredRegister<MobEffect> REGISTRY = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MOD_ID);
-        public static final RegistryObject<FireDotEffect> FIRE_DOT = REGISTRY.register("fire_dot", FireDotEffect::create);
-        public static final RegistryObject<FreezeEffect> FREEZE = REGISTRY.register("freeze", FreezeEffect::create);
-        public static final RegistryObject<TyrannyEffect> TYRANNY = REGISTRY.register("tyranny", TyrannyEffect::create);
+        private static final DeferredRegister<MobEffect> REGISTRY = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MOD_ID);
+        public static final DeferredHolder<MobEffect, FireDotEffect> FIRE_DOT = REGISTRY.register("fire_dot", FireDotEffect::create);
+        public static final DeferredHolder<MobEffect, FreezeEffect> FREEZE = REGISTRY.register("freeze", FreezeEffect::create);
+        public static final DeferredHolder<MobEffect, TyrannyEffect> TYRANNY = REGISTRY.register("tyranny", TyrannyEffect::create);
 
         private MobEffects() {
         }
@@ -122,96 +117,69 @@ public class ModContent {
     }
 
     public static final class Particles {
-        private static final DeferredRegister<ParticleType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, MOD_ID);
-        public static final RegistryObject<SimpleParticleType> BLOOD = REGISTRY.register("blood", () -> new SimpleParticleType(true));
+        private static final DeferredRegister<ParticleType<?>> REGISTRY = DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, MOD_ID);
+        public static final Supplier<SimpleParticleType> BLOOD = REGISTRY.register("blood", () -> new SimpleParticleType(true));
     }
 
     public static final class Sounds {
-        private static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
-        public static final RegistryObject<SoundEvent> ARMOR_CRACK = registerSound("affix.armor_break");
-        public static final RegistryObject<SoundEvent> MAGIC_SHOTGUN = registerSound("affix.magical_shot.shotgun");
-        public static final RegistryObject<SoundEvent> MAGIC_SEMIAUTO = registerSound("affix.magical_shot.semi_auto");
-        public static final RegistryObject<SoundEvent> MAGIC_FULLAUTO = registerSound("affix.magical_shot.full_auto");
-        public static final RegistryObject<SoundEvent> MAGIC_BOLT_ACTION = registerSound("affix.magical_shot.bolt_action");
-        public static final RegistryObject<SoundEvent> MAGIC_FIREBALL = registerSound("affix.magical.fireball");
-        public static final RegistryObject<SoundEvent> HEAD_EXPLOSION = registerSound("affix.head_explosion");
-        public static final RegistryObject<SoundEvent> CRITICAL_HIT = registerSound("critical_hit");
-        public static final RegistryObject<SoundEvent> EXECUTION = registerSound("execution");
-        public static final RegistryObject<SoundEvent> PERFECT_BLOCK = registerSound("perfect_block");
-        public static final RegistryObject<SoundEvent> POSTURE_BREAK = registerSound("perfect_block_neutralized_target");
+        private static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, MOD_ID);
+        public static final DeferredHolder<SoundEvent, SoundEvent> ARMOR_CRACK = registerSound("affix.armor_break");
+        public static final DeferredHolder<SoundEvent, SoundEvent> MAGIC_SHOTGUN = registerSound("affix.magical_shot.shotgun");
+        public static final DeferredHolder<SoundEvent, SoundEvent> MAGIC_SEMIAUTO = registerSound("affix.magical_shot.semi_auto");
+        public static final DeferredHolder<SoundEvent, SoundEvent> MAGIC_FULLAUTO = registerSound("affix.magical_shot.full_auto");
+        public static final DeferredHolder<SoundEvent, SoundEvent> MAGIC_BOLT_ACTION = registerSound("affix.magical_shot.bolt_action");
+        public static final DeferredHolder<SoundEvent, SoundEvent> MAGIC_FIREBALL = registerSound("affix.magical.fireball");
+        public static final DeferredHolder<SoundEvent, SoundEvent> HEAD_EXPLOSION = registerSound("affix.head_explosion");
+        public static final DeferredHolder<SoundEvent, SoundEvent> CRITICAL_HIT = registerSound("critical_hit");
+        public static final DeferredHolder<SoundEvent, SoundEvent> EXECUTION = registerSound("execution");
+        public static final DeferredHolder<SoundEvent, SoundEvent> PERFECT_BLOCK = registerSound("perfect_block");
+        public static final DeferredHolder<SoundEvent, SoundEvent> POSTURE_BREAK = registerSound("perfect_block_neutralized_target");
 
         private Sounds() {}
     }
 
     /**
-     * @see GunEnchantmentHooks#canGunApplyEnchantmentAtTable(Item, ItemStack, Enchantment, CallbackInfoReturnable) 几个 alwaysFalse 的附魔类型的具体实现
+     * @see GunEnchantmentHooks#canGunApplyEnchantmentAtTable(ItemStack, Holder, BooleanConsumer) 几个附魔 tag 的具体实现
      */
     public static final class Enchantments {
-        public static final EnchantmentCategory THE_CATEGORY = EnchantmentCategory.create("AMR_GUN_APOTH", IGun.class::isInstance);
-        public static final EnchantmentCategory CAT_PISTOL = EnchantmentCategory.create("AMR_PISTOL_APOTH", Predicates.alwaysFalse());
-        public static final EnchantmentCategory CAT_SNIPER = EnchantmentCategory.create("AMR_SNIPER_APOTH", Predicates.alwaysFalse());
-        public static final EnchantmentCategory CAT_RIFLE = EnchantmentCategory.create("AMR_RIFLE_APOTH", Predicates.alwaysFalse());
-        public static final EnchantmentCategory CAT_SHOTGUN = EnchantmentCategory.create("AMR_SHOTGUN_APOTH", Predicates.alwaysFalse());
-        public static final EnchantmentCategory CAT_SMG = EnchantmentCategory.create("AMR_SMG_APOTH", Predicates.alwaysFalse());
-        public static final EnchantmentCategory CAT_HEAVY_WEAPON = EnchantmentCategory.create("AMR_HEAVY_WEAPON_APOTH", Predicates.alwaysFalse());
-        public static final EnchantmentCategory CAT_MACHINE_GUN = EnchantmentCategory.create("AMR_MACHINE_GUN_APOTH", Predicates.alwaysFalse());
-        public static final EnchantmentCategory CAT_MELEE_CAPABLE = EnchantmentCategory.create("AMR_MACHINE_GUN_APOTH", Predicates.alwaysFalse());
+        public static final TagKey<Enchantment> AVAILABLE_FOR_GUNS = TagKey.create(Registries.ENCHANTMENT, loc("available_for_guns"));
+        public static final TagKey<Enchantment> CAT_PISTOL = TagKey.create(Registries.ENCHANTMENT, loc("pistol"));
+        public static final TagKey<Enchantment> CAT_SNIPER = TagKey.create(Registries.ENCHANTMENT, loc("sniper"));
+        public static final TagKey<Enchantment> CAT_RIFLE = TagKey.create(Registries.ENCHANTMENT, loc("rifle"));
+        public static final TagKey<Enchantment> CAT_SHOTGUN = TagKey.create(Registries.ENCHANTMENT, loc("shotgun"));
+        public static final TagKey<Enchantment> CAT_SMG = TagKey.create(Registries.ENCHANTMENT, loc("smg"));
+        public static final TagKey<Enchantment> CAT_HEAVY_WEAPON = TagKey.create(Registries.ENCHANTMENT, loc("heavy_weapon"));
+        public static final TagKey<Enchantment> CAT_MACHINE_GUN = TagKey.create(Registries.ENCHANTMENT, loc("machine_gun"));
+        public static final TagKey<Enchantment> CAT_MELEE_CAPABLE = TagKey.create(Registries.ENCHANTMENT, loc("melee_capable"));
 
         /**
          * 所有非背包供弹武器
          * @since 4.0.0
          */
-        public static final EnchantmentCategory CAT_HAS_MAGAZINE = EnchantmentCategory.create("AMR_HAS_MAGAZINE_APOTH", Predicates.alwaysFalse());
+        public static final TagKey<Enchantment> CAT_HAS_MAGAZINE = TagKey.create(Registries.ENCHANTMENT, loc("requires_magazine"));
 
-        private static final DeferredRegister<Enchantment> REGISTRY = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, MOD_ID);
-        public static final RegistryObject<Enchantment> STABILITY = REGISTRY.register("stability", ReduceRecoilEnchantment::new);
-        public static final RegistryObject<Enchantment> EMERGENCY_PROTECTOR = REGISTRY.register("emergency_protector", EmergencyProtectorEnchantment::new);
-        public static final RegistryObject<Enchantment> RIPTIDE_WARHEAD = REGISTRY.register("riptide_warhead", BulletRiptideEnchantment::new);
-        public static final RegistryObject<Enchantment> SURVIVAL_INSTINCT = REGISTRY.register("survival_instinct", SurvivalInstinctEnchantment::new);
-        public static final RegistryObject<Enchantment> LAST_STAND = REGISTRY.register("last_stand", LastStandEnchantment::new);
-        public static final RegistryObject<Enchantment> PROJECTION_MAGIC = REGISTRY.register("projection_magic", ProjectionMagicEnchantment::new);
-        public static final RegistryObject<Enchantment> PERFECT_BLOCK = REGISTRY.register("perfect_block", PerfectBlockEnchantment::new);
+        /**
+         * 开启供弹系附魔互相冲突的 tag
+         */
+        public static final TagKey<Enchantment> BULLET_REGENERATION_EXCLUSIVE = TagKey.create(Registries.ENCHANTMENT, loc("bullet_regeneration_exclusive"));
+
+        public static final ResourceKey<Enchantment> STABILITY = ResourceKey.create(Registries.ENCHANTMENT, loc("stability"));
+        public static final ResourceKey<Enchantment> EMERGENCY_PROTECTOR = ResourceKey.create(Registries.ENCHANTMENT, loc("emergency_protector"));
+        public static final ResourceKey<Enchantment> RIPTIDE_WARHEAD = ResourceKey.create(Registries.ENCHANTMENT, loc("riptide_warhead"));
+        public static final ResourceKey<Enchantment> SURVIVAL_INSTINCT = ResourceKey.create(Registries.ENCHANTMENT, loc("survival_instinct"));
+        public static final ResourceKey<Enchantment> LAST_STAND = ResourceKey.create(Registries.ENCHANTMENT, loc("last_stand"));
+        public static final ResourceKey<Enchantment> PROJECTION_MAGIC = ResourceKey.create(Registries.ENCHANTMENT, loc("projection_magic"));
+        public static final ResourceKey<Enchantment> PERFECT_BLOCK = ResourceKey.create(Registries.ENCHANTMENT, loc("perfect_block"));
     }
 
     public static final class LootFunctions {
-        public static final LootItemFunctionType APOTH_REFORGE = register("apoth_reforge", new ApothReforgeFunction.Serializer());
-
-        private LootFunctions() {
-        }
-
-        private static LootItemFunctionType register(String name, Serializer<? extends LootItemFunction> serializer) {
-            return Registry.register(
-                    BuiltInRegistries.LOOT_FUNCTION_TYPE,
-                    new ResourceLocation(ApotheosisModernRagnarok.MOD_ID, name),
-                    new LootItemFunctionType(serializer));
-        }
-
-        private static void init() {
-        }
-    }
-
-    @SuppressWarnings("SameParameterValue")
-    private static RegistryObject<Attribute> createAttribute(String name, double defaultValue, double min, double max) {
-        return createAttribute(name, defaultValue, min, max, (a) -> a.setSyncable(true));
-    }
-
-    private static RegistryObject<Attribute> createAttribute(String name, double defaultValue, double min, double max, Consumer<Attribute> customizer) {
-        return Attributes.REGISTRY.register(name, () -> {
-            RangedAttribute attribute = new RangedAttribute(createAttributeLangKey(name), defaultValue, min, max);
-            customizer.accept(attribute);
-            return attribute;
-        });
-    }
-
-    private static String createAttributeLangKey(String name) {
-        return "attribute.name.%s.%s".formatted(MOD_ID, name);
+        private static final DeferredRegister<LootItemFunctionType<?>> REGISTRY = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, MOD_ID);
+        public static final Supplier<LootItemFunctionType<ApothReforgeFunction>> APOTH_REFORGE = REGISTRY.register("apoth_reforge", () -> new LootItemFunctionType<>(ApothReforgeFunction.CODEC));
     }
 
     @SuppressWarnings("deprecation")
     public static void setup() {
-        LootFunctions.init();
         ExtraLootCategories.init();
-        GemInjectionRegistry.INSTANCE.registerToBus();
         AffixRegistry.INSTANCE.registerCodec(loc("bullet_saver"), BulletSaverAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("armor_squash"), ArmorSquashAffix.CODEC);
         AffixRegistry.INSTANCE.registerCodec(loc("explode_on_headshot"), ExplosionOnHeadshotAffix.CODEC);
@@ -231,21 +199,112 @@ public class ModContent {
 
     public static void init0(IEventBus bus) {
         Items.REGISTRY.register(bus);
-        Attributes.REGISTRY.register(bus);
         MobEffects.REGISTRY.register(bus);
-        Enchantments.REGISTRY.register(bus);
         Particles.REGISTRY.register(bus);
         Sounds.REGISTRY.register(bus);
+        // 1.21.1+ Begin
+        SinceMC1211.init(bus);
     }
 
-    public static void init1(ModLoadingContext context) {
+    public static void init1(ModContainer context) {
         context.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
         context.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
     }
 
-    private static RegistryObject<SoundEvent> registerSound(String path) {
+    private static DeferredHolder<SoundEvent, SoundEvent> registerSound(String path) {
         return Sounds.REGISTRY.register(path, () -> SoundEvent.createVariableRangeEvent(ApotheosisModernRagnarok.loc(path)));
     }
 
     private ModContent() {}
+
+    public static class SinceMC1211 {
+        public static class DataAttachments {
+            private static final DeferredRegister<AttachmentType<?>> REGISTRY = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MOD_ID);
+
+            public static final Supplier<AttachmentType<Long>> PERFECT_BLOCK_END_TIME = REGISTRY.register("perfect_block_end_time", DataAttachments::createLong);
+            public static final Supplier<AttachmentType<Double>> POSTURE = REGISTRY.register("posture", DataAttachments::createDouble);
+            public static final Supplier<AttachmentType<Long>> POSTURE_RECOVER_START_TIME = REGISTRY.register("posture_recover_start_time", DataAttachments::createLong);
+
+            public static final Supplier<AttachmentType<Boolean>> IS_BLOODY = REGISTRY.register("bloody", () -> AttachmentType
+                    .builder(() -> false)
+                    .serialize(Codec.BOOL).sync(ByteBufCodecs.BOOL)
+                    .build());
+            public static final Supplier<AttachmentType<Boolean>> IS_MAGICY = REGISTRY.register("magicy", () -> AttachmentType
+                    .builder(() -> false)
+                    .serialize(Codec.BOOL)
+                    .build());
+
+            public static final Supplier<AttachmentType<Double>> BULLET_UNDERWATER_FRICTION_FACTOR = REGISTRY.register("bullet_underwater_friction_factor", DataAttachments::createDouble);
+
+            private static AttachmentType<Long> createLong() {
+                return AttachmentType
+                        .builder(() -> 0L)
+                        .serialize(Codec.LONG).sync(ByteBufCodecs.VAR_LONG)
+                        .build();
+            }
+            private static AttachmentType<Double> createDouble() {
+                return AttachmentType
+                        .builder(() -> 1.0)
+                        .serialize(Codec.DOUBLE).sync(ByteBufCodecs.DOUBLE)
+                        .build();
+            }
+        }
+
+        public static class EnchantmentEffectComponents {
+            private static final DeferredRegister<DataComponentType<?>> REGISTRY = DeferredRegister.create(BuiltInRegistries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, MOD_ID);
+            public static final Supplier<DataComponentType<List<EnchantmentAttributeEffect>>> ATTRIBUTES_WHEN_AMMO_EMPTY = REGISTRY.register(
+                    "attributes_when_ammo_empty",
+                    () -> DataComponentType
+                            .<List<EnchantmentAttributeEffect>>builder()
+                            .persistent(EnchantmentAttributeEffect.CODEC.codec().listOf())
+                            .build()
+            );
+
+            public static final Supplier<DataComponentType<EnchantmentValueEffect>> PROJECTION_MAGIC_DELAY = REGISTRY.register(
+                    "projection_magic_delay",
+                    EnchantmentEffectComponents::value
+            );
+
+            public static final Supplier<DataComponentType<EnchantmentValueEffect>> BULLET_UNDERWATER_FRICTION = REGISTRY.register(
+                    "bullet_underwater_friction",
+                    EnchantmentEffectComponents::value
+            );
+
+            public static final Supplier<DataComponentType<EnchantmentValueEffect>> BULLET_DROP_RATE = REGISTRY.register(
+                    "bullet_drop_rate",
+                    EnchantmentEffectComponents::value
+            );
+
+            public static final Supplier<DataComponentType<EnchantmentValueEffect>> PERFECT_BLOCK_TIME_WINDOW = REGISTRY.register(
+                    "perfect_block_time_window",
+                    EnchantmentEffectComponents::value
+            );
+
+
+            private static DataComponentType<EnchantmentValueEffect> value() {
+                return DataComponentType
+                        .<EnchantmentValueEffect>builder()
+                        .persistent(EnchantmentValueEffect.CODEC)
+                        .build();
+            }
+        }
+
+        @SuppressWarnings("unused")
+        public static class EnchantmentValueTypes {
+            private static final DeferredRegister<MapCodec<? extends LevelBasedValue>> REGISTRY = DeferredRegister.create(BuiltInRegistries.ENCHANTMENT_LEVEL_BASED_VALUE_TYPE, MOD_ID);
+            public static final Supplier<MapCodec<FusedMultiplyAddFormula>> FUSED_MULTIPLY_ADD = REGISTRY.register(
+                    "fused_multiply_add", () -> FusedMultiplyAddFormula.CODEC
+            );            public static final Supplier<MapCodec<NashornJavascriptValue>> NASHORN_JAVASCRIPT = REGISTRY.register(
+                    "nashorn_javascript", () -> NashornJavascriptValue.CODEC
+            );
+        }
+
+        public static void init(IEventBus bus) {
+            LootFunctions.REGISTRY.register(bus);
+            DataAttachments.REGISTRY.register(bus);
+            EnchantmentEffectComponents.REGISTRY.register(bus);
+            EnchantmentValueTypes.REGISTRY.register(bus);
+            ExtraLootCategories.DFR.register(bus);
+        }
+    }
 }

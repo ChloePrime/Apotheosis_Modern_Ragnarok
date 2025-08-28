@@ -1,14 +1,13 @@
 package mod.chloeprime.apotheosismodernragnarok.api.events;
 
-import dev.shadowsoffire.apotheosis.adventure.affix.Affix;
+import dev.shadowsoffire.apotheosis.affix.Affix;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.eventbus.api.Cancelable;
+import net.neoforged.bus.api.ICancellableEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
 
-@Cancelable
-public class ArmorSquashAffixTakeEffectEvent extends LivingEvent {
+public class ArmorSquashAffixTakeEffectEvent extends LivingEvent implements ICancellableEvent {
     private final Entity shooter;
     private final Affix affix;
 

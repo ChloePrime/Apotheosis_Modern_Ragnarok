@@ -5,7 +5,7 @@ import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;
 import com.tacz.guns.api.event.common.GunFireEvent;
 import com.tacz.guns.api.item.IGun;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixInstance;
+import dev.shadowsoffire.apotheosis.affix.AffixInstance;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AdsPickTargetHookAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.GunAffix;
 import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GunGemBonus;
@@ -16,15 +16,15 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class GunAffixTrigger {
     @SubscribeEvent
     public static void shot(GunFireEvent event) {
@@ -144,16 +144,16 @@ public class GunAffixTrigger {
     private static final List<AffixInstance> AFFIX_INSTANCE_BUFFER = new ArrayList<>(8);
 
     @SubscribeEvent
-    public static void tick(TickEvent.LevelTickEvent event) {
-        if (event.level.isClientSide) {
+    public static void tick(LevelTickEvent.Post event) {
+        if (event.getLevel().isClientSide) {
             return;
         }
-        var level = ((ServerLevel) event.level);
+        var level = ((ServerLevel) event.getLevel());
         if ((level.getGameTime() & 1) == 0) {
             return;
         }
         var simDistanceBlocks = level.getServer().getPlayerList().getSimulationDistance() * 16;
-        for (Player player : event.level.players()) {
+        for (Player player : event.getLevel().players()) {
             if (IGun.mainHandHoldGun(player)) {
                 if (IGunOperator.fromLivingEntity(player).getSynAimingProgress() >= 0.9) {
                     tryTriggerAdsPickHook(player, simDistanceBlocks);

@@ -1,15 +1,14 @@
 package mod.chloeprime.apotheosismodernragnarok.client;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.loading.FMLLoader;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ClientConfig {
-    public static final boolean ENABLED = FMLLoader.getDist().isClient();
-    public static final ForgeConfigSpec SPEC;
-    public static final ForgeConfigSpec.BooleanValue DISABLE_EXTRA_PARTICLES;
+    public static final boolean ENABLED = net.neoforged.fml.loading.FMLLoader.getDist().isClient();
+    public static final ModConfigSpec SPEC;
+    public static final ModConfigSpec.BooleanValue DISABLE_EXTRA_PARTICLES;
 
     static {
-        var builder = new ForgeConfigSpec.Builder();
+        var builder = new ModConfigSpec.Builder();
 
         DISABLE_EXTRA_PARTICLES = builder
                 .comment("""

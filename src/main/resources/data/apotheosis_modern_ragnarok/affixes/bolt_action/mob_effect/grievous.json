@@ -1,9 +1,20 @@
 {
   "type": "apotheosis:mob_effect",
-  "mob_effect": "attributeslib:grievous",
+  "definition": {
+    "affix_type": "basic_effect",
+    "exclusive_set": [],
+    "weights": {
+      "quality": 0.1,
+      "weight": 25
+    }
+  },
+  "types": [
+    "apotheosis_modern_ragnarok:bolt_action"
+  ],
+  "mob_effect": "apothic_attributes:grievous",
   "target": "ARROW_TARGET",
   "values": {
-    "rare": {
+    "apotheosis:rare": {
       "duration": {
         "min": 200,
         "steps": 60,
@@ -12,7 +23,7 @@
       "amplifier": 0,
       "cooldown": 0
     },
-    "epic": {
+    "apotheosis:epic": {
       "duration": {
         "min": 500,
         "steps": 200,
@@ -21,7 +32,7 @@
       "amplifier": 0,
       "cooldown": 0
     },
-    "mythic": {
+    "apotheosis:mythic": {
       "duration": {
         "min": 200,
         "steps": 100,
@@ -30,7 +41,7 @@
       "amplifier": 1,
       "cooldown": 0
     },
-    "ancient": {
+    "apotheosis_modern_ragnarok:ancient": {
       "duration": {
         "min": 100,
         "steps": 100,
@@ -39,8 +50,5 @@
       "amplifier": 2,
       "cooldown": 0
     }
-  },
-  "types": [
-    "apotheosis_modern_ragnarok:bolt_action"
-  ]
+  }
 }

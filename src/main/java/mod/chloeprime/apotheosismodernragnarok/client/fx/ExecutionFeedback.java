@@ -7,17 +7,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.random.RandomGenerator;
 
-@Mod.EventBusSubscriber(Dist.CLIENT)
+@EventBusSubscriber(Dist.CLIENT)
 public class ExecutionFeedback {
     private static final RandomGenerator RNG = new Random();
     private static final Minecraft MC = Minecraft.getInstance();
@@ -57,7 +57,7 @@ public class ExecutionFeedback {
     }
 
     @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
+    public static void onClientTick(ClientTickEvent.Pre event) {
         var level = MC.level;
         if (level == null) {
             PLANS.clear();
@@ -98,7 +98,7 @@ public class ExecutionFeedback {
         ((BoostableParticle) blood).amr$boost(speed / force);
     }
 
-    @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(Dist.CLIENT)
     public static final class ParticleRegistrar {
         @SubscribeEvent
         public static void onRegisterProviders(RegisterParticleProvidersEvent event) {

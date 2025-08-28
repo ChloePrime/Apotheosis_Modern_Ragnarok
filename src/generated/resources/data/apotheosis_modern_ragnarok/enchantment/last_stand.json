@@ -1,0 +1,34 @@
+{
+    "anvil_cost": 2,
+    "description": {
+        "translate": "enchantment.apotheosis_modern_ragnarok.last_stand"
+    },
+    "effects": {
+        "apotheosis_modern_ragnarok:attributes_when_ammo_empty": [
+            {
+                "amount": {
+                    "type": "minecraft:linear",
+                    "base": 0.1,
+                    "per_level_above_first": 0.1
+                },
+                "attribute": "minecraft:generic.attack_damage",
+                "id": "apotheosis_modern_ragnarok:enchantment.last_stand",
+                "operation": "add_multiplied_total"
+            }
+        ]
+    },
+    "max_cost": {
+        "base": 55,
+        "per_level_above_first": 20
+    },
+    "max_level": 2,
+    "min_cost": {
+        "base": 5,
+        "per_level_above_first": 20
+    },
+    "slots": [
+        "mainhand"
+    ],
+    "supported_items": "tacz:modern_kinetic_gun",
+    "weight": 3
+}

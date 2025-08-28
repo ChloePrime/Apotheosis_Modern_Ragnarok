@@ -1,9 +1,7 @@
 {
   "required": true,
-  "minVersion": "0.8",
   "package": "mod.chloeprime.apotheosismodernragnarok.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "refmap": "apotheosis_modern_ragnarok.refmap.json",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
     "apoth.AffixAdaptableMixin$Potion",
     "apoth.AffixAdaptableMixin$Telepathic",
@@ -12,22 +10,22 @@
     "apoth.MagicDamageReductionFixMixin",
     "apoth.MeleeGunIsSwordMixin",
     "apoth.MixinAttributeLibAttributeEvents",
-    "apoth.MixinGem",
     "apoth.MixinLootCategory",
     "apoth.MixinLootController",
-    "hacks.InterfaceDefaultImplInjectors$Item",
+    "minecraft.BloodBulletMixin$BypassInvulnerability",
+    "minecraft.BloodBulletMixin$MixinEntityKineticBulletHigh",
+    "minecraft.BloodBulletMixin$ReduceDefenseEffort",
     "minecraft.LivingEntityAccessor",
     "minecraft.LootPoolAccessor",
     "minecraft.LootTableAccessor",
     "minecraft.MakeGunEnchantableMixin",
+    "minecraft.MakeGunEnchantableMixin$MixinItemExtensionInterface",
     "minecraft.MixinDamageSource",
     "minecraft.MixinLivingEntity",
-    "minecraft.MixinMinecraftServer",
     "minecraft.MixinMobEffectInstance",
     "tacz.EntityKineticBulletAccessor",
     "tacz.MixinAbstractGunItem",
     "tacz.MixinEntityKineticBullet",
-    "tacz.MixinEntityKineticBulletHigh",
     "tacz.MixinModernKineticGunItem",
     "tacz.MixinModernKineticGunScriptAPI",
     "tacz.gunpack.MixinGunData"
@@ -44,5 +42,8 @@
   ],
   "injectors": {
     "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
   }
 }

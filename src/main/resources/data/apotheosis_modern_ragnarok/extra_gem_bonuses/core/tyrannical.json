@@ -1,0 +1,57 @@
+{
+  "gem": "apotheosis:core/tyrannical",
+  "bonuses": [
+    {
+      "type": "apotheosis_modern_ragnarok:mob_effect_when_shoot",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.full_auto",
+        "types": [
+          "apotheosis_modern_ragnarok:full_auto"
+        ]
+      },
+      "mob_effect": "apotheosis_modern_ragnarok:tyranny",
+      "values": {
+        "cracked": {
+          "duration": 10,
+          "amplifier": 0,
+          "cooldown": 0
+        },
+        "chipped": {
+          "duration": 10,
+          "amplifier": 0,
+          "cooldown": 0
+        },
+        "flawed": {
+          "duration": 10,
+          "amplifier": 0,
+          "cooldown": 0
+        },
+        "normal": {
+          "duration": 10,
+          "amplifier": 0,
+          "cooldown": 0
+        },
+        "flawless": {
+          "duration": 10,
+          "amplifier": 1,
+          "cooldown": 0
+        },
+        "perfect": {
+          "duration": 10,
+          "amplifier": 1,
+          "cooldown": 0
+        }
+      },
+      "stack_on_reapply": true,
+      "max_level": {
+        "cracked": 10,
+        "chipped": 15,
+        "flawed": 30,
+        "normal": 50,
+        "flawless": 75,
+        "perfect": 100
+      },
+      "custom_description": "bonus.apotheosis_modern_ragnarok.tyrannical.desc"
+    }
+  ]
+}

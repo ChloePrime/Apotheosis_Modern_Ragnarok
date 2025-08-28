@@ -2,15 +2,16 @@ package mod.chloeprime.apotheosismodernragnarok.common.enchantment;
 
 import com.tacz.guns.api.entity.IGunOperator;
 import com.tacz.guns.api.event.common.GunMeleeEvent;
-import dev.shadowsoffire.apotheosis.Apotheosis;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.CommonConfig;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent.SinceMC1211.EnchantmentEffectComponents;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.category.GunPredicate;
 import mod.chloeprime.apotheosismodernragnarok.common.eventhandlers.GunCritFix;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.PerfectBlockEnchantmentUser;
+import mod.chloeprime.apotheosismodernragnarok.common.util.MC121Utils;
 import mod.chloeprime.apotheosismodernragnarok.common.util.PostureSystem;
 import mod.chloeprime.apotheosismodernragnarok.mixin.minecraft.LivingEntityAccessor;
 import mod.chloeprime.apotheosismodernragnarok.network.ModNetwork;
@@ -23,25 +24,22 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.entity.PartEntity;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.loading.FMLLoader;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.entity.PartEntity;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nullable;
@@ -50,45 +48,27 @@ import java.util.*;
 /**
  * 完美招架
  */
-@Mod.EventBusSubscriber
-public class PerfectBlockEnchantment extends Enchantment {
+@EventBusSubscriber
+public class PerfectBlockEnchantment {
     public static final long CANNOT_BLOCK_DELAY_AFTER_HURT = 10;
     public static final ResourceKey<DamageType> EXECUTION_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, ApotheosisModernRagnarok.loc("execution"));
     private static final boolean IS_DEV = !FMLLoader.isProduction();
 
-    public PerfectBlockEnchantment() {
-        this(Rarity.RARE, ModContent.Enchantments.CAT_MELEE_CAPABLE, EquipmentSlot.MAINHAND);
-    }
-
-    public PerfectBlockEnchantment(Rarity rarity, EnchantmentCategory category, EquipmentSlot... applicableSlots) {
-        super(rarity, category, applicableSlots);
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @Override
-    public int getMaxLevel() {
-        return 3;
-    }
-
-    @Override
-    public int getMinCost(int level) {
-        return Apotheosis.enableEnch
-                ? 15 + level * level * 4 // 22 ~
-                : 15 + level * 5; // 20 ~ 30
-    }
-
-    @Override
-    public int getMaxCost(int pLevel) {
-        return 50000;
-    }
-
-    private long getDefenseDurationTicks(int enchantLevel) {
+    private static long getDefenseTimeWindow(ItemStack stack, RandomSource random) {
         // 开发环境下判定时间+1秒，方便测试
-        return 1 + enchantLevel + (IS_DEV ? 20 : 0);
+        var base = Math.max(0, Math.round(MC121Utils.evaluateEnchantValue(
+                EnchantmentEffectComponents.PERFECT_BLOCK_TIME_WINDOW.get(),
+                stack, random, 0
+        )));
+        if (base == 0) {
+            return 0;
+        }
+        var extra = IS_DEV ? 20 : 0;
+        return base + extra;
     }
 
     @SubscribeEvent
-    public void onGunMelee(GunMeleeEvent event) {
+    public static void onGunMelee(GunMeleeEvent event) {
         var shooter = event.getShooter();
         if (shooter.level().isClientSide) {
             return;
@@ -101,20 +81,19 @@ public class PerfectBlockEnchantment extends Enchantment {
         if (gun == null || GunPredicate.isDedicatedTaCZMeleeWeapon(gun.index())) {
             return;
         }
-        var enchantLevel = gun.gunStack().getEnchantmentLevel(this);
-        if (enchantLevel <= 0) {
+        var period = getDefenseTimeWindow(gun.gunStack(), shooter.getRandom());
+        if (period <= 0) {
             return;
         }
         var now = shooter.level().getGameTime();
-        var period = getDefenseDurationTicks(enchantLevel);
         user.amr$setPerfectBlockEndTime(now + period);
     }
 
     /**
      * 受伤后5tick内无法完美格挡
      */
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onLivingHurt(LivingDamageEvent event) {
+    @SubscribeEvent
+    public static void onLivingHurt(LivingDamageEvent.Post event) {
         if (!canTrigger(event.getEntity(), event.getSource())) {
             return;
         }
@@ -211,8 +190,8 @@ public class PerfectBlockEnchantment extends Enchantment {
         entity.getEntityData().set(LivingEntityAccessor.getDataHealthId(), Mth.clamp(value, 0, entity.getMaxHealth()));
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void boostRangedDamageWhenPostureBroken(LivingDamageEvent event) {
+    @SubscribeEvent
+    public static void boostRangedDamageWhenPostureBroken(LivingDamageEvent.Pre event) {
         var victim = event.getEntity();
         if (victim.level().isClientSide) {
             return;
@@ -225,7 +204,7 @@ public class PerfectBlockEnchantment extends Enchantment {
                 return;
             }
             if (PostureSystem.isPostureBroken(victim)) {
-                event.setAmount(event.getAmount() * CommonConfig.POSTURE_BREAK_RANGED_DAMAGE_BONUS.get().floatValue());
+                event.setNewDamage(event.getNewDamage() * CommonConfig.POSTURE_BREAK_RANGED_DAMAGE_BONUS.get().floatValue());
                 if (actual instanceof LivingEntity attacker) {
                     GunCritFix.criticalFeedback(attacker, victim);
                 }
@@ -278,11 +257,7 @@ public class PerfectBlockEnchantment extends Enchantment {
     }
 
     @SubscribeEvent
-    public static void onEndOfTick(TickEvent.ServerTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) {
-            return;
-        }
-
+    public static void onEndOfTick(ServerTickEvent.Post event) {
         PROJECTILE_ASYNC_REFLECT_TABLE.forEach((projectile, velocity) -> {
             if (projectile.isAlive()) {
                 projectile.setDeltaMovement(velocity.scale(-1));

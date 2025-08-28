@@ -1,0 +1,45 @@
+{
+  "gem": "apotheosis:core/warlord",
+  "bonuses": [
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.all_auto_including_shotgun",
+        "types": [
+          "apotheosis_modern_ragnarok:full_auto",
+          "apotheosis_modern_ragnarok:semi_auto",
+          "apotheosis_modern_ragnarok:shotgun"
+        ]
+      },
+      "attribute": "apothic_attributes:crit_damage",
+      "operation": "add_value",
+      "values": {
+        "cracked": 0.05,
+        "chipped": 0.10,
+        "flawed": 0.15,
+        "normal": 0.20,
+        "flawless": 0.25,
+        "perfect": 0.30
+      }
+    },
+    {
+      "type": "apotheosis:attribute",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.bolt_action",
+        "types": [
+          "apotheosis_modern_ragnarok:bolt_action"
+        ]
+      },
+      "attribute": "apothic_attributes:crit_damage",
+      "operation": "add_value",
+      "values": {
+        "cracked": 0.075,
+        "chipped": 0.15,
+        "flawed": 0.225,
+        "normal": 0.3,
+        "flawless": 0.35,
+        "perfect": 0.4
+      }
+    }
+  ]
+}

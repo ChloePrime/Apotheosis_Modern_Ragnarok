@@ -8,13 +8,13 @@ import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.joml.Vector3f;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(Dist.CLIENT)
 public class MagicalShotAffixVisuals {
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Vector3f.class, new Vector3fSerializer())
@@ -47,8 +47,10 @@ public class MagicalShotAffixVisuals {
 
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
-        MAGIC_PARTICLE.setParticleOptions(ParticleTypes.ELECTRIC_SPARK);
-        BLOOD_PARTICLE.setParticleOptions(ModContent.Particles.BLOOD.get());
+        event.enqueueWork(() -> {
+            MAGIC_PARTICLE.setParticleOptions(ParticleTypes.ELECTRIC_SPARK);
+            BLOOD_PARTICLE.setParticleOptions(ModContent.Particles.BLOOD.get());
+        });
     }
 
     public static boolean isMagicGunState;

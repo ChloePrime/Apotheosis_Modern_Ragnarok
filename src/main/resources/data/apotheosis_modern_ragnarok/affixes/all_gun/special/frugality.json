@@ -1,25 +1,11 @@
 {
   "type": "apotheosis_modern_ragnarok:bullet_saver",
-  "values": {
-    "rare": {
-      "min": 0.1,
-      "steps": 5,
-      "step": 0.02
-    },
-    "epic": {
-      "min": 0.1,
-      "steps": 20,
-      "step": 0.01
-    },
-    "mythic": {
-      "min": 0.2,
-      "steps": 30,
-      "step": 0.01
-    },
-    "ancient": {
-      "min": 0.6,
-      "steps": 35,
-      "step": 0.01
+  "definition": {
+    "affix_type": "ability",
+    "exclusive_set": [],
+    "weights": {
+      "quality": 0.1,
+      "weight": 25
     }
   },
   "types": [
@@ -27,5 +13,27 @@
     "apotheosis_modern_ragnarok:full_auto",
     "apotheosis_modern_ragnarok:semi_auto",
     "apotheosis_modern_ragnarok:bolt_action"
-  ]
+  ],
+  "values": {
+    "apotheosis:rare": {
+      "min": 0.1,
+      "steps": 5,
+      "step": 0.02
+    },
+    "apotheosis:epic": {
+      "min": 0.1,
+      "steps": 20,
+      "step": 0.01
+    },
+    "apotheosis:mythic": {
+      "min": 0.2,
+      "steps": 30,
+      "step": 0.01
+    },
+    "apotheosis_modern_ragnarok:ancient": {
+      "min": 0.6,
+      "steps": 35,
+      "step": 0.01
+    }
+  }
 }

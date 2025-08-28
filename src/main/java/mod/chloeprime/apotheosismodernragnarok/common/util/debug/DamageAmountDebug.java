@@ -4,8 +4,8 @@ import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ public class DamageAmountDebug {
     private final Map<Pair<LivingEntity, LivingEntity>, Float> CACHE = new WeakHashMap<>();
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void preGunHurt(EntityHurtByGunEvent.Pre event) {
+    public final void preGunHurt(EntityHurtByGunEvent.Pre event) {
         Optional.ofNullable(event.getAttacker()).ifPresent(attacker -> {
             if (!(event.getHurtEntity() instanceof LivingEntity victim)) {
                 return;
@@ -29,12 +29,12 @@ public class DamageAmountDebug {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void postGunHurt(EntityHurtByGunEvent.Post event) {
+    public final void postGunHurt(EntityHurtByGunEvent.Post event) {
         postHurtOrKill(event.getAttacker(), event.getHurtEntity());
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void postGunKill(EntityKillByGunEvent event) {
+    public final void postGunKill(EntityKillByGunEvent event) {
         postHurtOrKill(event.getAttacker(), event.getKilledEntity());
     }
 

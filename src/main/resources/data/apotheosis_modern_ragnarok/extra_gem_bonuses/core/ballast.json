@@ -1,0 +1,117 @@
+{
+  "gem": "apotheosis:core/ballast",
+  "bonuses": [
+    {
+      "__comment": "自动武器",
+      "type": "apotheosis:multi_attribute",
+      "desc": "bonus.apotheosis:multi_attr.desc.and",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.all_auto",
+        "types": [
+          "apotheosis_modern_ragnarok:full_auto",
+          "apotheosis_modern_ragnarok:semi_auto"
+        ]
+      },
+      "modifiers": [
+        {
+          "attribute": "gunsmithlib:bullet_damage",
+          "operation": "add_value",
+          "values": {
+            "cracked": 0.8,
+            "chipped": 1.6,
+            "flawed": 2.8,
+            "normal": 4.2,
+            "flawless": 5.6,
+            "perfect": 8
+          }
+        },
+        {
+          "attribute": "gunsmithlib:vert_recoil",
+          "operation": "add_multiplied_base",
+          "values": {
+            "cracked": -0.04,
+            "chipped": -0.06,
+            "flawed": -0.1,
+            "normal": -0.14,
+            "flawless": -0.18,
+            "perfect": -0.2
+          }
+        }
+      ]
+    },
+    {
+      "__comment": "霰弹枪",
+      "type": "apotheosis:multi_attribute",
+      "desc": "bonus.apotheosis:multi_attr.desc.and",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.shotgun",
+        "types": [
+          "apotheosis_modern_ragnarok:shotgun"
+        ]
+      },
+      "modifiers": [
+        {
+          "attribute": "gunsmithlib:bullet_damage",
+          "operation": "add_value",
+          "values": {
+            "cracked": 0.13,
+            "chipped": 0.25,
+            "flawed": 0.45,
+            "normal": 0.6,
+            "flawless": 1,
+            "perfect": 1.6
+          }
+        },
+        {
+          "attribute": "gunsmithlib:vert_recoil",
+          "operation": "add_multiplied_base",
+          "values": {
+            "cracked": -0.05,
+            "chipped": -0.075,
+            "flawed": -0.125,
+            "normal": -0.175,
+            "flawless": -0.225,
+            "perfect": -0.25
+          }
+        }
+      ]
+    },
+    {
+      "__comment": "拉大栓",
+      "type": "apotheosis:multi_attribute",
+      "desc": "bonus.apotheosis:multi_attr.desc.and",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.bolt_action",
+        "types": [
+          "apotheosis_modern_ragnarok:bolt_action"
+        ]
+      },
+      "modifiers": [
+        {
+          "attribute": "gunsmithlib:bullet_damage",
+          "operation": "add_value",
+          "values": {
+            "cracked": 2,
+            "chipped": 4,
+            "flawed": 7,
+            "normal": 10,
+            "flawless": 16,
+            "perfect": 24
+          }
+        },
+        {
+          "attribute": "gunsmithlib:vert_recoil",
+          "operation": "add_multiplied_base",
+          "values": {
+            "cracked": -0.05,
+            "chipped": -0.075,
+            "flawed": -0.125,
+            "normal": -0.175,
+            "flawless": -0.225,
+            "perfect": -0.25
+          }
+        }
+      ]
+    }
+  ]
+}

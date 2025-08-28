@@ -7,19 +7,21 @@ import mod.chloeprime.apotheosismodernragnarok.common.CommonConfig;
 import mod.chloeprime.apotheosismodernragnarok.mixin.minecraft.LootPoolAccessor;
 import mod.chloeprime.apotheosismodernragnarok.mixin.minecraft.LootTableAccessor;
 import mod.chloeprime.gunsmithlib.api.common.GunLootFunctions;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
-import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.LootTableLoadEvent;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class DefaultLootInjections {
     @SubscribeEvent
     public static void onLootTableLoad(LootTableLoadEvent event) {
@@ -29,39 +31,39 @@ public class DefaultLootInjections {
             // 考古
             case "minecraft:archaeology/trail_ruins_rare":
                 if (CommonConfig.INJECT_ARCHEOLOGY_LOOT_TABLES.get()) {
-                    injectArcheology(table, new ResourceLocation("tacz", "springfield1873"));
-                    injectArcheology(table, new ResourceLocation("tacz", "m1911"));
-                    injectArcheology(table, new ResourceLocation("tacz", "db_short"));
-                    injectArcheology(table, new ResourceLocation("tacz", "db_long"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("tacz", "springfield1873"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("tacz", "m1911"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("tacz", "db_short"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("tacz", "db_long"));
                     // 硝烟革命兼容: 手枪
-                    injectArcheology(table, new ResourceLocation("hamster", "webley"));
-                    injectArcheology(table, new ResourceLocation("hamster", "m1879revolver"));
-                    injectArcheology(table, new ResourceLocation("hamster", "coltm1851"));
-                    injectArcheology(table, new ResourceLocation("hamster", "sw_mk2"));
-                    injectArcheology(table, new ResourceLocation("hamster", "colt1873"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "webley"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "m1879revolver"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "coltm1851"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "sw_mk2"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "colt1873"));
                     // 硝烟革命兼容: 狙击枪
-                    injectArcheology(table, new ResourceLocation("hamster", "gew98"));
-                    injectArcheology(table, new ResourceLocation("hamster", "smle_mk3"));
-                    injectArcheology(table, new ResourceLocation("hamster", "mosin9130"));
-                    injectArcheology(table, new ResourceLocation("hamster", "win1894"));
-                    injectArcheology(table, new ResourceLocation("hamster", "type99"));
-                    injectArcheology(table, new ResourceLocation("hamster", "gras1874"));
-                    injectArcheology(table, new ResourceLocation("hamster", "m1903"));
-                    injectArcheology(table, new ResourceLocation("hamster", "sharps"));
-                    injectArcheology(table, new ResourceLocation("hamster", "martinihenry"));
-                    injectArcheology(table, new ResourceLocation("hamster", "lebel1886"));
-                    injectArcheology(table, new ResourceLocation("hamster", "berthier"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "gew98"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "smle_mk3"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "mosin9130"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "win1894"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "type99"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "gras1874"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "m1903"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "sharps"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "martinihenry"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "lebel1886"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "berthier"));
                     // 硝烟革命兼容: 霰弹枪
-                    injectArcheology(table, new ResourceLocation("hamster", "m1887"));
-                    injectArcheology(table, new ResourceLocation("hamster", "one_barrel"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "m1887"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "one_barrel"));
                 }
                 break;
             case "minecraft:archaeology/desert_pyramid":
             case "minecraft:archaeology/desert_well":
                 if (CommonConfig.INJECT_ARCHEOLOGY_LOOT_TABLES.get()) {
-                    injectArcheology(table, new ResourceLocation("hamster", "mosin9130"));
-                    injectArcheology(table, new ResourceLocation("hamster", "sks"));
-                    injectArcheology(table, new ResourceLocation("hamster", "one_barrel"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "mosin9130"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "sks"));
+                    injectArcheology(table, ResourceLocation.fromNamespaceAndPath("hamster", "one_barrel"));
                 }
                 break;
             // 箱子：新手礼包
@@ -174,7 +176,7 @@ public class DefaultLootInjections {
             pool = pool.when(LootItemRandomChanceCondition.randomChance(chance));
         }
         table.addPool(pool
-                .add(LootTableReference.lootTableReference(ApotheosisModernRagnarok.loc(name)))
+                .add(NestedLootTable.lootTableReference(ResourceKey.create(Registries.LOOT_TABLE, ApotheosisModernRagnarok.loc(name))))
                 .build());
     }
 
@@ -186,9 +188,9 @@ public class DefaultLootInjections {
                 .lootTableItem(ModItems.MODERN_KINETIC_GUN.get())
                 .when(GunLootFunctions.isGunInstalled(gunId))
                 .apply(GunLootFunctions.initGunInfo(gunId))
-                .apply(ApothReforgeFunction.apothReforge(new ResourceLocation("apotheosis:uncommon")))
-                .apply(reforgeWithCondition(new ResourceLocation("apotheosis:rare"), 0.25F))
-                .apply(reforgeWithCondition(new ResourceLocation("apotheosis:epic"), 0.1F));
+                .apply(ApothReforgeFunction.apothReforge(ResourceLocation.parse("apotheosis:uncommon")))
+                .apply(reforgeWithCondition(ResourceLocation.parse("apotheosis:rare"), 0.25F))
+                .apply(reforgeWithCondition(ResourceLocation.parse("apotheosis:epic"), 0.1F));
 
 
         if (pool == null) {
@@ -197,7 +199,7 @@ public class DefaultLootInjections {
             var accessor = (LootPoolAccessor) pool;
             var entries = Lists.newArrayList(accessor.getEntries());
             entries.add(entry.build());
-            accessor.setEntries(entries.toArray(new LootPoolEntryContainer[0]));
+            accessor.setEntries(entries);
         }
     }
 

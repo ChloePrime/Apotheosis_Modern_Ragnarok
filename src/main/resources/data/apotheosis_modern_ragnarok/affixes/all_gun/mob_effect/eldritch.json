@@ -1,39 +1,11 @@
 {
   "type": "apotheosis_modern_ragnarok:mob_effect_ads",
-  "mob_effect": "minecraft:weakness",
-  "target": "ADS_TARGET",
-  "values": {
-    "rare": {
-      "duration": {
-        "min": 10,
-        "steps": 5,
-        "step": 1
-      },
-      "amplifier": 0
-    },
-    "epic": {
-      "duration": {
-        "min": 50,
-        "steps": 20,
-        "step": 1
-      },
-      "amplifier": 1
-    },
-    "mythic": {
-      "duration": 60,
-      "amplifier": {
-        "min": 2,
-        "steps": 3,
-        "step": 0.4
-      }
-    },
-    "ancient": {
-      "duration": 100,
-      "amplifier": {
-        "min": 3,
-        "steps": 5,
-        "step": 0.41
-      }
+  "definition": {
+    "affix_type": "basic_effect",
+    "exclusive_set": [],
+    "weights": {
+      "quality": 0.1,
+      "weight": 25
     }
   },
   "types": [
@@ -41,5 +13,41 @@
     "apotheosis_modern_ragnarok:full_auto",
     "apotheosis_modern_ragnarok:semi_auto",
     "apotheosis_modern_ragnarok:bolt_action"
-  ]
+  ],
+  "mob_effect": "minecraft:weakness",
+  "target": "ADS_TARGET",
+  "values": {
+    "apotheosis:rare": {
+      "duration": {
+        "min": 10,
+        "steps": 5,
+        "step": 1
+      },
+      "amplifier": 0
+    },
+    "apotheosis:epic": {
+      "duration": {
+        "min": 50,
+        "steps": 20,
+        "step": 1
+      },
+      "amplifier": 1
+    },
+    "apotheosis:mythic": {
+      "duration": 60,
+      "amplifier": {
+        "min": 2,
+        "steps": 3,
+        "step": 0.4
+      }
+    },
+    "apotheosis_modern_ragnarok:ancient": {
+      "duration": 100,
+      "amplifier": {
+        "min": 3,
+        "steps": 5,
+        "step": 0.41
+      }
+    }
+  }
 }

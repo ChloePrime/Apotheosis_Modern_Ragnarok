@@ -3,8 +3,8 @@ package mod.chloeprime.apotheosismodernragnarok.mixin.minecraft;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
 import mod.chloeprime.apotheosismodernragnarok.common.enchantment.PerfectBlockEnchantment;
-import mod.chloeprime.apotheosismodernragnarok.common.gem.content.BloodBulletBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.internal.*;
 import mod.chloeprime.apotheosismodernragnarok.common.util.PostureSystem;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,8 +29,7 @@ abstract class MixinLivingEntity extends Entity implements
         BulletSaverAffixUser,
         ProjectionMagicUser,
         PerfectBlockEnchantmentUser,
-        BloodBulletUser,
-        PostureHolder
+        BloodBulletUser
 {
     @ApiStatus.Internal
     public MixinLivingEntity(EntityType<?> pEntityType, Level pLevel) {
@@ -98,41 +97,18 @@ abstract class MixinLivingEntity extends Entity implements
         amr$defenseIgnoreRatio = value;
     }
 
-    @WrapOperation(
-            method = "hurt",
-            at = @At(value = "INVOKE", remap = false, target = "Lnet/minecraftforge/common/ForgeHooks;onLivingAttack(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
-    private static boolean onLivingAttack(LivingEntity victim, DamageSource src, float amount, Operation<Boolean> original) {
-        return BloodBulletBonus.onLivingAttack(src, amount, () -> original.call(victim, src, amount));
-    }
-
-    @WrapOperation(
-            method = "actuallyHurt",
-            at = @At(value = "INVOKE", remap = false, target = "Lnet/minecraftforge/common/ForgeHooks;onLivingHurt(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/damagesource/DamageSource;F)F"))
-    private static float onLivingHurt(LivingEntity victim, DamageSource src, float amount, Operation<Float> original) {
-        return BloodBulletBonus.onLivingHurt(src, amount, () -> original.call(victim, src, amount));
-    }
-
-    @WrapOperation(
-            method = "actuallyHurt",
-            at = @At(value = "INVOKE", remap = false, target = "Lnet/minecraftforge/common/ForgeHooks;onLivingDamage(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/damagesource/DamageSource;F)F"))
-    private static float onLivingDamage(LivingEntity victim, DamageSource src, float amount, Operation<Float> original) {
-        return BloodBulletBonus.onLivingDamage(src, amount, () -> original.call(victim, src, amount));
-    }
-
     // 完美招架附魔
 
-    private @Unique long amr$perfectBlockEndTime;
     private @Unique long amr$cannotPerfectBlockEndTime;
-    private @Unique long amr$startRecoverPostureTime;
 
     @Override
     public long amr$getPerfectBlockEndTime() {
-        return amr$perfectBlockEndTime;
+        return getData(ModContent.SinceMC1211.DataAttachments.PERFECT_BLOCK_END_TIME);
     }
 
     @Override
     public void amr$setPerfectBlockEndTime(long value) {
-        amr$perfectBlockEndTime = value;
+        setData(ModContent.SinceMC1211.DataAttachments.PERFECT_BLOCK_END_TIME, value);
     }
 
     @Override
@@ -173,7 +149,7 @@ abstract class MixinLivingEntity extends Entity implements
     @Inject(method = "hurt",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraftforge/common/ForgeHooks;onLivingAttack(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/damagesource/DamageSource;F)Z",
+                    target = "Lnet/neoforged/neoforge/common/CommonHooks;onEntityIncomingDamage(Lnet/minecraft/world/entity/LivingEntity;Lnet/neoforged/neoforge/common/damagesource/DamageContainer;)Z",
                     remap = false,
                     shift = At.Shift.AFTER),
             cancellable = true)
@@ -193,16 +169,6 @@ abstract class MixinLivingEntity extends Entity implements
         }
         PerfectBlockEnchantment.onPerfectBlockTriggered(user, source);
         cir.setReturnValue(false);
-    }
-
-    @Override
-    public long amr$getStartRecoverPostureTime() {
-        return amr$startRecoverPostureTime;
-    }
-
-    @Override
-    public void amr$setStartRecoverPostureTime(long value) {
-        amr$startRecoverPostureTime = value;
     }
 
     @Shadow private int noJumpDelay;

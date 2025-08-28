@@ -2,17 +2,17 @@
   "type": "apotheosis_modern_ragnarok:dummy_coefficient",
   "affix_type": "ABILITY",
   "values": {
-    "epic": {
+    "apotheosis:epic": {
       "min": 9,
       "steps": 4,
       "step": 0.5
     },
-    "mythic": {
+    "apotheosis:mythic": {
       "min": 50,
       "steps": 20,
       "step": 1
     },
-    "ancient": {
+    "apotheosis_modern_ragnarok:ancient": {
       "min": 110,
       "steps": 20,
       "step": 1

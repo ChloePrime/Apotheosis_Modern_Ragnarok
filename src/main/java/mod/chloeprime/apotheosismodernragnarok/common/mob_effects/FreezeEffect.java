@@ -2,8 +2,10 @@ package mod.chloeprime.apotheosismodernragnarok.common.mob_effects;
 
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.util.EffectHelper;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -12,39 +14,37 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.Optional;
-import java.util.UUID;
 
 public class FreezeEffect extends MobEffect {
-    public static final UUID SPEED_MODIFIER_UUID = UUID.fromString("42d5dcd6-c8a4-442b-b57b-0c7517d4ddaa");
-    public static final UUID DAMAGE_MODIFIER_UUID = UUID.fromString("833ca9ad-b489-4da3-a67d-54033b148353");
+    public static final ResourceLocation SPEED_MODIFIER_UUID = ApotheosisModernRagnarok.loc("frozen_speed_debuff");
+    public static final ResourceLocation DAMAGE_MODIFIER_UUID = ApotheosisModernRagnarok.loc("frozen_damage_debuff");
     public static final int FROZEN_THRESHOLD = 5;
     public static final String PDKEY_NO_AI_BEFORE = ApotheosisModernRagnarok.loc("no_ai_before").toString();
 
     public FreezeEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
     }
 
     @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         return duration % 2 == 0;
     }
 
     @Override
-    public void applyEffectTick(@Nonnull LivingEntity owner, int amplifier) {
+    public boolean applyEffectTick(@Nonnull LivingEntity owner, int amplifier) {
         if (amplifier < FROZEN_THRESHOLD) {
             if (owner.isOnFire()) {
                 owner.extinguishFire();
-                owner.removeEffect(this);
-                return;
+                return false;
             }
             var rate = (amplifier + 1) / 5F;
             if (!owner.level().isClientSide && owner.getRandom().nextFloat() <= rate) {
@@ -55,12 +55,13 @@ public class FreezeEffect extends MobEffect {
                 owner.extinguishFire();
             }
         }
+        return true;
     }
 
     @SubscribeEvent
-    public void onAdded(MobEffectEvent.Added event) {
+    public final void onAdded(MobEffectEvent.Added event) {
         var instance = event.getEffectInstance();
-        if (instance.getEffect() != this) {
+        if (instance.getEffect().value() != this) {
             return;
         }
         if (event.getEntity().isOnFire()) {
@@ -79,7 +80,7 @@ public class FreezeEffect extends MobEffect {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRemoved(MobEffectEvent.Remove event) {
-        if (event.getEffect() != this) {
+        if (event.getEffect().value() != this) {
             return;
         }
         onRemovedOrExpired(event);
@@ -87,7 +88,10 @@ public class FreezeEffect extends MobEffect {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onExpired(MobEffectEvent.Expired event) {
-        var effect = Optional.ofNullable(event.getEffectInstance()).map(MobEffectInstance::getEffect).orElse(null);
+        var effect = Optional.ofNullable(event.getEffectInstance())
+                .map(MobEffectInstance::getEffect)
+                .map(Holder::value)
+                .orElse(null);
         if (effect != this) {
             return;
         }
@@ -104,7 +108,7 @@ public class FreezeEffect extends MobEffect {
 
     public static FreezeEffect create() {
         return (FreezeEffect) new FreezeEffect(MobEffectCategory.HARMFUL, new Color(128, 255, 255, 255).getRGB())
-                .addAttributeModifier(Attributes.MOVEMENT_SPEED, SPEED_MODIFIER_UUID.toString(), -0.19, AttributeModifier.Operation.MULTIPLY_TOTAL)
-                .addAttributeModifier(Attributes.ATTACK_DAMAGE, DAMAGE_MODIFIER_UUID.toString(), -0.19, AttributeModifier.Operation.MULTIPLY_TOTAL);
+                .addAttributeModifier(Attributes.MOVEMENT_SPEED, SPEED_MODIFIER_UUID, -0.19, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+                .addAttributeModifier(Attributes.ATTACK_DAMAGE, DAMAGE_MODIFIER_UUID, -0.19, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }
 }

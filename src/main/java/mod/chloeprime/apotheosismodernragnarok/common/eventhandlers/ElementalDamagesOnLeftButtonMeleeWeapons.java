@@ -8,12 +8,12 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class ElementalDamagesOnLeftButtonMeleeWeapons {
     public static final TagKey<DamageType> SPREAD_DAMAGE_ON_LEFT_BUTTON_MELEES = TagKey.create(
             Registries.DAMAGE_TYPE, ApotheosisModernRagnarok.loc("bugfix/spread_damage_on_left_button_melees")
@@ -24,7 +24,7 @@ public class ElementalDamagesOnLeftButtonMeleeWeapons {
     );
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void spreadElementalDamages(LivingHurtEvent event) {
+    public static void spreadElementalDamages(LivingIncomingDamageEvent event) {
         if (!event.getSource().is(SPREAD_DAMAGE_ON_LEFT_BUTTON_MELEES)) {
             return;
         }

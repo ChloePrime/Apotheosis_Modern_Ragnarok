@@ -1,40 +1,48 @@
 {
   "type": "apotheosis:attribute",
-  "attribute": "attributeslib:crit_damage",
-  "operation": "ADDITION",
+  "definition": {
+    "affix_type": "stat",
+    "exclusive_set": [],
+    "weights": {
+      "quality": 0.1,
+      "weight": 25
+    }
+  },
+  "categories": [
+    "apotheosis_modern_ragnarok:bolt_action"
+  ],
+  "attribute": "apothic_attributes:crit_damage",
+  "operation": "add_value",
   "values": {
-    "common": {
+    "apotheosis:common": {
       "min": 0.20,
       "steps": 10,
       "step": 0.01
     },
-    "uncommon": {
+    "apotheosis:uncommon": {
       "min": 0.20,
       "steps": 10,
       "step": 0.01
     },
-    "rare": {
+    "apotheosis:rare": {
       "min": 0.20,
       "steps": 15,
       "step": 0.01
     },
-    "epic": {
+    "apotheosis:epic": {
       "min": 0.20,
       "steps": 15,
       "step": 0.01
     },
-    "mythic": {
+    "apotheosis:mythic": {
       "min": 0.25,
       "steps": 15,
       "step": 0.01
     },
-    "ancient": {
+    "apotheosis_modern_ragnarok:ancient": {
       "min": 0.30,
       "steps": 15,
       "step": 0.01
     }
-  },
-  "types": [
-    "apotheosis_modern_ragnarok:bolt_action"
-  ]
+  }
 }

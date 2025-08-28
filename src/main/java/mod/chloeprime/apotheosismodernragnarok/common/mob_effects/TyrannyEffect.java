@@ -1,17 +1,17 @@
 package mod.chloeprime.apotheosismodernragnarok.common.mob_effects;
 
+import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.gunsmithlib.api.common.GunAttributes;
-import net.minecraft.world.effect.MobEffect;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.awt.*;
-import java.util.UUID;
 
-public class TyrannyEffect extends MobEffect {
-    public static final UUID RPM_MODIFIER_UUID = UUID.fromString("35b0e7ed-2976-4082-bc0c-d4102a2506c1");
-    public static final UUID SPEED_MODIFIER_UUID = UUID.fromString("bc3b84fb-de99-415b-9ef9-309c04339b1a");
+public class TyrannyEffect extends MobEffectBaseUtility {
+    public static final ResourceLocation RPM_MODIFIER_UUID = ApotheosisModernRagnarok.loc("tyranny_rpm_buff");
+    public static final ResourceLocation SPEED_MODIFIER_UUID = ApotheosisModernRagnarok.loc("tyranny_speed_debuff");
 
     public TyrannyEffect(MobEffectCategory category, Color color) {
         super(category, color.getRGB());
@@ -19,7 +19,7 @@ public class TyrannyEffect extends MobEffect {
 
     public static TyrannyEffect create() {
         return (TyrannyEffect) new TyrannyEffect(MobEffectCategory.BENEFICIAL, new Color(184, 51, 54, 255))
-                .addAttributeModifier(GunAttributes.RPM.get(), RPM_MODIFIER_UUID.toString(), 8, AttributeModifier.Operation.ADDITION)
-                .addAttributeModifier(Attributes.MOVEMENT_SPEED, SPEED_MODIFIER_UUID.toString(), -0.0075, AttributeModifier.Operation.MULTIPLY_TOTAL);
+                .addAttributeModifier(GunAttributes.RPM, RPM_MODIFIER_UUID, 8, AttributeModifier.Operation.ADD_VALUE)
+                .addAttributeModifier(Attributes.MOVEMENT_SPEED, SPEED_MODIFIER_UUID, -0.0075, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }
 }

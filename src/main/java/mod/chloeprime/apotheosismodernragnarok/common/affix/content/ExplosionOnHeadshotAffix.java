@@ -6,10 +6,9 @@ import com.tacz.guns.api.entity.KnockBackModifier;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;
 import com.tacz.guns.init.ModDamageTypes;
-import dev.shadowsoffire.apotheosis.adventure.affix.*;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
-import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
+import dev.shadowsoffire.apotheosis.affix.*;
+import dev.shadowsoffire.apotheosis.loot.LootCategory;
+import dev.shadowsoffire.apotheosis.loot.LootRarity;
 import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import dev.shadowsoffire.placebo.util.StepFunction;
 import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
@@ -35,9 +34,10 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 
 import java.util.Map;
 import java.util.Optional;
@@ -47,26 +47,33 @@ import java.util.WeakHashMap;
 /**
  * 爆头时伤害周围的敌人
  */
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class ExplosionOnHeadshotAffix extends AbstractValuedAffix {
 
     public static final DynamicHolder<ExplosionOnHeadshotAffix> INSTANCE = ModContent.Affix.HEAD_EXPLODE;
 
     public static final Codec<ExplosionOnHeadshotAffix> CODEC = RecordCodecBuilder.create(builder -> builder
             .group(
+                    affixDef(),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
-                    GemBonus.VALUES_CODEC.fieldOf("values").forGetter(AbstractValuedAffix::getValues),
+                    LootRarity.mapCodec(StepFunction.CODEC).fieldOf("values").forGetter(AbstractValuedAffix::getValues),
                     ExtraCodecs.COEFFICIENT_BY_RARITY.fieldOf("ranges").forGetter(a -> a.ranges))
             .apply(builder, ExplosionOnHeadshotAffix::new));
 
     @Override
-    public MutableComponent getDescription(ItemStack stack, LootRarity rarity, float level) {
+    public MutableComponent getDescription(AffixInstance affixInstance, AttributeTooltipContext ctx) {
+        var stack = affixInstance.stack();
+        var rarity = affixInstance.getRarity();
+        float level = affixInstance.level();
         var rate = getValue(stack, rarity, level);
         return Component.translatable(desc(), fmtPercent(rate)).withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
     }
 
     @Override
-    public Component getAugmentingText(ItemStack stack, LootRarity rarity, float level) {
+    public Component getAugmentingText(AffixInstance affixInstance, AttributeTooltipContext ctx) {
+        var stack = affixInstance.stack();
+        var rarity = affixInstance.getRarity();
+        float level = affixInstance.level();
         var rate = getValue(stack, rarity, level);
         var min = getValue(stack, rarity, 0);
         var max = getValue(stack, rarity, 1);
@@ -74,10 +81,11 @@ public class ExplosionOnHeadshotAffix extends AbstractValuedAffix {
     }
 
     public ExplosionOnHeadshotAffix(
+            AffixDefinition def,
             Set<LootCategory> categories,
             Map<LootRarity, StepFunction> values,
             Map<LootRarity, Double> ranges) {
-        super(AffixType.ABILITY, categories, values);
+        super(def, categories, values);
         this.ranges = new Object2DoubleOpenHashMap<>(ranges);
     }
 

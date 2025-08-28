@@ -1,0 +1,31 @@
+{
+    "anvil_cost": 10,
+    "description": {
+        "color": "dark_green",
+        "translate": "enchantment.apotheosis_modern_ragnarok.projection_magic"
+    },
+    "effects": {
+        "apotheosis_modern_ragnarok:projection_magic_delay": {
+            "type": "minecraft:set",
+            "value": {
+                "type": "apotheosis_modern_ragnarok:nashorn_javascript",
+                "code": "1 + (2.0 / 3) / (level - 1.0 / 3)"
+            }
+        }
+    },
+    "exclusive_set": "#apotheosis_modern_ragnarok:bullet_regeneration_exclusive",
+    "max_cost": {
+        "base": 50000,
+        "per_level_above_first": 0
+    },
+    "max_level": 6,
+    "min_cost": {
+        "base": 57,
+        "per_level_above_first": 53
+    },
+    "slots": [
+        "mainhand"
+    ],
+    "supported_items": [],
+    "weight": 1
+}

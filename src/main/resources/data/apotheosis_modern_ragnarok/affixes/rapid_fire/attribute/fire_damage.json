@@ -1,36 +1,44 @@
 {
   "type": "apotheosis:attribute",
-  "attribute": "attributeslib:fire_damage",
-  "operation": "ADDITION",
+  "definition": {
+    "affix_type": "stat",
+    "exclusive_set": [],
+    "weights": {
+      "quality": 0.1,
+      "weight": 25
+    }
+  },
+  "categories": [
+    "apotheosis_modern_ragnarok:full_auto",
+    "apotheosis_modern_ragnarok:semi_auto"
+  ],
+  "attribute": "apothic_attributes:fire_damage",
+  "operation": "add_value",
   "values": {
-    "uncommon": {
+    "apotheosis:uncommon": {
       "min": 2,
       "steps": 4,
       "step": 0.25
     },
-    "rare": {
+    "apotheosis:rare": {
       "min": 2,
       "steps": 4,
       "step": 0.25
     },
-    "epic": {
+    "apotheosis:epic": {
       "min": 2.5,
       "steps": 8,
       "step": 0.25
     },
-    "mythic": {
+    "apotheosis:mythic": {
       "min": 3,
       "steps": 8,
       "step": 0.25
     },
-    "ancient": {
+    "apotheosis_modern_ragnarok:ancient": {
       "min": 4,
       "steps": 12,
       "step": 0.25
     }
-  },
-  "types": [
-    "apotheosis_modern_ragnarok:full_auto",
-    "apotheosis_modern_ragnarok:semi_auto"
-  ]
+  }
 }

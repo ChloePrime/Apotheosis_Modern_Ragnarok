@@ -1,0 +1,31 @@
+{
+    "anvil_cost": 4,
+    "description": {
+        "color": "dark_green",
+        "translate": "enchantment.apotheosis_modern_ragnarok.perfect_block"
+    },
+    "effects": {
+        "apotheosis_modern_ragnarok:perfect_block_time_window": {
+            "type": "minecraft:add",
+            "value": {
+                "type": "minecraft:linear",
+                "base": 2.0,
+                "per_level_above_first": 1.0
+            }
+        }
+    },
+    "max_cost": {
+        "base": 55,
+        "per_level_above_first": 25
+    },
+    "max_level": 3,
+    "min_cost": {
+        "base": 15,
+        "per_level_above_first": 25
+    },
+    "slots": [
+        "mainhand"
+    ],
+    "supported_items": [],
+    "weight": 2
+}

@@ -140,6 +140,8 @@
   "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/sundering": "Corrosive",
   "affix.apotheosis_modern_ragnarok:non_bolt_action/mob_effect/sundering.suffix": "(Cloth Dissolver)",
 
+  "rarity.apotheosis_modern_ragnarok:ancient": "Ancient",
+
 
 
 
@@ -153,14 +155,14 @@
 
 
 
-  "text.apotheosis.category.apotheosis_modern_ragnarok:semi_auto": "Semi Auto Weapon",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:semi_auto.plural": "Semi Auto Weapons",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:full_auto": "Full Auto Weapon",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:full_auto.plural": "Full Auto Weapons",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:shotgun": "Shotgun",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:shotgun.plural": "Shotguns",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:bolt_action": "Bolt Action Weapon",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:bolt_action.plural": "Bolt Action Weapons",
+  "loot_category.apotheosis_modern_ragnarok.semi_auto": "Semi Auto Weapon",
+  "loot_category.apotheosis_modern_ragnarok.semi_auto.plural": "Semi Auto Weapons",
+  "loot_category.apotheosis_modern_ragnarok.full_auto": "Full Auto Weapon",
+  "loot_category.apotheosis_modern_ragnarok.full_auto.plural": "Full Auto Weapons",
+  "loot_category.apotheosis_modern_ragnarok.shotgun": "Shotgun",
+  "loot_category.apotheosis_modern_ragnarok.shotgun.plural": "Shotguns",
+  "loot_category.apotheosis_modern_ragnarok.bolt_action": "Bolt Action Weapon",
+  "loot_category.apotheosis_modern_ragnarok.bolt_action.plural": "Bolt Action Weapons",
   "gem_class.apotheosis_modern_ragnarok.all_gun": "Firearms",
   "gem_class.apotheosis_modern_ragnarok.all_auto": "Auto Firearms",
   "gem_class.apotheosis_modern_ragnarok.all_auto_including_shotgun": "Auto Firearms (Including Shotguns)",

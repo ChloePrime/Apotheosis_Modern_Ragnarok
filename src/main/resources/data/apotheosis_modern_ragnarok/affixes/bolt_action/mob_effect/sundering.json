@@ -1,37 +1,45 @@
 {
-	"type": "apotheosis:mob_effect",
-	"mob_effect": "attributeslib:sundering",
-	"target": "ARROW_TARGET",
-	"values": {
-		"epic": {
-			"duration": {
-				"min": 2200,
-				"steps": 400,
-				"step": 1
-			},
-			"amplifier": 0,
-			"cooldown": 0
-		},
-		"mythic": {
-			"duration": {
-				"min": 1100,
-				"steps": 200,
-				"step": 1
-			},
-			"amplifier": 1,
-			"cooldown": 0
-		},
-		"ancient": {
-			"duration": {
-				"min": 5500,
-				"steps": 1000,
-				"step": 1
-			},
-			"amplifier": 1,
-			"cooldown": 0
-		}
-	},
-	"types": [
-		"apotheosis_modern_ragnarok:bolt_action"
-	]
+  "type": "apotheosis:mob_effect",
+  "definition": {
+    "affix_type": "basic_effect",
+    "exclusive_set": [],
+    "weights": {
+      "quality": 0.1,
+      "weight": 25
+    }
+  },
+  "types": [
+    "apotheosis_modern_ragnarok:bolt_action"
+  ],
+  "mob_effect": "apothic_attributes:sundering",
+  "target": "ARROW_TARGET",
+  "values": {
+    "apotheosis:epic": {
+      "duration": {
+        "min": 2200,
+        "steps": 400,
+        "step": 1
+      },
+      "amplifier": 0,
+      "cooldown": 0
+    },
+    "apotheosis:mythic": {
+      "duration": {
+        "min": 1100,
+        "steps": 200,
+        "step": 1
+      },
+      "amplifier": 1,
+      "cooldown": 0
+    },
+    "apotheosis_modern_ragnarok:ancient": {
+      "duration": {
+        "min": 5500,
+        "steps": 1000,
+        "step": 1
+      },
+      "amplifier": 1,
+      "cooldown": 0
+    }
+  }
 }

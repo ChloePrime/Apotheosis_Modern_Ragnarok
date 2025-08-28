@@ -1,0 +1,103 @@
+{
+  "type": "apotheosis:rarity",
+  "color": "#FF576E",
+  "material": "apotheosis_modern_ragnarok:izanagi_object",
+  "render_data": {
+    "beam_height": 5,
+    "beam_radius": 0.05,
+    "beam_texture": "apotheosis:textures/rarity/beam.png",
+    "glow_radius": 0.125,
+    "glow_texture": "apotheosis:textures/rarity/glow.png",
+    "particle": {
+      "enabled": true
+    },
+    "shadow": {
+      "alpha": 255,
+      "frame_time": 1.5,
+      "frames": 7,
+      "size": 0.4,
+      "texture": "apotheosis:textures/rarity/shadow_t4.png"
+    }
+  },
+  "rules": [
+    {
+      "type": "apotheosis:affix",
+      "affix_type": "stat"
+    },
+    {
+      "type": "apotheosis:affix",
+      "affix_type": "stat"
+    },
+    {
+      "type": "apotheosis:affix",
+      "affix_type": "stat"
+    },
+    {
+      "type": "apotheosis:affix",
+      "affix_type": "stat"
+    },
+    {
+      "type": "apotheosis:affix",
+      "affix_type": "stat"
+    },
+    {
+      "type": "apotheosis:affix",
+      "affix_type": "stat"
+    },
+    {
+      "type": "apotheosis:affix",
+      "affix_type": "basic_effect"
+    },
+    {
+      "type": "apotheosis:affix",
+      "affix_type": "basic_effect"
+    },
+    {
+      "type": "apotheosis:affix",
+      "affix_type": "ability"
+    },
+    {
+      "type": "apotheosis:affix",
+      "affix_type": "ability"
+    },
+    {
+      "type": "apotheosis:select",
+      "chance": 0.98,
+      "if_false": {
+        "type": "apotheosis:socket",
+        "min": 5,
+        "max": 5
+      },
+      "if_true": {
+        "type": "apotheosis:socket",
+        "min": 3,
+        "max": 4
+      }
+    },
+    {
+      "type": "apotheosis:component",
+      "components": {
+        "!apotheosis:durability_bonus": {},
+        "minecraft:unbreakable": {}
+      }
+    }
+  ],
+  "sort_index": 800,
+  "weights": {
+    "haven": {
+      "weight": 0
+    },
+    "frontier": {
+      "weight": 0
+    },
+    "ascent": {
+      "weight": 0
+    },
+    "summit": {
+      "weight": 0
+    },
+    "pinnacle": {
+      "weight": 0
+    }
+  }
+}

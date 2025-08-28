@@ -3,36 +3,48 @@ package mod.chloeprime.apotheosismodernragnarok.common.affix.category;
 import com.tacz.guns.api.item.gun.FireMode;
 import com.tacz.guns.resource.index.CommonGunIndex;
 import com.tacz.guns.resource.pojo.data.gun.Bolt;
-import dev.shadowsoffire.apotheosis.adventure.loot.LootCategory;
+import dev.shadowsoffire.apotheosis.Apoth;
+import dev.shadowsoffire.apotheosis.loot.LootCategory;
+import dev.shadowsoffire.apothic_attributes.api.ALObjects;
+import dev.shadowsoffire.apothic_attributes.modifiers.EntitySlotGroup;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.CommonConfig;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.Collections;
-import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
+@EventBusSubscriber
+@SuppressWarnings("UnstableApiUsage")
 public class ExtraLootCategories {
-    public static LootCategory SHOTGUN;
-    public static LootCategory FULL_AUTO;
-    public static LootCategory SEMI_AUTO;
-    public static LootCategory BOLT_ACTION;
+    private static final Set<Holder<LootCategory>> ALL_GUNS = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private static HolderSet<LootCategory> ALL_GUNS_HOLDER_SET;
 
-    public static Set<LootCategory> all() {
-        return Collections.unmodifiableSet(ALL_GUNS);
+    public static final DeferredRegister<LootCategory> DFR = DeferredRegister.create(Apoth.BuiltInRegs.LOOT_CATEGORY, ApotheosisModernRagnarok.MOD_ID);
+    public static Supplier<LootCategory> SHOTGUN = register("shotgun", GunPredicate.matchIndex(index -> "shotgun".equals(index.getType())), ALObjects.EquipmentSlotGroups.MAINHAND);
+    public static Supplier<LootCategory> FULL_AUTO = register("full_auto", GunPredicate.supports(FireMode.AUTO), ALObjects.EquipmentSlotGroups.MAINHAND);
+    public static Supplier<LootCategory> SEMI_AUTO = register("semi_auto", GunPredicate.supports(FireMode.SEMI, FireMode.BURST), ALObjects.EquipmentSlotGroups.MAINHAND);
+    public static Supplier<LootCategory> BOLT_ACTION = register("bolt_action", GunPredicate.matchIndex(ExtraLootCategories::isBoltAction).and(ExtraLootCategories::isBoltActionShotgunBoltAction), ALObjects.EquipmentSlotGroups.MAINHAND);
+
+    public static HolderSet<LootCategory> all() {
+        return Objects.requireNonNull(ALL_GUNS_HOLDER_SET, "Accessing ExtraLootCategories.all() before registration finished");
     }
 
     public static boolean isGun(LootCategory category) {
-        return ALL_GUNS.contains(category);
+        return ALL_GUNS.contains(Apoth.BuiltInRegs.LOOT_CATEGORY.wrapAsHolder(category));
     }
 
     public static void init() {
-        BOLT_ACTION = register("bolt_action", GunPredicate.matchIndex(ExtraLootCategories::isBoltAction).and(ExtraLootCategories::isBoltActionShotgunBoltAction), EquipmentSlot.MAINHAND);
-        SHOTGUN     = register("shotgun",     GunPredicate.matchIndex(index -> "shotgun".equals(index.getType())), EquipmentSlot.MAINHAND);
-        FULL_AUTO   = register("full_auto",   GunPredicate.supports(FireMode.AUTO), EquipmentSlot.MAINHAND);
-        SEMI_AUTO   = register("semi_auto",   GunPredicate.supports(FireMode.SEMI, FireMode.BURST), EquipmentSlot.MAINHAND);
     }
 
     public static boolean isBoltAction(CommonGunIndex index) {
@@ -44,17 +56,20 @@ public class ExtraLootCategories {
     }
 
     private static boolean isBoltActionShotgunBoltAction(ItemStack stack) {
-        if (!SHOTGUN.isValid(stack)) {
+        if (!SHOTGUN.get().isValid(stack)) {
             return true;
         }
         return CommonConfig.BOLT_ACTION_SHOTGUN_IS_BOLT_ACTION.get();
     }
 
-    private static final Set<LootCategory> ALL_GUNS = new LinkedHashSet<>(8);
+    private static Supplier<LootCategory> register(String path, Predicate<ItemStack> predicate, EntitySlotGroup slots) {
+        var holder = DFR.register(path, () -> new LootCategory(predicate, slots));
+        ALL_GUNS.add(holder);
+        return holder;
+    }
 
-    private static LootCategory register(String path, Predicate<ItemStack> predicate, EquipmentSlot... slots) {
-        var registered = LootCategory.register(null, ApotheosisModernRagnarok.loc(path).toString(), predicate, slots);
-        ALL_GUNS.add(registered);
-        return registered;
+    @SubscribeEvent
+    public static void onCommonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> ALL_GUNS_HOLDER_SET = HolderSet.direct(ALL_GUNS.stream().toList()));
     }
 }

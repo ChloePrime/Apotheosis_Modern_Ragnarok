@@ -1,15 +1,15 @@
 package mod.chloeprime.apotheosismodernragnarok.common.eventhandlers;
 
 import com.tacz.guns.entity.EntityKineticBullet;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixHelper;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixInstance;
+import dev.shadowsoffire.apotheosis.affix.AffixHelper;
+import dev.shadowsoffire.apotheosis.affix.AffixInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class TelepathicAffixAdapter {
     @SubscribeEvent
     public static void onLivingDrop(LivingDropsEvent event) {

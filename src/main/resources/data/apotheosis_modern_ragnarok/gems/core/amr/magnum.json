@@ -1,79 +1,44 @@
 {
-  "weight": 10,
-  "quality": 0,
-  "dimensions": [],
+  "type": "apotheosis:gem",
+  "weights": {
+    "quality": 0.1,
+    "weight": 100
+  },
   "bonuses": [
     {
-      "__comment": "轻剑",
+      "__comment": "近战武器",
       "type": "apotheosis:multi_attribute",
-      "desc": "bonus.apotheosis:multi_attr.desc.and",
+      "desc": "bonus.apotheosis:multi_attr.desc.amr:but2",
       "gem_class": {
-        "key": "light_weapon",
+        "key": "melee_weapon",
         "types": [
-          "sword",
-          "trident"
+          "apotheosis:melee_weapon",
+          "apotheosis:trident"
         ]
       },
       "modifiers": [
         {
           "attribute": "minecraft:generic.attack_damage",
-          "operation": "ADDITION",
+          "operation": "add_value",
           "values": {
-            "common": 1.6,
-            "uncommon": 2.4,
-            "rare": 4,
-            "epic": 5.6,
-            "mythic": 7.2,
-            "ancient": 8
+            "cracked": 1,
+            "chipped": 2,
+            "flawed": 4,
+            "normal": 7,
+            "flawless": 10,
+            "perfect": 14
           }
         },
         {
           "attribute": "minecraft:generic.attack_speed",
-          "operation": "ADDITION",
+          "operation": "add_value",
           "values": {
-            "common": 0.1,
-            "uncommon": 0.15,
-            "rare": 0.25,
-            "epic": 0.35,
-            "mythic": 0.45,
-            "ancient": 0.5
-          }
-        }
-      ]
-    },
-    {
-      "__comment": "斧头",
-      "type": "apotheosis:multi_attribute",
-      "desc": "bonus.apotheosis:multi_attr.desc.and",
-      "gem_class": {
-        "key": "heavy_weapon",
-        "types": [
-          "heavy_weapon"
-        ]
-      },
-      "modifiers": [
-        {
-          "attribute": "minecraft:generic.attack_damage",
-          "operation": "ADDITION",
-          "values": {
-            "common": 4,
-            "uncommon": 6,
-            "rare": 10,
-            "epic": 14,
-            "mythic": 18,
-            "ancient": 20
-          }
-        },
-        {
-          "attribute": "minecraft:generic.attack_speed",
-          "operation": "ADDITION",
-          "values": {
-            "common": -0.02,
-            "uncommon": -0.03,
-            "rare": -0.05,
-            "epic": -0.07,
-            "mythic": -0.09,
-            "ancient": -0.1
+            "cracked": -0.02,
+            "chipped": -0.03,
+            "flawed": -0.05,
+            "normal": -0.07,
+            "flawless": -0.09,
+            "perfect": -0.1
           }
         }
       ]
@@ -85,35 +50,35 @@
       "gem_class": {
         "key": "armor",
         "types": [
-          "helmet",
-          "chestplate",
-          "leggings",
-          "boots"
+          "apotheosis:helmet",
+          "apotheosis:chestplate",
+          "apotheosis:leggings",
+          "apotheosis:boots"
         ]
       },
       "modifiers": [
         {
           "attribute": "minecraft:generic.armor",
-          "operation": "ADDITION",
+          "operation": "add_value",
           "values": {
-            "common": 1,
-            "uncommon": 1.5,
-            "rare": 2,
-            "epic": 3,
-            "mythic": 4,
-            "ancient": 6
+            "cracked": 1,
+            "chipped": 1.5,
+            "flawed": 2,
+            "normal": 3,
+            "flawless": 4,
+            "perfect": 6
           }
         },
         {
           "attribute": "minecraft:generic.armor_toughness",
-          "operation": "ADDITION",
+          "operation": "add_value",
           "values": {
-            "common": 0.5,
-            "uncommon": 0.75,
-            "rare": 1,
-            "epic": 1.5,
-            "mythic": 2,
-            "ancient": 3
+            "cracked": 0.5,
+            "chipped": 0.75,
+            "flawed": 1,
+            "normal": 1.5,
+            "flawless": 2,
+            "perfect": 3
           }
         }
       ]
@@ -124,18 +89,17 @@
       "gem_class": {
         "key": "breaker",
         "types": [
-          "shovel",
-          "pickaxe"
+          "apotheosis:breaker"
         ]
       },
       "enchantment": "unbreaking",
       "values": {
-        "common": 1,
-        "uncommon": 1,
-        "rare": 1,
-        "epic": 2,
-        "mythic": 2,
-        "ancient": 3
+        "cracked": 1,
+        "chipped": 1,
+        "flawed": 1,
+        "normal": 2,
+        "flawless": 2,
+        "perfect": 3
       }
     },
     {
@@ -152,26 +116,26 @@
       "modifiers": [
         {
           "attribute": "gunsmithlib:bullet_damage",
-          "operation": "ADDITION",
+          "operation": "add_value",
           "values": {
-            "common": 1,
-            "uncommon": 2,
-            "rare": 3.5,
-            "epic": 5,
-            "mythic": 8,
-            "ancient": 12
+            "cracked": 1,
+            "chipped": 2,
+            "flawed": 3.5,
+            "normal": 5,
+            "flawless": 8,
+            "perfect": 12
           }
         },
         {
           "attribute": "gunsmithlib:vert_recoil",
-          "operation": "MULTIPLY_BASE",
+          "operation": "add_multiplied_base",
           "values": {
-            "common": 0.1,
-            "uncommon": 0.15,
-            "rare": 0.25,
-            "epic": 0.35,
-            "mythic": 0.45,
-            "ancient": 0.5
+            "cracked": 0.1,
+            "chipped": 0.15,
+            "flawed": 0.25,
+            "normal": 0.35,
+            "flawless": 0.45,
+            "perfect": 0.5
           }
         }
       ]
@@ -189,26 +153,26 @@
       "modifiers": [
         {
           "attribute": "gunsmithlib:bullet_damage",
-          "operation": "ADDITION",
+          "operation": "add_value",
           "values": {
-            "common": 0.2,
-            "uncommon": 0.4,
-            "rare": 0.7,
-            "epic": 1,
-            "mythic": 1.6,
-            "ancient": 2.4
+            "cracked": 0.2,
+            "chipped": 0.4,
+            "flawed": 0.7,
+            "normal": 1,
+            "flawless": 1.6,
+            "perfect": 2.4
           }
         },
         {
           "attribute": "gunsmithlib:vert_recoil",
-          "operation": "MULTIPLY_BASE",
+          "operation": "add_multiplied_base",
           "values": {
-            "common": 0.1,
-            "uncommon": 0.15,
-            "rare": 0.25,
-            "epic": 0.35,
-            "mythic": 0.45,
-            "ancient": 0.5
+            "cracked": 0.1,
+            "chipped": 0.15,
+            "flawed": 0.25,
+            "normal": 0.35,
+            "flawless": 0.45,
+            "perfect": 0.5
           }
         }
       ]
@@ -226,26 +190,26 @@
       "modifiers": [
         {
           "attribute": "gunsmithlib:bullet_damage",
-          "operation": "ADDITION",
+          "operation": "add_value",
           "values": {
-            "common": 3,
-            "uncommon": 6,
-            "rare": 10.5,
-            "epic": 15,
-            "mythic": 24,
-            "ancient": 36
+            "cracked": 3,
+            "chipped": 6,
+            "flawed": 10.5,
+            "normal": 15,
+            "flawless": 24,
+            "perfect": 36
           }
         },
         {
           "attribute": "gunsmithlib:vert_recoil",
-          "operation": "ADDITION",
+          "operation": "add_value",
           "values": {
-            "common": 0.1,
-            "uncommon": 0.15,
-            "rare": 0.25,
-            "epic": 0.35,
-            "mythic": 0.45,
-            "ancient": 0.5
+            "cracked": 0.1,
+            "chipped": 0.15,
+            "flawed": 0.25,
+            "normal": 0.35,
+            "flawless": 0.45,
+            "perfect": 0.5
           }
         }
       ]

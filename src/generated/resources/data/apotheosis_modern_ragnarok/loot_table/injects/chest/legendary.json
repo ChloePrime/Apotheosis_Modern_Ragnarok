@@ -1,0 +1,74 @@
+{
+    "type": "minecraft:chest",
+    "pools": [
+        {
+            "bonus_rolls": 0.0,
+            "entries": [
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/sniper/ai_awp",
+                    "weight": 1000
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/sniper/m107",
+                    "weight": 1000
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/sniper/m95",
+                    "weight": 1000
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/rifle/spr15hb",
+                    "weight": 1000
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/rifle/scar_h",
+                    "weight": 1000
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/rifle/mk14",
+                    "weight": 1000
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/shotgun/aa12",
+                    "weight": 1000
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/smg/p90",
+                    "weight": 1000
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/mg/m249",
+                    "weight": 1000
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/mg/rpk",
+                    "weight": 1000
+                },
+                {
+                    "type": "minecraft:loot_table",
+                    "functions": [
+                        {
+                            "function": "apotheosis_modern_ragnarok:apoth_reforge",
+                            "rarity": "apotheosis_modern_ragnarok:ancient"
+                        }
+                    ],
+                    "quality": 1,
+                    "value": "apotheosis_modern_ragnarok:kits/tacz/mg/minigun",
+                    "weight": -20
+                }
+            ],
+            "rolls": 1.0
+        }
+    ],
+    "random_sequence": "apotheosis_modern_ragnarok:injects/chest/legendary"
+}

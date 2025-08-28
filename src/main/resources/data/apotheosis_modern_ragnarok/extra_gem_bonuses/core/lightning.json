@@ -1,0 +1,25 @@
+{
+  "gem": "apotheosis:core/lightning",
+  "bonuses": [{
+    "type": "apotheosis:attribute",
+    "gem_class": {
+      "key": "apotheosis_modern_ragnarok.all_gun",
+      "types": [
+        "apotheosis_modern_ragnarok:shotgun",
+        "apotheosis_modern_ragnarok:full_auto",
+        "apotheosis_modern_ragnarok:semi_auto",
+        "apotheosis_modern_ragnarok:bolt_action"
+      ]
+    },
+    "attribute": "gunsmithlib:bullet_speed",
+    "operation": "add_multiplied_base",
+    "values": {
+      "cracked": 0.1,
+      "chipped": 0.3,
+      "flawed": 0.5,
+      "normal": 0.7,
+      "flawless": 0.85,
+      "perfect": 1.1
+    }
+  }]
+}
