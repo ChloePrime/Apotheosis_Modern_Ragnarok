@@ -16,6 +16,9 @@
   "attribute.name.apotheosis_modern_ragnarok.posture.desc": "架势条填充比例。程序内部属性，请勿添加modifiers！",
   "death.attack.apotheosis_modern_ragnarok.execution": "%1$s 被 %2$s 处决了",
   "death.attack.apotheosis_modern_ragnarok.execution.item": "%2$s 使用 %3$s 处决了 %1$s",
+  "death.attack.apotheosis_modern_ragnarok.verdant_ruin": "%1$s 香消玉殒",
+  "death.attack.apotheosis_modern_ragnarok.verdant_ruin.player": "%1$s 因 %2$s 而香消玉殒",
+  "death.attack.apotheosis_modern_ragnarok.verdant_ruin.item": "%1$s 因 %2$s 的%3$s而香消玉殒",
   "enchantment.apotheosis_modern_ragnarok.stability": "稳重",
   "enchantment.apotheosis_modern_ragnarok.stability.desc": "降低射击时的后坐力",
   "enchantment.apotheosis_modern_ragnarok.emergency_protector": "应急护具",
@@ -31,6 +34,7 @@
   "enchantment.apotheosis_modern_ragnarok.projection_magic": "投影魔术",
   "enchantment.apotheosis_modern_ragnarok.projection_magic.desc": "随时间向弹匣内自动再生弹药",
   "effect.apotheosis_modern_ragnarok.tyranny": "暴君形态",
+  "effect.apotheosis_modern_ragnarok.verdant_ruin": "翠殒形态",
 
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.attack_self": "击中目标时，%s概率获得%s",
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.attack_target": "击中目标时，%s概率造成%s",
@@ -173,6 +177,7 @@
   "bonus.apotheosis_modern_ragnarok.tyrannical.desc": "持续射击时逐渐提升射速但逐渐降低移动速度，最高叠加%d层",
   "bonus.apotheosis_modern_ragnarok.blood_bullet.desc": "射击时消耗自身%s点生命值，使命中目标的所有防御效果降低%s",
   "bonus.apotheosis_modern_ragnarok.dictator.desc": "射击被动生物时伤害降低至%s点并获得目标的掉落物",
+  "bonus.apotheosis_modern_ragnarok.verdant_ruin.desc": "连续爆头命中时爆头伤害逐渐提升 [等级 %d]，一旦失误则会使你香消玉殒",
 
 
 

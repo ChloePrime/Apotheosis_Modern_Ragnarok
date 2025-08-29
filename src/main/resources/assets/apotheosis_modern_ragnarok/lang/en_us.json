@@ -16,6 +16,9 @@
   "attribute.name.apotheosis_modern_ragnarok.posture.desc": "Posture counter (0-1). Internal use only, don't add modifiers!",
   "death.attack.apotheosis_modern_ragnarok.execution": "%1$s was executed by %2$s",
   "death.attack.apotheosis_modern_ragnarok.execution.item": "%1$s was executed by %2$s using %3$s",
+  "death.attack.apotheosis_modern_ragnarok.verdant_ruin": "%1$s fade away verdantly",
+  "death.attack.apotheosis_modern_ragnarok.verdant_ruin.player": "%1$s walked into fire whilst fighting %2$s",
+  "death.attack.apotheosis_modern_ragnarok.verdant_ruin.item": "%1$s fade away verdantly by %2$s's %3$s",
   "enchantment.apotheosis_modern_ragnarok.stability": "Stability",
   "enchantment.apotheosis_modern_ragnarok.stability.desc": "Reduces recoil",
   "enchantment.apotheosis_modern_ragnarok.emergency_protector": "Emergency Protector",
@@ -31,6 +34,7 @@
   "enchantment.apotheosis_modern_ragnarok.projection_magic": "Projection Magic",
   "enchantment.apotheosis_modern_ragnarok.projection_magic.desc": "Generates ammo upon time",
   "effect.apotheosis_modern_ragnarok.tyranny": "Tyrant Form",
+  "effect.apotheosis_modern_ragnarok.verdant_ruin": "Verdant Form",
 
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.attack_self": "On hit, %s chance to gain %s",
   "affix.apotheosis_modern_ragnarok.rated_potion_affix.target.attack_target": "On hit, %s chance to inflict %s",
@@ -174,6 +178,7 @@
   "bonus.apotheosis_modern_ragnarok.tyrannical.desc": "Continuous firing increases fire rate but decreases movement speed. max stacks to %d level",
   "bonus.apotheosis_modern_ragnarok.blood_bullet.desc": "Shot cost %s health and reduce enemies' total defense effort by %s",
   "bonus.apotheosis_modern_ragnarok.dictator.desc": "Reduce damage to %s and get loot when hitting passive creatures",
+  "bonus.apotheosis_modern_ragnarok.verdant_ruin.desc": "Boost damage on continuous headshot [Lv.%d], but perishes you on failure (non-headshot hits)",
 
 
 

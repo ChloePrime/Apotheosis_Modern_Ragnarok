@@ -27,6 +27,7 @@ import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.TyrannyEffect;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
+import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.VerdantRuinEffect;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -99,6 +100,7 @@ public class ModContent {
         public static final DeferredHolder<MobEffect, FireDotEffect> FIRE_DOT = REGISTRY.register("fire_dot", FireDotEffect::create);
         public static final DeferredHolder<MobEffect, FreezeEffect> FREEZE = REGISTRY.register("freeze", FreezeEffect::create);
         public static final DeferredHolder<MobEffect, TyrannyEffect> TYRANNY = REGISTRY.register("tyranny", TyrannyEffect::create);
+        public static final DeferredHolder<MobEffect, VerdantRuinEffect> VERDANT_RUIN = REGISTRY.register("verdant_ruin", VerdantRuinEffect::create);
 
         private MobEffects() {
         }
