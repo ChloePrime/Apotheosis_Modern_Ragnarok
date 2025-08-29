@@ -3,15 +3,19 @@ package mod.chloeprime.apotheosismodernragnarok.common.gem.content;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
+import com.tacz.guns.api.event.common.EntityKillByGunEvent;
 import com.tacz.guns.api.event.common.GunShootEvent;
 import dev.shadowsoffire.apotheosis.adventure.affix.Affix;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemClass;
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemInstance;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.PotionBonus;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AffixBaseUtility;
+import mod.chloeprime.apotheosismodernragnarok.common.gem.framework.GunGemBonus;
 import mod.chloeprime.apotheosismodernragnarok.common.util.SocketHelper2;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -29,15 +33,20 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 @Mod.EventBusSubscriber
-public class PotionWhenShootBonus extends GemBonus {
+public class PotionWhenShootBonus extends GemBonus implements GunGemBonus {
+    public enum When {
+        SHOOT,
+        HEADSHOT
+    }
+
     public static final ResourceLocation ID = ApotheosisModernRagnarok.loc("mob_effect_when_shoot");
 
     public static Codec<PotionBonus.EffectData> EFFECT_DATA_CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     Codec.INT.fieldOf("duration").forGetter(PotionBonus.EffectData::duration),
                     Codec.INT.fieldOf("amplifier").forGetter(PotionBonus.EffectData::amplifier),
-                    PlaceboCodecs.nullableField(Codec.INT, "cooldown", 0).forGetter(PotionBonus.EffectData::cooldown))
-            .apply(inst, PotionBonus.EffectData::new));
+                    PlaceboCodecs.nullableField(Codec.INT, "cooldown", 0).forGetter(PotionBonus.EffectData::cooldown)
+            ).apply(inst, PotionBonus.EffectData::new));
 
     public static final Codec<PotionWhenShootBonus> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
@@ -46,13 +55,15 @@ public class PotionWhenShootBonus extends GemBonus {
                     LootRarity.mapCodec(EFFECT_DATA_CODEC).fieldOf("values").forGetter(a -> a.values),
                     PlaceboCodecs.nullableField(Codec.BOOL, "stack_on_reapply", false).forGetter(a -> a.stackOnReapply),
                     LootRarity.mapCodec(Codec.INT).fieldOf("max_level").forGetter(a -> a.maxLevel),
-                    Codec.STRING.optionalFieldOf("custom_description", null).forGetter(a -> a.customDescription))
-            .apply(inst, PotionWhenShootBonus::new));
+                    PlaceboCodecs.enumCodec(When.class).optionalFieldOf("when", When.SHOOT).forGetter(a -> a.when),
+                    Codec.STRING.optionalFieldOf("custom_description", null).forGetter(a -> a.customDescription)
+            ).apply(inst, PotionWhenShootBonus::new));
 
     protected final MobEffect effect;
     protected final Map<LootRarity, PotionBonus.EffectData> values;
     protected final boolean stackOnReapply;
     protected final Map<LootRarity, Integer> maxLevel;
+    protected final When when;
     protected final @Nullable String customDescription;
 
     public PotionWhenShootBonus(
@@ -61,6 +72,7 @@ public class PotionWhenShootBonus extends GemBonus {
             Map<LootRarity, PotionBonus.EffectData> values,
             boolean stackOnReapply,
             Map<LootRarity, Integer> maxLevel,
+            When when,
             @Nullable String customDescription
     ) {
         super(ID, gemClass);
@@ -68,13 +80,33 @@ public class PotionWhenShootBonus extends GemBonus {
         this.values = values;
         this.stackOnReapply = stackOnReapply;
         this.maxLevel = maxLevel;
+        this.when = when;
         this.customDescription = customDescription;
+    }
+
+    @Override
+    public void onGunshotPost(ItemStack gun, ItemStack gem, GemInstance instance, EntityHurtByGunEvent.Post event) {
+        onGunshotPost(gem, instance, event.getAttacker(), event.isHeadShot());
+    }
+
+    @Override
+    public void onGunshotKill(ItemStack gun, ItemStack gem, GemInstance instance, EntityKillByGunEvent event) {
+        onGunshotPost(gem, instance, event.getAttacker(), event.isHeadShot());
+    }
+
+    private void onGunshotPost(ItemStack gem, GemInstance instance, @Nullable LivingEntity shooter, boolean isHeadshot) {
+        if (shooter == null) {
+            return;
+        }
+        if (when == When.HEADSHOT && isHeadshot) {
+            applyEffect(gem, shooter, instance.rarity().get());
+        }
     }
 
     @SubscribeEvent
     public static void onLivingShoot(GunShootEvent event) {
         SocketHelper2.streamGemBonuses(event.getGunItemStack())
-                .map(pair -> Pair.of(pair.getKey() instanceof PotionWhenShootBonus bonus ? bonus : null, pair.getValue()))
+                .map(pair -> Pair.of((pair.getKey() instanceof PotionWhenShootBonus bonus && bonus.when == When.SHOOT) ? bonus : null, pair.getValue()))
                 .filter(pair -> pair.getKey() != null)
                 .forEach(pair -> {
                     var bonus = pair.getKey();

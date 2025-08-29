@@ -24,6 +24,7 @@ import mod.chloeprime.apotheosismodernragnarok.common.loot.ApothReforgeFunction;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.TyrannyEffect;
+import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.VerdantRuinEffect;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -104,6 +105,7 @@ public class ModContent {
         public static final RegistryObject<FireDotEffect> FIRE_DOT = REGISTRY.register("fire_dot", FireDotEffect::create);
         public static final RegistryObject<FreezeEffect> FREEZE = REGISTRY.register("freeze", FreezeEffect::create);
         public static final RegistryObject<TyrannyEffect> TYRANNY = REGISTRY.register("tyranny", TyrannyEffect::create);
+        public static final RegistryObject<VerdantRuinEffect> VERDANT_RUIN = REGISTRY.register("verdant_ruin", VerdantRuinEffect::create);
 
         private MobEffects() {
         }
