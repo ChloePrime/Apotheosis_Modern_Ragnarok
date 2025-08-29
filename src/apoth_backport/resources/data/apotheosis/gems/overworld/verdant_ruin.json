@@ -1,0 +1,49 @@
+{
+  "weight": 5,
+  "quality": 1.5,
+  "dimensions": ["minecraft:overworld"],
+  "unique": true,
+  "min_rarity": "rare",
+  "bonuses": [
+    {
+      "type": "apotheosis_modern_ragnarok:mob_effect_when_shoot",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.bolt_action",
+        "types": [
+          "apotheosis_modern_ragnarok:bolt_action"
+        ]
+      },
+      "mob_effect": "apotheosis_modern_ragnarok:verdant_ruin",
+      "when": "HEADSHOT",
+      "values": {
+        "rare": {
+          "duration": 600,
+          "amplifier": 0,
+          "cooldown": 0
+        },
+        "epic": {
+          "duration": 600,
+          "amplifier": 0,
+          "cooldown": 0
+        },
+        "mythic": {
+          "duration": 600,
+          "amplifier": 0,
+          "cooldown": 0
+        },
+        "ancient": {
+          "duration": 600,
+          "amplifier": 0,
+          "cooldown": 0
+        }
+      },
+      "stack_on_reapply": true,
+      "max_level": {
+        "rare": 5,
+        "epic": 6,
+        "mythic": 8,
+        "ancient": 10
+      },
+      "custom_description": "bonus.apotheosis_modern_ragnarok.verdant_ruin.desc"
+    }]
+}
