@@ -171,7 +171,7 @@ configurations {
 
 dependencies {
     // TaCZ
-    implementation "mod.chloeprime:gunsmithlib:1.21.1-4.6.2-neoforge"
+    implementation "mod.chloeprime:gunsmithlib:1.21.1-4.6.3-neoforge"
     compileOnly "com.github.MUKSC:TACZ-1.21.1:neoforge-1.1.6-hotfix-r5"
     compileOnly 'curse.maven:tacz-lesraisins-tactical-equipements-1273094:6751092' // 绿——葡——萄——
     // 神化
