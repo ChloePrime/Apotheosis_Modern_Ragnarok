@@ -1,0 +1,46 @@
+{
+  "gem": "apotheosis:overworld/verdant_ruin",
+  "bonuses": [
+    {
+      "type": "apotheosis_modern_ragnarok:mob_effect_when_shoot",
+      "gem_class": {
+        "key": "apotheosis_modern_ragnarok.bolt_action",
+        "types": [
+          "apotheosis_modern_ragnarok:bolt_action"
+        ]
+      },
+      "mob_effect": "apotheosis_modern_ragnarok:verdant_ruin",
+      "when": "HEADSHOT",
+      "values": {
+        "flawed": {
+          "duration": 600,
+          "amplifier": 0,
+          "cooldown": 0
+        },
+        "normal": {
+          "duration": 600,
+          "amplifier": 0,
+          "cooldown": 0
+        },
+        "flawless": {
+          "duration": 600,
+          "amplifier": 0,
+          "cooldown": 0
+        },
+        "perfect": {
+          "duration": 600,
+          "amplifier": 0,
+          "cooldown": 0
+        }
+      },
+      "stack_on_reapply": true,
+      "max_level": {
+        "flawed": 5,
+        "normal": 6,
+        "flawless": 8,
+        "perfect": 10
+      },
+      "custom_description": "bonus.apotheosis_modern_ragnarok.verdant_ruin.desc"
+    }
+  ]
+}

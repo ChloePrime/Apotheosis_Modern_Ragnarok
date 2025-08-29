@@ -132,7 +132,7 @@ public class PotionWhenShootBonus extends GemBonus implements GunGemBonus {
         MobEffectInstance effectInst = target.getEffect(this.effect);
         if (this.stackOnReapply && effectInst != null) {
             int duration = Math.max(effectInst.getDuration(), data.duration());
-            int amp = Math.min(this.maxLevel.get(inst.purity()), effectInst.getAmplifier() + 1 + data.amplifier());
+            int amp = Math.min(this.maxLevel.get(inst.purity()) - 1, effectInst.getAmplifier() + 1 + data.amplifier());
             var newInst = new MobEffectInstance(this.effect, duration, amp, effectInst.isAmbient(), effectInst.isVisible());
             effectInst.update(newInst);
             ((LivingEntityInvoker) target).callOnEffectUpdated(effectInst, true, null);
