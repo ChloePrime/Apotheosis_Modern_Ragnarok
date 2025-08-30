@@ -9,6 +9,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          lfs: true  # gradle-wrapper.jar verification will fail without this
           fetch-depth: 0
           fetch-tags: true
 
