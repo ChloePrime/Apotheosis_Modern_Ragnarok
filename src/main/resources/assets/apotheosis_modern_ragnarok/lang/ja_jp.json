@@ -147,14 +147,14 @@
   "// 宝石名称": "宝石名",
   "item.apotheosis.gem.apotheosis_modern_ragnarok:core/amr/magnum": "マグナムの宝珠",
 
-  "text.apotheosis.category.apotheosis_modern_ragnarok:semi_auto": "セミオート武器",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:semi_auto.plural": "セミオート武器",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:full_auto": "フルオート武器",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:full_auto.plural": "フルオート武器",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:shotgun": "ショットガン",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:shotgun.plural": "ショットガン",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:bolt_action": "ボルトアクション武器",
-  "text.apotheosis.category.apotheosis_modern_ragnarok:bolt_action.plural": "ボルトアクション武器",
+  "loot_category.apotheosis_modern_ragnarok.semi_auto": "セミオート武器",
+  "loot_category.apotheosis_modern_ragnarok.semi_auto.plural": "セミオート武器",
+  "loot_category.apotheosis_modern_ragnarok.full_auto": "フルオート武器",
+  "loot_category.apotheosis_modern_ragnarok.full_auto.plural": "フルオート武器",
+  "loot_category.apotheosis_modern_ragnarok.shotgun": "ショットガン",
+  "loot_category.apotheosis_modern_ragnarok.shotgun.plural": "ショットガン",
+  "loot_category.apotheosis_modern_ragnarok.bolt_action": "ボルトアクション武器",
+  "loot_category.apotheosis_modern_ragnarok.bolt_action.plural": "ボルトアクション武器",
   "gem_class.apotheosis_modern_ragnarok.all_gun": "銃火器",
   "gem_class.apotheosis_modern_ragnarok.all_auto": "自動火器",
   "gem_class.apotheosis_modern_ragnarok.all_auto_including_shotgun": "自動火器（ショットガン含む）",
@@ -175,6 +175,7 @@
   "affix.apotheosis_modern_ragnarok:clip_expansion.suffix": "大容量マガジン",
   "affix.apotheosis_modern_ragnarok:ads_charge": "冷静",
   "affix.apotheosis_modern_ragnarok:ads_charge.suffix": "冷静な射手",
-  "affix.apotheosis_modern_ragnarok:ads_charge.desc": "ADSを維持すると最大 %s までダメージが上昇（未実装）"
+  "affix.apotheosis_modern_ragnarok:ads_charge.desc": "ADSを維持すると最大 %s までダメージが上昇（未実装）",
+"rarity.apotheosis_modern_ragnarok:ancient": "Ancient"
 
 }
