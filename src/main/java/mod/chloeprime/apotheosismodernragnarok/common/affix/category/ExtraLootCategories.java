@@ -32,7 +32,7 @@ public class ExtraLootCategories {
 
     public static final DeferredRegister<LootCategory> DFR = DeferredRegister.create(Apoth.BuiltInRegs.LOOT_CATEGORY, ApotheosisModernRagnarok.MOD_ID);
     public static Supplier<LootCategory> SHOTGUN = register("shotgun", 500, GunPredicate.matchIndex(index -> "shotgun".equals(index.getType())), ALObjects.EquipmentSlotGroups.MAINHAND);
-    public static Supplier<LootCategory> FULL_AUTO = register("full_auto", 800, GunPredicate.supports(FireMode.AUTO), ALObjects.EquipmentSlotGroups.MAINHAND);
+    public static Supplier<LootCategory> FULL_AUTO = register("full_auto", 800, GunPredicate.effectiveFullAuto(), ALObjects.EquipmentSlotGroups.MAINHAND);
     public static Supplier<LootCategory> SEMI_AUTO = register("semi_auto", 700, GunPredicate.supports(FireMode.SEMI, FireMode.BURST), ALObjects.EquipmentSlotGroups.MAINHAND);
     public static Supplier<LootCategory> BOLT_ACTION = register("bolt_action", 600, GunPredicate.matchIndex(ExtraLootCategories::isBoltAction).and(ExtraLootCategories::isBoltActionShotgunBoltAction), ALObjects.EquipmentSlotGroups.MAINHAND);
 

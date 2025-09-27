@@ -27,6 +27,12 @@ public interface GunPredicate extends Predicate<ItemStack> {
                 .isPresent();
     }
 
+    static GunPredicate effectiveFullAuto() {
+        GunPredicate fullAuto = supports(FireMode.AUTO);
+        GunPredicate fullAutoBurst = (stk, gun, index) -> index.getGunData().getBurstData().isContinuousShoot();
+        return (stk, gun, index) -> fullAuto.testGun(stk, gun, index) || fullAutoBurst.testGun(stk, gun, index);
+    }
+
     static boolean isDedicatedTaCZMeleeWeapon(ItemStack stack) {
         return stack.getItem() instanceof IGun gun && TimelessAPI.getCommonGunIndex(gun.getGunId(stack))
                 .filter(GunPredicate::isDedicatedTaCZMeleeWeapon)
