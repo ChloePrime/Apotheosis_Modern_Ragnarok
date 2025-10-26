@@ -1,6 +1,7 @@
 package mod.chloeprime.apotheosismodernragnarok.common.gem.content;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
@@ -27,15 +28,16 @@ import net.minecraft.world.level.GameRules;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class DictatorGemBonus extends GemBonus implements GunGemBonus {
     public static final ResourceLocation ID = ApotheosisModernRagnarok.loc("dictator");
 
-    public static final Codec<DictatorGemBonus> CODEC = RecordCodecBuilder.create(inst -> inst
+    public static final Supplier<Codec<DictatorGemBonus>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> inst
             .group(
                     gemClass(),
                     LootRarity.mapCodec(Codec.FLOAT).fieldOf("damage").forGetter(instance -> instance.damage)
-            ).apply(inst, DictatorGemBonus::new));
+            ).apply(inst, DictatorGemBonus::new)));
 
     private final Object2FloatMap<LootRarity> damage;
 
@@ -110,6 +112,6 @@ public class DictatorGemBonus extends GemBonus implements GunGemBonus {
 
     @Override
     public Codec<? extends GemBonus> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 }

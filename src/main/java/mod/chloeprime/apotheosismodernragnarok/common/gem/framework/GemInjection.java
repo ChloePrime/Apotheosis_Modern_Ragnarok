@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.gem.framework;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.bonus.GemBonus;
@@ -7,12 +8,13 @@ import dev.shadowsoffire.placebo.codec.CodecProvider;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class GemInjection implements CodecProvider<GemInjection> {
-    public static final Codec<GemInjection> CODEC = RecordCodecBuilder.create(inst -> inst.group(
+    public static final Supplier<Codec<GemInjection>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> inst.group(
                     ResourceLocation.CODEC.fieldOf("gem").forGetter(GemInjection::getInjectionTarget),
                     GemBonus.CODEC.listOf().fieldOf("bonuses").forGetter(GemInjection::getBonuses))
-            .apply(inst, GemInjection::new));
+            .apply(inst, GemInjection::new)));
 
     public GemInjection(ResourceLocation target, List<GemBonus> bonuses) {
         this.target = target;
@@ -32,6 +34,6 @@ public class GemInjection implements CodecProvider<GemInjection> {
 
     @Override
     public Codec<? extends GemInjection> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 }

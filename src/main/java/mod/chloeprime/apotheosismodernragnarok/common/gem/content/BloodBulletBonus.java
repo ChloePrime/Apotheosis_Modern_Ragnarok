@@ -2,6 +2,7 @@ package mod.chloeprime.apotheosismodernragnarok.common.gem.content;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.api.event.common.GunFireEvent;
@@ -33,12 +34,13 @@ import java.util.function.BooleanSupplier;
 public class BloodBulletBonus extends GemBonus implements GunGemBonus {
     public static final ResourceLocation ID = ApotheosisModernRagnarok.loc("blood_bullet");
 
-    public static final Codec<BloodBulletBonus> CODEC = RecordCodecBuilder.create(inst -> inst
+
+    public static final Supplier<Codec<BloodBulletBonus>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> inst
             .group(
                     gemClass(),
                     LootRarity.mapCodec(Codec.FLOAT).fieldOf("hp_cost").forGetter(instance -> instance.hpCost),
                     LootRarity.mapCodec(Codec.FLOAT).fieldOf("min_damage_ratio").forGetter(instance -> instance.power))
-            .apply(inst, BloodBulletBonus::new));
+            .apply(inst, BloodBulletBonus::new)));
 
     protected final Object2FloatMap<LootRarity> hpCost;
     protected final Object2FloatMap<LootRarity> power;
@@ -219,6 +221,6 @@ public class BloodBulletBonus extends GemBonus implements GunGemBonus {
 
     @Override
     public Codec<? extends GemBonus> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 }

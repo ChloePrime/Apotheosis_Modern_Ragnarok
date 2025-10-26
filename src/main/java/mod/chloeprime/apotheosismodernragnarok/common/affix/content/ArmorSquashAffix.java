@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
@@ -31,6 +32,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.StreamSupport;
 
 /**
@@ -44,12 +46,12 @@ import java.util.stream.StreamSupport;
 @Mod.EventBusSubscriber
 public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
 
-    public static final Codec<ArmorSquashAffix> CODEC = RecordCodecBuilder.create(builder -> builder
+    public static final Supplier<Codec<ArmorSquashAffix>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(builder -> builder
             .group(
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
                     GemBonus.VALUES_CODEC.fieldOf("values").forGetter(AbstractValuedAffix::getValues),
                     ExtraCodecs.COEFFICIENT_BY_CATEGORY.fieldOf("coefficients").forGetter(a -> a.coefficients))
-            .apply(builder, ArmorSquashAffix::new));
+            .apply(builder, ArmorSquashAffix::new)));
 
     public ArmorSquashAffix(
             Set<LootCategory> categories,
@@ -133,6 +135,6 @@ public class ArmorSquashAffix extends AbstractValuedAffix implements GunAffix {
 
     @Override
     public Codec<? extends Affix> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 }

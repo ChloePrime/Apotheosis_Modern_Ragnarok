@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.resource.pojo.data.gun.FeedType;
@@ -19,12 +20,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class ConditionalAttributeAffix extends AttributeAffix {
     private final int miniumMagazineCapacity;
     private final boolean disableOnInventoryBulletFeedGuns;
 
-    public static final Codec<ConditionalAttributeAffix> CODEC = codec();
+    public static final Supplier<Codec<ConditionalAttributeAffix>> CODEC = codec();
 
     public ConditionalAttributeAffix(
             Attribute attr,
@@ -57,11 +59,11 @@ public class ConditionalAttributeAffix extends AttributeAffix {
 
     @Override
     public Codec<? extends Affix> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 
-    private static Codec<ConditionalAttributeAffix> codec() {
-        return RecordCodecBuilder.create(inst -> inst
+    private static Supplier<Codec<ConditionalAttributeAffix>> codec() {
+        return Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> inst
                 .group(
                         ForgeRegistries.ATTRIBUTES.getCodec().fieldOf("attribute").forGetter(a -> a.attribute),
                         PlaceboCodecs.enumCodec(AttributeModifier.Operation.class).fieldOf("operation").forGetter(a -> a.operation),
@@ -69,10 +71,10 @@ public class ConditionalAttributeAffix extends AttributeAffix {
                         LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
                         Codec.INT.optionalFieldOf("minium_magazine_capacity", 0).forGetter(a -> a.miniumMagazineCapacity),
                         Codec.BOOL.optionalFieldOf("disable_on_inventory_bullet_feed_guns", false).forGetter(a -> a.disableOnInventoryBulletFeedGuns))
-                .apply(inst, ConditionalAttributeAffix::new));
+                .apply(inst, ConditionalAttributeAffix::new)));
     }
 
     @Deprecated
     @SuppressWarnings("DeprecatedIsStillUsed")
-    public static final Codec<ConditionalAttributeAffix> CODEC_WITH_OLD_NAME = codec();
+    public static final Supplier<Codec<ConditionalAttributeAffix>> CODEC_WITH_OLD_NAME = codec();
 }

@@ -15,6 +15,6 @@ public class GemInjectionRegistry extends DynamicRegistry<GemInjection> {
 
     @Override
     protected void registerBuiltinCodecs() {
-        registerDefaultCodec(ApotheosisModernRagnarok.loc("amr_gem_injection"), GemInjection.CODEC);
+        registerDefaultCodec(ApotheosisModernRagnarok.loc("amr_gem_injection"), GemInjection.CODEC.get());
     }
 }

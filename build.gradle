@@ -221,8 +221,8 @@ dependencies {
     }
 
     // 前置
-    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:4.6.0+mc1.20.1+tacz1.1.6'))) {
-        jarJar.ranged(it, "[4.6.0,)")
+    implementation(jarJar(fg.deobf('mod.chloeprime:gunsmithlib:4.8.2+mc1.20.1+tacz1.1.6'))) {
+        jarJar.ranged(it, "[4.8.2,)")
     }
 
     implementation fg.deobf('curse.maven:tacz-lesraisins-tactical-equipements-1273094:6751092') // 0.3.0

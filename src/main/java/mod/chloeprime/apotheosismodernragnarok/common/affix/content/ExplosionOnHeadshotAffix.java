@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.api.entity.KnockBackModifier;
@@ -43,6 +44,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.function.Supplier;
 
 /**
  * 爆头时伤害周围的敌人
@@ -50,14 +52,14 @@ import java.util.WeakHashMap;
 @Mod.EventBusSubscriber
 public class ExplosionOnHeadshotAffix extends AbstractValuedAffix {
 
-    public static final DynamicHolder<ExplosionOnHeadshotAffix> INSTANCE = ModContent.Affix.HEAD_EXPLODE;
+    public static final Supplier<DynamicHolder<ExplosionOnHeadshotAffix>> INSTANCE = ModContent.Affix.HEAD_EXPLODE;
 
-    public static final Codec<ExplosionOnHeadshotAffix> CODEC = RecordCodecBuilder.create(builder -> builder
+    public static final Supplier<Codec<ExplosionOnHeadshotAffix>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(builder -> builder
             .group(
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
                     GemBonus.VALUES_CODEC.fieldOf("values").forGetter(AbstractValuedAffix::getValues),
                     ExtraCodecs.COEFFICIENT_BY_RARITY.fieldOf("ranges").forGetter(a -> a.ranges))
-            .apply(builder, ExplosionOnHeadshotAffix::new));
+            .apply(builder, ExplosionOnHeadshotAffix::new)));
 
     @Override
     public MutableComponent getDescription(ItemStack stack, LootRarity rarity, float level) {
@@ -116,10 +118,10 @@ public class ExplosionOnHeadshotAffix extends AbstractValuedAffix {
         if (hurtEntity.getType().is(ModContent.Tags.GUN_IMMUNE)) {
             return;
         }
-        INSTANCE.getOptional().ifPresent(affix -> Optional.ofNullable(attacker).ifPresent(shooter -> {
+        INSTANCE.get().getOptional().ifPresent(affix -> Optional.ofNullable(attacker).ifPresent(shooter -> {
             // 获取武器stack并检查枪械id
             DamageUtils.getWeapon(shooter, gunId).ifPresent(
-                    gun -> Optional.ofNullable(AffixHelper.getAffixes(gun).get(INSTANCE))
+                    gun -> Optional.ofNullable(AffixHelper.getAffixes(gun).get(INSTANCE.get()))
                             .ifPresent(instance -> affix.onHeadshot(shooter, gun, gunId, victim, baseAmount, instance)));
         }));
     }
@@ -175,6 +177,6 @@ public class ExplosionOnHeadshotAffix extends AbstractValuedAffix {
 
     @Override
     public Codec<? extends Affix> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 }
