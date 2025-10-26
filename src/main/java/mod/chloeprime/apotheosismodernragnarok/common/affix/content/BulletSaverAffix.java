@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.api.event.common.GunShootEvent;
@@ -25,6 +26,7 @@ import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * 射击时概率不消耗子弹。
@@ -36,14 +38,14 @@ import java.util.Set;
 @EventBusSubscriber
 public class BulletSaverAffix extends AbstractValuedAffix {
 
-    public static final Codec<BulletSaverAffix> CODEC = RecordCodecBuilder.create(builder -> builder
+    public static final Supplier<Codec<BulletSaverAffix>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(builder -> builder
             .group(
                     affixDef(),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
                     LootRarity.mapCodec(StepFunction.CODEC).fieldOf("values").forGetter(AbstractValuedAffix::getValues))
-            .apply(builder, BulletSaverAffix::new));
+            .apply(builder, BulletSaverAffix::new)));
 
-    public static final DynamicHolder<BulletSaverAffix> INSTANCE = ModContent.Affix.BULLET_SAVER;
+    public static final Supplier<DynamicHolder<BulletSaverAffix>> INSTANCE = ModContent.Affix.BULLET_SAVER;
 
     public BulletSaverAffix(
             AffixDefinition def,
@@ -62,7 +64,7 @@ public class BulletSaverAffix extends AbstractValuedAffix {
     }
 
     public static boolean check(RandomSource context, ItemStack stack) {
-        return Optional.ofNullable(AffixHelper.getAffixes(stack).get(ModContent.Affix.BULLET_SAVER))
+        return Optional.ofNullable(AffixHelper.getAffixes(stack).get(INSTANCE.get()))
                 .map(instance -> instance.affix().get() instanceof BulletSaverAffix affix && affix.check(context, stack, instance))
                 .orElse(false);
     }
@@ -93,6 +95,6 @@ public class BulletSaverAffix extends AbstractValuedAffix {
 
     @Override
     public Codec<? extends Affix> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 }

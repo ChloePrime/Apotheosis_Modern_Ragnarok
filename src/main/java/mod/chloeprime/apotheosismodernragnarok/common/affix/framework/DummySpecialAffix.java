@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.framework;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.shadowsoffire.apotheosis.affix.Affix;
@@ -16,14 +17,16 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class DummySpecialAffix extends AbstractAffix {
-    public static final Codec<DummySpecialAffix> CODEC = RecordCodecBuilder.create(inst -> inst
+
+    public static final Supplier<Codec<DummySpecialAffix>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> inst
             .group(
                     affixDef(),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
                     PlaceboCodecs.setOf(LootRarity.CODEC).fieldOf("min_rarity").forGetter(a -> a.rarities))
-            .apply(inst, DummySpecialAffix::new));
+            .apply(inst, DummySpecialAffix::new)));
 
     protected final Set<LootRarity> rarities;
 
@@ -44,6 +47,6 @@ public class DummySpecialAffix extends AbstractAffix {
 
     @Override
     public Codec<? extends Affix> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 }

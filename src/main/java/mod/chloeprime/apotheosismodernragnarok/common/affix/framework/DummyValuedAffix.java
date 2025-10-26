@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.framework;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.shadowsoffire.apotheosis.affix.Affix;
@@ -16,14 +17,16 @@ import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class DummyValuedAffix extends AbstractValuedAffix {
-    public static final Codec<DummyValuedAffix> CODEC = RecordCodecBuilder.create(inst -> inst
+
+    public static final Supplier<Codec<DummyValuedAffix>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> inst
             .group(
                     affixDef(),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(AbstractAffix::getApplicableCategories),
                     LootRarity.mapCodec(StepFunction.CODEC).fieldOf("values").forGetter(AbstractValuedAffix::getValues))
-            .apply(inst, DummyValuedAffix::new));
+            .apply(inst, DummyValuedAffix::new)));
 
     public DummyValuedAffix(AffixDefinition def, Set<LootCategory> categories, Map<LootRarity, StepFunction> values) {
         super(def, categories, values);
@@ -51,6 +54,6 @@ public class DummyValuedAffix extends AbstractValuedAffix {
 
     @Override
     public Codec<? extends Affix> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 }

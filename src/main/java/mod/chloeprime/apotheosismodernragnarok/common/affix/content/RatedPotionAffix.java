@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.shadowsoffire.apotheosis.affix.Affix;
@@ -22,10 +23,11 @@ import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class RatedPotionAffix extends PotionAffixBase {
 
-    public static final Codec<RatedPotionAffix> CODEC = RecordCodecBuilder.create(inst -> inst
+    public static final Supplier<Codec<RatedPotionAffix>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> inst
             .group(
                     affixDef(),
                     BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(a -> a.effect),
@@ -34,7 +36,7 @@ public class RatedPotionAffix extends PotionAffixBase {
                     Codec.FLOAT.optionalFieldOf("rate", 0F).forGetter(a -> a.rate),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
                     Codec.BOOL.optionalFieldOf("stack_on_reapply", false).forGetter(a -> a.stackOnReapply))
-            .apply(inst, RatedPotionAffix::new));
+            .apply(inst, RatedPotionAffix::new)));
 
     protected final float rate;
 
@@ -118,7 +120,7 @@ public class RatedPotionAffix extends PotionAffixBase {
 
     @Override
     public Codec<? extends Affix> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 
 }

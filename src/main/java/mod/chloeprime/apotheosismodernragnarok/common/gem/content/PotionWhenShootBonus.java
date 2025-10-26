@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.gem.content;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
@@ -34,6 +35,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @EventBusSubscriber
 public class PotionWhenShootBonus extends GemBonus implements GunGemBonus {
@@ -44,23 +46,24 @@ public class PotionWhenShootBonus extends GemBonus implements GunGemBonus {
 
     public static final ResourceLocation ID = ApotheosisModernRagnarok.loc("mob_effect_when_shoot");
 
-    public static Codec<MobEffectBonus.EffectData> EFFECT_DATA_CODEC = RecordCodecBuilder.create(inst -> inst
+    public static final Supplier<Codec<MobEffectBonus.EffectData>> EFFECT_DATA_CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> inst
             .group(
                     Codec.INT.fieldOf("duration").forGetter(MobEffectBonus.EffectData::duration),
                     Codec.INT.fieldOf("amplifier").forGetter(MobEffectBonus.EffectData::amplifier),
                     Codec.INT.optionalFieldOf("cooldown", 0).forGetter(MobEffectBonus.EffectData::cooldown))
-            .apply(inst, MobEffectBonus.EffectData::new));
+            .apply(inst, MobEffectBonus.EffectData::new)));
 
-    public static final Codec<PotionWhenShootBonus> CODEC = RecordCodecBuilder.create(inst -> inst
+
+    public static final Supplier<Codec<PotionWhenShootBonus>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> inst
             .group(
                     gemClass(),
                     BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(a -> a.effect),
-                    Purity.mapCodec(EFFECT_DATA_CODEC).fieldOf("values").forGetter(a -> a.values),
+                    Purity.mapCodec(EFFECT_DATA_CODEC.get()).fieldOf("values").forGetter(a -> a.values),
                     Codec.BOOL.optionalFieldOf("stack_on_reapply", false).forGetter(a -> a.stackOnReapply),
                     Purity.mapCodec(Codec.INT).fieldOf("max_level").forGetter(a -> a.maxLevel),
                     PlaceboCodecs.enumCodec(When.class).optionalFieldOf("when", When.SHOOT).forGetter(a -> a.when),
                     Codec.STRING.optionalFieldOf("custom_description", null).forGetter(a -> a.customDescription))
-            .apply(inst, PotionWhenShootBonus::new));
+            .apply(inst, PotionWhenShootBonus::new)));
 
     protected final Holder<MobEffect> effect;
     protected final Map<Purity, MobEffectBonus.EffectData> values;
@@ -165,7 +168,7 @@ public class PotionWhenShootBonus extends GemBonus implements GunGemBonus {
 
     @Override
     public Codec<? extends GemBonus> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 
     @Override

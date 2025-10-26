@@ -2,6 +2,7 @@ package mod.chloeprime.apotheosismodernragnarok.common;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import com.google.common.base.Suppliers;
 import dev.shadowsoffire.apotheosis.affix.AffixRegistry;
 import dev.shadowsoffire.apotheosis.affix.salvaging.SalvageItem;
 import dev.shadowsoffire.apotheosis.loot.RarityRegistry;
@@ -81,15 +82,16 @@ public class ModContent {
     }
 
     public static final class Affix {
-        public static final DynamicHolder<ArmorSquashAffix> ARMOR_SQUASH = holder("all_gun/special/armor_squash");
-        public static final DynamicHolder<BulletSaverAffix>         BULLET_SAVER = holder("all_gun/special/frugality");
-        public static final DynamicHolder<ExplosionOnHeadshotAffix> HEAD_EXPLODE = holder("all_gun/special/head_explode");
-        public static final DynamicHolder<MagicalShotAffix>         MAGICAL_SHOT = holder("all_gun/special/magical_shot");
+        public static final Supplier<DynamicHolder<ArmorSquashAffix>>         ARMOR_SQUASH = holder("all_gun/special/armor_squash");
+        public static final Supplier<DynamicHolder<BulletSaverAffix>>         BULLET_SAVER = holder("all_gun/special/frugality");
+        public static final Supplier<DynamicHolder<ExplosionOnHeadshotAffix>> HEAD_EXPLODE = holder("all_gun/special/head_explode");
+        public static final Supplier<DynamicHolder<MagicalShotAffix>>         MAGICAL_SHOT = holder("all_gun/special/magical_shot");
 //        public static final DynamicHolder<DummyCoefficientAffix>    SPECTRAL_BULLET = holder("all_gun/special/spectral");
 
         @SuppressWarnings("unchecked")
-        private static <T extends dev.shadowsoffire.apotheosis.affix.Affix> DynamicHolder<T> holder(String path) {
-            return (DynamicHolder<T>) AffixRegistry.INSTANCE.holder(ApotheosisModernRagnarok.loc(path));
+        private static <T extends dev.shadowsoffire.apotheosis.affix.Affix>
+        Supplier<DynamicHolder<T>> holder(String path) {
+            return Suppliers.memoize(() -> (DynamicHolder<T>) AffixRegistry.INSTANCE.holder(ApotheosisModernRagnarok.loc(path)));
         }
 
         private Affix() {}
@@ -182,21 +184,21 @@ public class ModContent {
     @SuppressWarnings("deprecation")
     public static void setup() {
         ExtraLootCategories.init();
-        AffixRegistry.INSTANCE.registerCodec(loc("bullet_saver"), BulletSaverAffix.CODEC);
-        AffixRegistry.INSTANCE.registerCodec(loc("armor_squash"), ArmorSquashAffix.CODEC);
-        AffixRegistry.INSTANCE.registerCodec(loc("explode_on_headshot"), ExplosionOnHeadshotAffix.CODEC);
-        AffixRegistry.INSTANCE.registerCodec(loc("mob_effect_rated"), RatedPotionAffix.CODEC);
-        AffixRegistry.INSTANCE.registerCodec(loc("mob_effect_ads"), AdsPotionAffix.CODEC);
-        AffixRegistry.INSTANCE.registerCodec(loc("magical_shot"), MagicalShotAffix.CODEC);
-        AffixRegistry.INSTANCE.registerCodec(loc("conditional_attribute"), ConditionalAttributeAffix.CODEC);
-        AffixRegistry.INSTANCE.registerCodec(loc("dummy_valued"), DummyValuedAffix.CODEC);
-        AffixRegistry.INSTANCE.registerCodec(loc("dummy_coefficient"), DummyCoefficientAffix.CODEC);
-        AffixRegistry.INSTANCE.registerCodec(loc("dummy_special"), DummySpecialAffix.CODEC);
-        GemBonus.CODEC.register(PotionWhenShootBonus.ID, PotionWhenShootBonus.CODEC);
-        GemBonus.CODEC.register(BloodBulletBonus.ID, BloodBulletBonus.CODEC);
-        GemBonus.CODEC.register(DictatorGemBonus.ID, DictatorGemBonus.CODEC);
+        AffixRegistry.INSTANCE.registerCodec(loc("bullet_saver"), BulletSaverAffix.CODEC.get());
+        AffixRegistry.INSTANCE.registerCodec(loc("armor_squash"), ArmorSquashAffix.CODEC.get());
+        AffixRegistry.INSTANCE.registerCodec(loc("explode_on_headshot"), ExplosionOnHeadshotAffix.CODEC.get());
+        AffixRegistry.INSTANCE.registerCodec(loc("mob_effect_rated"), RatedPotionAffix.CODEC.get());
+        AffixRegistry.INSTANCE.registerCodec(loc("mob_effect_ads"), AdsPotionAffix.CODEC.get());
+        AffixRegistry.INSTANCE.registerCodec(loc("magical_shot"), MagicalShotAffix.CODEC.get());
+        AffixRegistry.INSTANCE.registerCodec(loc("conditional_attribute"), ConditionalAttributeAffix.CODEC.get());
+        AffixRegistry.INSTANCE.registerCodec(loc("dummy_valued"), DummyValuedAffix.CODEC.get());
+        AffixRegistry.INSTANCE.registerCodec(loc("dummy_coefficient"), DummyCoefficientAffix.CODEC.get());
+        AffixRegistry.INSTANCE.registerCodec(loc("dummy_special"), DummySpecialAffix.CODEC.get());
+        GemBonus.CODEC.register(PotionWhenShootBonus.ID, PotionWhenShootBonus.CODEC.get());
+        GemBonus.CODEC.register(BloodBulletBonus.ID, BloodBulletBonus.CODEC.get());
+        GemBonus.CODEC.register(DictatorGemBonus.ID, DictatorGemBonus.CODEC.get());
         // 已不再使用
-        AffixRegistry.INSTANCE.registerCodec(loc("magazine_capacity_conditional_attribute"), ConditionalAttributeAffix.CODEC_WITH_OLD_NAME);
+        AffixRegistry.INSTANCE.registerCodec(loc("magazine_capacity_conditional_attribute"), ConditionalAttributeAffix.CODEC_WITH_OLD_NAME.get());
     }
 
     public static void init0(IEventBus bus) {

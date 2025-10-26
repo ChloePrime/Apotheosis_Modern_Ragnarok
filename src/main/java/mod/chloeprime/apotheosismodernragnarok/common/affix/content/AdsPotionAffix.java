@@ -1,5 +1,6 @@
 package mod.chloeprime.apotheosismodernragnarok.common.affix.content;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.shadowsoffire.apotheosis.affix.Affix;
@@ -25,12 +26,14 @@ import net.neoforged.neoforge.common.util.AttributeTooltipContext;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * 瞄准时给被瞄准时的目标上 buff
  */
 public class AdsPotionAffix extends PotionAffixBase implements AdsPickTargetHookAffix {
-    public static final Codec<AdsPotionAffix> CODEC = RecordCodecBuilder.create(inst -> inst
+
+    public static final Supplier<Codec<AdsPotionAffix>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> inst
             .group(
                     affixDef(),
                     BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(a -> a.effect),
@@ -38,7 +41,7 @@ public class AdsPotionAffix extends PotionAffixBase implements AdsPickTargetHook
                     LootRarity.mapCodec(EffectData.CODEC).fieldOf("values").forGetter(a -> a.values),
                     LootCategory.SET_CODEC.fieldOf("types").forGetter(a -> a.types),
                     Codec.BOOL.optionalFieldOf("stack_on_reapply", false).forGetter(a -> a.stackOnReapply))
-            .apply(inst, AdsPotionAffix::new));
+            .apply(inst, AdsPotionAffix::new)));
 
     public AdsPotionAffix(
             AffixDefinition def,
@@ -110,6 +113,6 @@ public class AdsPotionAffix extends PotionAffixBase implements AdsPickTargetHook
 
     @Override
     public Codec<? extends Affix> getCodec() {
-        return CODEC;
+        return CODEC.get();
     }
 }
