@@ -30,9 +30,11 @@ public class GemInjector {
 
         var newBonuses = Stream.concat(gem.getBonuses().stream(), injection.getBonuses().stream())
                 .collect(ImmutableList.toImmutableList());
-        var newBonusMap = newBonuses.stream()
+        var oldBonusMap = accessor.getBonusMap();
+        var newBonusMap = injection.getBonuses().stream()
                 .<Pair<LootCategory, GemBonus>>mapMulti((gemData, mapper) -> gemData.getGemClass().types().forEach(c -> mapper.accept(Pair.of(c, gemData))))
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+        newBonusMap.putAll(oldBonusMap);
         var uuidsNeeded = newBonuses.stream()
                 .mapToInt(GemBonus::getNumberOfUUIDs)
                 .max()

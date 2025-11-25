@@ -40,6 +40,7 @@ public abstract class MixinGem implements EnhancedGem {
 
     @Mutable @Accessor public abstract void setBonuses(List<GemBonus> value);
     @Mutable @Accessor public abstract void setUuidsNeeded(int value);
+    @Mutable @Accessor public abstract Map<LootCategory, GemBonus> getBonusMap();
     @Mutable @Accessor public abstract void setBonusMap(Map<LootCategory, GemBonus> value);
 
     @Shadow @Final protected transient int uuidsNeeded;

@@ -12,5 +12,6 @@ public interface EnhancedGem {
     void amr$reset();
     void setBonuses(List<GemBonus> value);
     void setUuidsNeeded(int value);
+    Map<LootCategory, GemBonus> getBonusMap();
     void setBonusMap(Map<LootCategory, GemBonus> value);
 }
