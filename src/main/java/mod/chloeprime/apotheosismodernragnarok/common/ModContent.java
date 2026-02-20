@@ -26,7 +26,9 @@ import mod.chloeprime.apotheosismodernragnarok.common.loot.ApothReforgeFunction;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FireDotEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.FreezeEffect;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.TyrannyEffect;
+import mod.chloeprime.apotheosismodernragnarok.data.AMREnchantProvider;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import mod.chloeprime.apotheosismodernragnarok.common.mob_effects.VerdantRuinEffect;
 import net.minecraft.core.particles.ParticleType;
@@ -144,6 +146,7 @@ public class ModContent {
 
     /**
      * @see GunEnchantmentHooks#canGunApplyEnchantmentAtTable(ItemStack, Holder, BooleanConsumer) 几个附魔 tag 的具体实现
+     * @see AMREnchantProvider.Tags 在那里添加后才能在附魔台上附魔
      */
     public static final class Enchantments {
         public static final TagKey<Enchantment> AVAILABLE_FOR_GUNS = TagKey.create(Registries.ENCHANTMENT, loc("available_for_guns"));

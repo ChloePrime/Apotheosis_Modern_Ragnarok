@@ -1,5 +1,13 @@
-// 1.21.1	2025-08-29T01:35:16.3261231	Tags for minecraft:enchantment mod id apotheosis_modern_ragnarok
+// 1.21.1	2026-02-20T20:24:00.130922	Tags for minecraft:enchantment mod id apotheosis_modern_ragnarok
 8f59de76b5351d1e22ad4c12d3ad220c622cf3d5 data/apotheosis_modern_ragnarok/tags/enchantment/available_for_guns.json
 698ee7d47b754fe70d7a00650de4c26db1b4ded2 data/apotheosis_modern_ragnarok/tags/enchantment/bullet_regeneration_exclusive.json
 895ceaa74a0e6ef35182e4c31c7207c4e2081d37 data/apotheosis_modern_ragnarok/tags/enchantment/melee_capable.json
 5070b9df9b2f795e8ce250a978cda3c0102e7b09 data/apotheosis_modern_ragnarok/tags/enchantment/requires_magazine.json
+f6a4549a11b3919468741578053d229b1d7ebace data/minecraft/tags/enchantment/double_trade_price.json
+17410fe10155f5475ef6c568fcb53e68ba1c8772 data/minecraft/tags/enchantment/in_enchanting_table.json
+ebd775f0d70eb70d63d90483f997a36aef2e9a72 data/minecraft/tags/enchantment/non_treasure.json
+17410fe10155f5475ef6c568fcb53e68ba1c8772 data/minecraft/tags/enchantment/on_mob_spawn_equipment.json
+17410fe10155f5475ef6c568fcb53e68ba1c8772 data/minecraft/tags/enchantment/on_random_loot.json
+17410fe10155f5475ef6c568fcb53e68ba1c8772 data/minecraft/tags/enchantment/on_traded_equipment.json
+ebd775f0d70eb70d63d90483f997a36aef2e9a72 data/minecraft/tags/enchantment/tradeable.json
+5070b9df9b2f795e8ce250a978cda3c0102e7b09 data/minecraft/tags/enchantment/treasure.json

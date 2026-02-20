@@ -14,6 +14,8 @@ import net.minecraft.data.tags.EnchantmentTagsProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -31,6 +33,8 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import static mod.chloeprime.apotheosismodernragnarok.common.ModContent.Enchantments.*;
@@ -117,6 +121,36 @@ public class AMREnchantProvider {
                     .addOptional(ResourceLocation.parse("apothic_enchanting:knowledge_of_the_ages"))
                     .addOptional(ResourceLocation.parse("apothic_enchanting:scavenger"))
                     .addOptional(ResourceLocation.parse("apothic_spawners:capturing"));
+
+            forAll(EnchantmentTags.IN_ENCHANTING_TABLE);
+            forAll(EnchantmentTags.TRADEABLE, PROJECTION_MAGIC);
+            forAll(EnchantmentTags.ON_MOB_SPAWN_EQUIPMENT);
+            forAll(EnchantmentTags.ON_TRADED_EQUIPMENT);
+            forAll(EnchantmentTags.ON_RANDOM_LOOT);
+            tag(EnchantmentTags.TREASURE).add(PROJECTION_MAGIC);
+            forAll(EnchantmentTags.NON_TREASURE, PROJECTION_MAGIC);
+            tag(EnchantmentTags.DOUBLE_TRADE_PRICE).add(PERFECT_BLOCK);
+            tag(EnchantmentTags.DOUBLE_TRADE_PRICE).add(PROJECTION_MAGIC);
+        }
+
+        @SafeVarargs
+        public final void forAll(TagKey<Enchantment> inTag, ResourceKey<Enchantment>... excludes) {
+            var all = List.of(
+                    EMERGENCY_PROTECTOR,
+                    LAST_STAND,
+                    PERFECT_BLOCK,
+                    PROJECTION_MAGIC,
+                    RIPTIDE_WARHEAD,
+                    STABILITY,
+                    SURVIVAL_INSTINCT);
+            var excludeSet = Set.of(excludes);
+
+            for (var ench : all) {
+                if (excludeSet.contains(ench)) {
+                    continue;
+                }
+                tag(inTag).add(ench);
+            }
         }
     }
 }

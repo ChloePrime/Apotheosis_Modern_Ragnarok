@@ -39,8 +39,13 @@ public abstract class MakeGunEnchantableMixin {
                     .orElseGet(() -> GunEnchantmentHooks.defaultEnchantValue(gun)));
         }
 
-        @Inject(method = "supportsEnchantment", at = @At("HEAD"), remap = false, cancellable = true)
+        @Inject(method = "isPrimaryItemFor", at = @At("HEAD"), remap = false, cancellable = true)
         private void canApplyAtEnchantingTable(ItemStack stack, Holder<Enchantment> enchantment, CallbackInfoReturnable<Boolean> cir) {
+            GunEnchantmentHooks.canGunApplyEnchantmentAtTable(stack, enchantment, cir::setReturnValue);
+        }
+
+        @Inject(method = "supportsEnchantment", at = @At("HEAD"), remap = false, cancellable = true)
+        private void supportsEnchantment121(ItemStack stack, Holder<Enchantment> enchantment, CallbackInfoReturnable<Boolean> cir) {
             GunEnchantmentHooks.canGunApplyEnchantmentAtTable(stack, enchantment, cir::setReturnValue);
         }
     }
