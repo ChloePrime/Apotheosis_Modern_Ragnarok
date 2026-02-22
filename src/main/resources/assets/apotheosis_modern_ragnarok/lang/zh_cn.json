@@ -166,6 +166,7 @@
   "loot_category.apotheosis_modern_ragnarok.shotgun.plural": "霰弹枪",
   "loot_category.apotheosis_modern_ragnarok.bolt_action": "栓动式武器",
   "loot_category.apotheosis_modern_ragnarok.bolt_action.plural": "栓动式武器",
+
   "gem_class.apotheosis_modern_ragnarok.all_gun": "枪械",
   "gem_class.apotheosis_modern_ragnarok.all_auto": "自动武器",
   "gem_class.apotheosis_modern_ragnarok.all_auto_including_shotgun": "自动武器和霰弹枪",
@@ -173,6 +174,17 @@
   "gem_class.apotheosis_modern_ragnarok.bolt_action_and_shotgun": "栓动式武器和霰弹枪",
   "gem_class.apotheosis_modern_ragnarok.full_auto": "全自动武器",
   "gem_class.apotheosis_modern_ragnarok.shotgun": "霰弹枪",
+
+  "// Gem Class 翻译在专用服务器上爆炸的临时补救措施" : "",
+  "// Temp fix for gem class localization bug on dedicated server" : "",
+  "gem_class.all_gun": "枪械",
+  "gem_class.all_auto": "自动武器",
+  "gem_class.all_auto_including_shotgun": "自动武器和霰弹枪",
+  "gem_class.bolt_action": "栓动式武器",
+  "gem_class.bolt_action_and_shotgun": "栓动式武器和霰弹枪",
+  "gem_class.full_auto": "全自动武器",
+  "gem_class.shotgun": "霰弹枪",
+
   "bonus.apotheosis:multi_attr.desc.amr:but2": "%s但%s",
   "bonus.apotheosis_modern_ragnarok.tyrannical.desc": "持续射击时逐渐提升射速但逐渐降低移动速度，最高叠加%d层",
   "bonus.apotheosis_modern_ragnarok.blood_bullet.desc": "射击时消耗自身%s点生命值，使命中目标的所有防御效果降低%s",

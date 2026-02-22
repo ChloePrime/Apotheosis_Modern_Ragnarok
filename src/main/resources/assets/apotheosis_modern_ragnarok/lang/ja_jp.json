@@ -155,6 +155,7 @@
   "loot_category.apotheosis_modern_ragnarok.shotgun.plural": "ショットガン",
   "loot_category.apotheosis_modern_ragnarok.bolt_action": "ボルトアクション武器",
   "loot_category.apotheosis_modern_ragnarok.bolt_action.plural": "ボルトアクション武器",
+
   "gem_class.apotheosis_modern_ragnarok.all_gun": "銃火器",
   "gem_class.apotheosis_modern_ragnarok.all_auto": "自動火器",
   "gem_class.apotheosis_modern_ragnarok.all_auto_including_shotgun": "自動火器（ショットガン含む）",
@@ -162,6 +163,17 @@
   "gem_class.apotheosis_modern_ragnarok.bolt_action_and_shotgun": "ボルトアクション武器とショットガン",
   "gem_class.apotheosis_modern_ragnarok.full_auto": "フルオート武器",
   "gem_class.apotheosis_modern_ragnarok.shotgun": "ショットガン",
+
+  "// Gem Class 翻译在专用服务器上爆炸的临时补救措施" : "",
+  "// Temp fix for gem class localization bug on dedicated server" : "",
+  "gem_class.all_gun": "銃火器",
+  "gem_class.all_auto": "自動火器",
+  "gem_class.all_auto_including_shotgun": "自動火器（ショットガン含む）",
+  "gem_class.bolt_action": "ボルトアクション武器",
+  "gem_class.bolt_action_and_shotgun": "ボルトアクション武器とショットガン",
+  "gem_class.full_auto": "フルオート武器",
+  "gem_class.shotgun": "ショットガン",
+
   "bonus.apotheosis:multi_attr.desc.amr:but2": "%s、ただし %s",
   "bonus.apotheosis_modern_ragnarok.tyrannical.desc": "連射するほど発射速度が上がるが、移動速度が低下する。最大で %d 段階まで蓄積可能",
   "bonus.apotheosis_modern_ragnarok.blood_bullet.desc": "射撃時に %s の体力を消費し、敵の総防御力を %s 減少させる",
