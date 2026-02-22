@@ -8,7 +8,7 @@
             {
                 "amount": {
                     "type": "apotheosis_modern_ragnarok:nashorn_javascript",
-                    "code": "30 / (30 + level)"
+                    "code": "30 / (30 + level) - 1"
                 },
                 "attribute": "gunsmithlib:horz_recoil",
                 "id": "apotheosis_modern_ragnarok:enchantment.stability",
@@ -17,7 +17,7 @@
             {
                 "amount": {
                     "type": "apotheosis_modern_ragnarok:nashorn_javascript",
-                    "code": "30 / (30 + level)"
+                    "code": "30 / (30 + level) - 1"
                 },
                 "attribute": "gunsmithlib:vert_recoil",
                 "id": "apotheosis_modern_ragnarok:enchantment.stability",

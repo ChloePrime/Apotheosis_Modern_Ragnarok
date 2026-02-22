@@ -65,8 +65,8 @@ public class AMREnchantProvider {
         var lookup = context.lookup(Registries.ENCHANTMENT);
         register(STABILITY, Enchantment
                 .enchantment(definition(ALL_GUNS, 10, 6, dynamicCost(5, 10), dynamicCost(55, 25), 1, EquipmentSlotGroup.MAINHAND))
-                .withEffect(EnchantmentEffectComponents.ATTRIBUTES, modifier("stability", GunAttributes.H_RECOIL, javascript("30 / (30 + level)"), ADD_MULTIPLIED_TOTAL))
-                .withEffect(EnchantmentEffectComponents.ATTRIBUTES, modifier("stability", GunAttributes.V_RECOIL, javascript("30 / (30 + level)"), ADD_MULTIPLIED_TOTAL))
+                .withEffect(EnchantmentEffectComponents.ATTRIBUTES, modifier("stability", GunAttributes.H_RECOIL, javascript("30 / (30 + level) - 1"), ADD_MULTIPLIED_TOTAL))
+                .withEffect(EnchantmentEffectComponents.ATTRIBUTES, modifier("stability", GunAttributes.V_RECOIL, javascript("30 / (30 + level) - 1"), ADD_MULTIPLIED_TOTAL))
         );
         register(EMERGENCY_PROTECTOR, Enchantment
                 .enchantment(definition(ALL_GUNS, 10, 6, dynamicCost(5, 10), dynamicCost(55, 25), 1, EquipmentSlotGroup.OFFHAND))
