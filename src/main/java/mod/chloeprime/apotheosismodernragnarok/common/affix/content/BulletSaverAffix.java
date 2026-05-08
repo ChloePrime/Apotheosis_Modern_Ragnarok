@@ -30,10 +30,9 @@ import java.util.function.Supplier;
 
 /**
  * 射击时概率不消耗子弹。
- * <p/>
+ * <p>
  * 类型名 apotheosis_modern_ragnarok:bullet_saver
  * 实例名 apotheosis_modern_ragnarok:frugality
- * <p/>
  */
 @EventBusSubscriber
 public class BulletSaverAffix extends AbstractValuedAffix {
