@@ -20,4 +20,9 @@ public interface LivingEntityAccessor {
     @Invoker boolean callShouldDropLoot();
     @Invoker void callDropFromLootTable(DamageSource pDamageSource, boolean pHitByPlayer);
     @Invoker void callDropExperience(Entity attacker);
+
+    // 下面几个字段 Shadow 会犯病，
+    // 所以用 accessor
+    @Accessor int getNoJumpDelay();
+    @Accessor void setNoJumpDelay(int value);
 }

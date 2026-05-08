@@ -22,7 +22,6 @@
     "minecraft.MakeGunEnchantableMixin$MixinItemExtensionInterface",
     "minecraft.MixinDamageSource",
     "minecraft.MixinLivingEntity",
-    "minecraft.MixinMobEffectInstance",
     "tacz.EntityKineticBulletAccessor",
     "tacz.MixinAbstractGunItem",
     "tacz.MixinEntityKineticBullet",
