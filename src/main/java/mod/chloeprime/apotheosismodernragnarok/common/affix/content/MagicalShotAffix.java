@@ -58,12 +58,11 @@ public class MagicalShotAffix extends DummySpecialAffix implements GunAffix {
         return Collections.unmodifiableMap(sounds);
     }
 
-    public Optional<SoundEvent> getSoundFor(LootCategory category) {
-        var holder = sounds.get(category);
-        return holder.isBound() ? Optional.of(holder.value()) : Optional.empty();
+    public Optional<Holder<SoundEvent>> getSoundFor(LootCategory category) {
+        return Optional.ofNullable(sounds.get(category));
     }
 
-    public static Optional<SoundEvent> getSoundFor(ItemStack gun) {
+    public static Optional<Holder<SoundEvent>> getSoundFor(ItemStack gun) {
         return Optional.ofNullable(AffixHelper.getAffixes(gun).get(AFFIX.get()))
                 .flatMap(instance -> AFFIX.get().get().getSoundFor(LootCategory.forItem(gun)));
     }

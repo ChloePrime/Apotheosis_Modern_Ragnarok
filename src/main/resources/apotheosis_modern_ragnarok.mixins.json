@@ -31,14 +31,12 @@
     "tacz.gunpack.MixinGunData"
   ],
   "client": [
-    "minecraft.client.AbstractSoundInstanceAccessor",
-    "minecraft.client.EntityBoundSoundInstanceAccessor",
     "minecraft.client.EntityRenderAccessor",
     "minecraft.client.MixinParticle",
-    "minecraft.client.MixinSoundEngine",
     "tacz.client.BlueMuzzleFlashMixin$CaptureState",
     "tacz.client.BlueMuzzleFlashMixin$ModifyTexture",
-    "tacz.client.MagicShotParticleMixin"
+    "tacz.client.MagicShotParticleMixin",
+    "tacz.client.MixinSoundPlayManager"
   ],
   "injectors": {
     "defaultRequire": 1
