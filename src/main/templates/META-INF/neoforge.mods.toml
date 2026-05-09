@@ -103,6 +103,6 @@ config="${mod_id}.mixins.json"
     modId="gunsmithlib"
     mandatory=true
     # This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="[1.21.1-4.6,1.21.1-999)"
+    versionRange="[6.0.0,)"
     ordering="NONE"
     side="BOTH"
