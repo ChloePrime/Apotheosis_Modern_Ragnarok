@@ -8,6 +8,7 @@ import dev.shadowsoffire.apotheosis.affix.AffixDefinition;
 import dev.shadowsoffire.apotheosis.affix.AffixInstance;
 import dev.shadowsoffire.apotheosis.loot.LootCategory;
 import dev.shadowsoffire.apotheosis.loot.LootRarity;
+import dev.shadowsoffire.apothic_attributes.api.AbilityCooldowns;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
 import dev.shadowsoffire.placebo.util.StepFunction;
 import mod.chloeprime.apotheosismodernragnarok.common.ModContent;
@@ -173,7 +174,7 @@ public abstract class PotionAffixBase extends AffixBaseUtility implements GunAff
         else {
             target.addEffect(data.build(this.effect, level));
         }
-        startCooldown(this.id(), target);
+        AbilityCooldowns.startCooldown(target, this.id());
     }
 
     public enum Target implements IExtensibleEnum {

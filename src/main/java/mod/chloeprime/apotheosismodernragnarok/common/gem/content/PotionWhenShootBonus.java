@@ -6,7 +6,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.api.event.common.EntityKillByGunEvent;
 import com.tacz.guns.api.event.common.GunShootEvent;
-import dev.shadowsoffire.apotheosis.affix.Affix;
 import dev.shadowsoffire.apotheosis.mixin.LivingEntityInvoker;
 import dev.shadowsoffire.apotheosis.socket.gem.GemClass;
 import dev.shadowsoffire.apotheosis.socket.gem.GemInstance;
@@ -14,6 +13,7 @@ import dev.shadowsoffire.apotheosis.socket.gem.GemView;
 import dev.shadowsoffire.apotheosis.socket.gem.Purity;
 import dev.shadowsoffire.apotheosis.socket.gem.bonus.GemBonus;
 import dev.shadowsoffire.apotheosis.socket.gem.bonus.MobEffectBonus;
+import dev.shadowsoffire.apothic_attributes.api.AbilityCooldowns;
 import dev.shadowsoffire.placebo.codec.PlaceboCodecs;
 import mod.chloeprime.apotheosismodernragnarok.ApotheosisModernRagnarok;
 import mod.chloeprime.apotheosismodernragnarok.common.affix.framework.AffixBaseUtility;
@@ -128,7 +128,7 @@ public class PotionWhenShootBonus extends GemBonus implements GunGemBonus {
 
     public void applyEffect(GemInstance inst, LivingEntity target) {
         int cooldown = this.getCooldown(inst.purity());
-        if (cooldown != 0 && Affix.isOnCooldown(makeUniqueId(inst), cooldown, target)) {
+        if (cooldown != 0 && AbilityCooldowns.isOnCooldown(target, makeUniqueId(inst), cooldown)) {
             return;
         }
         MobEffectBonus.EffectData data = this.values.get(inst.purity());
@@ -144,7 +144,7 @@ public class PotionWhenShootBonus extends GemBonus implements GunGemBonus {
         else {
             target.addEffect(data.build(this.effect));
         }
-        Affix.startCooldown(makeUniqueId(inst), target);
+        AbilityCooldowns.startCooldown(target, makeUniqueId(inst));
     }
 
     @Override
