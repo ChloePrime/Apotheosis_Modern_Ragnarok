@@ -188,6 +188,5 @@
   "affix.apotheosis_modern_ragnarok:ads_charge": "冷静",
   "affix.apotheosis_modern_ragnarok:ads_charge.suffix": "冷静な射手",
   "affix.apotheosis_modern_ragnarok:ads_charge.desc": "ADSを維持すると最大 %s までダメージが上昇（未実装）",
-"rarity.apotheosis_modern_ragnarok:ancient": "Ancient"
-
+  "rarity.apotheosis_modern_ragnarok:ancient": "AMR Specific Ancient"
 }
