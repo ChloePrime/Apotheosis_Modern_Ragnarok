@@ -235,16 +235,15 @@ dependencies {
     if (USE_LOCAL_TACZ_V) {
         implementation fg.deobf('libs:tacz-1.20.1:1.1.6')
     } else {
-        implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:8055552-sources-8055584')
+        implementation fg.deobf('curse.maven:timeless-and-classics-zero-1028108:9454481-sources-9454610')
     }
 
     // 前置
-    implementation(jarJar(fg.deobf('cn.chloeprime.gunsmithlib:gunsmithlib-forge-1.20.1-tacz1.1.8:6.0.0'))) {
-        exclude group: '*', module: '*'
-        jarJar.ranged(it, "[6.0.0,)")
+    implementation(jarJar(fg.deobf('cn.chloeprime.gunsmithlib:gunsmithlib-forge-1.20.1-tacz1.2.0:7.0.1'))) {
+        jarJar.ranged(it, "[7.0.1,)")
     }
 
-    implementation fg.deobf('curse.maven:tacz-lesraisins-tactical-equipements-1273094:6751092') // 0.3.0
+    implementation fg.deobf('curse.maven:tacz-lesraisins-tactical-equipements-1273094:8652673') // 0.3.0
 
     // MixinExtras
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
@@ -258,8 +257,8 @@ dependencies {
     runtimeOnly fg.deobf("maven.modrinth:jade:11.13.1+forge")
     runtimeOnly fg.deobf("maven.modrinth:when-dungeons-arise:2.1.57-1.20.1")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:5.9.1+1.20.1")
-    runtimeOnly fg.deobf("maven.modrinth:lionfish-api:2.4")
-    runtimeOnly fg.deobf("maven.modrinth:l_enders-cataclysm:2.65")
+    runtimeOnly fg.deobf("maven.modrinth:lionfish-api:3.0")
+    runtimeOnly fg.deobf("maven.modrinth:l_enders-cataclysm:3.31")
     implementation fg.deobf("curse.maven:touhou-little-maid-355044:6911704")
 
     runtimeOnly fg.deobf('maven.modrinth:l2library:2.5.3')
