@@ -37,7 +37,8 @@
     "tacz.client.BlueMuzzleFlashMixin$CaptureState",
     "tacz.client.BlueMuzzleFlashMixin$ModifyTexture",
     "tacz.client.MagicShotParticleMixin",
-    "tacz.client.MixinSoundPlayManager"
+    "tacz.client.MixinSoundPlayManager",
+    "tacz.client.SoundDataAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
