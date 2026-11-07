@@ -38,6 +38,7 @@ public class ApotheosisModernRagnarok {
         }
     }
 
+    @SuppressWarnings("removal")
     public ApotheosisModernRagnarok() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModContent.init0(modEventBus);
